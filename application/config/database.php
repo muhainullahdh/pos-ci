@@ -80,7 +80,7 @@ $db['default'] = array(
 	// 'password' => 'rvO^=FDIj1^x',
 	// 'database' => 'u1677928_bat',
 	'username' => 'root',
-	'password' => '',
+	'password' => 'B3tulsekali1@@@',
 	'database' => 'pos-ci',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
