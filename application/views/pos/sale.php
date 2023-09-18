@@ -34,6 +34,8 @@
 
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/datatables.css">
     <!-- App css-->
+
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/sweetalert2.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/style.css">
     <link id="color" rel="stylesheet" href="<?= base_url() ?>assets/css/color-1.css" media="screen">
     <!-- Responsive css-->
@@ -243,7 +245,7 @@
                         <div class="header-top">
                           <h5>List Transaksi</h5>
                           <div class="card-header-right-icon">
-                            <button id="addRow" class="btn btn-primary mb-3">Add</button>
+                            <!-- <button id="addRow" class="btn btn-primary mb-3">Add</button> -->
                             <!-- <div class="dropdown">
                               <button class="btn dropdown-toggle" id="viewButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="viewButton"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
@@ -288,26 +290,26 @@
                                                 <td>
                                                     <!-- <p class="satuan"></p> -->
                                                     <br>
-                                                    <select id="satuan" class="form-control select2x" style="cursor: text;">
+                                                    <select id="satuan1" class="form-control select2x" style="cursor: text;">
                                                         <option value="">Pilih satuan</option>
                                                         <?php foreach($satuan as $x ) {?>
                                                             <option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </td>
-                                                <td><p class="harga"></p></td>
+                                                <td><p class="harga1"></p></td>
                                                 <td>
-                                                    <input type="text" id="diskon_item" style="width: 250px;text-align:center;" class="form-control">
+                                                    <input type="text" id="diskon_item1" placeholder="0" style="width: 250px;text-align:center;" class="form-control">
                                                 </td>
                                                 <td><p class="jumlah"></p></td>
                                                 <td>
                                                     <div class="row">
                                                             <div class="col">
-                                                                <b>Saat ini</b>
+                                                                <p>Saat ini</p>
                                                                 <p class="stock bg-primary text-center rounded-pill"></p>
                                                             </div>
                                                             <div class="col">
-                                                                <b>Berkurang</b>
+                                                                <p>Berkurang</p>
                                                                 <p class="stock-c bg-danger text-center rounded-pill"></p>
                                                             </div>
                                                     </div>
@@ -347,9 +349,10 @@
                                             </div>
                                             <div class="col-xl-2">
                                                 <div class="row">
-                                                    SHORTCUT <br>
+                                                    <!-- SHORTCUT <br> -->
                                                     <!-- <div class="col"> -->
-                                                        [CTRL + C] Batal Transaksi<br>
+                                                        [TAB] = Selanjutnya<br>
+                                                        [SHIFT + TAB] = Sebelumnya
                                                     <!-- </div> -->
                                                     <!-- <div class="col"> -->
                                                         <!-- <div class="form-check radio radio-primary">
@@ -358,6 +361,10 @@
                                                         </div> -->
                                                     <!-- </div>  -->
                                                 </div>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                [+] : Tambah Transaksi<br>
+                                                [CTRL + R] : Batal Transaksi
                                             </div>
                                             <div class="col-xl-2">
                                                 <button class="btn btn-square btn-primary col">Data Penjualan</button>
@@ -710,6 +717,7 @@
     <script src="<?= base_url() ?>assets/js/header-slick.js"></script>
     <!-- <script src="<?= base_url() ?>assets/js/chart/apex-chart/apex-chart.js"></script>
     <script src="<?= base_url() ?>assets/js/chart/apex-chart/stock-prices.js"></script> -->
+    <script src="<?= base_url() ?>assets/js/sweet-alert/sweetalert.min.js"></script>
     <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.js"></script>
     <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.en.js"></script>
     <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.custom.js"></script>
@@ -723,7 +731,7 @@
     <!-- <script src="<?= base_url() ?>assets/js/theme-customizer/customizer.js"></script> -->
     <!-- Plugin used-->
     <script>
-    var rupiah = document.getElementById('diskon_item');
+    var rupiah = document.getElementById('diskon_item1');
 		rupiah.addEventListener('keyup', function(e){
 			// tambahkan 'Rp.' pada saat form di ketik
 			// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
@@ -752,20 +760,28 @@
             $(document).ready(function(){
 
                 //shortcut
-
+                var counter = 2;
                 document.onkeyup = function(e) {
                     if (e.which == 67) {
-                        location.reload(); 
-                    } else if (e.ctrlKey && e.which == 66) {
-                        alert("Ctrl + B shortcut combination was pressed");
-                    } else if (e.ctrlKey && e.altKey && e.which == 89) {
-                        alert("Ctrl + Alt + Y shortcut combination was pressed");
-                    } else if (e.ctrlKey && e.altKey && e.shiftKey && e.which == 85) {
-                        alert("Ctrl + Alt + Shift + U shortcut combination was pressed");
+                        location.reload();
+                    }else if (e.which == 61) {
+                      console.log(counter)
+                      var t = $('#API-1').DataTable();
+                      // $('#addRow').on('click', function () {
+                          t.row.add( [
+                              '<br><select name="product'+counter+'" id="" class="form-control select2x barang" style="cursor: text;"><option value="">Pilih barang</option> <?php foreach($product as $x ) {?> <option value="<?= $x->nama ?>"><?= $x->nama ?></option> <?php } ?></select>',
+                              '<input id="qty'+counter+'" type="number" style="width: 40px;text-align:center;" value="1" class="form-control">',
+                              ' <br><select id="satuan'+counter+'" class="form-control select2x" style="cursor: text;"><option value="">Pilih satuan</option><?php foreach($satuan as $x ) {?><option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option><?php } ?></select>',
+                              '<p class="harga'+counter+'"></p>',
+                              counter +'.5',
+                              counter +'.5',
+                              counter +'.5'
+                          ]).draw(false);
+                          counter++;
+                          $('.select2x').select2();
+                      // });
                     }
                 };
-
-
                 $('.select2x').select2();
                 var t = $('#API-1').DataTable({
                     "lengthChange": false,
@@ -774,62 +790,79 @@
                     paging: false,
                     searching : false
                 });
-                $("#qty1").prop('disabled', true);
-                var counter = 1;
-                $('#addRow').on( 'click', function () {
-                    t.row.add( [
-                        '<br><select name="product'+counter+'" id="" class="form-control select2x barang" style="cursor: text;"> <?php foreach($product as $x ) {?> <option><?= $x->nama ?></option> <?php } ?></select>',
-                        '<input id="qty'+counter+'" type="number" style="width: 40px;text-align:center;" value="1" class="form-control">',
-                        counter +'.3',
-                        counter +'.4',
-                        counter +'.5',
-                        counter +'.5',
-                        counter +'.5'
-                    ]).draw(false);
-                    counter++;
+                // var counter = 2;
+                // $('#addRow').on('click', function () {
+                //     t.row.add( [
+                //         '<br><select name="product'+counter+'" id="" class="form-control select2x barang" style="cursor: text;"><option value="">Pilih barang</option> <?php foreach($product as $x ) {?> <option value="<?= $x->nama ?>"><?= $x->nama ?></option> <?php } ?></select>',
+                //         '<input id="qty'+counter+'" type="number" style="width: 40px;text-align:center;" value="1" class="form-control">',
+                //         ' <br><select id="satuan'+counter+'" class="form-control select2x" style="cursor: text;"><option value="">Pilih satuan</option><?php foreach($satuan as $x ) {?><option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option><?php } ?></select>',
+                //         '<p class="harga'+counter+'"></p>',
+                //         counter +'.5',
+                //         counter +'.5',
+                //         counter +'.5'
+                //     ]).draw(false);
+                //     counter++;
 
-                    $('.select2x').select2();
-
-                });
-                    $("#qty"+counter+"").prop('disabled', true);
+                //     $('.select2x').select2();
+                // });
+                    $("#qty1").prop('disabled', true);
+                    $("#satuan1").prop('disabled', true);
+                    $("#diskon_item1").prop('disabled', true);
                     $("#bayar").prop('disabled', true);
                     $("#tahan").prop('disabled', true);
-                    $("#satuan").prop('disabled', true);
-                    $("#diskon_item").prop('disabled', true);
                     var qty = $("#qty1")
-                    var diskon_item = $("#diskon_item")
+                    var diskon_item = $("#diskon_item1")
                     qty.keyup(function() {
-                        if ($('#satuan')[0].value == true) {
-                            var jumlah = $('p.harga').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12 - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                            $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            $('p.stock-c').html($('p.stock').text() - qty[0].value);
+                        var stock_c = $('p.stock').text() - qty[0].value
+                        if (stock_c < 10) {
+                            swal({
+                                title: "Opss..!",
+                                text: "Stock sisa 10",
+                                icon: "warning",
+                                dangerMode: true,
+                            }).then((r) => {
+                                if (r) {
+                                  // location.reload();
+                                  $('#qty1').val($('p.stock').text() - $('p.stock-c').text())
+                                  // swal({
+                                  //   text : "oke"
+                                  // })
+                                }
+                            });
+
                         }else{
-                            var jumlah = $('p.harga').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                            $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            $('p.stock-c').html($('p.stock').text() - qty[0].value);
+                            if ($('#satuan1')[0].value == true) {
+                                var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12 - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                $('p.stock-c').html($('p.stock').text() - qty[0].value * 12);
+                            }else{
+                                var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                $('p.stock-c').html($('p.stock').text() - qty[0].value);
+                            }
                         }
                     });
                     //diskon item
                       diskon_item.keyup(function() {
-                        if ($('#satuan')[0].value == true) {
-                            var jumlah = $('p.harga').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12 - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                        if ($('#satuan1')[0].value == true) {
+                            var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12 - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
                             $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            $('p.stock-c').html($('p.stock').text() - qty[0].value);
+                            $('p.stock-c').html($('p.stock').text() - qty[0].value * 12);
                         }else{
-                            var jumlah = $('p.harga').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                            var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
                             $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                             $('p.stock-c').html($('p.stock').text() - qty[0].value);
                         }
                      })
-                       $('#satuan').change(function(){
+                       $('#satuan1').change(function(){
                             var id=$(this).val();
                             var qty = $("#qty1")
-                            if ($('#satuan')[0].value == true) {
-                                var jumlah = $('p.harga').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12
+                            if ($('#satuan1')[0].value == true) {
+                                var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12
                                 $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                $('p.stock-c').html($('p.stock').text() - qty[0].value);
+                                $('p.stock-c').html($('p.stock').text() - qty[0].value * 12);
                             }else{
-                                var jumlah = $('p.harga').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value
+                                var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value
                                 $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                 $('p.stock-c').html($('p.stock').text() - qty[0].value);
                             }
@@ -850,10 +883,10 @@
                     document.getElementById('qty1').disabled = false;
                     document.getElementById('bayar').disabled = false;
                     document.getElementById('tahan').disabled = false;
-                    $("#satuan").prop('disabled', false);
-                    $("#diskon_item").prop('disabled', false);
+                    $("#satuan1").prop('disabled', false);
+                    $("#diskon_item1").prop('disabled', false);
                     $('p.satuan').html(data.satuan);
-                    $('p.harga').html("Rp."+formatRupiah(data.price));
+                    $('p.harga1').html("Rp."+formatRupiah(data.price));
                     $('p.jumlah').html("Rp."+formatRupiah(data.price));
                     $('p.stock').html(data.stock);
                     $('p.stock-c').html(data.stock);
