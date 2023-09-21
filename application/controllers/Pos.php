@@ -16,7 +16,7 @@ class Pos extends CI_Controller {
 	{
 		// $this->load->view('body/header');
         $data = [
-            "product" => $this->db->get('products')->result(),
+            "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result()
         ];
 		$this->load->view('pos/sale',$data);
@@ -26,9 +26,9 @@ class Pos extends CI_Controller {
     {
         $id = $this->input->post('id');
 
-        $this->db->where('id_product', $id);
+        $this->db->where('id', $id);
 
-        $data = $this->db->get("products")->row_array();
+        $data = $this->db->get("barang")->row_array();
         // $data = array();
         // foreach ($data2 as $hsl)
         //     {

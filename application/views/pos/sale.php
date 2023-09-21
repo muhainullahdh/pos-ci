@@ -260,6 +260,7 @@
                                         <table class="display" id="API-1">
                                         <thead>
                                             <tr>
+                                            <th></th>
                                             <th width="400" scope="col">Nama Barang</th>
                                             <th width="80" scope="col">Qty</th>
                                             <th width="180" scope="col">Satuan</th>
@@ -270,8 +271,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
+                                            <!-- <tr>
+                                              <td>
+                                                <div class="form-check checkbox checkbox-primary mb-0">
+                                                  <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
+                                                  <label class="form-check-label" for="checkbox-primary-1"></label>
+                                                </div>
+                                              </td>
+                                                <td class="order">
                                                     <br>
                                                     <select name="product1" id="" class="form-control select2x" style="cursor: text;">
                                                         <option value="">Pilih barang</option>
@@ -279,16 +286,12 @@
                                                             <option value="<?= $x->id_product ?>"><?= $x->nama ?></option>
                                                         <?php } ?>
                                                     </select>
-                                                    <!-- <input name='product'> -->
                                                         </td>
                                                 <td>
-                                                    <!-- <b class="text-primary" style="cursor: pointer;"><i data-feather="plus-circle"></i></b> -->
                                                     <input id="qty1" type="number" style="width: 40px;text-align:center;" value="1" class="form-control">
-                                                    <!-- &nbsp;<b style="cursor: pointer;" class="text-danger"><i data-feather="minus-circle"></i></b> -->
                                                 </td>
 
                                                 <td>
-                                                    <!-- <p class="satuan"></p> -->
                                                     <br>
                                                     <select id="satuan1" class="form-control select2x" style="cursor: text;">
                                                         <option value="">Pilih satuan</option>
@@ -314,7 +317,7 @@
                                                             </div>
                                                     </div>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                         </table>
                                     </div>
@@ -731,57 +734,219 @@
     <!-- <script src="<?= base_url() ?>assets/js/theme-customizer/customizer.js"></script> -->
     <!-- Plugin used-->
     <script>
-    var rupiah = document.getElementById('diskon_item1');
-		rupiah.addEventListener('keyup', function(e){
-			// tambahkan 'Rp.' pada saat form di ketik
-			// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-			rupiah.value = formatRupiah(this.value, 'Rp.');
-		});
-    function formatRupiah(angka, prefix){
-			var number_string = angka.replace(/[^,\d]/g, '').toString(),
-			split   		= number_string.split(','),
-			sisa     		= split[0].length % 3,
-			rupiah     		= split[0].substr(0, sisa),
-			ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
 
-			// tambahkan titik jika yang di input sudah menjadi angka ribuan
-			if(ribuan){
-				separator = sisa ? '.' : '';
-				rupiah += separator + ribuan.join('.');
-			}
-
-			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-			return prefix == undefined ? rupiah : (rupiah ? 'Rp.' + rupiah : '');
-		}
 
         //  var input = document.querySelector('input[name=product]');
 
 
-            $(document).ready(function(){
+        $(function() {
 
                 //shortcut
-                var counter = 2;
+                var counter = 1;
+                var rupiah = $('#diskon_item'+counter+'');
+                  rupiah.keyup(function(e){
+                    // tambahkan 'Rp.' pada saat form di ketik
+                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                    rupiah.value = formatRupiah(this.value, 'Rp.');
+                  });
+                  function formatRupiah(angka, prefix){
+                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                    split   		= number_string.split(','),
+                    sisa     		= split[0].length % 3,
+                    rupiah     		= split[0].substr(0, sisa),
+                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                    if(ribuan){
+                      separator = sisa ? '.' : '';
+                      rupiah += separator + ribuan.join('.');
+                    }
+
+                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                    return prefix == undefined ? rupiah : (rupiah ? 'Rp.' + rupiah : '');
+                  }
                 document.onkeyup = function(e) {
                     if (e.which == 67) {
                         location.reload();
-                    }else if (e.which == 61) {
-                      console.log(counter)
+                    }else if (e.which == 13) {
                       var t = $('#API-1').DataTable();
                       // $('#addRow').on('click', function () {
+                        console.log('a'+counter)
+
                           t.row.add( [
-                              '<br><select name="product'+counter+'" id="" class="form-control select2x barang" style="cursor: text;"><option value="">Pilih barang</option> <?php foreach($product as $x ) {?> <option value="<?= $x->nama ?>"><?= $x->nama ?></option> <?php } ?></select>',
-                              '<input id="qty'+counter+'" type="number" style="width: 40px;text-align:center;" value="1" class="form-control">',
-                              ' <br><select id="satuan'+counter+'" class="form-control select2x" style="cursor: text;"><option value="">Pilih satuan</option><?php foreach($satuan as $x ) {?><option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option><?php } ?></select>',
+                            '<div class="form-check checkbox checkbox-primary mb-0">'+
+                                                  '<input class="form-check-input delete_check" value="'+counter+'" id="checkbox-primary-'+counter+'" type="checkbox">'+
+                                                  '<label class="form-check-label" for="checkbox-primary-'+counter+'"></label>'+
+                                                '</div>',
+                              '<br><select id="id'+counter+'" class="form-control select2x product" style="cursor: text;"><option value="">Pilih barang</option> <?php foreach($product as $x ) {?> <option value="<?= $x->id ?>"><?= $x->nama ?></option> <?php } ?></select>',
+                              '<input id="idq'+counter+'" type="number" style="width: 40px;text-align:center;" value="1" class="form-control qty">',
+                              ' <br><select id="idd'+counter+'" class="form-control select2x satuan_x" style="cursor: text;"><option value="">Pilih satuan</option><?php foreach($satuan as $x ) {?><option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option><?php } ?></select>',
                               '<p class="harga'+counter+'"></p>',
-                              counter +'.5',
-                              counter +'.5',
-                              counter +'.5'
+                              '<input type="text" id="idi'+counter+'" placeholder="0" style="width: 250px;text-align:center;" class="form-control diskon_item">',
+                              '<p class="jumlah'+counter+'"></p>',
+                              '<div class="row">'+
+                                '<div class="col">'+
+                                '<p>Saat ini</p>'+
+                                '<p class="stock'+counter+' bg-primary text-center rounded-pill"></p>'+
+                                '</div>'+
+                                '<div class="col">'+
+                                '    <p>Berkurang</p>'+
+                                '    <p class="stock-c'+counter+' bg-danger text-center rounded-pill"></p>'+
+                                '</div>'+
+                            '</div>',
                           ]).draw(false);
                           counter++;
                           $('.select2x').select2();
                       // });
+
+                    }else if (e.which == 173) {
+                        var t = $('#API-1').DataTable();
+                        // console.log(t.rows().count())
+                        // if (t.rows().count() === 0) {
+                        //   return false;
+                        // }
+                        // t.row('.selected').remove().draw(true);
+                        // $('#qty').attr('#qty')
+
+                        // $("#delete").on("click", function() {
+                        t.rows($('table tr').has('input:checked')).remove();
+
+                        // })
+
                     }
+                            var i,j;
+                            $(document).on('change', '.product', function() {
+                                // var id=$(this).val();
+                                i = this.id.slice(2);
+                                j = this.value;
+                                // $("#result"+i).html('<p>Number: '+j+'</p>');
+                                $.ajax({
+                                    url : "<?= site_url('pos/search_barang');?>",
+                                    method : "POST",
+                                    data : {id: j},
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(data){
+                                        // document.getElementById('qty1').disabled = false;
+                                        // document.getElementById('bayar').disabled = false;
+                                        // document.getElementById('tahan').disabled = false;
+                                        // $(".satuan").prop('disabled', false);
+                                        // $(".qty").prop('disabled', false);
+                                        // $(".diskon_item").prop('disabled', false);
+                                        var qty = $("input[id='idq"+i+"']")[0].value
+                                        if (data.stok == data.min_stok) {
+                                                swal({
+                                                title: "Opss..!",
+                                                text: "Barang "+ data.nama+" sisa "+data.stok,
+                                                icon: "warning",
+                                                dangerMode: true,
+                                                }).then((r) => {
+                                                    if (r) {
+                                                    location.reload();
+                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                    // swal({
+                                                    //   text : "oke"
+                                                    // })
+                                                    }
+                                                });
+                                        }else{
+                                            var qty = $("input[id='idq"+i+"']")[0].value
+                                            $("#diskon_item").prop('disabled', false);
+                                            $('p.satuan').html(data.satuan);
+                                            $('p.harga'+i+'').html("Rp."+formatRupiah(data.hargajual));
+                                            $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
+                                            $('p.stock'+i+'').html(data.stok);
+                                            $('p.stock-c'+i+'').html(data.stok - qty);
+                                        // console.log(data.nama)
+                                        }
+
+                                    }
+                                });
+                                return false;
+                            });
+                            var qty = $(".qty")
+                            var diskon_item = $(".diskon_item")
+                            var satuan_x = $(".satuan_x")
+                            qty.keyup(function() {
+                                var id=$(this).val();
+                                i = this.id.slice(3);
+                                j = this.value;
+                                var satuan = $("select[id='idd"+i+"']")[0].value
+                                var diskon_item = $("input[id='idi"+i+"']")[0].value
+                                // console.log(i)
+                                var stock_c = $('p.stock-c'+i+'').text()
+                                if (stock_c <= 1) {
+                                    swal({
+                                        title: "Opss..!",
+                                        text: "Stock sisa 10",
+                                        icon: "warning",
+                                        dangerMode: true,
+                                    }).then((r) => {
+                                        if (r) {
+                                          location.reload();
+                                        //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                          // swal({
+                                          //   text : "oke"
+                                          // })
+                                        }
+                                    });
+
+                                }else{
+                                    if (satuan == true) {
+                                        var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * 12 - diskon_item
+                                        $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j * 12);
+                                    }else{
+                                        var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
+                                        $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
+                                    }
+                                }
+                            });
+                            // $(".idq"+counter+"").prop('disabled', true);
+                            // $(".satuan").prop('disabled', true);
+                            // $(".diskon_item").prop('disabled', true);
+                            // $("#bayar").prop('disabled', true);
+                            // $("#tahan").prop('disabled', true);
+
+                            //diskon item
+                            diskon_item.keyup(function() {
+                                i = this.id.slice(3);
+                                j = this.value;
+                                var qty = $("input[id='idq"+i+"']")[0].value
+                                var satuan_p = $("select[id='idd"+i+"']")[0].value
+                                if (satuan_p == true) {
+                                    var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * 12 - j
+                                    $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                    $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty * 12);
+                                }else{
+                                    var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - j
+                                    $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                    $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty[0].value);
+                                }
+                            })
+                            satuan_x.change(function(){
+                                    var id=$(this).val();
+                                    i = this.id.slice(3);
+                                    j = this.value;
+                                    var qty = $("input[id='idq"+i+"']")[0].value
+                                    var diskon_item = $("input[id='idi"+i+"']")[0].value
+                                    if (j == true) {
+                                        var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * 12 - diskon_item
+                                        $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty * 12);
+                                    }else{
+                                        console.log('bawah')
+                                        var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - diskon_item
+                                        $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty);
+                                    }
+
+                                })
+
                 };
+
+
                 $('.select2x').select2();
                 var t = $('#API-1').DataTable({
                     "lengthChange": false,
@@ -790,7 +955,19 @@
                     paging: false,
                     searching : false
                 });
-                // var counter = 2;
+
+                // t.on('click', 'tbody tr', (e) => {
+                //     let classList = e.currentTarget.classList;
+
+                //     if (classList.contains('selected')) {
+                //         classList.remove('selected');
+                //     }
+                //     else {
+                //         t.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+                //         classList.add('selected');
+                //     }
+                // });
+                                // var counter = 2;
                 // $('#addRow').on('click', function () {
                 //     t.row.add( [
                 //         '<br><select name="product'+counter+'" id="" class="form-control select2x barang" style="cursor: text;"><option value="">Pilih barang</option> <?php foreach($product as $x ) {?> <option value="<?= $x->nama ?>"><?= $x->nama ?></option> <?php } ?></select>',
@@ -805,97 +982,8 @@
 
                 //     $('.select2x').select2();
                 // });
-                    $("#qty1").prop('disabled', true);
-                    $("#satuan1").prop('disabled', true);
-                    $("#diskon_item1").prop('disabled', true);
-                    $("#bayar").prop('disabled', true);
-                    $("#tahan").prop('disabled', true);
-                    var qty = $("#qty1")
-                    var diskon_item = $("#diskon_item1")
-                    qty.keyup(function() {
-                        var stock_c = $('p.stock').text() - qty[0].value
-                        if (stock_c < 10) {
-                            swal({
-                                title: "Opss..!",
-                                text: "Stock sisa 10",
-                                icon: "warning",
-                                dangerMode: true,
-                            }).then((r) => {
-                                if (r) {
-                                  // location.reload();
-                                  $('#qty1').val($('p.stock').text() - $('p.stock-c').text())
-                                  // swal({
-                                  //   text : "oke"
-                                  // })
-                                }
-                            });
 
-                        }else{
-                            if ($('#satuan1')[0].value == true) {
-                                var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12 - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                                $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                $('p.stock-c').html($('p.stock').text() - qty[0].value * 12);
-                            }else{
-                                var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                                $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                $('p.stock-c').html($('p.stock').text() - qty[0].value);
-                            }
-                        }
-                    });
-                    //diskon item
-                      diskon_item.keyup(function() {
-                        if ($('#satuan1')[0].value == true) {
-                            var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12 - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                            $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            $('p.stock-c').html($('p.stock').text() - qty[0].value * 12);
-                        }else{
-                            var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value - diskon_item[0].value.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                            $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            $('p.stock-c').html($('p.stock').text() - qty[0].value);
-                        }
-                     })
-                       $('#satuan1').change(function(){
-                            var id=$(this).val();
-                            var qty = $("#qty1")
-                            if ($('#satuan1')[0].value == true) {
-                                var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value * 12
-                                $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                $('p.stock-c').html($('p.stock').text() - qty[0].value * 12);
-                            }else{
-                                var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty[0].value
-                                $('p.jumlah').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                $('p.stock-c').html($('p.stock').text() - qty[0].value);
-                            }
-
-                        })
                 ///end datatable
-                $('select[name=product1]').change(function(){
-                    var id=$(this).val();
-                    console.log(id)
-                    $.ajax({
-                    url : "<?= site_url('pos/search_barang');?>",
-                    method : "POST",
-                    data : {id: id},
-                    async : true,
-                    dataType : 'json',
-                    success: function(data){
-
-                    document.getElementById('qty1').disabled = false;
-                    document.getElementById('bayar').disabled = false;
-                    document.getElementById('tahan').disabled = false;
-                    $("#satuan1").prop('disabled', false);
-                    $("#diskon_item1").prop('disabled', false);
-                    $('p.satuan').html(data.satuan);
-                    $('p.harga1').html("Rp."+formatRupiah(data.price));
-                    $('p.jumlah').html("Rp."+formatRupiah(data.price));
-                    $('p.stock').html(data.stock);
-                    $('p.stock-c').html(data.stock);
-                    // console.log(data.nama)
-
-                    }
-                    });
-                    return false;
-                });
 
 
 
@@ -911,6 +999,8 @@
                 localStorage.setItem("page-wrapper", "horizontal-wrapper");
             // }
             });
+
+
 
     </script>
   </body>
