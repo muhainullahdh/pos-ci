@@ -26,15 +26,30 @@ class Pos extends CI_Controller {
     {
         $id = $this->input->post('id');
 
-        $this->db->where('id', $id);
+        $this->db->where('a.id', $id);
+        $this->db->from('barang as a');
+        $this->db->join('satuan as b','a.id=b.barang_id','LEFT');
+        $data = $this->db->get();
 
-        $data = $this->db->get("barang")->row_array();
-        // $data = array();
-        // foreach ($data2 as $hsl)
-        //     {
-        //         $data[] = $hsl->nama;
-        //     }
-
-        echo json_encode($data);
+        echo json_encode($data->result());
+    }
+    function get_barang()
+    {
+        $title = $_GET['term'];
+        // $this->db->where('status', 'Aktif');
+        $this->db->like('a.nama', $title , 'both');
+        $this->db->order_by('a.nama', 'asc');
+        $this->db->limit(10);
+        $this->db->from('barang as a');
+        $this->db->join('satuan as b','a.id_satuan=b.id_satuan','LEFT');
+        $result = $this->db->get();
+        if (count($result->result()) > 0) {
+            foreach ($result->result() as $row)
+                $arr_result[] = array(
+                    'label'         => $row->nama,
+                    'description'   => $row->id
+                );
+            echo json_encode($arr_result);
+        }
     }
 }

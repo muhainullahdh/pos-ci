@@ -41,6 +41,8 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/responsive.css">
 
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css"> -->
+    <link href="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
   </head>
   <body style="background-color: #eee;">
     <!-- loader starts-->
@@ -186,11 +188,6 @@
                                         <div class="col-xl-9">
                                         <h1>Toko Ling Ling</h1>
                                         </div>
-                                        <!-- <div class="col-xl-2">
-                                        <label for="">Discount</label>
-                                                <input type="text" class="form-control">
-                                        </div> -->
-
                                     </div>
                                 </div>
                             </div>
@@ -241,23 +238,18 @@
                   </div> -->
                   <div class="col-xxl-9 col-md-7">
                     <div class="card">
-                      <div class="card-header card-no-border">
+                      <!-- <div class="card-header card-no-border">
                         <div class="header-top">
                           <h5>List Transaksi</h5>
                           <div class="card-header-right-icon">
-                            <!-- <button id="addRow" class="btn btn-primary mb-3">Add</button> -->
-                            <!-- <div class="dropdown">
-                              <button class="btn dropdown-toggle" id="viewButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="viewButton"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
-                            </div> -->
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                       <div class="card-body pt-0">
-                            <div class="row">
+                            <div class="row mt-3">
                                 <div class="col">
-                                    <div class="table-responsive" style="height: 400px;">
-                                        <table class="display" id="API-1">
+                                    <div class="table-responsive" style="height: 500px;">
+                                        <table>
                                         <thead>
                                             <tr>
                                             <th></th>
@@ -270,8 +262,8 @@
                                             <th width="280" scope="col">Stock</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <!-- <tr>
+                                        <tbody id="sampel-wrapper">
+                                            <tr style="background-color: white;">
                                               <td>
                                                 <div class="form-check checkbox checkbox-primary mb-0">
                                                   <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
@@ -279,45 +271,37 @@
                                                 </div>
                                               </td>
                                                 <td class="order">
-                                                    <br>
-                                                    <select name="product1" id="" class="form-control select2x" style="cursor: text;">
-                                                        <option value="">Pilih barang</option>
-                                                        <?php foreach($product as $x ) {?>
-                                                            <option value="<?= $x->id_product ?>"><?= $x->nama ?></option>
-                                                        <?php } ?>
-                                                    </select>
+                                                <input class="form-control barang1">
+                                                <input type="hidden" class="form-control id_barang1">
                                                         </td>
                                                 <td>
-                                                    <input id="qty1" type="number" style="width: 40px;text-align:center;" value="1" class="form-control">
+                                                    <input id="qty1" type="number" style="text-align:center;" value="1" class="form-control">
                                                 </td>
-
                                                 <td>
-                                                    <br>
-                                                    <select id="satuan1" class="form-control select2x" style="cursor: text;">
+                                                    <select class="form-control satuan1" style="cursor: text;">
                                                         <option value="">Pilih satuan</option>
-                                                        <?php foreach($satuan as $x ) {?>
-                                                            <option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option>
-                                                        <?php } ?>
                                                     </select>
                                                 </td>
-                                                <td><p class="harga1"></p></td>
                                                 <td>
-                                                    <input type="text" id="diskon_item1" placeholder="0" style="width: 250px;text-align:center;" class="form-control">
+                                                    <input type="text" class="form-control harga1">
                                                 </td>
-                                                <td><p class="jumlah"></p></td>
+                                                <td>
+                                                    <input type="text" id="diskon_item1" placeholder="0" style="text-align:center;" class="form-control">
+                                                </td>
+                                                <td>
+                                                 <input type="text" class="form-control jumlah1">
+                                                </td>
                                                 <td>
                                                     <div class="row">
-                                                            <div class="col">
-                                                                <p>Saat ini</p>
-                                                                <p class="stock bg-primary text-center rounded-pill"></p>
+                                                            <div class="col-xl-6">
+                                                                <input type="text" class="form-control stock">
                                                             </div>
-                                                            <div class="col">
-                                                                <p>Berkurang</p>
-                                                                <p class="stock-c bg-danger text-center rounded-pill"></p>
+                                                            <div class="col-xl-6">
+                                                                <input type="text" class="form-control stock-c">
                                                             </div>
                                                     </div>
                                                 </td>
-                                            </tr> -->
+                                            </tr>
                                         </tbody>
                                         </table>
                                     </div>
@@ -369,15 +353,24 @@
                                                 [+] : Tambah Transaksi<br>
                                                 [CTRL + R] : Batal Transaksi
                                             </div>
-                                            <div class="col-xl-2">
+                                            <!-- <div class="col-xl-2">
                                                 <button class="btn btn-square btn-primary col">Data Penjualan</button>
                                             </div>
                                             <div class="col-xl-2">
-                                                <button class="btn btn-square btn-warning col" style="font-size:14px;">Master Barang</button>
-                                            </div>
-                                            <div class="col-xl-2">
+                                                <button class="btn btn-square btn-warning col-xl-12" style="font-size:14px;">Pelunasan</button>
+                                            </div> -->
+                                            <div class="col">
+                                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
+                                             </div>
+                                            <div class="col">
+                                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
+                                             </div>
+                                            <div class="col">
+                                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">LOAD</button>
+                                             </div>
+                                            <!-- <div class="col-xl-2">
                                                 <button class="btn btn-square btn-primary col" style="font-size:14px;">Stok Barang</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                             </div>
@@ -485,7 +478,7 @@
                             </div>
                         </div>
                         <hr>
-                          <div class="row mt-3">
+                        <div class="row mt-3">
                             <div class="col">
                                 <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek POIN</button>
                             </div>
@@ -697,6 +690,11 @@
     </div>
     <!-- latest jquery-->
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://repo.rachmat.id/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script> -->
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
@@ -738,144 +736,90 @@
 
         //  var input = document.querySelector('input[name=product]');
 
-
         $(function() {
-
-                //shortcut
-                var counter = 1;
-                var rupiah = $('#diskon_item'+counter+'');
-                  rupiah.keyup(function(e){
-                    // tambahkan 'Rp.' pada saat form di ketik
-                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                    rupiah.value = formatRupiah(this.value, 'Rp.');
-                  });
-                  function formatRupiah(angka, prefix){
-                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                    split   		= number_string.split(','),
-                    sisa     		= split[0].length % 3,
-                    rupiah     		= split[0].substr(0, sisa),
-                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
-
-                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                    if(ribuan){
-                      separator = sisa ? '.' : '';
-                      rupiah += separator + ribuan.join('.');
-                    }
-
-                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                    return prefix == undefined ? rupiah : (rupiah ? 'Rp.' + rupiah : '');
-                  }
-                document.onkeyup = function(e) {
-                    if (e.which == 67) {
-                        location.reload();
-                    }else if (e.which == 13) {
-                      var t = $('#API-1').DataTable();
-                      // $('#addRow').on('click', function () {
-                        console.log('a'+counter)
-
-                          t.row.add( [
-                            '<div class="form-check checkbox checkbox-primary mb-0">'+
-                                                  '<input class="form-check-input delete_check" value="'+counter+'" id="checkbox-primary-'+counter+'" type="checkbox">'+
-                                                  '<label class="form-check-label" for="checkbox-primary-'+counter+'"></label>'+
-                                                '</div>',
-                              '<br><select id="id'+counter+'" class="form-control select2x product" style="cursor: text;"><option value="">Pilih barang</option> <?php foreach($product as $x ) {?> <option value="<?= $x->id ?>"><?= $x->nama ?></option> <?php } ?></select>',
-                              '<input id="idq'+counter+'" type="number" style="width: 40px;text-align:center;" value="1" class="form-control qty">',
-                              ' <br><select id="idd'+counter+'" class="form-control select2x satuan_x" style="cursor: text;"><option value="">Pilih satuan</option><?php foreach($satuan as $x ) {?><option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option><?php } ?></select>',
-                              '<p class="harga'+counter+'"></p>',
-                              '<input type="text" id="idi'+counter+'" placeholder="0" style="width: 250px;text-align:center;" class="form-control diskon_item">',
-                              '<p class="jumlah'+counter+'"></p>',
-                              '<div class="row">'+
-                                '<div class="col">'+
-                                '<p>Saat ini</p>'+
-                                '<p class="stock'+counter+' bg-primary text-center rounded-pill"></p>'+
-                                '</div>'+
-                                '<div class="col">'+
-                                '    <p>Berkurang</p>'+
-                                '    <p class="stock-c'+counter+' bg-danger text-center rounded-pill"></p>'+
-                                '</div>'+
-                            '</div>',
-                          ]).draw(false);
-                          counter++;
-                          $('.select2x').select2();
-                      // });
-
-                    }else if (e.which == 173) {
-                        var t = $('#API-1').DataTable();
-                        // console.log(t.rows().count())
-                        // if (t.rows().count() === 0) {
-                        //   return false;
-                        // }
-                        // t.row('.selected').remove().draw(true);
-                        // $('#qty').attr('#qty')
-
-                        // $("#delete").on("click", function() {
-                        t.rows($('table tr').has('input:checked')).remove();
-
-                        // })
-
-                    }
-                            var i,j;
-                            $(document).on('change', '.product', function() {
-                                // var id=$(this).val();
-                                i = this.id.slice(2);
-                                j = this.value;
-                                // $("#result"+i).html('<p>Number: '+j+'</p>');
-                                $.ajax({
-                                    url : "<?= site_url('pos/search_barang');?>",
-                                    method : "POST",
-                                    data : {id: j},
-                                    async : true,
-                                    dataType : 'json',
-                                    success: function(data){
-                                        // document.getElementById('qty1').disabled = false;
-                                        // document.getElementById('bayar').disabled = false;
-                                        // document.getElementById('tahan').disabled = false;
-                                        // $(".satuan").prop('disabled', false);
-                                        // $(".qty").prop('disabled', false);
-                                        // $(".diskon_item").prop('disabled', false);
-                                        var qty = $("input[id='idq"+i+"']")[0].value
-                                        if (data.stok == data.min_stok) {
-                                                swal({
-                                                title: "Opss..!",
-                                                text: "Barang "+ data.nama+" sisa "+data.stok,
-                                                icon: "warning",
-                                                dangerMode: true,
-                                                }).then((r) => {
-                                                    if (r) {
-                                                    location.reload();
-                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                                    // swal({
-                                                    //   text : "oke"
-                                                    // })
+                        var data = "<?= base_url('pos/get_barang') ?>";
+                        $(".barang1").autocomplete({
+                            source: data,
+                            select: function (event, ui) {
+                                $('.barang1').val(ui.item.label);
+                                $('.id_barang1').val(ui.item.description);
+                                var i,j;
+                                        // $(document).keyup('change', '.id_barang1', function() {
+                                            // var id=$(this).val();
+                                            i = this.id.slice(2);
+                                            j = this.value;
+                                            // console.log('aaa')
+                                            // $("#result"+i).html('<p>Number: '+j+'</p>');
+                                            $.ajax({
+                                                url : "<?= site_url('pos/search_barang');?>",
+                                                method : "POST",
+                                                data : {id: ui.item.description},
+                                                async : true,
+                                                dataType : 'json',
+                                                success: function(data){
+                                                    // document.getElementById('qty1').disabled = false;
+                                                    // document.getElementById('bayar').disabled = false;
+                                                    // document.getElementById('tahan').disabled = false;
+                                                    // $(".satuan").prop('disabled', false);
+                                                    // $(".qty").prop('disabled', false);
+                                                    // $(".diskon_item").prop('disabled', false);
+                                                    // var qty = $("input[id='idq"+i+"']")[0].value
+                                                    var qty = 2
+                                                    var satuann = ''
+                                                    for (let b = 0; b < data.length; b++) {
+							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
+                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajual)
+                                                        var jumlah ="Rp."+data[b].hargajual * data[b].isi
+                                                        var stok = data[b].stok
+                                                        var min_stok = data[b].min_stok
                                                     }
-                                                });
-                                        }else{
-                                            var qty = $("input[id='idq"+i+"']")[0].value
-                                            $("#diskon_item").prop('disabled', false);
-                                            $('p.satuan').html(data.satuan);
-                                            $('p.harga'+i+'').html("Rp."+formatRupiah(data.hargajual));
-                                            $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
-                                            $('p.stock'+i+'').html(data.stok);
-                                            $('p.stock-c'+i+'').html(data.stok - qty);
-                                        // console.log(data.nama)
-                                        }
+                                                    if (stok == min_stok) {
+                                                            swal({
+                                                            title: "Opss..!",
+                                                            text: "Barang "+ data.nama+" sisa "+data.stok,
+                                                            icon: "warning",
+                                                            dangerMode: true,
+                                                            }).then((r) => {
+                                                                if (r) {
+                                                                location.reload();
+                                                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                                // swal({
+                                                                //   text : "oke"
+                                                                // })
+                                                                }
+                                                            });
+                                                    }else{
+                                                        // var qty = $("input[id='idq"+i+"']")[0].value
+                                                        var qty = 3
+                                                        $("#diskon_item").prop('disabled', false);
+                                                        $('.satuan1').html(satuann);
+                                                        $('.harga1').val(harga1);
+                                                        // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
+                                                        $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('p.stock'+i+'').html(data.stok);
+                                                        $('p.stock-c'+i+'').html(data.stok - qty);
+                                                    // console.log(data.nama)
+                                                    }
 
-                                    }
-                                });
-                                return false;
-                            });
-                            var qty = $(".qty")
-                            var diskon_item = $(".diskon_item")
-                            var satuan_x = $(".satuan_x")
-                            qty.keyup(function() {
-                                var id=$(this).val();
-                                i = this.id.slice(3);
-                                j = this.value;
-                                var satuan = $("select[id='idd"+i+"']")[0].value
-                                var diskon_item = $("input[id='idi"+i+"']")[0].value
+                                                }
+                                            });
+                                            return false;
+                                        // });
+                            }
+                        });
+
+                        var qty = $(".qty")
+                        var diskon_item = $(".diskon_item")
+                        var satuan_x = $(".satuan_x")
+                        qty.keyup(function() {
+                            var id=$(this).val();
+                            i = this.id.slice(3);
+                            j = this.value;
+                            var satuan = $("select[id='idd"+i+"']")[0].value
+                            var diskon_item = $("input[id='idi"+i+"']")[0].value
                                 // console.log(i)
-                                var stock_c = $('p.stock-c'+i+'').text()
-                                if (stock_c <= 1) {
+                            var stock_c = $('p.stock-c'+i+'').text()
+                            if (stock_c <= 1) {
                                     swal({
                                         title: "Opss..!",
                                         text: "Stock sisa 10",
@@ -884,24 +828,24 @@
                                     }).then((r) => {
                                         if (r) {
                                           location.reload();
-                                        //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
                                           // swal({
                                           //   text : "oke"
-                                          // })
+                                      // })
                                         }
-                                    });
+                                });
 
                                 }else{
-                                    if (satuan == true) {
-                                        var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * 12 - diskon_item
+                                if (satuan == true) {
+                                     var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * 12 - diskon_item
                                         $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                         $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j * 12);
                                     }else{
-                                        var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
-                                        $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
+                                    var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
+                                     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                    $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
                                     }
-                                }
+                            }
                             });
                             // $(".idq"+counter+"").prop('disabled', true);
                             // $(".satuan").prop('disabled', true);
@@ -943,6 +887,217 @@
                                     }
 
                                 })
+                        // const autoCompleteJS = new autoComplete({
+                        //     selector: "#autoC",
+                        //     placeHolder: "Search barang...",
+                        //     data: {
+                        //         src: ["Terigu","Beras"],
+                        //         cache: true,
+                        //     },
+                        //     resultsList: {
+                        //         element: (list, data) => {
+                        //             if (!data.results.length) {
+                        //                 // Create "No Results" message element
+                        //                 const message = document.createElement("div");
+                        //                 // Add class to the created element
+                        //                 message.setAttribute("class", "no_result");
+                        //                 // Add message text content
+                        //                 message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
+                        //                 // Append message element to the results list
+                        //                 list.prepend(message);
+                        //             }
+                        //         },
+                        //         noResults: true,
+                        //     },
+                        //     resultItem: {
+                        //         highlight: true
+                        //     },
+                        //     events: {
+                        //         input: {
+                        //             selection: (event) => {
+                        //                 const selection = event.detail.selection.value;
+                        //                 autoCompleteJS.input.value = selection;
+                        //             }
+                        //         }
+                        //     }
+                        // });
+                //shortcut
+                var counter = 1;
+                var rupiah = $('#diskon_item'+counter+'');
+                  rupiah.keyup(function(e){
+                    // tambahkan 'Rp.' pada saat form di ketik
+                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                    rupiah.value = formatRupiah(this.value, 'Rp.');
+                  });
+                  function formatRupiah(angka, prefix){
+                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                    split   		= number_string.split(','),
+                    sisa     		= split[0].length % 3,
+                    rupiah     		= split[0].substr(0, sisa),
+                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                    if(ribuan){
+                      separator = sisa ? '.' : '';
+                      rupiah += separator + ribuan.join('.');
+                    }
+
+                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                    return prefix == undefined ? rupiah : (rupiah ? 'Rp.' + rupiah : '');
+                  }
+                document.onkeyup = function(e) {
+                    if (e.which == 67) {
+                        location.reload();
+                    }else if (e.which == 13) {
+                    //   var t = $('#API-1').DataTable();
+                      // $('#addRow').on('click', function () {
+                        var max_fields = 100;
+                        var wrapper = $("#sampel-wrapper");
+                        // var add_kom = $("#add-sampel");
+                        if (counter < max_fields) {
+                            counter++;
+                            $(wrapper).append(
+                                '<tr>'+
+                                '<td>'+
+                                '<div class="form-check checkbox checkbox-primary mb-0">'+
+                                                    '<input class="form-check-input delete_check" value="'+counter+'" id="checkbox-primary-'+counter+'" type="checkbox">'+
+                                                    '<label class="form-check-label" for="checkbox-primary-'+counter+'"></label>'+
+                                                    '</div>'+
+                                                    '</td>'+
+                                '<td>'+
+                                '<input class="form-control barang'+counter+'">'+
+                                '<input type="hidden" class="form-control id_barang'+counter+'">'+
+                                '</td>'+
+                                '<td>'+
+                                '<input id="qty'+counter+'" type="number" style="text-align:center;" value="1" class="form-control">'+
+                                '</td>'+
+                                '<td>'+
+                                '<select class="form-control satuan'+counter+'" style="cursor: text;">'+
+                                    '<option value="">Pilih satuan</option>'+
+                                '</select>'+
+                                '</td>'+
+                                '<td>'+
+                                '<input type="text" class="form-control harga'+counter+'">'+
+                                '</td>'+
+                                '<td>'+
+                                '<input type="text" id="diskon_item'+counter+'" placeholder="0" style="text-align:center;" class="form-control">'+
+                                '</td>'+
+                                '<td>'+
+                                '<input type="text" class="form-control jumlah'+counter+'">'+
+                                '</td>'+
+                                '<td>'+
+                                '<div class="row">'+
+                                        '<div class="col-xl-6">'+
+                                            '<input type="text" class="form-control stock">'+
+                                        '</div>'+
+                                        '<div class="col-xl-6">'+
+                                            '<input type="text" class="form-control stock-c">'+
+                                        ' </div>'+
+                                '</div>'+
+                                '</td>'+
+                                '</tr>'
+                          );
+                          $('.select2x').select2();
+                        }
+                        console.log('con'+counter)
+                        var data = "<?= base_url('pos/get_barang') ?>";
+                        $(".barang"+counter+"").autocomplete({
+                            source: data,
+                            select: function (event, ui) {
+                                $('.barang'+counter+'').val(ui.item.label);
+                                $('.id_barang'+counter+'').val(ui.item.description);
+                                var i,j;
+                                        // $(document).keyup('change', '.id_barang1', function() {
+                                            // var id=$(this).val();
+                                            i = this.id.slice(2);
+                                            j = this.value;
+                                            // $("#result"+i).html('<p>Number: '+j+'</p>');
+                                            $.ajax({
+                                                url : "<?= site_url('pos/search_barang');?>",
+                                                method : "POST",
+                                                data : {id: ui.item.description},
+                                                async : true,
+                                                dataType : 'json',
+                                                success: function(data){
+                                                    // document.getElementById('qty1').disabled = false;
+                                                    // document.getElementById('bayar').disabled = false;
+                                                    // document.getElementById('tahan').disabled = false;
+                                                    // $(".satuan").prop('disabled', false);
+                                                    // $(".qty").prop('disabled', false);
+                                                    // $(".diskon_item").prop('disabled', false);
+                                                    // var qty = $("input[id='idq"+i+"']")[0].value
+                                                    var qty = 2
+                                                    var satuann = ''
+                                                    for (let b = 0; b < data.length; b++) {
+							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
+                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajual)
+                                                        var jumlah ="Rp."+data[b].hargajual
+                                                        var stok = data[b].stok
+                                                        var min_stok = data[b].min_stok
+                                                    }
+                                                    if (stok == min_stok) {
+                                                            swal({
+                                                            title: "Opss..!",
+                                                            text: "Barang "+ data.nama+" sisa "+data.stok,
+                                                            icon: "warning",
+                                                            dangerMode: true,
+                                                            }).then((r) => {
+                                                                if (r) {
+                                                                location.reload();
+                                                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                                // swal({
+                                                                //   text : "oke"
+                                                                // })
+                                                                }
+                                                            });
+                                                    }else{
+                                                        // var qty = $("input[id='idq"+i+"']")[0].value
+                                                        var qty = 3
+                                                        $("#diskon_item").prop('disabled', false);
+                                                        $('.satuan'+counter+'').html(satuann);
+                                                        $('.harga'+counter+'').val(harga1);
+                                                        // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
+                                                        $('.jumlah'+counter+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('p.stock'+i+'').html(data.stok);
+                                                        $('p.stock-c'+i+'').html(data.stok - qty);
+                                                    // console.log(data.nama)
+                                                    }
+
+                                                }
+                                            });
+                                            return false;
+                                        // });
+                            }
+                        });
+
+
+
+                        //   $('#barangg').autocomplete({
+                        //       source: <?= base_url() ?> + "pos/get_barang",
+                        //       select: function (event, ui) {
+                        //           $('[name="barangx"]').val(ui.item.label);
+                        //           $('[name="nip_manajer"]').val(ui.item.description);
+                        //       }
+                        //   });
+                        //   $("#barangg").autocomplete("option", "appendTo", "#billing_form");
+                      // });
+
+                    }else if (e.which == 173) {
+                        var t = $('#API-1').DataTable();
+                        // console.log(t.rows().count())
+                        // if (t.rows().count() === 0) {
+                        //   return false;
+                        // }
+                        // t.row('.selected').remove().draw(true);
+                        // $('#qty').attr('#qty')
+
+                        // $("#delete").on("click", function() {
+                        t.rows($('table tr').has('input:checked')).remove();
+
+                        // })
+
+                    }
+
 
                 };
 
