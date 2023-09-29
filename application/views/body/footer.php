@@ -10,7 +10,6 @@
       </div>
     </div>
     <!-- latest jquery-->
-    <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
     <!-- Bootstrap js-->
     <script>
         localStorage.removeItem("page-wrapper");
@@ -66,6 +65,7 @@
         //     }
         // }
         $(document).ready(function(){
+
             var t = $('#t_barang').DataTable();
             console.log(localStorage.getItem("page-wrapper"))
             // $(function($) {

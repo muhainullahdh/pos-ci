@@ -1,8 +1,7 @@
 <div class="page-body">
           <div class="container-fluid">
             <div class="page-title">
-                <br><br>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-6">
                   <h4>Barang</h4>
                 </div>
@@ -16,68 +15,182 @@
                     <li class="breadcrumb-item active">Default      </li>
                   </ol>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <!-- Container-fluid starts-->
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>View Barang</h4>
+                  </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-xl-3">
+                                <span>Kode Barang</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <input type="text" class="form-control kd_barang">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Nama Barang</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <input type="text" class="form-control nama_barang">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Kategori Barang</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <select name="" id="" class="form-control select2x">
+                                    <option value="a">aa</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Satuan Besar</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <select name="" id="" class="form-control">
+                                    <option value="a">vvv</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-2">
+                                <span>isi Satuan :</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Satuan Kecil</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <select name="" id="" class="form-control">
+                                    <option value="a">vvv</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-2">
+                                <span>isi Satuan :</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Satuan Kecil</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <select name="" id="" class="form-control">
+                                    <option value="a">vvv</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-2">
+                                <span>isi Sat Konv :</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Barcode Sat. Besar</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <input type="text" name="kd_barang" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Barcode Sat. Kecil</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <input type="text" name="kd_barang" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Barcode Sat. Konv</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <input type="text" name="kd_barang" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Brand</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <input type="text" name="kd_barang" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>Sisa Stock</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <input type="text" class="form-control stok">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <span>HPP (Sat Besar) :</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="col-xl-3">
+                                <span>HPP (Sat Kecil) :</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-3">
+                                <input type="button" class="btn btn-primary btn-square submit" value="Simpan">
+                            </div>
+                        </div>
+                     </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
                 <div class="card">
                   <div class="card-header">
                     <h4>List Barang</h4>
                   </div>
                     <div class="card-body">
-                        <div class="table-responsive" style="height: 450px;">
+                        <div class="table-responsive">
                             <table class="display" id="t_barang">
                                 <thead>
                                             <tr>
                                             <th width="400" scope="col">Nama Barang</th>
-                                            <th width="80" scope="col">Qty</th>
-                                            <th width="180" scope="col">Satuan</th>
-                                            <th width="180" scope="col">Harga Satuan</th>
-                                            <th width="280" scope="col">Jumlah</th>
-                                            <th width="280" scope="col">Stock</th>
+                                            <th width="180" scope="col">Harga Pokok</th>
+                                            <th width="280" scope="col">Harga Jual</th>
+                                            <th width="280" scope="col">Action</th>
                                             </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach ($barang as $x) {?>
                                             <tr>
                                                 <td>
-                                                    adawwa
+                                                    <?= $x->nama ?>
                                                 </td>
-                                                <td>
-                                                    <!-- <b class="text-primary" style="cursor: pointer;"><i data-feather="plus-circle"></i></b> -->
-                                                    <input id="qty1" type="number" style="width: 40px;text-align:center;" value="1" class="form-control">
-                                                    <!-- &nbsp;<b style="cursor: pointer;" class="text-danger"><i data-feather="minus-circle"></i></b> -->
-                                                </td>
-
-                                                <td>
-                                                    <!-- <p class="satuan"></p> -->
-                                                    <select id="satuan" class="form-control select2x" style="cursor: text;">
-                                                        <option value="">Pilih satuan</option>
-                                                        <option value="Slop">Slop</option>
-                                                        <option value="Bungkus">Bungkus</option>
-                                                        <!-- <?php foreach($product as $x ) {?>
-                                                            <option value="<?= $x->id_product ?>"><?= $x->nama ?></option>
-                                                        <?php } ?> -->
-                                                    </select>
-                                                </td>
-                                                <td><p class="harga"></p></td>
-                                                
-                                                <td><p class="jumlah"></p></td>
-                                                <td>
-                                                    <div class="row">
-                                                            <div class="col">
-                                                                <b>Saat ini</b>
-                                                                <p class="stock bg-primary text-center rounded-pill"></p>
-                                                            </div>
-                                                            <div class="col">
-                                                                <b>Berkurang</b>
-                                                                <p class="stock-c bg-danger text-center rounded-pill"></p>
-                                                            </div>
-                                                    </div>
-                                                </td>
+                                                <td>Rp.<?= number_format($x->hargapokok,0,'.','.')?></td>
+                                                <td>Rp.<?= number_format($x->hargajual,0,'.','.')?></td>
+                                                <td><button type="button" id="<?= $x->id ?>" class="btn btn-primary btn-square barang_v">view</button></td>
                                             </tr>
+                                    <?php } ?>
                                 </tbody>
                                 </table>
                         </div>
@@ -90,3 +203,24 @@
         </div>
         <!-- footer start-->
 
+<script>
+                $(document).on('click', '.barang_v', function (e) {
+                    e.preventDefault();
+                    var pid = this.id;
+                    $.ajax({
+                        url : "<?= site_url('barang/get_barang');?>",
+                        method : "POST",
+                        data : {id: pid},
+                        async : true,
+                        dataType : 'json',
+                        success: function(data){
+                            $('.kd_barang').val(data.kode_barang)
+                            $('.nama_barang').val(data.nama)
+                            $('.stok').val(data.stok)
+                            // $('.submit').addClass('btn-danger')
+                            $('.submit').removeClass('btn-primary').addClass('btn-danger');
+                            $('.submit').val('Update');
+                        }
+                    })
+                });
+</script>

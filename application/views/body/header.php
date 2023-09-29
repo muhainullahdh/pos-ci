@@ -9,9 +9,10 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="<?= base_url() ?>assets/images/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="<?= base_url() ?>assets/images/favicon.png" type="image/x-icon">
-    <title>Cuba - Premium Admin Template</title>
+    <title>POS</title>
     <!-- Google font-->
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
+        <!-- Google font-->
+        <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/font-awesome.css">
     <!-- ico-font-->
@@ -27,6 +28,7 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/slick-theme.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/scrollbar.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/animate.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/datatables.css">
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/bootstrap.css">
@@ -35,8 +37,8 @@
     <link id="color" rel="stylesheet" href="<?= base_url() ?>assets/css/color-1.css" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/responsive.css">
+    <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/datatables.css">
   </head>
   <body onload="startTime()">
     <!-- loader starts-->

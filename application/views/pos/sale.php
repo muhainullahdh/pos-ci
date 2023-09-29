@@ -275,18 +275,18 @@
                                                 <input type="hidden" class="form-control id_barang1">
                                                         </td>
                                                 <td>
-                                                    <input id="qty1" type="number" style="text-align:center;" value="1" class="form-control">
+                                                    <input id="idq1" type="number" style="text-align:center;" value="1" class="form-control qty1">
                                                 </td>
                                                 <td>
-                                                    <select class="form-control satuan1" style="cursor: text;">
+                                                    <select id="ids1" class="form-control satuan1" style="cursor: text;">
                                                         <option value="">Pilih satuan</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control harga1">
+                                                    <input type="text" id="idh1" class="form-control harga1">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="diskon_item1" placeholder="0" style="text-align:center;" class="form-control">
+                                                    <input type="text" id="idd1" placeholder="0" style="text-align:center;" class="form-control diskon_item1">
                                                 </td>
                                                 <td>
                                                  <input type="text" class="form-control jumlah1">
@@ -294,10 +294,10 @@
                                                 <td>
                                                     <div class="row">
                                                             <div class="col-xl-6">
-                                                                <input type="text" class="form-control stock">
+                                                                <input type="text" class="form-control stock1">
                                                             </div>
                                                             <div class="col-xl-6">
-                                                                <input type="text" class="form-control stock-c">
+                                                                <input type="text" class="form-control stock-c1">
                                                             </div>
                                                     </div>
                                                 </td>
@@ -737,6 +737,7 @@
         //  var input = document.querySelector('input[name=product]');
 
         $(function() {
+                        var counter = 1;
                         var data = "<?= base_url('pos/get_barang') ?>";
                         $(".barang1").autocomplete({
                             source: data,
@@ -746,10 +747,12 @@
                                 var i,j;
                                         // $(document).keyup('change', '.id_barang1', function() {
                                             // var id=$(this).val();
-                                            i = this.id.slice(2);
-                                            j = this.value;
+                                            // i = this.id.slice(2);
+                                            // j = this.value;
+                                            var qty = $("input[id='idq1']")[0].value
                                             // console.log('aaa')
                                             // $("#result"+i).html('<p>Number: '+j+'</p>');
+
                                             $.ajax({
                                                 url : "<?= site_url('pos/search_barang');?>",
                                                 method : "POST",
@@ -764,7 +767,6 @@
                                                     // $(".qty").prop('disabled', false);
                                                     // $(".diskon_item").prop('disabled', false);
                                                     // var qty = $("input[id='idq"+i+"']")[0].value
-                                                    var qty = 2
                                                     var satuann = ''
                                                     for (let b = 0; b < data.length; b++) {
 							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
@@ -790,14 +792,13 @@
                                                             });
                                                     }else{
                                                         // var qty = $("input[id='idq"+i+"']")[0].value
-                                                        var qty = 3
                                                         $("#diskon_item").prop('disabled', false);
                                                         $('.satuan1').html(satuann);
                                                         $('.harga1').val(harga1);
                                                         // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
                                                         $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('p.stock'+i+'').html(data.stok);
-                                                        $('p.stock-c'+i+'').html(data.stok - qty);
+                                                        $('.stock1').val(stok);
+                                                        $('.stock-c1').val(stok - qty);
                                                     // console.log(data.nama)
                                                     }
 
@@ -808,125 +809,112 @@
                             }
                         });
 
-                        var qty = $(".qty")
-                        var diskon_item = $(".diskon_item")
-                        var satuan_x = $(".satuan_x")
+                        var qty = $(".qty1")
+                        var diskon_item = $(".diskon_item1")
+                        var satuan_x = $(".satuan1")
                         qty.keyup(function() {
                             var id=$(this).val();
                             i = this.id.slice(3);
                             j = this.value;
-                            var satuan = $("select[id='idd"+i+"']")[0].value
-                            var diskon_item = $("input[id='idi"+i+"']")[0].value
-                                // console.log(i)
-                            var stock_c = $('p.stock-c'+i+'').text()
-                            if (stock_c <= 1) {
-                                    swal({
-                                        title: "Opss..!",
-                                        text: "Stock sisa 10",
-                                        icon: "warning",
-                                        dangerMode: true,
-                                    }).then((r) => {
-                                        if (r) {
-                                          location.reload();
-                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                          // swal({
-                                          //   text : "oke"
-                                      // })
+                            var satuan = $("select[id='ids"+i+"']")[0].value
+                            var diskon_item = $("input[id='idd"+i+"']")[0].value
+                            var stock_c = $('.stock-c'+i+'').val()
+                            $.ajax({
+                                        url : "<?= site_url('pos/get_satuan');?>",
+                                        method : "POST",
+                                        data : {id: satuan},
+                                        async : true,
+                                        dataType : 'json',
+                                        success: function(dataa){
+                                            if (stock_c == 0) {
+                                                    swal({
+                                                        title: "Opss..!",
+                                                        text: "Stock sisa 10",
+                                                        icon: "warning",
+                                                        dangerMode: true,
+                                                    }).then((r) => {
+                                                        if (r) {
+                                                        location.reload();
+                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                        // swal({
+                                                        //   text : "oke"
+                                                    // })
+                                                        }
+                                                });
+
+                                                }else{
+                                                // if (satuan) {
+                                                    var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                                        $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * dataa.isi);
+                                                    // }else{
+                                                        // var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
+                                                        // $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        // $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
+                                                // }
+                                            }
                                         }
-                                });
+                            })
 
-                                }else{
-                                if (satuan == true) {
-                                     var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * 12 - diskon_item
-                                        $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j * 12);
-                                    }else{
-                                    var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
-                                     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                    $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
-                                    }
-                            }
-                            });
-                            // $(".idq"+counter+"").prop('disabled', true);
-                            // $(".satuan").prop('disabled', true);
-                            // $(".diskon_item").prop('disabled', true);
-                            // $("#bayar").prop('disabled', true);
-                            // $("#tahan").prop('disabled', true);
+                        });
 
-                            //diskon item
-                            diskon_item.keyup(function() {
+                        diskon_item.keyup(function() {
                                 i = this.id.slice(3);
                                 j = this.value;
                                 var qty = $("input[id='idq"+i+"']")[0].value
-                                var satuan_p = $("select[id='idd"+i+"']")[0].value
-                                if (satuan_p == true) {
-                                    var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * 12 - j
-                                    $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                    $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty * 12);
-                                }else{
-                                    var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - j
-                                    $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                    $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty[0].value);
-                                }
-                            })
-                            satuan_x.change(function(){
+                                var satuan_p = $("select[id='ids"+i+"']")[0].value
+                                // if (satuan_p == true) {
+                                    // console.log(satuan_p)
+                                $.ajax({
+                                    url : "<?= site_url('pos/get_satuan');?>",
+                                    method : "POST",
+                                    data : {id: satuan_p},
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(dataa){
+                                        var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - j.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                        $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
+                                    }
+                                })
+                                // }else{
+                                //     var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - j
+                                //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty[0].value);
+                                // }
+                        })
+                        satuan_x.change(function(){
                                     var id=$(this).val();
                                     i = this.id.slice(3);
                                     j = this.value;
                                     var qty = $("input[id='idq"+i+"']")[0].value
-                                    var diskon_item = $("input[id='idi"+i+"']")[0].value
-                                    if (j == true) {
-                                        var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * 12 - diskon_item
-                                        $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty * 12);
-                                    }else{
-                                        console.log('bawah')
-                                        var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - diskon_item
-                                        $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty);
-                                    }
+                                    var diskon_item = $("input[id='idd"+i+"']")[0].value
+                                    $.ajax({
+                                        url : "<?= site_url('pos/get_satuan');?>",
+                                        method : "POST",
+                                        data : {id: j},
+                                        async : true,
+                                        dataType : 'json',
+                                        success: function(dataa){
+                                            // if (j == true) {
+                                                var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                                console.log(jumlah)
+                                                $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
+                                            // }else{
+                                            //     console.log('bawah')
+                                            //     var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - diskon_item
+                                            //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                            //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty);
+                                            // }
+                                        }
+                                    })
 
-                                })
-                        // const autoCompleteJS = new autoComplete({
-                        //     selector: "#autoC",
-                        //     placeHolder: "Search barang...",
-                        //     data: {
-                        //         src: ["Terigu","Beras"],
-                        //         cache: true,
-                        //     },
-                        //     resultsList: {
-                        //         element: (list, data) => {
-                        //             if (!data.results.length) {
-                        //                 // Create "No Results" message element
-                        //                 const message = document.createElement("div");
-                        //                 // Add class to the created element
-                        //                 message.setAttribute("class", "no_result");
-                        //                 // Add message text content
-                        //                 message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
-                        //                 // Append message element to the results list
-                        //                 list.prepend(message);
-                        //             }
-                        //         },
-                        //         noResults: true,
-                        //     },
-                        //     resultItem: {
-                        //         highlight: true
-                        //     },
-                        //     events: {
-                        //         input: {
-                        //             selection: (event) => {
-                        //                 const selection = event.detail.selection.value;
-                        //                 autoCompleteJS.input.value = selection;
-                        //             }
-                        //         }
-                        //     }
-                        // });
+                        })
+
                 //shortcut
-                var counter = 1;
-                var rupiah = $('#diskon_item'+counter+'');
-                  rupiah.keyup(function(e){
-                    // tambahkan 'Rp.' pada saat form di ketik
-                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                var rupiah = document.getElementById('idd1');
+                    rupiah.addEventListener('keyup', function(e){
                     rupiah.value = formatRupiah(this.value, 'Rp.');
                   });
                   function formatRupiah(angka, prefix){
@@ -948,7 +936,7 @@
                 document.onkeyup = function(e) {
                     if (e.which == 67) {
                         location.reload();
-                    }else if (e.which == 13) {
+                    }else if (e.which == 61) {
                     //   var t = $('#API-1').DataTable();
                       // $('#addRow').on('click', function () {
                         var max_fields = 100;
@@ -969,10 +957,10 @@
                                 '<input type="hidden" class="form-control id_barang'+counter+'">'+
                                 '</td>'+
                                 '<td>'+
-                                '<input id="qty'+counter+'" type="number" style="text-align:center;" value="1" class="form-control">'+
+                                '<input id="idq'+counter+'" type="number" style="text-align:center;" value="1" class="form-control qty'+counter+'">'+
                                 '</td>'+
                                 '<td>'+
-                                '<select class="form-control satuan'+counter+'" style="cursor: text;">'+
+                                '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
                                     '<option value="">Pilih satuan</option>'+
                                 '</select>'+
                                 '</td>'+
@@ -980,7 +968,7 @@
                                 '<input type="text" class="form-control harga'+counter+'">'+
                                 '</td>'+
                                 '<td>'+
-                                '<input type="text" id="diskon_item'+counter+'" placeholder="0" style="text-align:center;" class="form-control">'+
+                                '<input type="text" id="idd'+counter+'" placeholder="0" style="text-align:center;" class="form-control diskon_item'+counter+'">'+
                                 '</td>'+
                                 '<td>'+
                                 '<input type="text" class="form-control jumlah'+counter+'">'+
@@ -999,8 +987,8 @@
                           );
                           $('.select2x').select2();
                         }
-                        console.log('con'+counter)
                         var data = "<?= base_url('pos/get_barang') ?>";
+                        console.log(counter)
                         $(".barang"+counter+"").autocomplete({
                             source: data,
                             select: function (event, ui) {
@@ -1009,9 +997,12 @@
                                 var i,j;
                                         // $(document).keyup('change', '.id_barang1', function() {
                                             // var id=$(this).val();
-                                            i = this.id.slice(2);
-                                            j = this.value;
+                                            // i = this.id.slice(2);
+                                            // j = this.value;
+                                            var qty = $("input[id='idq"+counter+"']")[0].value
+                                            // console.log('aaa')
                                             // $("#result"+i).html('<p>Number: '+j+'</p>');
+
                                             $.ajax({
                                                 url : "<?= site_url('pos/search_barang');?>",
                                                 method : "POST",
@@ -1026,12 +1017,11 @@
                                                     // $(".qty").prop('disabled', false);
                                                     // $(".diskon_item").prop('disabled', false);
                                                     // var qty = $("input[id='idq"+i+"']")[0].value
-                                                    var qty = 2
                                                     var satuann = ''
                                                     for (let b = 0; b < data.length; b++) {
 							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
                                                         var harga1 ="Rp."+formatRupiah(data[b].hargajual)
-                                                        var jumlah ="Rp."+data[b].hargajual
+                                                        var jumlah ="Rp."+data[b].hargajual * data[b].isi
                                                         var stok = data[b].stok
                                                         var min_stok = data[b].min_stok
                                                     }
@@ -1052,14 +1042,13 @@
                                                             });
                                                     }else{
                                                         // var qty = $("input[id='idq"+i+"']")[0].value
-                                                        var qty = 3
                                                         $("#diskon_item").prop('disabled', false);
                                                         $('.satuan'+counter+'').html(satuann);
                                                         $('.harga'+counter+'').val(harga1);
                                                         // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
                                                         $('.jumlah'+counter+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('p.stock'+i+'').html(data.stok);
-                                                        $('p.stock-c'+i+'').html(data.stok - qty);
+                                                        $('.stock'+counter+'').val(stok);
+                                                        $('.stock-c'+counter+'').val(stok - qty);
                                                     // console.log(data.nama)
                                                     }
 
@@ -1070,17 +1059,115 @@
                             }
                         });
 
+                        var qty = $(".qty"+counter+"")
+                        var diskon_item = $(".diskon_item"+counter+"")
+                        var satuan_x = $(".satuan"+counter+"")
+                        qty.keyup(function() {
+                            var id=$(this).val();
+                            i = this.id.slice(3);
+                            j = this.value;
+                            var satuan = $("select[id='ids"+counter+"']")[0].value
+                            var diskon_item = $("input[id='idd"+counter+"']")[0].value
+                            var stock_c = $('.stock-c'+counter+'').val()
+                            $.ajax({
+                                        url : "<?= site_url('pos/get_satuan');?>",
+                                        method : "POST",
+                                        data : {id: satuan},
+                                        async : true,
+                                        dataType : 'json',
+                                        success: function(dataa){
+                                            if (stock_c == 0) {
+                                                    swal({
+                                                        title: "Opss..!",
+                                                        text: "Stock sisa 10",
+                                                        icon: "warning",
+                                                        dangerMode: true,
+                                                    }).then((r) => {
+                                                        if (r) {
+                                                        location.reload();
+                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                        // swal({
+                                                        //   text : "oke"
+                                                    // })
+                                                        }
+                                                });
 
+                                                }else{
+                                                // if (satuan) {
+                                                    var jumlah = $('.harga'+counter+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                                        $('.jumlah'+counter+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.stock-c'+counter+'').val($('.stock'+counter+'').val() - j * dataa.isi);
+                                                    // }else{
+                                                        // var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
+                                                        // $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        // $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
+                                                // }
+                                            }
+                                        }
+                            })
 
-                        //   $('#barangg').autocomplete({
-                        //       source: <?= base_url() ?> + "pos/get_barang",
-                        //       select: function (event, ui) {
-                        //           $('[name="barangx"]').val(ui.item.label);
-                        //           $('[name="nip_manajer"]').val(ui.item.description);
-                        //       }
-                        //   });
-                        //   $("#barangg").autocomplete("option", "appendTo", "#billing_form");
-                      // });
+                        });
+                            // $(".idq"+counter+"").prop('disabled', true);
+                            // $(".satuan").prop('disabled', true);
+                            // $(".diskon_item").prop('disabled', true);
+                            // $("#bayar").prop('disabled', true);
+                            // $("#tahan").prop('disabled', true);
+
+                            //diskon item
+                        diskon_item.keyup(function() {
+                                i = this.id.slice(3);
+                                j = this.value;
+                                var qty = $("input[id='idq"+i+"']")[0].value
+                                var satuan_p = $("select[id='ids"+i+"']")[0].value
+                                // if (satuan_p == true) {
+                                    // console.log(satuan_p)
+                                $.ajax({
+                                    url : "<?= site_url('pos/get_satuan');?>",
+                                    method : "POST",
+                                    data : {id: satuan_p},
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(dataa){
+                                        var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - j.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                        $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
+                                    }
+                                })
+                                // }else{
+                                //     var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - j
+                                //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty[0].value);
+                                // }
+                        })
+                        satuan_x.change(function(){
+                                    var id=$(this).val();
+                                    i = this.id.slice(3);
+                                    j = this.value;
+                                    var qty = $("input[id='idq"+i+"']")[0].value
+                                    var diskon_item = $("input[id='idd"+i+"']")[0].value
+                                    $.ajax({
+                                        url : "<?= site_url('pos/get_satuan');?>",
+                                        method : "POST",
+                                        data : {id: j},
+                                        async : true,
+                                        dataType : 'json',
+                                        success: function(dataa){
+                                            // if (j == true) {
+                                                var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                                console.log(jumlah)
+                                                $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
+                                            // }else{
+                                            //     console.log('bawah')
+                                            //     var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - diskon_item
+                                            //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                            //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty);
+                                            // }
+                                        }
+                                    })
+
+                        })
+
 
                     }else if (e.which == 173) {
                         var t = $('#API-1').DataTable();

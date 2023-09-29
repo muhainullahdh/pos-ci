@@ -36,13 +36,17 @@
                                 <form action="<?= base_url('barang/satuan') ?>" method="post">
                                     <div class="row">
                                             <div class="modal-img"> <img src="../assets/images/gif/online-shopping.gif" alt="online-shopping"></div>
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-4">
                                                 <h6>Nama Satuan</h6>
                                                 <input required type="text" placeholder="Bungkus" name="satuan" class="form-control">
                                             </div>
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-4">
                                                 <h6>Nama Singkat</h6>
                                                 <input required type="text" placeholder="BKS" name="singkat" class="form-control">
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <h6>Isi satuan</h6>
+                                                <input required type="text" placeholder="1" name="singkat" class="form-control">
                                             </div>
                                     </div>
                                     <div class="row mt-3">
@@ -70,6 +74,7 @@
                                             <tr>
                                             <th width="400" scope="col">Nama</th>
                                             <th width="80" scope="col">Nama Singkat</th>
+                                            <th width="80" scope="col">Isi</th>
                                             <th width="80" scope="col">Action</th>
                                             </tr>
                                 </thead>
@@ -81,6 +86,9 @@
                                                 </td>
                                                 <td>
                                                     <?= $x->singkatan ?>
+                                                </td>
+                                                <td>
+                                                    <?= $x->isi ?>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-warning">edit</button>

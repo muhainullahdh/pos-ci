@@ -18,8 +18,13 @@ class Barang extends CI_Controller {
 	}
 	public function index()
 	{
+        $this->db->order_by('id','ASC');
+        $barang = $this->db->get('barang')->result();
+        $data = [
+            "barang" => $barang
+        ];
 		$this->load->view('body/header');
-		$this->load->view('barang/index');
+		$this->load->view('barang/index',$data);
 		$this->load->view('body/footer');
 	}
     function satuan()
@@ -43,5 +48,12 @@ class Barang extends CI_Controller {
             $this->load->view('barang/satuan',$data);
             $this->load->view('body/footer');
 
+    }
+    function get_barang()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id',$id);
+        $data=  $this->db->get('barang')->row_array();
+        echo json_encode($data);
     }
 }

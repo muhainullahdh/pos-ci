@@ -52,4 +52,10 @@ class Pos extends CI_Controller {
             echo json_encode($arr_result);
         }
     }
+    function get_satuan()
+    {
+        $id = $this->input->post('id');
+        $data = $this->db->get_where('satuan',['id_satuan' => $id])->row_array();
+        echo json_encode($data);
+    }
 }
