@@ -17,7 +17,8 @@ class Pos extends CI_Controller {
 		// $this->load->view('body/header');
         $data = [
             "product" => $this->db->get('barang')->result(),
-            "satuan" => $this->db->get('satuan')->result()
+            "satuan" => $this->db->get('satuan')->result(),
+            "customers" => $this->db->get('customers')->result()
         ];
 		$this->load->view('pos/sale',$data);
 		// $this->load->view('body/foot/er');

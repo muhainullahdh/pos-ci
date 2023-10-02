@@ -52,8 +52,10 @@ class Barang extends CI_Controller {
     function get_barang()
     {
         $id = $this->input->post('id');
-        $this->db->where('id',$id);
-        $data=  $this->db->get('barang')->row_array();
+        $this->db->where('a.id',$id);
+        $this->db->from('barang as a');
+        $this->db->join('kategori as b','a.kategori_id=b.id');
+        $data=  $this->db->get()->row_array();
         echo json_encode($data);
     }
 }

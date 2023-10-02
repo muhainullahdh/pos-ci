@@ -24,7 +24,7 @@
               <div class="col-sm-6">
                 <div class="card">
                   <div class="card-header">
-                    <h4>View Barang</h4>
+                    <h4 class="title-b"></h4>
                   </div>
                     <div class="card-body">
                         <div class="row">
@@ -48,7 +48,7 @@
                                 <span>Kategori Barang</span>
                             </div>
                             <div class="col-xl-4">
-                                <select name="" id="" class="form-control select2x">
+                                <select name="" id="" class="form-control select2x kategori">
                                     <option value="a">aa</option>
                                 </select>
                             </div>
@@ -130,7 +130,9 @@
                                 <span>Brand</span>
                             </div>
                             <div class="col-xl-4">
-                                <input type="text" name="kd_barang" class="form-control">
+                                <select name="" id="" class="form-control">
+                                    <option value="">Kapal Api</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -157,8 +159,11 @@
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-xl-3">
+                            <div class="col-xl-2">
                                 <input type="button" class="btn btn-primary btn-square submit" value="Simpan">
+                            </div>
+                            <div class="col-xl-2">
+                                <a href="<?= base_url('barang') ?>" class="btn btn-warning btn-square">Refresh</a>
                             </div>
                         </div>
                      </div>
@@ -175,8 +180,9 @@
                                 <thead>
                                             <tr>
                                             <th width="400" scope="col">Nama Barang</th>
-                                            <th width="180" scope="col">Harga Pokok</th>
                                             <th width="280" scope="col">Harga Jual</th>
+                                            <th width="280" scope="col">Harga Jual K</th>
+                                            <th width="280" scope="col">Harga Jual B</th>
                                             <th width="280" scope="col">Action</th>
                                             </tr>
                                 </thead>
@@ -186,8 +192,9 @@
                                                 <td>
                                                     <?= $x->nama ?>
                                                 </td>
-                                                <td>Rp.<?= number_format($x->hargapokok,0,'.','.')?></td>
                                                 <td>Rp.<?= number_format($x->hargajual,0,'.','.')?></td>
+                                                <td>Rp.<?= number_format($x->hargajualk,0,'.','.')?></td>
+                                                <td>Rp.<?= number_format($x->hargajualb,0,'.','.')?></td>
                                                 <td><button type="button" id="<?= $x->id ?>" class="btn btn-primary btn-square barang_v">view</button></td>
                                             </tr>
                                     <?php } ?>
@@ -204,6 +211,7 @@
         <!-- footer start-->
 
 <script>
+                $('.title-b').html('Tambah barang')
                 $(document).on('click', '.barang_v', function (e) {
                     e.preventDefault();
                     var pid = this.id;
@@ -217,9 +225,11 @@
                             $('.kd_barang').val(data.kode_barang)
                             $('.nama_barang').val(data.nama)
                             $('.stok').val(data.stok)
+                            $('.kategori').html('<option value='+data.kategori_id+'>'+data.nama_kategori+'</option>')
                             // $('.submit').addClass('btn-danger')
                             $('.submit').removeClass('btn-primary').addClass('btn-danger');
                             $('.submit').val('Update');
+                            $('.title-b').html('Update barang')
                         }
                     })
                 });

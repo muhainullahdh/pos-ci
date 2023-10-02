@@ -207,7 +207,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h2>Rp.12.420,000</h2>
+                                    <h2>Rp.0</h2>
                                     <!-- <span class="f-light">Purchase</span> -->
                                 </div>
                                 </div>
@@ -389,18 +389,24 @@
                                 <p>No Struk</p>
                             </div>
                             <div class="col-xl-8">
-                                <input type="text" class="form-control" value="B214C">
+                                <input type="text" readonly class="form-control" value="B214C">
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-xl-4">
-                                <p>Pelanggan [F3]</p>
+                                <p>Pelanggan</p>
                             </div>
                             <div class="col-xl-8">
-                                <input type="text" class="form-control" value="UMUM">
+                               <select name="" id="" class="form-control select2x">
+                                    <option value="umum">UMUM</option>
+                                    <?php foreach($customers as $x )  { ?>
+                                    <option value="<?= $x->id_customer ?>"><?= $x->nama ?></option>
+                                    <?php } ?>
+                               </select>
                             </div>
                         </div>
-                        <div class="row mt-3">
+
+                        <div class="row">
                             <div class="col-xl-4">
                                 <p>Member</p>
                             </div>
@@ -739,6 +745,75 @@
         $(function() {
                         var counter = 1;
                         var data = "<?= base_url('pos/get_barang') ?>";
+                        $(".pelanggan").autocomplete({
+                            source: data,
+                            select: function (event, ui) {
+                                $('.barang1').val(ui.item.label);
+                                $('.id_barang1').val(ui.item.description);
+                                var i,j;
+                                        // $(document).keyup('change', '.id_barang1', function() {
+                                            // var id=$(this).val();
+                                            // i = this.id.slice(2);
+                                            // j = this.value;
+                                            var qty = $("input[id='idq1']")[0].value
+                                            // console.log('aaa')
+                                            // $("#result"+i).html('<p>Number: '+j+'</p>');
+
+                                            $.ajax({
+                                                url : "<?= site_url('pos/search_barang');?>",
+                                                method : "POST",
+                                                data : {id: ui.item.description},
+                                                async : true,
+                                                dataType : 'json',
+                                                success: function(data){
+                                                    // document.getElementById('qty1').disabled = false;
+                                                    // document.getElementById('bayar').disabled = false;
+                                                    // document.getElementById('tahan').disabled = false;
+                                                    // $(".satuan").prop('disabled', false);
+                                                    // $(".qty").prop('disabled', false);
+                                                    // $(".diskon_item").prop('disabled', false);
+                                                    // var qty = $("input[id='idq"+i+"']")[0].value
+                                                    var satuann = ''
+                                                    for (let b = 0; b < data.length; b++) {
+							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
+                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajual)
+                                                        var jumlah ="Rp."+data[b].hargajual * data[b].isi
+                                                        var stok = data[b].stok
+                                                        var min_stok = data[b].min_stok
+                                                    }
+                                                    if (stok == min_stok) {
+                                                            swal({
+                                                            title: "Opss..!",
+                                                            text: "Barang "+ data.nama+" sisa "+data.stok,
+                                                            icon: "warning",
+                                                            dangerMode: true,
+                                                            }).then((r) => {
+                                                                if (r) {
+                                                                location.reload();
+                                                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                                // swal({
+                                                                //   text : "oke"
+                                                                // })
+                                                                }
+                                                            });
+                                                    }else{
+                                                        // var qty = $("input[id='idq"+i+"']")[0].value
+                                                        $("#diskon_item").prop('disabled', false);
+                                                        $('.satuan1').html(satuann);
+                                                        $('.harga1').val(harga1);
+                                                        // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
+                                                        $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.stock1').val(stok);
+                                                        $('.stock-c1').val(stok - qty);
+                                                    // console.log(data.nama)
+                                                    }
+
+                                                }
+                                            });
+                                            return false;
+                                        // });
+                            }
+                        });
                         $(".barang1").autocomplete({
                             source: data,
                             select: function (event, ui) {
