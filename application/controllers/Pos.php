@@ -30,6 +30,7 @@ class Pos extends CI_Controller {
         $this->db->where('a.id', $id);
         $this->db->from('barang as a');
         $this->db->join('satuan as b','a.id=b.barang_id','LEFT');
+        $this->db->order_by('a.id','ASC');
         $data = $this->db->get();
 
         echo json_encode($data->result());

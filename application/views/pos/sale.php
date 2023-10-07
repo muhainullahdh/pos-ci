@@ -180,7 +180,7 @@
           <div class="container-fluid">
             <div class="row mt-1">
               <div class="col-xxl-12 box-col-12">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-9 col-sm-6">
                             <div class="card course-box widget-course">
                                 <div class="card-body pt-0 count-student">
@@ -193,330 +193,332 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
-                        <div class="card widget-1">
-                            <div class="card-body">
-                                <div class="widget-content">
-                                <div class="widget-round secondary">
-                                    <div class="bg-round">
-                                    <svg class="svg-fill">
-                                        <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#cart"> </use>
-                                    </svg>
-                                    <svg class="half-circle svg-fill">
-                                        <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#halfcircle"></use>
-                                    </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h2>Rp.0</h2>
-                                    <!-- <span class="f-light">Purchase</span> -->
-                                </div>
-                                </div>
-                                <!-- <div class="font-secondary f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+50%</span></div> -->
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                <div class="row">
-                  <!-- <div class="col-xxl-4 col-md-5">
-                    <div class="card">
-                      <div class="card-body pt-0">
-                            <div class="row mt-4">
-                                <div class="col">
-                                    <h6>Pilih Customer</h6>
-                                    <select name="" id="" class="form-control mt-2">
-                                        <option value="">Umum</option>
-                                        <option value="">Asep</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <h6>Pilih Product</h6>
-                                    <input type="text" placeholder="Pilih Product" class="form-control mt-2">
-                                </div>
-                            </div>
-                      </div>
-                    </div>
-                  </div> -->
-                  <div class="col-xxl-9 col-md-7">
-                    <div class="card">
-                      <!-- <div class="card-header card-no-border">
-                        <div class="header-top">
-                          <h5>List Transaksi</h5>
-                          <div class="card-header-right-icon">
-                          </div>
-                        </div>
-                      </div> -->
-                      <div class="card-body pt-0">
-                            <div class="row mt-3">
-                                <div class="col">
-                                    <div class="table-responsive" style="height: 500px;">
-                                        <table>
-                                        <thead>
-                                            <tr>
-                                            <th></th>
-                                            <th width="400" scope="col">Nama Barang</th>
-                                            <th width="80" scope="col">Qty</th>
-                                            <th width="180" scope="col">Satuan</th>
-                                            <th width="180" scope="col">Harga Satuan</th>
-                                            <th width="180" scope="col">Diskon</th>
-                                            <th width="280" scope="col">Jumlah</th>
-                                            <th width="280" scope="col">Stock</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="sampel-wrapper">
-                                            <tr style="background-color: white;">
-                                              <td>
-                                                <div class="form-check checkbox checkbox-primary mb-0">
-                                                  <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
-                                                  <label class="form-check-label" for="checkbox-primary-1"></label>
-                                                </div>
-                                              </td>
-                                                <td class="order">
-                                                <input class="form-control barang1">
-                                                <input type="hidden" class="form-control id_barang1">
-                                                        </td>
-                                                <td>
-                                                    <input id="idq1" type="number" style="text-align:center;" value="1" class="form-control qty1">
-                                                </td>
-                                                <td>
-                                                    <select id="ids1" class="form-control satuan1" style="cursor: text;">
-                                                        <option value="">Pilih satuan</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="idh1" class="form-control harga1">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="idd1" placeholder="0" style="text-align:center;" class="form-control diskon_item1">
-                                                </td>
-                                                <td>
-                                                 <input type="text" class="form-control jumlah1">
-                                                </td>
-                                                <td>
-                                                    <div class="row">
-                                                            <div class="col-xl-6">
-                                                                <input type="text" class="form-control stock1">
-                                                            </div>
-                                                            <div class="col-xl-6">
-                                                                <input type="text" class="form-control stock-c1">
-                                                            </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                                <div class="card widget-hover overflow-hidden">
-                                    <div class="card-header card-no-border pb-2">
-                                        <!-- <h5>Menu</h5> -->
-                                    </div>
-                                    <div class="card-body pt-0 count-student">
-                                        <div class="row">
-                                            <div class="col-xl-2">
-                                                <div class="row">
-                                                    CETAK
-                                                    <!-- <div class="col"> -->
-                                                        <div class="form-check radio radio-primary">
-                                                            <input class="form-check-input" id="radio111" type="radio" name="radio3" value="option1" checked="">
-                                                            <label class="form-check-label" for="radio111">Struk</label>
-                                                        </div>
-                                                    <!-- </div> -->
-                                                    <!-- <div class="col"> -->
-                                                        <div class="form-check radio radio-primary">
-                                                            <input class="form-check-input" id="radio112" type="radio" name="radio3" value="option1">
-                                                            <label class="form-check-label" for="radio112">Kwitansi</label>
-                                                        </div>
-                                                    <!-- </div>  -->
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-2">
-                                                <div class="row">
-                                                    <!-- SHORTCUT <br> -->
-                                                    <!-- <div class="col"> -->
-                                                        [TAB] = Selanjutnya<br>
-                                                        [SHIFT + TAB] = Sebelumnya
-                                                    <!-- </div> -->
-                                                    <!-- <div class="col"> -->
-                                                        <!-- <div class="form-check radio radio-primary">
-                                                            <input class="form-check-input" id="radio112" type="radio" name="radio3" value="option1">
-                                                            <label class="form-check-label" for="radio112">Kwitansi</label>
-                                                        </div> -->
-                                                    <!-- </div>  -->
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-2">
-                                                [+] : Tambah Transaksi<br>
-                                                [CTRL + R] : Batal Transaksi
-                                            </div>
-                                            <!-- <div class="col-xl-2">
-                                                <button class="btn btn-square btn-primary col">Data Penjualan</button>
-                                            </div>
-                                            <div class="col-xl-2">
-                                                <button class="btn btn-square btn-warning col-xl-12" style="font-size:14px;">Pelunasan</button>
-                                            </div> -->
-                                            <div class="col">
-                                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
-                                             </div>
-                                            <div class="col">
-                                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
-                                             </div>
-                                            <div class="col">
-                                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">LOAD</button>
-                                             </div>
-                                            <!-- <div class="col-xl-2">
-                                                <button class="btn btn-square btn-primary col" style="font-size:14px;">Stok Barang</button>
-                                            </div> -->
+                            <div class="card widget-1">
+                                <div class="card-body">
+                                    <div class="widget-content">
+                                    <div class="widget-round secondary">
+                                        <div class="bg-round">
+                                        <svg class="svg-fill">
+                                            <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#cart"> </use>
+                                        </svg>
+                                        <svg class="half-circle svg-fill">
+                                            <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#halfcircle"></use>
+                                        </svg>
                                         </div>
                                     </div>
+                                    <div>
+                                        <h2 class="total_pos">Rp.0</h2>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                <div class="row">
+                    <div class="col-xxl-9 col-md-7">
+                        <div class="card">
+                        <!-- <div class="card-header card-no-border">
+                            <div class="header-top">
+                            <h5>List Transaksi</h5>
+                            <div class="card-header-right-icon">
+                            </div>
+                            </div>
+                        </div> -->
+                            <div class="card-body pt-0">
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <div class="table-responsive" style="min-height:650px; max-height: 650px;">
+                                            <table>
+                                            <thead>
+                                                <tr>
+                                                <th></th>
+                                                <th width="400" scope="col">Nama Barang</th>
+                                                <th width="80" scope="col">Qty</th>
+                                                <th width="180" scope="col">Satuan</th>
+                                                <th width="180" scope="col">Harga Satuan</th>
+                                                <th width="180" scope="col">Diskon</th>
+                                                <th width="280" scope="col">Jumlah</th>
+                                                <th width="280" scope="col">Stock</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="sampel-wrapper">
+                                                <tr style="background-color: white;">
+                                                <td>
+                                                    <div class="form-check checkbox checkbox-primary mb-0">
+                                                    <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
+                                                    <label class="form-check-label" for="checkbox-primary-1"></label>
+                                                    </div>
+                                                </td>
+                                                    <td class="order">
+                                                    <input class="form-control barang1">
+                                                    <input type="hidden" class="form-control id_barang1">
+                                                            </td>
+                                                    <td>
+                                                        <input id="idq1" type="number" style="text-align:center;" value="1" class="form-control qty1">
+                                                    </td>
+                                                    <td>
+                                                        <select id="ids1" class="form-control satuan1" style="cursor: text;">
+                                                            <option value="">Pilih satuan</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input readonly type="text" id="idh1" class="form-control harga1">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="idd1" placeholder="0" style="text-align:center;" class="form-control diskon_item1">
+                                                    </td>
+                                                    <td>
+                                                    <input readonly type="text" class="form-control jumlah1">
+                                                    </td>
+                                                    <td>
+                                                        <div class="row">
+                                                                <div class="col-xl-6">
+                                                                    <input type="text" class="form-control stock1">
+                                                                </div>
+                                                                <div class="col-xl-6">
+                                                                    <input type="text" class="form-control stock-c1">
+                                                                </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                    <div class="card widget-hover overflow-hidden">
+                                        <div class="card-header card-no-border pb-2">
+                                            <!-- <h5>Menu</h5> -->
+                                        </div>
+                                        <div class="card-body pt-0 count-student">
+                                            <div class="row">
+                                                <div class="col-xl-2">
+                                                    <div class="row">
+                                                        CETAK
+                                                        <!-- <div class="col"> -->
+                                                            <div class="form-check radio radio-primary">
+                                                                <input class="form-check-input" id="radio111" type="radio" name="radio3" value="option1" checked="">
+                                                                <label class="form-check-label" for="radio111">Struk</label>
+                                                            </div>
+                                                        <!-- </div> -->
+                                                        <!-- <div class="col"> -->
+                                                            <div class="form-check radio radio-primary">
+                                                                <input class="form-check-input" id="radio112" type="radio" name="radio3" value="option1">
+                                                                <label class="form-check-label" for="radio112">Kwitansi</label>
+                                                            </div>
+                                                        <!-- </div>  -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-2">
+                                                    <div class="row">
+                                                        <!-- SHORTCUT <br> -->
+                                                        <!-- <div class="col"> -->
+                                                            [TAB] = Selanjutnya<br>
+                                                            [SHIFT + TAB] = Sebelumnya
+                                                        <!-- </div> -->
+                                                        <!-- <div class="col"> -->
+                                                            <!-- <div class="form-check radio radio-primary">
+                                                                <input class="form-check-input" id="radio112" type="radio" name="radio3" value="option1">
+                                                                <label class="form-check-label" for="radio112">Kwitansi</label>
+                                                            </div> -->
+                                                        <!-- </div>  -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-2">
+                                                    [+] : Tambah Transaksi<br>
+                                                    [CTRL + R] : Batal Transaksi
+                                                </div>
+                                                <!-- <div class="col-xl-2">
+                                                    <button class="btn btn-square btn-primary col">Data Penjualan</button>
+                                                </div>
+                                                <div class="col-xl-2">
+                                                    <button class="btn btn-square btn-warning col-xl-12" style="font-size:14px;">Pelunasan</button>
+                                                </div> -->
+                                                <div class="col">
+                                                    <button id="bayar333" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button id="bayar333" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button id="bayar33" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">LOAD</button>
+                                                </div>
+                                                <!-- <div class="col-xl-2">
+                                                    <button class="btn btn-square btn-primary col" style="font-size:14px;">Stok Barang</button>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                  </div>
-                    <div class="col-md-3 col-sm-6" >
-                        <div class="card widget-hover overflow-hidden" style="height: 95%;">
-                      <div class="card-header card-no-border pb-2">
-                        <h5>Informasi</h5>
-                      </div>
-                      <br><br><hr>
-                      <div class="card-body pt-0 count-student">
-                        <div class="row">
-                            <div class="col-xl-4">
-                                <p>No Struk</p>
-                            </div>
-                            <div class="col-xl-8">
-                                <input type="text" readonly class="form-control" value="B214C">
-                            </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card widget-1">
+                                        <div class="card-body">
+                                            <div class="widget-content">
+                                            <div class="widget-round secondary">
+                                                <div class="bg-round">
+                                                <svg class="svg-fill">
+                                                    <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#cart"> </use>
+                                                </svg>
+                                                <svg class="half-circle svg-fill">
+                                                    <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#halfcircle"></use>
+                                                </svg>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h2 class="total_pos">Rp.0</h2>
+                                            </div>
+                                            </div>
+                                        </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-xl-4">
-                                <p>Pelanggan</p>
-                            </div>
-                            <div class="col-xl-8">
-                               <select name="" id="" class="form-control select2x">
-                                    <option value="umum">UMUM</option>
-                                    <?php foreach($customers as $x )  { ?>
-                                    <option value="<?= $x->id_customer ?>"><?= $x->nama ?></option>
-                                    <?php } ?>
-                               </select>
-                            </div>
-                        </div>
+                        <div class="col-md-12 col-sm-6" >
+                            <div class="card">
+                                    <div class="card-header card-no-border pb-2">
+                                        <h5>Informasi</h5>
+                                    </div>
+                                <br><br><hr>
+                                <div class="card-body pt-0 count-student">
+                                    <div class="row">
+                                        <div class="col-xl-4">
+                                            <p>No Struk</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <input type="text" readonly class="form-control" value="<?= date('d')."/".date('m')."/" . date('Y') . "0001" ?>">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-4">
+                                            <p>Pelanggan</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                        <select name="" id="" class="form-control select2x">
+                                                <option value="umum">UMUM</option>
+                                                <?php foreach($customers as $x )  { ?>
+                                                <option value="<?= $x->id_customer ?>"><?= $x->nama ?></option>
+                                                <?php } ?>
+                                        </select>
+                                        </div>
+                                    </div>
 
-                        <div class="row">
-                            <div class="col-xl-4">
-                                <p>Member</p>
-                            </div>
-                            <div class="col-xl-8">
-                                <input type="text" class="form-control" value="">
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-xl-4">
-                                <p>Diskon</p>
-                            </div>
-                            <div class="col-xl-8">
-                                <input type="text" class="form-control" value="0">
-                            </div>
-                        </div>
+                                    <div class="row">
+                                        <div class="col-xl-4">
+                                            <p>Member</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control" value="">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-4">
+                                            <p>Diskon</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control" value="0">
+                                        </div>
+                                    </div>
 
-                        <div class="row mt-3">
-                            <div class="col-xl-4">
-                                <p>Total Netto</p>
-                            </div>
-                            <div class="col-xl-8">
-                                <input type="text" class="form-control" value="0">
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-xl-4">
-                                <p>Total Bayar</p>
-                            </div>
-                            <div class="col-xl-8">
-                                <input type="text" class="form-control" value="0">
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-xl-4">
-                                <p>Jumlah Item</p>
-                            </div>
-                            <div class="col-xl-8">
-                                <input type="text" class="form-control" value="0">
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-xl-4">
-                                <p>Keterangan</p>
-                            </div>
-                            <div class="col-xl-8">
-                                <input type="text" class="form-control" value="makanan">
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-xl-4">
-                                <p>Status PPN</p>
-                            </div>
-                            <div class="col-xl">
-                                <!-- <div class="form-check radio radio-primary">
-                                    <input class="form-check-input" id="radio111" type="radio" name="radio3" value="option1" checked="">
-                                    <label class="form-check-label" for="radio111">NonPPN</label>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-4">
+                                            <p>Total Netto</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-4">
+                                            <p>Total Bayar</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-4">
+                                            <p>Jumlah Item</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control total_item" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-4">
+                                            <p>Keterangan</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-4">
+                                            <p>Status PPN</p>
+                                        </div>
+                                        <div class="col-xl">
+                                            <!-- <div class="form-check radio radio-primary">
+                                                <input class="form-check-input" id="radio111" type="radio" name="radio3" value="option1" checked="">
+                                                <label class="form-check-label" for="radio111">NonPPN</label>
+                                            </div>
+                                            <div class="form-check radio radio-primary">
+                                                <input class="form-check-input" id="radio112" type="radio" name="radio3" value="option1">
+                                                <label class="form-check-label" for="radio112">Include PPN</label>
+                                            </div>
+                                            <div class="form-check radio radio-primary">
+                                                <input class="form-check-input" id="radio113" type="radio" name="radio3" value="option1">
+                                                <label class="form-check-label" for="radio113">Exclude PPN</label>
+                                            </div> -->
+                                            Non PPN
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <button id="bayar" class="btn btn-square btn-primary col-xl-12" style="font-size:20px;">BAYAR</button>
+                                        </div>
+                                        <div class="col">
+                                            <button id="tahan" class="btn btn-square btn-danger col-xl-12" style="font-size:20px;">TAHAN</button>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <button id="bayar3332312" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek POIN</button>
+                                        </div>
+                                        <div class="col">
+                                            <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">POIN CUST</button>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row mt-3">
+                                        <div class="col">
+                                            <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Barang</button>
+                                        </div>
+                                        <div class="col">
+                                            <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Penjualan</button>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Stock</button>
+                                        </div>
+                                        <div class="col">
+                                            <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek Poin</button>
+                                        </div>
+                                    </div> -->
+
+                                    <!-- <div class="row mt-2">
+                                    <button class="btn btn-square btn-warning" style="font-size:14px;">Stok Barang</button>
+                                    </div>
+                                    <div class="row mt-2">
+                                    <button class="btn btn-square btn-primary" style="font-size:14px;">Data Penjualan</button>
+                                    </div> -->
                                 </div>
-                                <div class="form-check radio radio-primary">
-                                    <input class="form-check-input" id="radio112" type="radio" name="radio3" value="option1">
-                                    <label class="form-check-label" for="radio112">Include PPN</label>
-                                </div>
-                                <div class="form-check radio radio-primary">
-                                    <input class="form-check-input" id="radio113" type="radio" name="radio3" value="option1">
-                                    <label class="form-check-label" for="radio113">Exclude PPN</label>
-                                </div> -->
-                                Non PPN
-                            </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <button id="bayar" class="btn btn-square btn-primary col-xl-12" style="font-size:20px;">BAYAR</button>
-                            </div>
-                            <div class="col">
-                                 <button id="tahan" class="btn btn-square btn-danger col-xl-12" style="font-size:20px;">TAHAN</button>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek POIN</button>
-                            </div>
-                            <div class="col">
-                                 <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">POIN CUST</button>
-                            </div>
-                        </div>
-                        <!-- <div class="row mt-3">
-                            <div class="col">
-                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Barang</button>
-                            </div>
-                            <div class="col">
-                                 <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Penjualan</button>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Stock</button>
-                            </div>
-                            <div class="col">
-                                 <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek Poin</button>
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="row mt-2">
-                          <button class="btn btn-square btn-warning" style="font-size:14px;">Stok Barang</button>
-                        </div>
-                        <div class="row mt-2">
-                          <button class="btn btn-square btn-primary" style="font-size:14px;">Data Penjualan</button>
-                        </div> -->
-                      </div>
                     </div>
+
                   </div>
                   </div>
                 <!--<div class="col-md-4 col-sm-6">
@@ -743,77 +745,21 @@
         //  var input = document.querySelector('input[name=product]');
 
         $(function() {
+                        var bayar = $("#bayar")
+                        bayar.on('click',function() {
+                                    $.ajax({
+                                        url : "<?= site_url('pos/submit');?>",
+                                        method : "POST",
+                                        data : {data: data},
+                                        async : true,
+                                        dataType : 'json',
+                                        success: function(data){
+                                            console.log(data)
+                                        }
+                                    })
+                        })
                         var counter = 1;
                         var data = "<?= base_url('pos/get_barang') ?>";
-                        // $(".pelanggan").autocomplete({
-                        //     source: data,
-                        //     select: function (event, ui) {
-                        //         $('.barang1').val(ui.item.label);
-                        //         $('.id_barang1').val(ui.item.description);
-                        //         var i,j;
-                        //                 // $(document).keyup('change', '.id_barang1', function() {
-                        //                     // var id=$(this).val();
-                        //                     // i = this.id.slice(2);
-                        //                     // j = this.value;
-                        //                     var qty = $("input[id='idq1']")[0].value
-                        //                     // console.log('aaa')
-                        //                     // $("#result"+i).html('<p>Number: '+j+'</p>');
-
-                        //                     $.ajax({
-                        //                         url : "<?= site_url('pos/search_barang');?>",
-                        //                         method : "POST",
-                        //                         data : {id: ui.item.description},
-                        //                         async : true,
-                        //                         dataType : 'json',
-                        //                         success: function(data){
-                        //                             // document.getElementById('qty1').disabled = false;
-                        //                             // document.getElementById('bayar').disabled = false;
-                        //                             // document.getElementById('tahan').disabled = false;
-                        //                             // $(".satuan").prop('disabled', false);
-                        //                             // $(".qty").prop('disabled', false);
-                        //                             // $(".diskon_item").prop('disabled', false);
-                        //                             // var qty = $("input[id='idq"+i+"']")[0].value
-                        //                             var satuann = ''
-                        //                             for (let b = 0; b < data.length; b++) {
-							          //                   satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
-                        //                                 var harga1 ="Rp."+formatRupiah(data[b].hargajual)
-                        //                                 var jumlah ="Rp."+data[b].hargajual * data[b].isi
-                        //                                 var stok = data[b].stok
-                        //                                 var min_stok = data[b].min_stok
-                        //                             }
-                        //                             if (stok == min_stok) {
-                        //                                     swal({
-                        //                                     title: "Opss..!",
-                        //                                     text: "Barang "+ data.nama+" sisa "+data.stok,
-                        //                                     icon: "warning",
-                        //                                     dangerMode: true,
-                        //                                     }).then((r) => {
-                        //                                         if (r) {
-                        //                                         location.reload();
-                        //                                         //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                        //                                         // swal({
-                        //                                         //   text : "oke"
-                        //                                         // })
-                        //                                         }
-                        //                                     });
-                        //                             }else{
-                        //                                 // var qty = $("input[id='idq"+i+"']")[0].value
-                        //                                 $("#diskon_item").prop('disabled', false);
-                        //                                 $('.satuan1').html(satuann);
-                        //                                 $('.harga1').val(harga1);
-                        //                                 // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
-                        //                                 $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                        //                                 $('.stock1').val(stok);
-                        //                                 $('.stock-c1').val(stok - qty);
-                        //                             // console.log(data.nama)
-                        //                             }
-
-                        //                         }
-                        //                     });
-                        //                     return false;
-                        //                 // });
-                        //     }
-                        // });
                         $(".barang1").autocomplete({
                             source: data,
                             select: function (event, ui) {
@@ -824,10 +770,10 @@
                                             // var id=$(this).val();
                                             // i = this.id.slice(2);
                                             // j = this.value;
+                                            $('.total_item').val(1)
                                             var qty = $("input[id='idq1']")[0].value
                                             // console.log('aaa')
                                             // $("#result"+i).html('<p>Number: '+j+'</p>');
-
                                             $.ajax({
                                                 url : "<?= site_url('pos/search_barang');?>",
                                                 method : "POST",
@@ -846,7 +792,7 @@
                                                     for (let b = 0; b < data.length; b++) {
 							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
                                                         var harga1 ="Rp."+formatRupiah(data[b].hargajual)
-                                                        var jumlah ="Rp."+data[b].hargajual * data[b].isi
+                                                        var jumlah ="Rp."+data[b].hargajual * qty * data[0].isi
                                                         var stok = data[b].stok
                                                         var min_stok = data[b].min_stok
                                                     }
@@ -872,7 +818,7 @@
                                                         $('.harga1').val(harga1);
                                                         // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
                                                         $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.total_pos').html(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock1').val(stok);
                                                         $('.stock-c1').val(stok - qty);
                                                     // console.log(data.nama)
@@ -923,6 +869,7 @@
                                                     var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
                                                         $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * dataa.isi);
+                                                        $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                     // }else{
                                                         // var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
                                                         // $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
@@ -1012,237 +959,260 @@
                 document.onkeyup = function(e) {
                     if (e.which == 67) {
                         location.reload();
-                    }else if (e.which == 61) {
+                    }else if (e.which == 13) {
                     //   var t = $('#API-1').DataTable();
                       // $('#addRow').on('click', function () {
                         var max_fields = 100;
                         var wrapper = $("#sampel-wrapper");
                         // var add_kom = $("#add-sampel");
-                        if (counter < max_fields) {
-                            counter++;
-                            $(wrapper).append(
-                                '<tr>'+
-                                '<td>'+
-                                '<div class="form-check checkbox checkbox-primary mb-0">'+
-                                                    '<input class="form-check-input delete_check" value="'+counter+'" id="checkbox-primary-'+counter+'" type="checkbox">'+
-                                                    '<label class="form-check-label" for="checkbox-primary-'+counter+'"></label>'+
-                                                    '</div>'+
-                                                    '</td>'+
-                                '<td>'+
-                                '<input class="form-control barang'+counter+'">'+
-                                '<input type="hidden" class="form-control id_barang'+counter+'">'+
-                                '</td>'+
-                                '<td>'+
-                                '<input id="idq'+counter+'" type="number" style="text-align:center;" value="1" class="form-control qty'+counter+'">'+
-                                '</td>'+
-                                '<td>'+
-                                '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
-                                    '<option value="">Pilih satuan</option>'+
-                                '</select>'+
-                                '</td>'+
-                                '<td>'+
-                                '<input type="text" class="form-control harga'+counter+'">'+
-                                '</td>'+
-                                '<td>'+
-                                '<input type="text" id="idd'+counter+'" placeholder="0" style="text-align:center;" class="form-control diskon_item'+counter+'">'+
-                                '</td>'+
-                                '<td>'+
-                                '<input type="text" class="form-control jumlah'+counter+'">'+
-                                '</td>'+
-                                '<td>'+
-                                '<div class="row">'+
-                                        '<div class="col-xl-6">'+
-                                            '<input type="text" class="form-control stock">'+
-                                        '</div>'+
-                                        '<div class="col-xl-6">'+
-                                            '<input type="text" class="form-control stock-c">'+
-                                        ' </div>'+
-                                '</div>'+
-                                '</td>'+
-                                '</tr>'
-                          );
-                          $('.select2x').select2();
-                        }
-                        var data = "<?= base_url('pos/get_barang') ?>";
-                        console.log(counter)
-                        $(".barang"+counter+"").autocomplete({
-                            source: data,
-                            select: function (event, ui) {
-                                $('.barang'+counter+'').val(ui.item.label);
-                                $('.id_barang'+counter+'').val(ui.item.description);
-                                var i,j;
-                                        // $(document).keyup('change', '.id_barang1', function() {
-                                            // var id=$(this).val();
-                                            // i = this.id.slice(2);
-                                            // j = this.value;
-                                            var qty = $("input[id='idq"+counter+"']")[0].value
-                                            // console.log('aaa')
-                                            // $("#result"+i).html('<p>Number: '+j+'</p>');
-
-                                            $.ajax({
-                                                url : "<?= site_url('pos/search_barang');?>",
-                                                method : "POST",
-                                                data : {id: ui.item.description},
-                                                async : true,
-                                                dataType : 'json',
-                                                success: function(data){
-                                                    // document.getElementById('qty1').disabled = false;
-                                                    // document.getElementById('bayar').disabled = false;
-                                                    // document.getElementById('tahan').disabled = false;
-                                                    // $(".satuan").prop('disabled', false);
-                                                    // $(".qty").prop('disabled', false);
-                                                    // $(".diskon_item").prop('disabled', false);
-                                                    // var qty = $("input[id='idq"+i+"']")[0].value
-                                                    var satuann = ''
-                                                    for (let b = 0; b < data.length; b++) {
-							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
-                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajual)
-                                                        var jumlah ="Rp."+data[b].hargajual * data[b].isi
-                                                        var stok = data[b].stok
-                                                        var min_stok = data[b].min_stok
-                                                    }
-                                                    if (stok == min_stok) {
-                                                            swal({
-                                                            title: "Opss..!",
-                                                            text: "Barang "+ data.nama+" sisa "+data.stok,
-                                                            icon: "warning",
-                                                            dangerMode: true,
-                                                            }).then((r) => {
-                                                                if (r) {
-                                                                location.reload();
-                                                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                                                // swal({
-                                                                //   text : "oke"
-                                                                // })
-                                                                }
-                                                            });
-                                                    }else{
-                                                        // var qty = $("input[id='idq"+i+"']")[0].value
-                                                        $("#diskon_item").prop('disabled', false);
-                                                        $('.satuan'+counter+'').html(satuann);
-                                                        $('.harga'+counter+'').val(harga1);
-                                                        // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
-                                                        $('.jumlah'+counter+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.stock'+counter+'').val(stok);
-                                                        $('.stock-c'+counter+'').val(stok - qty);
-                                                    // console.log(data.nama)
-                                                    }
-
-                                                }
-                                            });
-                                            return false;
-                                        // });
+                        if ($(".barang"+counter+"").val() == "") {
+                            swal({
+                                title: "Opss..!",
+                                text: "Barang sebelumnya harus di isi",
+                                icon: "warning",
+                                dangerMode: true,
+                                })
+                        }else{
+                            if (counter < max_fields) {
+                                counter++;
+                                $(wrapper).append(
+                                    '<tr>'+
+                                    '<td>'+
+                                    '<div class="form-check checkbox checkbox-primary mb-0">'+
+                                                        '<input class="form-check-input delete_check" value="'+counter+'" id="checkbox-primary-'+counter+'" type="checkbox">'+
+                                                        '<label class="form-check-label" for="checkbox-primary-'+counter+'"></label>'+
+                                                        '</div>'+
+                                                        '</td>'+
+                                    '<td>'+
+                                    '<input class="form-control barang'+counter+'">'+
+                                    '<input type="hidden" class="form-control id_barang'+counter+'">'+
+                                    '</td>'+
+                                    '<td>'+
+                                    '<input id="idq'+counter+'" type="number" style="text-align:center;" value="1" class="form-control qty'+counter+'">'+
+                                    '</td>'+
+                                    '<td>'+
+                                    '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
+                                        '<option value="">Pilih satuan</option>'+
+                                    '</select>'+
+                                    '</td>'+
+                                    '<td>'+
+                                    '<input readonly type="text" class="form-control harga'+counter+'">'+
+                                    '</td>'+
+                                    '<td>'+
+                                    '<input type="text" id="idd'+counter+'" placeholder="0" style="text-align:center;" class="form-control diskon_item'+counter+'">'+
+                                    '</td>'+
+                                    '<td>'+
+                                    '<input readonly type="text" class="form-control jumlah'+counter+'">'+
+                                    '</td>'+
+                                    '<td>'+
+                                    '<div class="row">'+
+                                            '<div class="col-xl-6">'+
+                                                '<input type="text" class="form-control stock">'+
+                                            '</div>'+
+                                            '<div class="col-xl-6">'+
+                                                '<input type="text" class="form-control stock-c">'+
+                                            ' </div>'+
+                                    '</div>'+
+                                    '</td>'+
+                                    '</tr>'
+                            );
+                            $('.select2x').select2();
                             }
-                        });
+                            $('.total_item').val(counter+ $(".barang"+counter+"").val() != "" ? counter - 1 : 1)
+                            var data = "<?= base_url('pos/get_barang') ?>";
+                            $(".barang"+counter+"").autocomplete({
+                                source: data,
+                                select: function (event, ui) {
+                                    $('.barang'+counter+'').val(ui.item.label);
+                                    $('.id_barang'+counter+'').val(ui.item.description);
+                                    var i,j;
+                                            // $(document).keyup('change', '.id_barang1', function() {
+                                                // var id=$(this).val();
+                                                // i = this.id.slice(2);
+                                                // j = this.value;
+                                                var qty = $("input[id='idq"+counter+"']")[0].value
+                                                // console.log('aaa')
+                                                // $("#result"+i).html('<p>Number: '+j+'</p>');
 
-                        var qty = $(".qty"+counter+"")
-                        var diskon_item = $(".diskon_item"+counter+"")
-                        var satuan_x = $(".satuan"+counter+"")
-                        qty.keyup(function() {
-                            var id=$(this).val();
-                            i = this.id.slice(3);
-                            j = this.value;
-                            var satuan = $("select[id='ids"+counter+"']")[0].value
-                            var diskon_item = $("input[id='idd"+counter+"']")[0].value
-                            var stock_c = $('.stock-c'+counter+'').val()
-                            $.ajax({
-                                        url : "<?= site_url('pos/get_satuan');?>",
-                                        method : "POST",
-                                        data : {id: satuan},
-                                        async : true,
-                                        dataType : 'json',
-                                        success: function(dataa){
-                                            if (stock_c == 0) {
-                                                    swal({
-                                                        title: "Opss..!",
-                                                        text: "Stock sisa 10",
-                                                        icon: "warning",
-                                                        dangerMode: true,
-                                                    }).then((r) => {
-                                                        if (r) {
-                                                        location.reload();
-                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                                        // swal({
-                                                        //   text : "oke"
-                                                    // })
+                                                $.ajax({
+                                                    url : "<?= site_url('pos/search_barang');?>",
+                                                    method : "POST",
+                                                    data : {id: ui.item.description},
+                                                    async : true,
+                                                    dataType : 'json',
+                                                    success: function(data){
+                                                        // document.getElementById('qty1').disabled = false;
+                                                        // document.getElementById('bayar').disabled = false;
+                                                        // document.getElementById('tahan').disabled = false;
+                                                        // $(".satuan").prop('disabled', false);
+                                                        // $(".qty").prop('disabled', false);
+                                                        // $(".diskon_item").prop('disabled', false);
+                                                        // var qty = $("input[id='idq"+i+"']")[0].value
+                                                        var satuann = ''
+                                                        for (let b = 0; b < data.length; b++) {
+                                                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
+                                                            var harga1 ="Rp."+formatRupiah(data[b].hargajual)
+                                                            var jumlah ="Rp."+data[b].hargajual * data[0].isi
+                                                            var stok = data[b].stok
+                                                            var min_stok = data[b].min_stok
                                                         }
+                                                        if (stok == min_stok) {
+                                                                swal({
+                                                                title: "Opss..!",
+                                                                text: "Barang "+ data.nama+" sisa "+data.stok,
+                                                                icon: "warning",
+                                                                dangerMode: true,
+                                                                }).then((r) => {
+                                                                    if (r) {
+                                                                    location.reload();
+                                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                                    // swal({
+                                                                    //   text : "oke"
+                                                                    // })
+                                                                    }
+                                                                });
+                                                        }else{
+                                                            // var qty = $("input[id='idq"+i+"']")[0].value
+                                                            $("#diskon_item").prop('disabled', false);
+                                                            $('.satuan'+counter+'').html(satuann);
+                                                            $('.harga'+counter+'').val(harga1);
+                                                            // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
+                                                            $('.jumlah'+counter+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                            $('.stock'+counter+'').val(stok);
+                                                            $('.stock-c'+counter+'').val(stok - qty);
+                                                            var total_fix = 0
+                                                            for (let i = 1; i <= counter; i++) {
+                                                                total_fix += parseInt($('.jumlah'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                            }
+                                                            $('.total_pos').html("Rp."+total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        }
+
+                                                    }
                                                 });
+                                                return false;
+                                            // });
+                                }
+                            });
 
-                                                }else{
-                                                // if (satuan) {
-                                                    var jumlah = $('.harga'+counter+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                                                        $('.jumlah'+counter+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.stock-c'+counter+'').val($('.stock'+counter+'').val() - j * dataa.isi);
-                                                    // }else{
-                                                        // var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
-                                                        // $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        // $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
-                                                // }
-                                            }
-                                        }
-                            })
-
-                        });
-                            // $(".idq"+counter+"").prop('disabled', true);
-                            // $(".satuan").prop('disabled', true);
-                            // $(".diskon_item").prop('disabled', true);
-                            // $("#bayar").prop('disabled', true);
-                            // $("#tahan").prop('disabled', true);
-
-                            //diskon item
-                        diskon_item.keyup(function() {
+                            var qty = $(".qty"+counter+"")
+                            var diskon_item = $(".diskon_item"+counter+"")
+                            var satuan_x = $(".satuan"+counter+"")
+                            qty.keyup(function() {
+                                var id=$(this).val();
                                 i = this.id.slice(3);
                                 j = this.value;
-                                var qty = $("input[id='idq"+i+"']")[0].value
-                                var satuan_p = $("select[id='ids"+i+"']")[0].value
-                                // if (satuan_p == true) {
-                                    // console.log(satuan_p)
+                                var satuan = $("select[id='ids"+counter+"']")[0].value
+                                var diskon_item = $("input[id='idd"+counter+"']")[0].value
+                                var stock_c = $('.stock-c'+counter+'').val()
                                 $.ajax({
-                                    url : "<?= site_url('pos/get_satuan');?>",
-                                    method : "POST",
-                                    data : {id: satuan_p},
-                                    async : true,
-                                    dataType : 'json',
-                                    success: function(dataa){
-                                        var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - j.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                                        $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
-                                    }
+                                            url : "<?= site_url('pos/get_satuan');?>",
+                                            method : "POST",
+                                            data : {id: satuan},
+                                            async : true,
+                                            dataType : 'json',
+                                            success: function(dataa){
+                                                if (stock_c == 0) {
+                                                        swal({
+                                                            title: "Opss..!",
+                                                            text: "Stock sisa 10",
+                                                            icon: "warning",
+                                                            dangerMode: true,
+                                                        }).then((r) => {
+                                                            if (r) {
+                                                            location.reload();
+                                                        //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                            // swal({
+                                                            //   text : "oke"
+                                                        // })
+                                                            }
+                                                    });
+
+                                                    }else{
+                                                    // if (satuan) {
+                                                            var jumlah = $('.harga'+counter+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                                            $('.jumlah'+counter+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                            $('.stock-c'+counter+'').val($('.stock'+counter+'').val() - j * dataa.isi);
+                                                            var total_fix = 0
+                                                            for (let i = 1; i <= counter; i++) {
+                                                                total_fix += parseInt($('.jumlah'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                            }
+                                                            $('.total_pos').html("Rp."+total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        // }else{
+                                                            // var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
+                                                            // $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                            // $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
+                                                    // }
+                                                }
+                                            }
                                 })
-                                // }else{
-                                //     var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - j
-                                //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty[0].value);
-                                // }
-                        })
-                        satuan_x.change(function(){
-                                    var id=$(this).val();
+
+                            });
+                                // $(".idq"+counter+"").prop('disabled', true);
+                                // $(".satuan").prop('disabled', true);
+                                // $(".diskon_item").prop('disabled', true);
+                                // $("#bayar").prop('disabled', true);
+                                // $("#tahan").prop('disabled', true);
+
+                                //diskon item
+                            diskon_item.keyup(function() {
                                     i = this.id.slice(3);
                                     j = this.value;
                                     var qty = $("input[id='idq"+i+"']")[0].value
-                                    var diskon_item = $("input[id='idd"+i+"']")[0].value
+                                    var satuan_p = $("select[id='ids"+i+"']")[0].value
+                                    // if (satuan_p == true) {
+                                        // console.log(satuan_p)
                                     $.ajax({
                                         url : "<?= site_url('pos/get_satuan');?>",
                                         method : "POST",
-                                        data : {id: j},
+                                        data : {id: satuan_p},
                                         async : true,
                                         dataType : 'json',
                                         success: function(dataa){
-                                            // if (j == true) {
-                                                var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                                                console.log(jumlah)
-                                                $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
-                                            // }else{
-                                            //     console.log('bawah')
-                                            //     var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - diskon_item
-                                            //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                            //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty);
-                                            // }
+                                            var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - j.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                            $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                            $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
                                         }
                                     })
+                                    // }else{
+                                    //     var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - j
+                                    //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                    //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty[0].value);
+                                    // }
+                            })
+                            satuan_x.change(function(){
+                                        var id=$(this).val();
+                                        i = this.id.slice(3);
+                                        j = this.value;
+                                        var qty = $("input[id='idq"+i+"']")[0].value
+                                        var diskon_item = $("input[id='idd"+i+"']")[0].value
+                                        $.ajax({
+                                            url : "<?= site_url('pos/get_satuan');?>",
+                                            method : "POST",
+                                            data : {id: j},
+                                            async : true,
+                                            dataType : 'json',
+                                            success: function(dataa){
+                                                // if (j == true) {
+                                                    var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                                    console.log(jumlah)
+                                                    $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                    $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
+                                                // }else{
+                                                //     console.log('bawah')
+                                                //     var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - diskon_item
+                                                //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty);
+                                                // }
+                                                var total_fix = 0
+                                                for (let i = 1; i <= counter; i++) {
+                                                    total_fix += parseInt($('.jumlah'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                }
+                                                $('.total_pos').html("Rp."+total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                }
+                                        })
 
-                        })
+                            })
+                        }
 
 
                     }else if (e.which == 173) {
