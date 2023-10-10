@@ -145,14 +145,56 @@
                         </div>
                         <hr>
                         <div class="row mt-2">
-                            <div class="col-xl-3">
+                            <div class="col-xl-2">
                                 <span>HPP (Sat Besar) :</span>
                             </div>
                             <div class="col-xl-3">
                                 <input type="text" class="form-control">
                             </div>
-                            <div class="col-xl-3">
+                            <div class="col-xl-2">
                                 <span>HPP (Sat Kecil) :</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+                                    Retail
+                            </div>
+                            <div class="col">
+                                    Grosir
+                            </div>
+                            <div class="col">
+                                    Partai
+                            </div>
+                            <div class="col">
+                                    Promo
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-2">
+                                <span>Hrg Jual (Sat.Besar)</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-xl-2">
+                                <span>Hrg Jual (Sat.Kecil)</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-2">
+                                <span>Hrg Jual (Sat.Konv)</span>
                             </div>
                             <div class="col-xl-3">
                                 <input type="text" class="form-control">
