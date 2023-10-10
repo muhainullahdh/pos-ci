@@ -32,7 +32,7 @@
                                 <span>Kode Barang</span>
                             </div>
                             <div class="col-xl-4">
-                                <input type="text" class="form-control kd_barang">
+                                <input type="text" class="form-control kd_barang" value="<?= hexdec(uniqid()) ?>">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -49,7 +49,11 @@
                             </div>
                             <div class="col-xl-4">
                                 <select name="" id="" class="form-control select2x kategori">
-                                    <option value="a">aa</option>
+                                    <?php
+                                    $db = $this->db->get('kategori')->result();
+                                    foreach($db as $x){ ?>
+                                    <option value="<?= $x->id ?>"><?= $x->nama_kategori ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -58,9 +62,13 @@
                                 <span>Satuan Besar</span>
                             </div>
                             <div class="col-xl-4">
-                                <select name="" id="" class="form-control">
-                                    <option value="a">vvv</option>
-                                </select>
+                                    <select name="" id="" class="form-control select2x kategori">
+                                        <?php
+                                        $db1 = $this->db->get('satuan')->result();
+                                        foreach($db1 as $x){ ?>
+                                        <option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option>
+                                        <?php } ?>
+                                    </select>
                             </div>
                             <div class="col-xl-2">
                                 <span>isi Satuan :</span>
@@ -197,7 +205,7 @@
                                 <span>Hrg Jual (Sat.Konv)</span>
                             </div>
                             <div class="col-xl-3">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control hargajual_konv">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -267,6 +275,7 @@
                             $('.kd_barang').val(data.kode_barang)
                             $('.nama_barang').val(data.nama)
                             $('.stok').val(data.stok)
+                            $('.hargajual_konv').val(data.hargajual.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kategori').html('<option value='+data.kategori_id+'>'+data.nama_kategori+'</option>')
                             // $('.submit').addClass('btn-danger')
                             $('.submit').removeClass('btn-primary').addClass('btn-danger');
@@ -275,4 +284,37 @@
                         }
                     })
                 });
+                var action = $(".submit")
+                        action.on('click',function() {
+                            var value_ac = action.val();
+                            if (value_ac == "Simpan") {
+                                // console.log($('.nama_barang').val())
+                                var datax = {
+                                    kode_barang : $('.kd_barang').val(),
+                                    nama_barang : $('.nama_barang').val(),
+                                    nama_barang : $('.nama_barang').val(),
+                                }
+                                $.ajax({
+                                        url : "<?= site_url('barang/submit');?>",
+                                        method : "POST",
+                                        data : datax,
+                                        async : true,
+                                        dataType : 'json',
+                                        success: function(data){
+                                            console.log(data)
+                                        }
+                                    })
+                            }else if(value_ac == "Update"){
+                                    // $.ajax({
+                                    //     url : "<?= site_url('barang/update');?>",
+                                    //     method : "POST",
+                                    //     data : {data: data},
+                                    //     async : true,
+                                    //     dataType : 'json',
+                                    //     success: function(data){
+                                    //         console.log(data)
+                                    //     }
+                                    // })
+                            }
+                        })
 </script>

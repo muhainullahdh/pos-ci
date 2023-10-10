@@ -58,4 +58,8 @@ class Barang extends CI_Controller {
         $data=  $this->db->get()->row_array();
         echo json_encode($data);
     }
+    function submit()
+    {
+        echo json_encode($this->input->post('nama_barang'));
+    }
 }
