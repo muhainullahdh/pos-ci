@@ -58,10 +58,24 @@ class Barang extends CI_Controller {
         $data=  $this->db->get()->row_array();
         echo json_encode($data);
     }
+    function get_satuan()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id_satuan',$id);
+        $this->db->from('satuan');
+        $data=  $this->db->get()->row_array();
+        echo json_encode($data);
+    }
     function submit()
     {
         $cek = $this->input->post('cek');
+        $data = [
+            "kode_barang" => $this->input->post('kode_barang'),
+            "nama" => $this->input->post('nama_barang'),
+            "id_satuan" => $this->input->post('id_satuan'),
+        ];
         if ($cek == 'Simpan') {
+
             echo json_encode("simpan");
         }else if($cek == 'Update'){
             echo json_encode("update");

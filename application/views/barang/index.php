@@ -62,7 +62,7 @@
                                 <span>Satuan Besar</span>
                             </div>
                             <div class="col-xl-4">
-                                    <select name="" id="" class="form-control select2x kategori">
+                                    <select name="" id="" class="form-control select2x satuanb">
                                         <?php
                                         $db1 = $this->db->get('satuan')->result();
                                         foreach($db1 as $x){ ?>
@@ -74,7 +74,7 @@
                                 <span>isi Satuan :</span>
                             </div>
                             <div class="col-xl-3">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control isi_besar">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -82,15 +82,19 @@
                                 <span>Satuan Kecil</span>
                             </div>
                             <div class="col-xl-4">
-                                <select name="" id="" class="form-control">
-                                    <option value="a">vvv</option>
-                                </select>
+                                    <select name="" id="" class="form-control select2x satuank">
+                                        <?php
+                                        $db1 = $this->db->get('satuan')->result();
+                                        foreach($db1 as $x){ ?>
+                                        <option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option>
+                                        <?php } ?>
+                                    </select>
                             </div>
                             <div class="col-xl-2">
                                 <span>isi Satuan :</span>
                             </div>
                             <div class="col-xl-3">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control isi_kecil">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -98,7 +102,7 @@
                                 <span>Satuan Kecil</span>
                             </div>
                             <div class="col-xl-4">
-                                <select name="" id="" class="form-control">
+                                <select disabled name="" id="" class="form-control">
                                     <option value="a">vvv</option>
                                 </select>
                             </div>
@@ -106,7 +110,7 @@
                                 <span>isi Sat Konv :</span>
                             </div>
                             <div class="col-xl-3">
-                                <input type="text" class="form-control">
+                                <input disabled type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -153,22 +157,21 @@
                         </div>
                         <hr>
                         <div class="row mt-2">
-                            <div class="col-xl-2">
+                            <div class="col">
                                 <span>HPP (Sat Besar) :</span>
-                            </div>
-                            <div class="col-xl-3">
                                 <input type="text" class="form-control">
                             </div>
-                            <div class="col-xl-2">
-                                <span>HPP (Sat Kecil) :</span>
+                                <div class="col">
+                                    <span>HPP (Sat Kecil) :</span>
+                                    <input type="text" class="form-control">
                             </div>
-                            <div class="col-xl-3">
-                                <input type="text" class="form-control">
+                                <div class="col">
+                                    <span>HPP (Sat Konv) :</span>
+                                    <input type="text" class="form-control">
                             </div>
                         </div>
-                        <div class="row mt-2">
+                        <!-- <div class="row mt-2">
                             <div class="col">
-
                             </div>
                             <div class="col">
                                     Retail
@@ -182,29 +185,19 @@
                             <div class="col">
                                     Promo
                             </div>
-                        </div>
+                        </div> -->
+                        <hr>
                         <div class="row mt-2">
-                            <div class="col-xl-2">
+                            <div class="col">
                                 <span>Hrg Jual (Sat.Besar)</span>
-                            </div>
-                            <div class="col-xl-3">
                                 <input type="text" class="form-control">
                             </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-xl-2">
+                            <div class="col">
                                 <span>Hrg Jual (Sat.Kecil)</span>
-                            </div>
-                            <div class="col-xl-3">
                                 <input type="text" class="form-control">
                             </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-xl-2">
+                            <div class="col">
                                 <span>Hrg Jual (Sat.Konv)</span>
-                            </div>
-                            <div class="col-xl-3">
                                 <input type="text" class="form-control hargajual_konv">
                             </div>
                         </div>
@@ -277,6 +270,29 @@
                             $('.stok').val(data.stok)
                             $('.hargajual_konv').val(data.hargajual.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kategori').html('<option value='+data.kategori_id+'>'+data.nama_kategori+'</option>')
+                            $.ajax({
+                                url : "<?= site_url('barang/get_satuan');?>",
+                                method : "POST",
+                                data : {id: data.id_satuan_besar,satuan : 'besar'},
+                                async : true,
+                                dataType : 'json',
+                                success: function(data2){
+                                    $('.satuanb').html('<option value='+data2.id_satuan+'>'+data2.satuan+'</option>')
+                                    $('.isi_besar').val(data2.isi)
+                                }
+                            })
+                            $.ajax({
+                                url : "<?= site_url('barang/get_satuan');?>",
+                                method : "POST",
+                                data : {id: data.id_satuan_kecil,satuan: 'kecil'},
+                                async : true,
+                                dataType : 'json',
+                                success: function(data3){
+                                    $('.satuank').html('<option value='+data3.id_satuan+'>'+data3.satuan+'</option>')
+                                    $('.isi_kecil').val(data3.isi)
+                                }
+                            })
+
                             // $('.submit').addClass('btn-danger')
                             $('.submit').removeClass('btn-primary').addClass('btn-danger');
                             $('.submit').val('Update');
@@ -291,7 +307,7 @@
                                     cek : value_ac,
                                     kode_barang : $('.kd_barang').val(),
                                     nama_barang : $('.nama_barang').val(),
-                                    nama_barang : $('.nama_barang').val(),
+                                    id_satuanb : $('.satuanb').val(),
                                 }
                             if (value_ac == "Simpan") {
                                 // console.log($('.nama_barang').val())
