@@ -60,6 +60,11 @@ class Barang extends CI_Controller {
     }
     function submit()
     {
-        echo json_encode($this->input->post('nama_barang'));
+        $cek = $this->input->post('cek');
+        if ($cek == 'Simpan') {
+            echo json_encode("simpan");
+        }else if($cek == 'Update'){
+            echo json_encode("update");
+        }
     }
 }

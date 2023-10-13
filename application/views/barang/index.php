@@ -32,7 +32,7 @@
                                 <span>Kode Barang</span>
                             </div>
                             <div class="col-xl-4">
-                                <input type="text" class="form-control kd_barang" value="<?= hexdec(uniqid()) ?>">
+                                <input type="text" class="form-control kd_barang" readonly value="<?= hexdec(uniqid()) ?>">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -287,13 +287,14 @@
                 var action = $(".submit")
                         action.on('click',function() {
                             var value_ac = action.val();
-                            if (value_ac == "Simpan") {
-                                // console.log($('.nama_barang').val())
-                                var datax = {
+                            var datax = {
+                                    cek : value_ac,
                                     kode_barang : $('.kd_barang').val(),
                                     nama_barang : $('.nama_barang').val(),
                                     nama_barang : $('.nama_barang').val(),
                                 }
+                            if (value_ac == "Simpan") {
+                                // console.log($('.nama_barang').val())
                                 $.ajax({
                                         url : "<?= site_url('barang/submit');?>",
                                         method : "POST",
@@ -305,16 +306,16 @@
                                         }
                                     })
                             }else if(value_ac == "Update"){
-                                    // $.ajax({
-                                    //     url : "<?= site_url('barang/update');?>",
-                                    //     method : "POST",
-                                    //     data : {data: data},
-                                    //     async : true,
-                                    //     dataType : 'json',
-                                    //     success: function(data){
-                                    //         console.log(data)
-                                    //     }
-                                    // })
+                                    $.ajax({
+                                        url : "<?= site_url('barang/submit');?>",
+                                        method : "POST",
+                                        data : datax,
+                                        async : true,
+                                        dataType : 'json',
+                                        success: function(data){
+                                            console.log(data)
+                                        }
+                                    })
                             }
                         })
 </script>
