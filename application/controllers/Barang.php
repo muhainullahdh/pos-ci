@@ -50,6 +50,27 @@ class Barang extends CI_Controller {
             $this->load->view('body/footer');
 
     }
+    function kategori()
+    {
+        $satuan = $this->input->post('kategori');
+        $singkat = $this->input->post('singkat');
+        if ($satuan == true) {
+            $datax = [
+                "nama_kategori" => $satuan,
+            ];
+            $this->db->insert('kategori',$datax);
+            redirect('barang/satuan');
+        }
+        $data = [
+            "kategori" => $this->db->get('kategori')->result()
+        ];
+            // $this->session->set_flashdata('msg','Data tidak boleh kosong');
+            // redirect('barang/satuan');
+            $this->load->view('body/header');
+            $this->load->view('barang/kategori',$data);
+            $this->load->view('body/footer');
+
+    }
     function get_barang()
     {
         $id = $this->input->post('id');
