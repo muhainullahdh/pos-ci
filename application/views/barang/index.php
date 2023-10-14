@@ -63,6 +63,7 @@
                             </div>
                             <div class="col-xl-4">
                                     <select name="" id="" class="form-control select2x satuanb">
+                                        <option value="">Pilih Satuan Besar</option>
                                         <?php
                                         $db1 = $this->db->get('satuan')->result();
                                         foreach($db1 as $x){ ?>
@@ -70,12 +71,12 @@
                                         <?php } ?>
                                     </select>
                             </div>
-                            <div class="col-xl-2">
-                                <span>isi Satuan :</span>
-                            </div>
-                            <div class="col-xl-3">
-                                <input type="text" class="form-control isi_besar">
-                            </div>
+                                <div class="col-xl-2 invs">
+                                    <span>isi Satuan :</span>
+                                </div>
+                                <div class="col-xl-3 invs">
+                                    <input type="text" class="form-control isi_besar">
+                                </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col-xl-3">
@@ -83,6 +84,7 @@
                             </div>
                             <div class="col-xl-4">
                                     <select name="" id="" class="form-control select2x satuank">
+                                        <option value="">Pilih Satuan Kecil</option>
                                         <?php
                                         $db1 = $this->db->get('satuan')->result();
                                         foreach($db1 as $x){ ?>
@@ -90,10 +92,10 @@
                                         <?php } ?>
                                     </select>
                             </div>
-                            <div class="col-xl-2">
+                            <div class="col-xl-2 invs">
                                 <span>isi Satuan :</span>
                             </div>
-                            <div class="col-xl-3">
+                            <div class="col-xl-3 invs">
                                 <input type="text" class="form-control isi_kecil">
                             </div>
                         </div>
@@ -106,10 +108,10 @@
                                     <option value="a">vvv</option>
                                 </select>
                             </div>
-                            <div class="col-xl-2">
+                            <div class="col-xl-2 invs">
                                 <span>isi Sat Konv :</span>
                             </div>
-                            <div class="col-xl-3">
+                            <div class="col-xl-3 invs">
                                 <input disabled type="text" class="form-control">
                             </div>
                         </div>
@@ -149,7 +151,7 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-xl-3">
-                                <span>Sisa Stock</span>
+                                <span>Stock</span>
                             </div>
                             <div class="col-xl-4">
                                 <input type="text" class="form-control stok">
@@ -159,15 +161,15 @@
                         <div class="row mt-2">
                             <div class="col">
                                 <span>HPP (Sat Besar) :</span>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control hpp_besar" id="tailprefix">
                             </div>
                                 <div class="col">
                                     <span>HPP (Sat Kecil) :</span>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control hpp_kecil" id="tailprefix2">
                             </div>
                                 <div class="col">
                                     <span>HPP (Sat Konv) :</span>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="tailprefix3">
                             </div>
                         </div>
                         <!-- <div class="row mt-2">
@@ -190,15 +192,15 @@
                         <div class="row mt-2">
                             <div class="col">
                                 <span>Hrg Jual (Sat.Besar)</span>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control harga_j_besar" id="tailprefix4">
                             </div>
                             <div class="col">
                                 <span>Hrg Jual (Sat.Kecil)</span>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control harga_j_kecil" id="tailprefix5">
                             </div>
                             <div class="col">
                                 <span>Hrg Jual (Sat.Konv)</span>
-                                <input type="text" class="form-control hargajual_konv">
+                                <input type="text" class="form-control hargajual_konv" id="tailprefix6">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -222,6 +224,7 @@
                             <table class="display" id="t_barang">
                                 <thead>
                                             <tr>
+                                            <th></th>
                                             <th width="400" scope="col">Nama Barang</th>
                                             <th width="280" scope="col">Harga Jual</th>
                                             <th width="280" scope="col">Harga Jual K</th>
@@ -230,15 +233,19 @@
                                             </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($barang as $x) {?>
+                                    <?php $no=1; foreach ($barang as $x) {?>
                                             <tr>
+                                                <td><?= $no++ ?></td>
                                                 <td>
                                                     <?= $x->nama ?>
                                                 </td>
-                                                <td>Rp.<?= number_format($x->hargajual,0,'.','.')?></td>
+                                                <td>Rp.<?= number_format($x->hargajualb,0,'.','.')?></td>
                                                 <td>Rp.<?= number_format($x->hargajualk,0,'.','.')?></td>
                                                 <td>Rp.<?= number_format($x->hargajualb,0,'.','.')?></td>
-                                                <td><button type="button" id="<?= $x->id ?>" class="btn btn-primary btn-square barang_v">view</button></td>
+                                                <td>
+                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-primary btn-square barang_v"><i class="fa fa-eye"></i></button>
+                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_barang"><i class="fa fa-trash-o"></i></button>
+                                                </td>
                                             </tr>
                                     <?php } ?>
                                 </tbody>
@@ -255,9 +262,30 @@
 
 <script>
                 $('.title-b').html('Tambah barang')
+                $( document ).ready(function() {
+                    $('.invs').hide()
+                })
+                $(document).on('click', '.delete_barang', function (e) {
+                    e.preventDefault();
+                    var pid = this.id;
+                    swal({
+                        title: "Delete",
+                        text: "Apakah anda yakin ingin delete barang?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            swal("Barang Berhasil didelete", {
+                                icon: "success",
+                            });
+                        }
+                    });
+                })
                 $(document).on('click', '.barang_v', function (e) {
                     e.preventDefault();
                     var pid = this.id;
+                    $('.invs').show()
                     $.ajax({
                         url : "<?= site_url('barang/get_barang');?>",
                         method : "POST",
@@ -268,7 +296,7 @@
                             $('.kd_barang').val(data.kode_barang)
                             $('.nama_barang').val(data.nama)
                             $('.stok').val(data.stok)
-                            $('.hargajual_konv').val(data.hargajual.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                            $('.hargajual_konv').val(data.hargajualb.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kategori').html('<option value='+data.kategori_id+'>'+data.nama_kategori+'</option>')
                             $.ajax({
                                 url : "<?= site_url('barang/get_satuan');?>",
@@ -308,19 +336,50 @@
                                     kode_barang : $('.kd_barang').val(),
                                     nama_barang : $('.nama_barang').val(),
                                     id_satuanb : $('.satuanb').val(),
+                                    isi_besar : $('.isi_besar').val(),
+                                    id_satuank : $('.satuank').val(),
+                                    isi_kecil : $('.isi_kecil').val(),
+                                    kategori_id : $('.kategori').val(),
+                                    stok : $('.stok').val(),
+                                    hpp_besar : $('.hpp_besar').val(),
+                                    hpp_kecil : $('.hpp_kecil').val(),
+                                    harga_j_besar : $('.harga_j_besar').val(),
+                                    harga_j_kecil : $('.harga_j_kecil').val(),
                                 }
                             if (value_ac == "Simpan") {
-                                // console.log($('.nama_barang').val())
-                                $.ajax({
-                                        url : "<?= site_url('barang/submit');?>",
-                                        method : "POST",
-                                        data : datax,
-                                        async : true,
-                                        dataType : 'json',
-                                        success: function(data){
-                                            console.log(data)
-                                        }
+                                if ($('.nama_barang').val() == "") {
+                                    swal({
+                                         title: "Opss..!",
+                                          text: "Nama Barang tidak boleh kosong",
+                                          icon: "warning",
                                     })
+                                 }else if ($('.satuanb').val() == "" && $('.satuank').val() == "") {
+                                    swal({
+                                         title: "Opss..!",
+                                          text: "Satuan Besar dan Kecil tidak boleh kosong",
+                                          icon: "warning",
+                                    })
+                                 }else{
+                                    console.log($('.satuanb').val())
+                                    $.ajax({
+                                            url : "<?= site_url('barang/submit');?>",
+                                            method : "POST",
+                                            data : datax,
+                                            async : true,
+                                            dataType : 'json',
+                                            success: function(data){
+                                                            swal({
+                                                                title: "Berhasil..!",
+                                                                text: "Barang "+data.nama+" berhasil disimpan",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    location.reload();
+                                                                }
+                                                            });
+                                            }
+                                        })
+                                }
                             }else if(value_ac == "Update"){
                                     $.ajax({
                                         url : "<?= site_url('barang/submit');?>",
@@ -334,4 +393,28 @@
                                     })
                             }
                         })
+                        $(function(){
+                            $("#rupiahh").keyup(function(e){
+                                $(this).val(format($(this).val()));
+                            });
+                            });
+                            var format = function(num){
+                            var str = num.toString().replace("", ""), parts = false, output = [], i = 1, formatted = null;
+                            if(str.indexOf(".") > 0) {
+                                parts = str.split(".");
+                                str = parts[0];
+                            }
+                            str = str.split("").reverse();
+                            for(var j = 0, len = str.length; j < len; j++) {
+                                if(str[j] != ",") {
+                                output.push(str[j]);
+                                if(i%3 == 0 && j < (len - 1)) {
+                                    output.push(",");
+                                }
+                                i++;
+                                }
+                            }
+                            formatted = output.reverse().join("");
+                            return("" + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
+                        };
 </script>

@@ -791,8 +791,8 @@
                                                     var satuann = ''
                                                     for (let b = 0; b < data.length; b++) {
 							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
-                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajual)
-                                                        var jumlah ="Rp."+data[b].hargajual * qty * data[0].isi
+                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajualb)
+                                                        var jumlah ="Rp."+data[b].hargajualb * qty * data[0].isi
                                                         var stok = data[b].stok
                                                         var min_stok = data[b].min_stok
                                                     }
@@ -816,7 +816,7 @@
                                                         $("#diskon_item").prop('disabled', false);
                                                         $('.satuan1').html(satuann);
                                                         $('.harga1').val(harga1);
-                                                        // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
+                                                        // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajualb));
                                                         $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.total_pos').html(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock1').val(stok);
@@ -1051,8 +1051,8 @@
                                                         var satuann = ''
                                                         for (let b = 0; b < data.length; b++) {
                                                             satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
-                                                            var harga1 ="Rp."+formatRupiah(data[b].hargajual)
-                                                            var jumlah ="Rp."+data[b].hargajual * data[0].isi
+                                                            var harga1 ="Rp."+formatRupiah(data[b].hargajualb)
+                                                            var jumlah ="Rp."+data[b].hargajualb * data[0].isi
                                                             var stok = data[b].stok
                                                             var min_stok = data[b].min_stok
                                                         }
@@ -1076,7 +1076,7 @@
                                                             $("#diskon_item").prop('disabled', false);
                                                             $('.satuan'+counter+'').html(satuann);
                                                             $('.harga'+counter+'').val(harga1);
-                                                            // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajual));
+                                                            // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajualb));
                                                             $('.jumlah'+counter+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             $('.stock'+counter+'').val(stok);
                                                             $('.stock-c'+counter+'').val(stok - qty);

@@ -43,7 +43,7 @@ class Pos extends CI_Controller {
         $this->db->order_by('a.nama', 'asc');
         $this->db->limit(10);
         $this->db->from('barang as a');
-        $this->db->join('satuan as b','a.id_satuan=b.id_satuan','LEFT');
+        // $this->db->join('satuan as b','a.id_satuan=b.id_satuan','LEFT');
         $result = $this->db->get();
         if (count($result->result()) > 0) {
             foreach ($result->result() as $row)

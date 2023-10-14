@@ -24,9 +24,11 @@
     <script src="<?= base_url() ?>assets/js/scrollbar/custom.js"></script>
     <!-- Sidebar jquery-->
     <script src="<?= base_url() ?>assets/js/config.js"></script>
+    <script src="<?= base_url() ?>assets/js/sweet-alert/sweetalert.min.js"></script>
+
     <!-- Plugins JS start-->
-    <!-- <script src="<?= base_url() ?>assets/js/cleave/cleave.min.js"></script> -->
-    <!-- <script src="<?= base_url() ?>assets/js/cleave/custom-cleave.js"></script> -->
+    <script src="<?= base_url() ?>assets/js/cleave/cleave.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/cleave/custom-cleave.js"></script>
     <script src="<?= base_url() ?>assets/js/datatable/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url() ?>assets/js/datatable/datatables/datatable.custom.js"></script>
     <script src="<?= base_url() ?>assets/js/sidebar-menu.js"></script>
@@ -66,7 +68,9 @@
         // }
         $(document).ready(function(){
 
-            var t = $('#t_barang').DataTable();
+            var t = $('#t_barang').DataTable(
+                {order:[[0,"desc"]]}
+            );
             console.log(localStorage.getItem("page-wrapper"))
             // $(function($) {
             //   let url = window.location.href;
