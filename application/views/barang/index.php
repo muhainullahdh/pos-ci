@@ -32,7 +32,7 @@
                                 <span>Kode Barang</span>
                             </div>
                             <div class="col-xl-4">
-                                <input type="text" class="form-control kd_barang" readonly value="<?= hexdec(uniqid()) ?>">
+                                <input type="text" class="form-control kd_barang" readonly value="<?= $kode_barang ?>">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -49,6 +49,7 @@
                             </div>
                             <div class="col-xl-4">
                                 <select name="" id="" class="form-control select2x kategori">
+                                    <option value="">Pilih Kategori</option>
                                     <?php
                                     $db = $this->db->get('kategori')->result();
                                     foreach($db as $x){ ?>
@@ -71,10 +72,10 @@
                                         <?php } ?>
                                     </select>
                             </div>
-                                <div class="col-xl-2 invs">
+                                <div class="col-xl-2 ">
                                     <span>isi Satuan :</span>
                                 </div>
-                                <div class="col-xl-3 invs">
+                                <div class="col-xl-3 ">
                                     <input type="text" class="form-control isi_besar">
                                 </div>
                         </div>
@@ -92,10 +93,10 @@
                                         <?php } ?>
                                     </select>
                             </div>
-                            <div class="col-xl-2 invs">
+                            <div class="col-xl-2 ">
                                 <span>isi Satuan :</span>
                             </div>
-                            <div class="col-xl-3 invs">
+                            <div class="col-xl-3 ">
                                 <input type="text" class="form-control isi_kecil">
                             </div>
                         </div>
@@ -108,10 +109,10 @@
                                     <option value="a">vvv</option>
                                 </select>
                             </div>
-                            <div class="col-xl-2 invs">
+                            <div class="col-xl-2">
                                 <span>isi Sat Konv :</span>
                             </div>
-                            <div class="col-xl-3 invs">
+                            <div class="col-xl-3">
                                 <input disabled type="text" class="form-control">
                             </div>
                         </div>
@@ -189,7 +190,30 @@
                             </div>
                         </div> -->
                         <hr>
-                        <div class="row mt-2">
+                        <div class="row">
+                            <div class="col">
+                                <span class="text-center mb-2">Tipe Penjualan</span>
+                                <div class="form-check-size">
+                                    <div class="form-check form-check-inline radio radio-primary">
+                                    <input class="form-check-input tipe" id="radioinline1" type="radio" name="radio5" value="retail" checked="">
+                                    <label class="form-check-label mb-0" for="radioinline1">Retail</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio radio-primary">
+                                    <input class="form-check-input tipe" id="radioinline2" type="radio" name="radio5" value="grosir">
+                                    <label class="form-check-label mb-0" for="radioinline2">Grosir</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio radio-primary">
+                                    <input class="form-check-input tipe" id="radioinline3" type="radio" name="radio5" value="partai">
+                                    <label class="form-check-label mb-0" for="radioinline3">Partai</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio radio-primary">
+                                    <input class="form-check-input tipe" id="radioinline4" type="radio" name="radio5" value="promo">
+                                    <label class="form-check-label mb-0" for="radioinline4">Harga Promo</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
                             <div class="col">
                                 <span>Hrg Jual (Sat.Besar)</span>
                                 <input type="text" class="form-control harga_j_besar" id="tailprefix4">
@@ -239,9 +263,9 @@
                                                 <td>
                                                     <?= $x->nama ?>
                                                 </td>
-                                                <td>Rp.<?= number_format($x->hargajualb,0,'.','.')?></td>
-                                                <td>Rp.<?= number_format($x->hargajualk,0,'.','.')?></td>
-                                                <td>Rp.<?= number_format($x->hargajualb,0,'.','.')?></td>
+                                                <td>Rp.<?= number_format($x->hargajualb_retail,0,'.','.')?></td>
+                                                <td>Rp.<?= number_format($x->hargajualk_retail,0,'.','.')?></td>
+                                                <td>Rp.<?= number_format($x->hargajualb_retail,0,'.','.')?></td>
                                                 <td>
                                                     <button type="button" id="<?= $x->id ?>" class="btn btn-primary btn-square barang_v"><i class="fa fa-eye"></i></button>
                                                     <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_barang"><i class="fa fa-trash-o"></i></button>
@@ -262,10 +286,18 @@
 
 <script>
                 $('.title-b').html('Tambah barang')
-                $( document ).ready(function() {
-                    $('.invs').hide()
-                })
-                $(document).on('click', '.delete_barang', function (e) {
+                // $( document ).ready(function() {
+                //     $('.invs').hide()
+                // })
+                    $('.tipe').change(function() {
+                        if (this.value == 'retail') {
+                            console.log(22)
+                        }
+                        else if (this.value == 'grosir') {
+                            // ...
+                        }
+                    });
+                    $(document).on('click', '.delete_barang', function (e) {
                     e.preventDefault();
                     var pid = this.id;
                     swal({
@@ -285,7 +317,7 @@
                 $(document).on('click', '.barang_v', function (e) {
                     e.preventDefault();
                     var pid = this.id;
-                    $('.invs').show()
+                    // $('.invs').show()
                     $.ajax({
                         url : "<?= site_url('barang/get_barang');?>",
                         method : "POST",
@@ -306,7 +338,7 @@
                                 dataType : 'json',
                                 success: function(data2){
                                     $('.satuanb').html('<option value='+data2.id_satuan+'>'+data2.satuan+'</option>')
-                                    $('.isi_besar').val(data2.isi)
+                                    $('.isi_besar').val(data.qty_besar)
                                 }
                             })
                             $.ajax({
@@ -317,7 +349,7 @@
                                 dataType : 'json',
                                 success: function(data3){
                                     $('.satuank').html('<option value='+data3.id_satuan+'>'+data3.satuan+'</option>')
-                                    $('.isi_kecil').val(data3.isi)
+                                    $('.isi_kecil').val(data.qty_kecil)
                                 }
                             })
 

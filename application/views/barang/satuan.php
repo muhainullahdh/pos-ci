@@ -74,7 +74,7 @@
                                             <tr>
                                             <th width="400" scope="col">Nama</th>
                                             <th width="80" scope="col">Nama Singkat</th>
-                                            <th width="80" scope="col">Isi</th>
+                                            <!-- <th width="80" scope="col">Isi</th> -->
                                             <th width="80" scope="col">Action</th>
                                             </tr>
                                 </thead>
@@ -87,12 +87,12 @@
                                                 <td>
                                                     <?= $x->singkatan ?>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <?= $x->isi ?>
-                                                </td>
+                                                </td> -->
                                                 <td>
-                                                    <button class="btn btn-warning">edit</button>
-                                                    <button class="btn btn-danger">delete</button>
+                                                 <button type="button" id="<?= $x->id_satuan ?>" class="btn btn-primary btn-square barang_v"><i class="fa fa-eye"></i></button>
+                                                    <button type="button" id="<?= $x->id_satuan ?>" class="btn btn-danger btn-square delete_satuan"><i class="fa fa-trash-o"></i></button>
                                                 </td>
 
                                             </tr>
@@ -109,3 +109,22 @@
         </div>
         <!-- footer start-->
 
+<script>
+                    $(document).on('click', '.delete_satuan', function (e) {
+                    e.preventDefault();
+                    var pid = this.id;
+                    swal({
+                        title: "Delete",
+                        text: "Apakah anda yakin ingin delete barang?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            swal("Barang Berhasil didelete", {
+                                icon: "success",
+                            });
+                        }
+                    });
+                })
+</script>

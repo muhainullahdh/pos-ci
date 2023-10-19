@@ -21,8 +21,22 @@ class Barang extends CI_Controller {
         $this->db->from('barang');
         $this->db->order_by('id','ASC');
         $barang = $this->db->get()->result();
+
+        $data_b = $this->db->query('SELECT max(kode_barang) as kode_barang FROM barang')->row_array();
+        $kodeBarang = $data_b['kode_barang'];
+        // mengambil angka dari kode barang terbesar, menggunakan fungsi substr dan diubah ke integer dengan (int)
+        $urutan = (int) substr($kodeBarang, 2, 5);
+        // nomor yang diambil akan ditambah 1 untuk menentukan nomor urut berikutnya
+        $urutan++;
+        // membuat kode barang baru
+        // string sprintf("%03s", $urutan); berfungsi untuk membuat string menjadi 3 karakter
+        // misalnya string sprintf("%03s", 22); maka akan menghasilkan '022'
+        // angka yang diambil tadi digabungkan dengan kode huruf yang kita inginkan, misalnya PC
+        $huruf = "BH";
+        $kodeBarang = $huruf . sprintf("%05s", $urutan);
         $data = [
-            "barang" => $barang
+            "barang" => $barang,
+            "kode_barang" => $kodeBarang
         ];
 		$this->load->view('body/header');
 		$this->load->view('barang/index',$data);
@@ -105,6 +119,8 @@ class Barang extends CI_Controller {
             "nama" => $this->input->post('nama_barang'),
             "id_satuan_besar" => $this->input->post('id_satuanb'),
             "id_satuan_kecil" => $this->input->post('id_satuank'),
+            "qty_besar" => $this->input->post('isi_besar'),
+            "qty_kecil" => $this->input->post('isi_kecil'),
             "hpp_besar" => $this->clean($this->input->post('hpp_besar')),
             "hpp_kecil" => $this->clean($this->input->post('hpp_kecil')),
             "hargajualk" => $this->clean($this->input->post('harga_j_kecil')),
