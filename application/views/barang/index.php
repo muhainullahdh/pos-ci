@@ -195,19 +195,19 @@
                                 <span class="text-center mb-2">Tipe Penjualan</span>
                                 <div class="form-check-size">
                                     <div class="form-check form-check-inline radio radio-primary">
-                                    <input class="form-check-input tipe" id="radioinline1" type="radio" name="radio5" value="retail" checked="">
+                                    <input class="form-check-input tipe" id="radioinline1" type="radio" name="tipe_penjualan" value="retail" checked="">
                                     <label class="form-check-label mb-0" for="radioinline1">Retail</label>
                                     </div>
                                     <div class="form-check form-check-inline radio radio-primary">
-                                    <input class="form-check-input tipe" id="radioinline2" type="radio" name="radio5" value="grosir">
+                                    <input class="form-check-input tipe" id="radioinline2" type="radio" name="tipe_penjualan" value="grosir">
                                     <label class="form-check-label mb-0" for="radioinline2">Grosir</label>
                                     </div>
                                     <div class="form-check form-check-inline radio radio-primary">
-                                    <input class="form-check-input tipe" id="radioinline3" type="radio" name="radio5" value="partai">
+                                    <input class="form-check-input tipe" id="radioinline3" type="radio" name="tipe_penjualan" value="partai">
                                     <label class="form-check-label mb-0" for="radioinline3">Partai</label>
                                     </div>
                                     <div class="form-check form-check-inline radio radio-primary">
-                                    <input class="form-check-input tipe" id="radioinline4" type="radio" name="radio5" value="promo">
+                                    <input class="form-check-input tipe" id="radioinline4" type="radio" name="tipe_penjualan" value="promo">
                                     <label class="form-check-label mb-0" for="radioinline4">Harga Promo</label>
                                     </div>
                                 </div>
@@ -291,7 +291,7 @@
                 // })
                     $('.tipe').change(function() {
                         if (this.value == 'retail') {
-                            console.log(22)
+
                         }
                         else if (this.value == 'grosir') {
                             // ...
@@ -375,6 +375,7 @@
                                     stok : $('.stok').val(),
                                     hpp_besar : $('.hpp_besar').val(),
                                     hpp_kecil : $('.hpp_kecil').val(),
+                                    tipe : $('.tipe').val(),
                                     harga_j_besar : $('.harga_j_besar').val(),
                                     harga_j_kecil : $('.harga_j_kecil').val(),
                                 }

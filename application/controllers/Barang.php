@@ -123,6 +123,7 @@ class Barang extends CI_Controller {
             "qty_kecil" => $this->input->post('isi_kecil'),
             "hpp_besar" => $this->clean($this->input->post('hpp_besar')),
             "hpp_kecil" => $this->clean($this->input->post('hpp_kecil')),
+            "tipe_penjualan" => $this->clean($this->input->post('tipe')),
             "hargajualk" => $this->clean($this->input->post('harga_j_kecil')),
             "hargajualb" => $this->clean($this->input->post('harga_j_besar')),
             "stok" => $this->input->post('stok'),
