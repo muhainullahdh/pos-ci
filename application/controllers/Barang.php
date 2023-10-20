@@ -127,7 +127,7 @@ class Barang extends CI_Controller {
             "tipe_penjualan" => $this->clean($this->input->post('tipe')),
             "hargajualb_".$tipe => $this->clean($this->input->post('harga_j_besar')),
             "hargajualk_".$tipe => $this->clean($this->input->post('harga_j_kecil')),
-            "hargajualk_konv_".$tipe => $this->clean($this->input->post('harga_j_konv')),
+            "hargajual_konv_".$tipe => $this->clean($this->input->post('harga_j_konv')),
             "stok" => $this->input->post('stok'),
             "tgl_input" => date('Y-m-d H:i:s'),
             "kategori_id" => $this->input->post('kategori_id'),
