@@ -114,6 +114,7 @@ class Barang extends CI_Controller {
     function submit()
     {
         $cek = $this->input->post('cek');
+        $tipe = $this->input->post('tipe');
         $data = [
             "kode_barang" => $this->input->post('kode_barang'),
             "nama" => $this->input->post('nama_barang'),
@@ -124,8 +125,9 @@ class Barang extends CI_Controller {
             "hpp_besar" => $this->clean($this->input->post('hpp_besar')),
             "hpp_kecil" => $this->clean($this->input->post('hpp_kecil')),
             "tipe_penjualan" => $this->clean($this->input->post('tipe')),
-            "hargajualk" => $this->clean($this->input->post('harga_j_kecil')),
-            "hargajualb" => $this->clean($this->input->post('harga_j_besar')),
+            "hargajualb_".$tipe => $this->clean($this->input->post('harga_j_besar')),
+            "hargajualk_".$tipe => $this->clean($this->input->post('harga_j_kecil')),
+            "hargajualk_konv_".$tipe => $this->clean($this->input->post('harga_j_konv')),
             "stok" => $this->input->post('stok'),
             "tgl_input" => date('Y-m-d H:i:s'),
             "kategori_id" => $this->input->post('kategori_id'),

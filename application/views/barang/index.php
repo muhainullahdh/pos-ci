@@ -224,7 +224,7 @@
                             </div>
                             <div class="col">
                                 <span>Hrg Jual (Sat.Konv)</span>
-                                <input type="text" class="form-control hargajual_konv" id="tailprefix6">
+                                <input type="text" class="form-control harga_j_konv" id="tailprefix6">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -289,14 +289,14 @@
                 // $( document ).ready(function() {
                 //     $('.invs').hide()
                 // })
-                    $('.tipe').change(function() {
-                        if (this.value == 'retail') {
-
-                        }
-                        else if (this.value == 'grosir') {
-                            // ...
-                        }
-                    });
+                    // $('.tipe').change(function() {
+                    //     if (this.value == 'retail') {
+                    //         $('.harga_j_besar').addClass('harga_j_besar_retail')
+                    //     }
+                    //     else if (this.value == 'grosir') {
+                    //         $('.harga_j_besar').addClass('harga_j_besar_grosir')
+                    //     }
+                    // });
                     $(document).on('click', '.delete_barang', function (e) {
                     e.preventDefault();
                     var pid = this.id;
