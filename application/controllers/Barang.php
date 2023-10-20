@@ -94,12 +94,24 @@ class Barang extends CI_Controller {
         $data=  $this->db->get()->row_array();
         echo json_encode($data);
     }
+    function get_kategori()
+    {
+        $id = $this->input->post('id');
+        if ($id == true) {
+            $this->db->where('id',$id);
+        }
+        $this->db->from('kategori');
+        $data=  $this->db->get()->result();
+        echo json_encode($data);
+    }
     function get_satuan()
     {
         $id = $this->input->post('id');
-        $this->db->where('id_satuan',$id);
+        if ($id == true) {
+            $this->db->where('id_satuan',$id);
+        }
         $this->db->from('satuan');
-        $data=  $this->db->get()->row_array();
+        $data=  $this->db->get()->result();
         echo json_encode($data);
     }
     // isi_besar : $('.isi_besar').val(),
@@ -124,6 +136,7 @@ class Barang extends CI_Controller {
             "qty_kecil" => $this->input->post('isi_kecil'),
             "hpp_besar" => $this->clean($this->input->post('hpp_besar')),
             "hpp_kecil" => $this->clean($this->input->post('hpp_kecil')),
+            "hpp_konv" => $this->clean($this->input->post('hpp_kecil_konv')),
             "tipe_penjualan" => $this->clean($this->input->post('tipe')),
             "hargajualb_".$tipe => $this->clean($this->input->post('harga_j_besar')),
             "hargajualk_".$tipe => $this->clean($this->input->post('harga_j_kecil')),

@@ -170,7 +170,7 @@
                             </div>
                                 <div class="col">
                                     <span>HPP (Sat Konv) :</span>
-                                    <input type="text" class="form-control" id="tailprefix3">
+                                    <input type="text" class="form-control hpp_kecil_konv" id="tailprefix3">
                             </div>
                         </div>
                         <!-- <div class="row mt-2">
@@ -328,27 +328,71 @@
                             $('.kd_barang').val(data.kode_barang)
                             $('.nama_barang').val(data.nama)
                             $('.stok').val(data.stok)
-                            $('.hargajual_konv').val(data.hargajualb.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                            $('.kategori').html('<option value='+data.kategori_id+'>'+data.nama_kategori+'</option>')
+                            if (data.tipe_penjualan == 'retail') {
+                                $('#radioinline1').prop('checked', true);
+                                $('.harga_j_besar').val(data.hargajualb_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil').val(data.hargajualk_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv').val(data.hargajualb_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                            }else if(data.tipe_penjualan == 'grosir'){
+                                $('#radioinline2').prop('checked', true);
+                            }else if(data.tipe_penjualan == 'partai'){
+                                $('#radioinline3').prop('checked', true);
+                            }else if(data.tipe_penjualan == 'promo'){
+                                $('#radioinline4').prop('checked', true);
+                            }
+                            $.ajax({
+                                url : "<?= site_url('barang/get_kategori');?>",
+                                method : "GET",
+                                // data : {id22: data.id_satuan_besar},
+                                async : true,
+                                dataType : 'json',
+                                success: function(data4){
+                                    var h = '';
+                                    for (let i = 0; i < data4.length; i++) {
+                                        if (data4[i].id == data.kategori_id) {
+                                            h += '<option selected value='+data4[i].id+'>'+data4[i].nama_kategori+'</option>'
+                                        }else{
+                                            h += '<option value='+data4[i].id+'>'+data4[i].nama_kategori+'</option>'
+                                        }
+                                    }
+                                    $('.kategori').html(h)
+                                }
+                            })
                             $.ajax({
                                 url : "<?= site_url('barang/get_satuan');?>",
                                 method : "POST",
-                                data : {id: data.id_satuan_besar,satuan : 'besar'},
+                                data : {id22: data.id_satuan_besar},
                                 async : true,
                                 dataType : 'json',
                                 success: function(data2){
-                                    $('.satuanb').html('<option value='+data2.id_satuan+'>'+data2.satuan+'</option>')
+                                    var h = '';
+                                    for (let i = 0; i < data2.length; i++) {
+                                        if (data2[i].id_satuan == data.id_satuan_besar) {
+                                            h += '<option selected value='+data2[i].id_satuan+'>'+data2[i].satuan+'</option>'
+                                        }else{
+                                            h += '<option value='+data2[i].id_satuan+'>'+data2[i].satuan+'</option>'
+                                        }
+                                    }
+                                    $('.satuanb').html(h)
                                     $('.isi_besar').val(data.qty_besar)
                                 }
                             })
                             $.ajax({
                                 url : "<?= site_url('barang/get_satuan');?>",
                                 method : "POST",
-                                data : {id: data.id_satuan_kecil,satuan: 'kecil'},
+                                data : {id2: data.id_satuan_kecil},
                                 async : true,
                                 dataType : 'json',
                                 success: function(data3){
-                                    $('.satuank').html('<option value='+data3.id_satuan+'>'+data3.satuan+'</option>')
+                                    var h = '';
+                                    for (let i = 0; i < data3.length; i++) {
+                                        if (data3[i].id_satuan == data.id_satuan_kecil) {
+                                            h += '<option selected value='+data3[i].id_satuan+'>'+data3[i].satuan+'</option>'
+                                        }else{
+                                            h += '<option value='+data3[i].id_satuan+'>'+data3[i].satuan+'</option>'
+                                        }
+                                    }
+                                    $('.satuank').html(h)
                                     $('.isi_kecil').val(data.qty_kecil)
                                 }
                             })
@@ -375,6 +419,7 @@
                                     stok : $('.stok').val(),
                                     hpp_besar : $('.hpp_besar').val(),
                                     hpp_kecil : $('.hpp_kecil').val(),
+                                    hpp_kecil_konv : $('.hpp_kecil_konv').val(),
                                     tipe : $('.tipe').val(),
                                     harga_j_besar : $('.harga_j_besar').val(),
                                     harga_j_kecil : $('.harga_j_kecil').val(),
