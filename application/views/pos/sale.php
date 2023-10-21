@@ -791,7 +791,7 @@
                                                     var satuann = ''
                                                     for (let b = 0; b < data.length; b++) {
 							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
-                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajualb)
+                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajualb_retail)
                                                         var jumlah ="Rp."+data[b].hargajualb * qty * data[0].isi
                                                         var stok = data[b].stok
                                                         var min_stok = data[b].min_stok
