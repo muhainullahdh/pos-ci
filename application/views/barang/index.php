@@ -367,9 +367,24 @@
                             dangerMode: true,
                         }).then((willDelete) => {
                             if (willDelete) {
-                                swal("Barang Berhasil didelete", {
-                                    icon: "success",
-                                });
+                                $.ajax({
+                                url : "<?= site_url('barang/delete_barang');?>",
+                                method : "POST",
+                                data : {id: pid},
+                                async : true,
+                                dataType : 'json',
+                                    success: function(data){
+                                        swal({
+                                                                title: "Berhasil..!",
+                                                                text: "barang berhasil didelete",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    location.reload();
+                                                                }
+                                                            });
+                                    }
+                                })
                             }
                         });
                     })
