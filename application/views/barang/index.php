@@ -200,7 +200,7 @@
                             </div>
                         </div> -->
                         <hr>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col">
                                 <span class="text-center mb-2">Tipe Penjualan</span>
                                 <div class="form-check-size">
@@ -222,19 +222,68 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row mt-3">
+                            <h6>Retail</h6>
                             <div class="col">
                                 <span>Hrg Jual (Sat.Besar)</span>
-                                <input type="text" class="form-control harga_j_besar" id="tailprefix4">
+                                <input type="text" class="form-control harga_j_besar_retail" id="tailprefix4">
                             </div>
                             <div class="col">
                                 <span>Hrg Jual (Sat.Kecil)</span>
-                                <input type="text" class="form-control harga_j_kecil" id="tailprefix5">
+                                <input type="text" class="form-control harga_j_kecil_retail" id="tailprefix5">
                             </div>
                             <div class="col">
                                 <span>Hrg Jual (Sat.Konv)</span>
-                                <input type="text" class="form-control harga_j_konv" id="tailprefix6">
+                                <input type="text" class="form-control harga_j_konv_retail" id="tailprefix6">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-3">
+                            <h6>Grosir</h6>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Besar)</span>
+                                <input type="text" class="form-control harga_j_besar_grosir" id="tailprefix13">
+                            </div>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Kecil)</span>
+                                <input type="text" class="form-control harga_j_kecil_grosir" id="tailprefix14">
+                            </div>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Konv)</span>
+                                <input type="text" class="form-control harga_j_konv_grosir" id="tailprefix15">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-3">
+                            <h6>Partai</h6>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Besar)</span>
+                                <input type="text" class="form-control harga_j_besar_partai" id="tailprefix7">
+                            </div>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Kecil)</span>
+                                <input type="text" class="form-control harga_j_kecil_partai" id="tailprefix8">
+                            </div>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Konv)</span>
+                                <input type="text" class="form-control harga_j_konv_partai" id="tailprefix9">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-3">
+                            <h6>Promo</h6>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Besar)</span>
+                                <input type="text" class="form-control harga_j_besar_promo" id="tailprefix10">
+                            </div>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Kecil)</span>
+                                <input type="text" class="form-control harga_j_kecil_promo" id="tailprefix11">
+                            </div>
+                            <div class="col">
+                                <span>Hrg Jual (Sat.Konv)</span>
+                                <input type="text" class="form-control harga_j_konv_promo" id="tailprefix12">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -338,21 +387,37 @@
                             $('.kd_barang').val(data.kode_barang)
                             $('.nama_barang').val(data.nama)
                             $('.stok').val(data.stok)
-                            if (data.tipe_penjualan == 'retail') {
+                            // if (data.tipe_penjualan == 'retail') {
                                 $('#radioinline1').prop('checked', true);
-                                $('.harga_j_besar').val(data.hargajualb_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_kecil').val(data.hargajualk_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_konv').val(data.hargajualb_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                            }else if(data.tipe_penjualan == 'grosir'){
-                                $('#radioinline2').prop('checked', true);
-                            }else if(data.tipe_penjualan == 'partai'){
-                                $('#radioinline3').prop('checked', true);
-                            }else if(data.tipe_penjualan == 'promo'){
-                                $('#radioinline4').prop('checked', true);
-                            }
+                                $('.hpp_besar').val(data.hpp_besar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.hpp_kecil').val(data.hpp_kecil.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.hpp_kecil_konv').val(data.hpp_konv.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+
+                                $('.harga_j_besar_retail').val(data.hargajualb_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil_retail').val(data.hargajualk_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv_retail').val(data.hargajual_konv_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+
+                                $('.harga_j_besar_grosir').val(data.hargajualb_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil_grosir').val(data.hargajualk_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv_grosir').val(data.hargajualb_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+
+                                $('.harga_j_besar_partai').val(data.hargajualb_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil_partai').val(data.hargajualk_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv_partai').val(data.hargajualb_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+
+                                $('.harga_j_besar_promo').val(data.hargajualb_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil_promo').val(data.hargajualk_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv_promo').val(data.hargajualb_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                            // }else if(data.tipe_penjualan == 'grosir'){
+                            //     $('#radioinline2').prop('checked', true);
+                            // }else if(data.tipe_penjualan == 'partai'){
+                            //     $('#radioinline3').prop('checked', true);
+                            // }else if(data.tipe_penjualan == 'promo'){
+                            //     $('#radioinline4').prop('checked', true);
+                            // }
                             $.ajax({
                                 url : "<?= site_url('barang/get_kategori');?>",
-                                method : "GET",
+                                method : "POST",
                                 // data : {id22: data.id_satuan_besar},
                                 async : true,
                                 dataType : 'json',
@@ -434,8 +499,18 @@
                                     hpp_kecil : $('.hpp_kecil').val(),
                                     hpp_kecil_konv : $('.hpp_kecil_konv').val(),
                                     tipe : $('.tipe').val(),
-                                    harga_j_besar : $('.harga_j_besar').val(),
-                                    harga_j_kecil : $('.harga_j_kecil').val(),
+                                    harga_j_besar_retail : $('.harga_j_besar_retail').val(),
+                                    harga_j_kecil_retail : $('.harga_j_kecil_retail').val(),
+                                    harga_j_konv_retail : $('.harga_j_konv_retail').val(),
+                                    harga_j_besar_grosir : $('.harga_j_besar_grosir').val(),
+                                    harga_j_kecil_grosir : $('.harga_j_kecil_grosir').val(),
+                                    harga_j_konv_grosir : $('.harga_j_konv_grosir').val(),
+                                    harga_j_besar_partai : $('.harga_j_besar_partai').val(),
+                                    harga_j_kecil_partai : $('.harga_j_kecil_partai').val(),
+                                    harga_j_konv_partai : $('.harga_j_konv_partai').val(),
+                                    harga_j_besar_promo : $('.harga_j_besar_promo').val(),
+                                    harga_j_kecil_promo : $('.harga_j_kecil_promo').val(),
+                                    harga_j_konv_promo : $('.harga_j_konv_promo').val(),
                                 }
                             if (value_ac == "Simpan") {
                                 if ($('.nama_barang').val() == "") {

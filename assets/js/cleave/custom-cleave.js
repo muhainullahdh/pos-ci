@@ -59,6 +59,7 @@
 // });
 
 // Tailprefix
+
 if ($('#tailprefix').length) {
 new Cleave("#tailprefix", {
   numeral: true,
@@ -83,6 +84,7 @@ new Cleave("#tailprefix3", {
   tailPrefix: true,
 });
 }
+
 if ($('#tailprefix4').length) {
 new Cleave("#tailprefix4", {
   numeral: true,
@@ -101,6 +103,78 @@ new Cleave("#tailprefix5", {
 }
 if ($('#tailprefix6').length) {
 new Cleave("#tailprefix6", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix7').length) {
+new Cleave("#tailprefix7", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix8').length) {
+new Cleave("#tailprefix8", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix9').length) {
+new Cleave("#tailprefix9", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix10').length) {
+new Cleave("#tailprefix10", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix11').length) {
+new Cleave("#tailprefix11", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix12').length) {
+new Cleave("#tailprefix12", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix13').length) {
+new Cleave("#tailprefix13", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix14').length) {
+new Cleave("#tailprefix14", {
+  numeral: true,
+  blocks: [4, 2],
+  prefix: "",
+  tailPrefix: true,
+});
+}
+if ($('#tailprefix15').length) {
+new Cleave("#tailprefix15", {
   numeral: true,
   blocks: [4, 2],
   prefix: "",
