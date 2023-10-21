@@ -308,22 +308,22 @@
                     //     }
                     // });
                     $(document).on('click', '.delete_barang', function (e) {
-                    e.preventDefault();
-                    var pid = this.id;
-                    swal({
-                        title: "Delete",
-                        text: "Apakah anda yakin ingin delete barang?",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    }).then((willDelete) => {
-                        if (willDelete) {
-                            swal("Barang Berhasil didelete", {
-                                icon: "success",
-                            });
-                        }
-                    });
-                })
+                        e.preventDefault();
+                        var pid = this.id;
+                        swal({
+                            title: "Delete",
+                            text: "Apakah anda yakin ingin delete barang?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                swal("Barang Berhasil didelete", {
+                                    icon: "success",
+                                });
+                            }
+                        });
+                    })
                 $(document).on('click', '.barang_v', function (e) {
                     e.preventDefault();
                     var pid = this.id;

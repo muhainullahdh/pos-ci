@@ -180,9 +180,12 @@ class Barang extends CI_Controller {
             echo json_encode("update");
         }
     }
-    function delete_barang()
+    function delete_kategori()
     {
-
+        $id = $this->input->post('id');
+        $this->db->where('id',$id);
+        $this->db->delete('kategori');
+        echo json_encode('berhasil');
     }
     function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.

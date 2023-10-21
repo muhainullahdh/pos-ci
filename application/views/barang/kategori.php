@@ -77,7 +77,7 @@
 
                                                 <td>
                                                     <button class="btn btn-warning">edit</button>
-                                                    <button class="btn btn-danger">delete</button>
+                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_kategori"><i class="fa fa-trash-o"></i></button>
                                                 </td>
 
                                             </tr>
@@ -94,3 +94,37 @@
         </div>
         <!-- footer start-->
 
+<script>
+    $(document).on('click', '.delete_kategori', function (e) {
+                        e.preventDefault();
+                        var pid = this.id;
+                        swal({
+                            title: "Delete",
+                            text: "Apakah anda yakin ingin delete kategori?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax({
+                                url : "<?= site_url('barang/delete_kategori');?>",
+                                method : "POST",
+                                data : {id: pid},
+                                async : true,
+                                dataType : 'json',
+                                    success: function(data){
+                                        swal({
+                                                                title: "Berhasil..!",
+                                                                text: "kategori berhasil didelete",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    location.reload();
+                                                                }
+                                                            });
+                                    }
+                                })
+                            }
+                        });
+                    })
+</script>
