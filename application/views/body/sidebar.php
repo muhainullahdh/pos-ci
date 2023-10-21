@@ -63,6 +63,7 @@
                       <li><a href="<?= base_url('barang') ?>">Daftar Barang</a></li>
                       <li><a href="<?= base_url('barang/satuan') ?>">Satuan</a></li>
                       <li><a href="<?= base_url('barang/kategori') ?>">Kategori</a></li>
+                      <li><a href="<?= base_url('barang/brand') ?>">brand</a></li>
                       <li><a href="dashboard-04.html">Role</a></li>
                     </ul>
                   </li>

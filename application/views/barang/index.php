@@ -105,15 +105,20 @@
                                 <span>Satuan Kecil</span>
                             </div>
                             <div class="col-xl-4">
-                                <select disabled name="" id="" class="form-control">
-                                    <option value="a">vvv</option>
+                                <select name="" id="" class="form-control satuan_konv">
+                                        <option value="">Pilih Satuan Kecil Konv</option>
+                                        <?php
+                                        $db1 = $this->db->get('satuan')->result();
+                                        foreach($db1 as $x){ ?>
+                                        <option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option>
+                                        <?php } ?>
                                 </select>
                             </div>
                             <div class="col-xl-2">
                                 <span>isi Sat Konv :</span>
                             </div>
                             <div class="col-xl-3">
-                                <input disabled type="text" class="form-control">
+                                <input type="text" class="form-control isi_konv">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -145,8 +150,13 @@
                                 <span>Brand</span>
                             </div>
                             <div class="col-xl-4">
-                                <select name="" id="" class="form-control">
-                                    <option value="">Kapal Api</option>
+                                <select name="" id="" class="form-control brand">
+                                    <option value="">Pilih Brand</option>
+                                     <?php
+                                        $db1 = $this->db->get('brand')->result();
+                                        foreach($db1 as $x){ ?>
+                                        <option value="<?= $x->id_brand ?>"><?= $x->nama_brand ?></option>
+                                        <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -415,7 +425,10 @@
                                     isi_besar : $('.isi_besar').val(),
                                     id_satuank : $('.satuank').val(),
                                     isi_kecil : $('.isi_kecil').val(),
+                                    satuan_konv : $('.satuan_konv').val(),
+                                    isi_konv : $('.isi_konv').val(),
                                     kategori_id : $('.kategori').val(),
+                                    brand : $('.brand').val(),
                                     stok : $('.stok').val(),
                                     hpp_besar : $('.hpp_besar').val(),
                                     hpp_kecil : $('.hpp_kecil').val(),

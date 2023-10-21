@@ -85,6 +85,26 @@ class Barang extends CI_Controller {
             $this->load->view('body/footer');
 
     }
+    function brand()
+    {
+        $brand = $this->input->post('brand');
+        if ($brand == true) {
+            $datax = [
+                "nama_brand" => $brand,
+            ];
+            $this->db->insert('brand',$datax);
+            redirect('barang/brand');
+        }
+        $data = [
+            "brand" => $this->db->get('brand')->result()
+        ];
+            // $this->session->set_flashdata('msg','Data tidak boleh kosong');
+            // redirect('barang/satuan');
+            $this->load->view('body/header');
+            $this->load->view('barang/brand',$data);
+            $this->load->view('body/footer');
+
+    }
     function get_barang()
     {
         $id = $this->input->post('id');
@@ -132,8 +152,10 @@ class Barang extends CI_Controller {
             "nama" => $this->input->post('nama_barang'),
             "id_satuan_besar" => $this->input->post('id_satuanb'),
             "id_satuan_kecil" => $this->input->post('id_satuank'),
+            "id_satuan_kecil_konv" => $this->input->post('satuan_konv'),
             "qty_besar" => $this->input->post('isi_besar'),
             "qty_kecil" => $this->input->post('isi_kecil'),
+            "qty_konv" => $this->input->post('isi_konv'),
             "hpp_besar" => $this->clean($this->input->post('hpp_besar')),
             "hpp_kecil" => $this->clean($this->input->post('hpp_kecil')),
             "hpp_konv" => $this->clean($this->input->post('hpp_kecil_konv')),
@@ -141,6 +163,7 @@ class Barang extends CI_Controller {
             "hargajualb_".$tipe => $this->clean($this->input->post('harga_j_besar')),
             "hargajualk_".$tipe => $this->clean($this->input->post('harga_j_kecil')),
             "hargajual_konv_".$tipe => $this->clean($this->input->post('harga_j_konv')),
+            "brand" => $this->input->post('brand'),
             "stok" => $this->input->post('stok'),
             "tgl_input" => date('Y-m-d H:i:s'),
             "kategori_id" => $this->input->post('kategori_id'),
