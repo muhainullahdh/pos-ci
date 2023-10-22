@@ -125,6 +125,16 @@ class Barang extends CI_Controller {
         $data=  $this->db->get()->result();
         echo json_encode($data);
     }
+    function get_brand()
+    {
+        $id = $this->input->post('id');
+        if ($id == true) {
+            $this->db->where('id_brand',$id);
+        }
+        $this->db->from('brand');
+        $data=  $this->db->get()->result();
+        echo json_encode($data);
+    }
     function get_satuan()
     {
         $id = $this->input->post('id');

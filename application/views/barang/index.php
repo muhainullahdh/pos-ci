@@ -400,6 +400,7 @@
                         async : true,
                         dataType : 'json',
                         success: function(data){
+
                             $('.kd_barang').val(data.kode_barang)
                             $('.nama_barang').val(data.nama)
                             $('.stok').val(data.stok)
@@ -440,6 +441,9 @@
                                 dataType : 'json',
                                 success: function(data4){
                                     var h = '';
+                                    if (data.kategori_id == "" || data.kategori_id == 0) {
+                                            h += '<option selected value="">Pilih Kategori</option>'
+                                        }
                                     for (let i = 0; i < data4.length; i++) {
                                         if (data4[i].id == data.kategori_id) {
                                             h += '<option selected value='+data4[i].id+'>'+data4[i].nama_kategori+'</option>'
@@ -458,6 +462,9 @@
                                 dataType : 'json',
                                 success: function(data2){
                                     var h = '';
+                                    if (data.id_satuan_besar == "" || data.id_satuan_besar == 0) {
+                                            h += '<option selected value="">Pilih Satuan Besar</option>'
+                                        }
                                     for (let i = 0; i < data2.length; i++) {
                                         if (data2[i].id_satuan == data.id_satuan_besar) {
                                             h += '<option selected value='+data2[i].id_satuan+'>'+data2[i].satuan+'</option>'
@@ -477,8 +484,11 @@
                                 dataType : 'json',
                                 success: function(data3){
                                     var h = '';
+                                    if (data.id_satuan_besar == "" || data.id_satuan_besar == 0) {
+                                            h += '<option selected value="">Pilih Satuan Kecil</option>'
+                                        }
                                     for (let i = 0; i < data3.length; i++) {
-                                        if (data3[i].id_satuan == data.id_satuan_kecil) {
+                                        if (data3[i].id_satuan == data.id_satuan_besar) {
                                             h += '<option selected value='+data3[i].id_satuan+'>'+data3[i].satuan+'</option>'
                                         }else{
                                             h += '<option value='+data3[i].id_satuan+'>'+data3[i].satuan+'</option>'
@@ -486,6 +496,49 @@
                                     }
                                     $('.satuank').html(h)
                                     $('.isi_kecil').val(data.qty_kecil)
+                                }
+                            })
+                            $.ajax({
+                                url : "<?= site_url('barang/get_satuan');?>",
+                                method : "POST",
+                                data : {id2: data.id_satuan_kecil_konv},
+                                async : true,
+                                dataType : 'json',
+                                success: function(data5){
+                                    var h = '';
+                                        if (data.id_satuan_kecil_konv == "" || data.id_satuan_kecil_konv == 0) {
+                                            h += '<option selected value="">Pilih Satuan Kecil Konv</option>'
+                                        }
+                                        for (let i = 0; i < data5.length; i++) {
+                                            if (data5[i].id_satuan == data.id_satuan_kecil_konv) {
+                                                h += '<option selected value='+data5[i].id_satuan+'>'+data5[i].satuan+'</option>'
+                                            }else{
+                                                h += '<option value='+data5[i].id_satuan+'>'+data5[i].satuan+'</option>'
+                                            }
+                                        }
+                                        $('.satuan_konv').html(h)
+                                        $('.isi_konv').val(data.qty_konv)
+                                }
+                            })
+                            $.ajax({
+                                url : "<?= site_url('barang/get_brand');?>",
+                                method : "POST",
+                                data : {id2xx: data.brand},
+                                async : true,
+                                dataType : 'json',
+                                success: function(data6){
+                                    var h = '';
+                                        if (data.brand == "" || data.brand == 0) {
+                                            h += '<option selected value="">Pilih Brand</option>'
+                                        }
+                                        for (let i = 0; i < data6.length; i++) {
+                                            if (data6[i].id_brand == data.brand) {
+                                                h += '<option selected value='+data6[i].id_brand+'>'+data6[i].nama_brand+'</option>'
+                                            }else{
+                                                h += '<option value='+data6[i].id_brand+'>'+data6[i].nama_brand+'</option>'
+                                            }
+                                        }
+                                        $('.brand').html(h)
                                 }
                             })
 
@@ -577,11 +630,11 @@
                                                 text: "Barang "+data.nama+" berhasil diupdate",
                                                 icon: "success",
                                                 })
-                                                // .then((willDelete) => {
-                                                // if (willDelete) {
-                                                //     location.reload();
-                                                // }
-                                                //  });
+                                                .then((willDelete) => {
+                                                if (willDelete) {
+                                                    location.reload();
+                                                }
+                                                 });
                                             }
                                         })
                             }

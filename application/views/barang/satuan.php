@@ -115,16 +115,31 @@
                     var pid = this.id;
                     swal({
                         title: "Delete",
-                        text: "Apakah anda yakin ingin delete barang?",
+                        text: "Apakah anda yakin ingin delete satuan?",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
                     }).then((willDelete) => {
                         if (willDelete) {
-                            swal("Barang Berhasil didelete", {
-                                icon: "success",
-                            });
-                        }
+                                $.ajax({
+                                url : "<?= site_url('barang/delete_satuan');?>",
+                                method : "POST",
+                                data : {id: pid},
+                                async : true,
+                                dataType : 'json',
+                                    success: function(data){
+                                        swal({
+                                                                title: "Berhasil..!",
+                                                                text: "satuan berhasil didelete",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    location.reload();
+                                                                }
+                                                            });
+                                    }
+                                })
+                            }
                     });
                 })
 </script>
