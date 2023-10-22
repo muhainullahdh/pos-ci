@@ -33,6 +33,7 @@
                             </div>
                             <div class="col-xl-4">
                                 <input type="text" class="form-control kd_barang" readonly value="<?= $kode_barang ?>">
+                                <input type="hidden" class="form-control id_barang" readonly>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -404,6 +405,7 @@
                             $('.stok').val(data.stok)
                             // if (data.tipe_penjualan == 'retail') {
                                 $('#radioinline1').prop('checked', true);
+                                $('.id_barang').val(data.id_barang);
                                 $('.hpp_besar').val(data.hpp_besar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                                 $('.hpp_kecil').val(data.hpp_kecil.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                                 $('.hpp_kecil_konv').val(data.hpp_konv.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
@@ -494,7 +496,7 @@
                         }
                     })
                 });
-                var action = $(".submit")
+                        var action = $(".submit")
                         action.on('click',function() {
                             var value_ac = action.val();
                             var datax = {
@@ -526,6 +528,7 @@
                                     harga_j_besar_promo : $('.harga_j_besar_promo').val(),
                                     harga_j_kecil_promo : $('.harga_j_kecil_promo').val(),
                                     harga_j_konv_promo : $('.harga_j_konv_promo').val(),
+                                    id_barang : $('.id_barang').val()
                                 }
                             if (value_ac == "Simpan") {
                                 if ($('.nama_barang').val() == "") {
@@ -541,7 +544,7 @@
                                           icon: "warning",
                                     })
                                  }else{
-                                    console.log($('.satuanb').val())
+                                    // console.log($('.satuanb').val())
                                     $.ajax({
                                             url : "<?= site_url('barang/submit');?>",
                                             method : "POST",
@@ -562,16 +565,25 @@
                                         })
                                 }
                             }else if(value_ac == "Update"){
-                                    $.ajax({
-                                        url : "<?= site_url('barang/submit');?>",
-                                        method : "POST",
-                                        data : datax,
-                                        async : true,
-                                        dataType : 'json',
-                                        success: function(data){
-                                            console.log(data)
-                                        }
-                                    })
+                                $.ajax({
+                                    url : "<?= site_url('barang/submit');?>",
+                                    method : "POST",
+                                    data : datax,
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(data){
+                                            swal({
+                                                title: "Berhasil..!",
+                                                text: "Barang "+data.nama+" berhasil diupdate",
+                                                icon: "success",
+                                                })
+                                                // .then((willDelete) => {
+                                                // if (willDelete) {
+                                                //     location.reload();
+                                                // }
+                                                //  });
+                                            }
+                                        })
                             }
                         })
                         $(function(){

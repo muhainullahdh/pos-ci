@@ -108,6 +108,7 @@ class Barang extends CI_Controller {
     function get_barang()
     {
         $id = $this->input->post('id');
+        $this->db->select('*,a.id as id_barang');
         $this->db->where('a.id',$id);
         $this->db->from('barang as a');
         $this->db->join('kategori as b','a.kategori_id=b.id');
@@ -145,8 +146,8 @@ class Barang extends CI_Controller {
     // harga_j_kecil : $('.harga_j_kecil').val(),
     function submit()
     {
+        $id_barang = $this->input->post('id_barang');
         $cek = $this->input->post('cek');
-        $tipe = $this->input->post('tipe');
         $data = [
             "kode_barang" => $this->input->post('kode_barang'),
             "nama" => $this->input->post('nama_barang'),
@@ -186,9 +187,16 @@ class Barang extends CI_Controller {
             ];
             echo json_encode($data_ec);
         }else if($cek == 'Update'){
-            echo json_encode("update");
+            $this->db->where('id',$id_barang);
+            $this->db->update('barang',$data);
+            $data_ec = [
+                "nama" => $this->input->post('nama_barang'),
+                "status" => 200
+            ];
+            echo json_encode($data_ec);
         }
     }
+
     function delete_kategori()
     {
         $id = $this->input->post('id');
