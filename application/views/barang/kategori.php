@@ -95,7 +95,7 @@
         <!-- footer start-->
 
 <script>
-    $(document).on('click', '.delete_kategori', function (e) {
+                    $(document).on('click', '.delete_kategori', function (e) {
                         e.preventDefault();
                         var pid = this.id;
                         swal({

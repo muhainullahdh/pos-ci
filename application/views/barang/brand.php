@@ -76,8 +76,9 @@
                                                 </td>
 
                                                 <td>
-                                                    <button class="btn btn-warning">edit</button>
-                                                    <button class="btn btn-danger">delete</button>
+                                                <button type="button" id="<?= $x->id_brand ?>" class="btn btn-primary btn-square barang_v"><i class="fa fa-eye"></i></button>
+                                                    <button type="button" id="<?= $x->id_brand ?>" class="btn btn-danger btn-square delete_brand"><i class="fa fa-trash-o"></i></button>
+
                                                 </td>
 
                                             </tr>
@@ -94,3 +95,37 @@
         </div>
         <!-- footer start-->
 
+<script>
+               $(document).on('click', '.delete_brand', function (e) {
+                        e.preventDefault();
+                        var pid = this.id;
+                        swal({
+                            title: "Delete",
+                            text: "Apakah anda yakin ingin delete brand?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax({
+                                url : "<?= site_url('barang/delete_brand');?>",
+                                method : "POST",
+                                data : {id: pid},
+                                async : true,
+                                dataType : 'json',
+                                    success: function(data){
+                                        swal({
+                                                                title: "Berhasil..!",
+                                                                text: "brand berhasil didelete",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    location.reload();
+                                                                }
+                                                            });
+                                    }
+                                })
+                            }
+                        });
+                    })
+</script>

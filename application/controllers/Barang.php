@@ -228,6 +228,13 @@ class Barang extends CI_Controller {
         $this->db->delete('satuan');
         echo json_encode('berhasil');
     }
+    function delete_brand()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id_brand',$id);
+        $this->db->delete('brand');
+        echo json_encode('berhasil');
+    }
     function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 
