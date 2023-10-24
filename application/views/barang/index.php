@@ -466,10 +466,10 @@
                                             h += '<option selected value="">Pilih Satuan Besar</option>'
                                         }
                                     for (let i = 0; i < data2.length; i++) {
-                                        if (data2[i].id_satuan == data.id_satuan_besar) {
-                                            h += '<option selected value='+data2[i].id_satuan+'>'+data2[i].satuan+'</option>'
+                                        if (data2[i].satuan == data.id_satuan_besar) {
+                                            h += '<option selected value='+data2[i].satuan+'>'+data2[i].satuan+'</option>'
                                         }else{
-                                            h += '<option value='+data2[i].id_satuan+'>'+data2[i].satuan+'</option>'
+                                            h += '<option value='+data2[i].satuan+'>'+data2[i].satuan+'</option>'
                                         }
                                     }
                                     $('.satuanb').html(h)
@@ -488,10 +488,10 @@
                                             h += '<option selected value="">Pilih Satuan Kecil</option>'
                                         }
                                     for (let i = 0; i < data3.length; i++) {
-                                        if (data3[i].id_satuan == data.id_satuan_besar) {
-                                            h += '<option selected value='+data3[i].id_satuan+'>'+data3[i].satuan+'</option>'
+                                        if (data3[i].satuan == data.id_satuan_kecil) {
+                                            h += '<option selected value='+data3[i].satuan+'>'+data3[i].satuan+'</option>'
                                         }else{
-                                            h += '<option value='+data3[i].id_satuan+'>'+data3[i].satuan+'</option>'
+                                            h += '<option value='+data3[i].satuan+'>'+data3[i].satuan+'</option>'
                                         }
                                     }
                                     $('.satuank').html(h)
@@ -510,10 +510,10 @@
                                             h += '<option selected value="">Pilih Satuan Kecil Konv</option>'
                                         }
                                         for (let i = 0; i < data5.length; i++) {
-                                            if (data5[i].id_satuan == data.id_satuan_kecil_konv) {
-                                                h += '<option selected value='+data5[i].id_satuan+'>'+data5[i].satuan+'</option>'
+                                            if (data5[i].satuan == data.id_satuan_kecil_konv) {
+                                                h += '<option selected value='+data5[i].satuan+'>'+data5[i].satuan+'</option>'
                                             }else{
-                                                h += '<option value='+data5[i].id_satuan+'>'+data5[i].satuan+'</option>'
+                                                h += '<option value='+data5[i].satuan+'>'+data5[i].satuan+'</option>'
                                             }
                                         }
                                         $('.satuan_konv').html(h)

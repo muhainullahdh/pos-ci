@@ -397,12 +397,14 @@
                                             <p>Pelanggan</p>
                                         </div>
                                         <div class="col-xl-8">
-                                        <select name="" id="" class="form-control select2x">
-                                                <option value="umum">UMUM</option>
-                                                <?php foreach($customers as $x )  { ?>
-                                                <option value="<?= $x->id_customer ?>"><?= $x->nama ?></option>
-                                                <?php } ?>
-                                        </select>
+                                        <form action="<?= base_url('pos') ?>" method="POST">
+                                            <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2x">
+                                                    <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option>
+                                                    <?php foreach($customers as $x )  { ?>
+                                                    <option <?= $this->session->userdata('tipe_penjualan') == $x->tipe_penjualan ? 'selected' : '' ?> value="<?= $x->tipe_penjualan ?>"><?= $x->nama ?></option>
+                                                    <?php } ?>
+                                            </select>
+                                        </form>
                                         </div>
                                     </div>
 
@@ -789,13 +791,23 @@
                                                     // $(".diskon_item").prop('disabled', false);
                                                     // var qty = $("input[id='idq"+i+"']")[0].value
                                                     var satuann = ''
-                                                    for (let b = 0; b < data.length; b++) {
-							                            satuann += '<option value=' + data[b].id_satuan + '>'+ data[b].satuan +' </option>';
-                                                        var harga1 ="Rp."+formatRupiah(data[b].hargajualb_retail)
-                                                        var jumlah ="Rp."+data[b].hargajualb * qty * data[0].isi
-                                                        var stok = data[b].stok
-                                                        var min_stok = data[b].min_stok
-                                                    }
+                                                    // for (let b = 0; b < data.length; b++) {
+							                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_besar +' </option>';
+							                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_kecil +' </option>';
+							                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_kecil_konv +' </option>';
+                                                        <?php if ($this->session->userdata('tipe_penjualan') == 'retail') { ?>
+                                                            var harga1 ="Rp."+formatRupiah(data.hargajual_konv_retail)
+                                                        <?php } else if ($this->session->userdata('tipe_penjualan') == 'grosir'){ ?>
+                                                            var harga1 ="Rp."+formatRupiah(data.hargajual_konv_grosir)
+                                                        <?php } else if ($this->session->userdata('tipe_penjualan') == 'partai'){ ?>
+                                                            var harga1 ="Rp."+formatRupiah(data.hargajual_konv_partai)
+                                                        <?php } else if ($this->session->userdata('tipe_penjualan') == 'promo'){ ?>
+                                                            var harga1 ="Rp."+formatRupiah(data.hargajual_konv_promo)
+                                                        <?php } ?>
+                                                        var jumlah ="Rp."+ data.hargajualb_retail * qty * data.qty_konv
+                                                        var stok = data.stok
+                                                        var min_stok = data.min_stok
+                                                    // }
                                                     if (stok == min_stok) {
                                                             swal({
                                                             title: "Opss..!",
@@ -816,8 +828,9 @@
                                                         $("#diskon_item").prop('disabled', false);
                                                         $('.satuan1').html(satuann);
                                                         $('.harga1').val(harga1);
+                                                        console.log(jumlah)
                                                         // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajualb));
-                                                        $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.jumlah1').val(jumlah);
                                                         $('.total_pos').html(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock1').val(stok);
                                                         $('.stock-c1').val(stok - qty);

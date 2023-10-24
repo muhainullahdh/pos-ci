@@ -15,6 +15,10 @@ class Pos extends CI_Controller {
 	public function index()
 	{
 		// $this->load->view('body/header');
+        $tipe = $this->input->post('tipe');
+        if ($tipe == true) {
+            $this->session->set_userdata('tipe_penjualan',$tipe);
+        }
         $data = [
             "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result(),
@@ -33,7 +37,7 @@ class Pos extends CI_Controller {
         $this->db->order_by('a.id','ASC');
         $data = $this->db->get();
 
-        echo json_encode($data->result());
+        echo json_encode($data->row_array());
     }
     function get_barang()
     {
@@ -59,5 +63,11 @@ class Pos extends CI_Controller {
         $id = $this->input->post('id');
         $data = $this->db->get_where('satuan',['id_satuan' => $id])->row_array();
         echo json_encode($data);
+    }
+    function change_customer()
+    {
+        $tipe = $this->input->post('tipe');
+        $this->session->set_userdata('tipe_penjualan',$tipe);
+        redirect('pos/sale');
     }
 }
