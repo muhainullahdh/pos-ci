@@ -46,13 +46,26 @@ class Barang extends CI_Controller {
     {
         $satuan = $this->input->post('satuan');
         $singkat = $this->input->post('singkat');
-        if ($satuan == true && $singkat == true) {
+        $action = $this->input->post('action');
+        $id = $this->input->post('id_satuan');
+        if ($satuan == true && $singkat == true && $action != 'edit') {
             $datax = [
                 "satuan" => $satuan,
                 "singkatan" => strtoupper($singkat)
             ];
             $this->db->insert('satuan',$datax);
             redirect('barang/satuan');
+        }
+        if ($action == 'edit') {
+
+            $datax = [
+                "satuan" => $satuan,
+                "singkatan" => strtoupper($singkat)
+            ];
+            $this->db->where('id_satuan',$id);
+            $this->db->update('satuan',$datax);
+            redirect('barang/satuan');
+
         }
         $data = [
             "satuan" => $this->db->get('satuan')->result()
@@ -67,13 +80,24 @@ class Barang extends CI_Controller {
     function kategori()
     {
         $satuan = $this->input->post('kategori');
-        $singkat = $this->input->post('singkat');
-        if ($satuan == true) {
+        $action = $this->input->post('action');
+        $id = $this->input->post('id_kategori');
+        if ($satuan == true && $action != 'edit') {
             $datax = [
                 "nama_kategori" => $satuan,
             ];
             $this->db->insert('kategori',$datax);
-            redirect('barang/satuan');
+            redirect('barang/kategori');
+        }
+        if ($action == 'edit') {
+
+            $datax = [
+                "nama_kategori" => $satuan,
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('kategori',$datax);
+            redirect('barang/kategori');
+
         }
         $data = [
             "kategori" => $this->db->get('kategori')->result()
@@ -88,12 +112,24 @@ class Barang extends CI_Controller {
     function brand()
     {
         $brand = $this->input->post('brand');
+        $action = $this->input->post('action');
+        $id = $this->input->post('id_brand');
         if ($brand == true) {
             $datax = [
                 "nama_brand" => $brand,
             ];
             $this->db->insert('brand',$datax);
             redirect('barang/brand');
+        }
+        if ($action == 'edit') {
+
+            $datax = [
+                "nama_brand" => $brand,
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('brand',$datax);
+            redirect('barang/brand');
+
         }
         $data = [
             "brand" => $this->db->get('brand')->result()
