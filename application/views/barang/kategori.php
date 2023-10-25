@@ -19,6 +19,18 @@
               </div>
             </div>
           </div>
+          <?php
+          if ($this->session->flashdata('msg') == 'double_satuan') { ?>
+          <script>
+            $(document).ready(function() {
+                swal({
+                        title: "Opss",
+                        text: "Data <?= $this->session->flashdata('msg_val') ?> tidak boleh sama",
+                        icon: "warning",
+                    })
+                })
+          </script>
+         <?php } ?>
           <!-- Container-fluid starts-->
           <div class="container-fluid">
             <div class="row">

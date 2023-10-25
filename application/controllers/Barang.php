@@ -49,12 +49,19 @@ class Barang extends CI_Controller {
         $action = $this->input->post('action');
         $id = $this->input->post('id_satuan');
         if ($satuan == true && $singkat == true && $action != 'edit') {
-            $datax = [
-                "satuan" => $satuan,
-                "singkatan" => strtoupper($singkat)
-            ];
-            $this->db->insert('satuan',$datax);
-            redirect('barang/satuan');
+            $cek = $this->db->query("SELECT * FROM satuan where satuan='$satuan' ")->num_rows();
+            if ($cek == true) {
+                $this->session->set_flashdata('msg','double_satuan');
+                $this->session->set_flashdata('msg_val',$satuan);
+                redirect('barang/satuan');
+            }else{
+                $datax = [
+                    "satuan" => $satuan,
+                    "singkatan" => strtoupper($singkat)
+                ];
+                $this->db->insert('satuan',$datax);
+                redirect('barang/satuan');
+            }
         }
         if ($action == 'edit') {
 
@@ -83,11 +90,18 @@ class Barang extends CI_Controller {
         $action = $this->input->post('action');
         $id = $this->input->post('id_kategori');
         if ($satuan == true && $action != 'edit') {
-            $datax = [
-                "nama_kategori" => $satuan,
-            ];
-            $this->db->insert('kategori',$datax);
-            redirect('barang/kategori');
+            $cek = $this->db->query("SELECT * FROM kategori where nama_kategori='$satuan' ")->num_rows();
+            if ($cek == true) {
+                $this->session->set_flashdata('msg','double_satuan');
+                $this->session->set_flashdata('msg_val',$satuan);
+                redirect('barang/kategori');
+            }else{
+                $datax = [
+                    "nama_kategori" => $satuan,
+                ];
+                $this->db->insert('kategori',$datax);
+                redirect('barang/kategori');
+            }
         }
         if ($action == 'edit') {
 
@@ -115,11 +129,18 @@ class Barang extends CI_Controller {
         $action = $this->input->post('action');
         $id = $this->input->post('id_brand');
         if ($brand == true) {
-            $datax = [
-                "nama_brand" => $brand,
-            ];
-            $this->db->insert('brand',$datax);
-            redirect('barang/brand');
+            $cek = $this->db->query("SELECT * FROM brand where nama_brand='$brand' ")->num_rows();
+            if ($cek == true) {
+                $this->session->set_flashdata('msg','double_satuan');
+                $this->session->set_flashdata('msg_val',$brand);
+                redirect('barang/brand');
+            }else{
+                $datax = [
+                    "nama_brand" => $brand,
+                ];
+                $this->db->insert('brand',$datax);
+                redirect('barang/brand');
+            }
         }
         if ($action == 'edit') {
 

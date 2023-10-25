@@ -59,6 +59,18 @@
                       </div>
                     </div>
                   </div>
+                  <?php
+          if ($this->session->flashdata('msg') == 'double_satuan') { ?>
+          <script>
+            $(document).ready(function() {
+                swal({
+                        title: "Opss",
+                        text: "Data <?= $this->session->flashdata('msg_val') ?> tidak boleh sama",
+                        icon: "warning",
+                    })
+                })
+          </script>
+         <?php } ?>
                     <div class="card-body">
                         <div class="table-responsive" style="height: 450px;">
                             <table class="display" id="t_barang">
