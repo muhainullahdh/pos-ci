@@ -797,13 +797,13 @@
 							                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_kecil +' </option>';
 							                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_kecil_konv +' </option>';
                                                         <?php if ($this->session->userdata('tipe_penjualan') == 'retail') { ?>
-                                                            var harga1 ="Rp."+formatRupiah(data.hargajual_konv_retail)
+                                                            var harga1 ="Rp."+formatRupiah(data.hargajualb_retail)
                                                         <?php } else if ($this->session->userdata('tipe_penjualan') == 'grosir'){ ?>
-                                                            var harga1 ="Rp."+formatRupiah(data.hargajual_konv_grosir)
+                                                            var harga1 ="Rp."+formatRupiah(data.hargajualb_grosir)
                                                         <?php } else if ($this->session->userdata('tipe_penjualan') == 'partai'){ ?>
-                                                            var harga1 ="Rp."+formatRupiah(data.hargajual_konv_partai)
+                                                            var harga1 ="Rp."+formatRupiah(data.hargajualb_partai)
                                                         <?php } else if ($this->session->userdata('tipe_penjualan') == 'promo'){ ?>
-                                                            var harga1 ="Rp."+formatRupiah(data.hargajual_konv_promo)
+                                                            var harga1 ="Rp."+formatRupiah(data.hargajualb_promo)
                                                         <?php } ?>
                                                         var jumlah ="Rp."+ data.hargajualb_retail * qty * data.qty_konv
                                                         var stok = data.stok
