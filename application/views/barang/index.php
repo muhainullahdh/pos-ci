@@ -337,6 +337,20 @@
                         </div>
                      </div>
                 </div>
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Import Barang</h4>
+                  </div>
+                    <div class="card-body">
+                        <div class="row">
+                        <form method="post" enctype="multipart/form-data" action="<?= base_url('barang/import') ?>">
+                            <label for="">File Excel</label>
+                            <input type="file" name="barang_import" class="form-control">
+                            <button class="btn btn-primary mt-2">Import</button>
+                        </form>
+                        </div>
+                     </div>
+                </div>
               </div>
             </div>
           </div>
