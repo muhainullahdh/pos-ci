@@ -793,9 +793,15 @@
                                                     // var qty = $("input[id='idq"+i+"']")[0].value
                                                     var satuann = ''
                                                     // for (let b = 0; b < data.length; b++) {
-							                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_besar +' </option>';
-							                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_kecil +' </option>';
-							                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_kecil_konv +' </option>';
+                                                        if (data.id_satuan_besar != "") {
+                                                            satuann += '<option value=' + data.id_satuan_besar + '>'+ data.id_satuan_besar +' </option>';
+                                                        }
+                                                        if (data.id_satuan_kecil != "") {
+                                                            satuann += '<option value=' + data.id_satuan_kecil + '>'+ data.id_satuan_kecil +' </option>';
+                                                        }
+                                                         if (data.id_satuan_kecil_konv != "") {
+                                                            satuann += '<option value=' + data.id_satuan_kecil_konv + '>'+ data.id_satuan_kecil_konv +' </option>';
+                                                        }
                                                         <?php if ($this->session->userdata('tipe_penjualan') == 'retail') { ?>
                                                             var harga1 ="Rp."+formatRupiah(data.hargajualb_retail)
                                                         <?php } else if ($this->session->userdata('tipe_penjualan') == 'grosir'){ ?>
@@ -972,7 +978,7 @@
                   }
                 document.onkeyup = function(e) {
                     if (e.which == 224) {
-                        location.reload();
+                        // location.reload();
                     }else if (e.which == 13) {
                     //   var t = $('#API-1').DataTable();
                       // $('#addRow').on('click', function () {
