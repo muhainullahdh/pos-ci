@@ -971,7 +971,7 @@
                     return prefix == undefined ? rupiah : (rupiah ? 'Rp.' + rupiah : '');
                   }
                 document.onkeyup = function(e) {
-                    if (e.which == 67) {
+                    if (e.which == 224) {
                         location.reload();
                     }else if (e.which == 13) {
                     //   var t = $('#API-1').DataTable();
