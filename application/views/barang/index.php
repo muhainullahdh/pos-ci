@@ -421,25 +421,25 @@
                             // if (data.tipe_penjualan == 'retail') {
                                 $('#radioinline1').prop('checked', true);
                                 $('.id_barang').val(data.id_barang);
-                                $('.hpp_besar').val(data.hpp_besar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.hpp_kecil').val(data.hpp_kecil.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.hpp_kecil_konv').val(data.hpp_konv.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.hpp_besar').val(data.hpp_besar == null ? 0 : data.hpp_besar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.hpp_kecil').val(data.hpp_kecil == null ? 0 : data.hpp_kecil.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.hpp_kecil_konv').val(data.hpp_konv == null ? 0 : data.hpp_konv.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
 
-                                $('.harga_j_besar_retail').val(data.hargajualb_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_kecil_retail').val(data.hargajualk_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_konv_retail').val(data.hargajual_konv_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_besar_retail').val(data.hargajualb_retail == null ? 0 : data.hargajualb_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil_retail').val(data.hargajualk_retail == null ? 0 : data.hargajualk_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv_retail').val(data.hargajual_konv_retail == null ? 0 : data.hargajual_konv_retail.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
 
-                                $('.harga_j_besar_grosir').val(data.hargajualb_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_kecil_grosir').val(data.hargajualk_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_konv_grosir').val(data.hargajualb_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_besar_grosir').val(data.hargajualb_grosir == null ? 0 : data.hargajualb_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil_grosir').val(data.hargajualk_grosir == null ? 0 : data.hargajualk_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv_grosir').val(data.hargajual_konv_grosir == null ? 0 : data.hargajual_konv_grosir.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
 
-                                $('.harga_j_besar_partai').val(data.hargajualb_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_kecil_partai').val(data.hargajualk_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_konv_partai').val(data.hargajualb_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_besar_partai').val(data.hargajualb_partai == null ? 0 : data.hargajualb_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil_partai').val(data.hargajualk_partai == null ? 0 : data.hargajualk_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv_partai').val(data.hargajual_konv_partai == null ? 0 : data.hargajual_konv_partai.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
 
-                                $('.harga_j_besar_promo').val(data.hargajualb_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_kecil_promo').val(data.hargajualk_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                $('.harga_j_konv_promo').val(data.hargajualb_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_besar_promo').val(data.hargajualb_promo == null ? 0 : data.hargajualb_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_kecil_promo').val(data.hargajualk_promo == null ? 0 : data.hargajualk_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                $('.harga_j_konv_promo').val(data.hargajual_konv_promo == null ? 0 : data.hargajual_konv_promo.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             // }else if(data.tipe_penjualan == 'grosir'){
                             //     $('#radioinline2').prop('checked', true);
                             // }else if(data.tipe_penjualan == 'partai'){
@@ -450,7 +450,7 @@
                             $.ajax({
                                 url : "<?= site_url('barang/get_kategori');?>",
                                 method : "POST",
-                                // data : {id22: data.id_satuan_besar},
+                                data : {id22: data.id_satuan_besar},
                                 async : true,
                                 dataType : 'json',
                                 success: function(data4){
@@ -465,6 +465,7 @@
                                             h += '<option value='+data4[i].id+'>'+data4[i].nama_kategori+'</option>'
                                         }
                                     }
+                                    console.log(h)
                                     $('.kategori').html(h)
                                 }
                             })
