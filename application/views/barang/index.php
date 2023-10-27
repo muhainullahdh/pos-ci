@@ -479,6 +479,8 @@
                                     var h = '';
                                     if (data.id_satuan_besar == "" || data.id_satuan_besar == 0) {
                                             h += '<option selected value="">Pilih Satuan Besar</option>'
+                                        }else{
+                                            h += '<option selected value="">Pilih Satuan Besar</option>'
                                         }
                                     for (let i = 0; i < data2.length; i++) {
                                         if (data2[i].satuan == data.id_satuan_besar) {
@@ -501,6 +503,8 @@
                                     var h = '';
                                     if (data.id_satuan_besar == "" || data.id_satuan_besar == 0) {
                                             h += '<option selected value="">Pilih Satuan Kecil</option>'
+                                        }else{
+                                            h += '<option selected value="">Pilih Satuan Kecil</option>'
                                         }
                                     for (let i = 0; i < data3.length; i++) {
                                         if (data3[i].satuan == data.id_satuan_kecil) {
@@ -522,6 +526,8 @@
                                 success: function(data5){
                                     var h = '';
                                         if (data.id_satuan_kecil_konv == "" || data.id_satuan_kecil_konv == 0) {
+                                            h += '<option selected value="">Pilih Satuan Kecil Konv</option>'
+                                        }else{
                                             h += '<option selected value="">Pilih Satuan Kecil Konv</option>'
                                         }
                                         for (let i = 0; i < data5.length; i++) {
