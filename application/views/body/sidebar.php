@@ -41,7 +41,7 @@
                       <span> Kelola User</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="dashboard-03.html">Pengguna</a></li>
-                      <li><a href="dashboard-04.html">Role</a></li>
+                      <li><a href="<?= base_url('user/customer') ?>">Customers</a></li>
                     </ul>
                   </li>
                     <!---- Kontak--->
