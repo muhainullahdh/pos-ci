@@ -260,6 +260,7 @@
                                                         <select id="ids1" class="form-control satuan1" style="cursor: text;">
                                                             <option value="">Pilih satuan</option>
                                                         </select>
+                                                        <input type="hidden" class="qty_isi1">
                                                     </td>
                                                     <td>
                                                         <input readonly type="text" id="idh1" class="form-control harga1">
@@ -803,15 +804,19 @@
                                                             satuann += '<option value=' + data.id_satuan_kecil_konv + '>'+ data.id_satuan_kecil_konv +' </option>';
                                                         }
                                                         <?php if ($this->session->userdata('tipe_penjualan') == 'retail') { ?>
-                                                            var harga1 ="Rp."+formatRupiah(data.hargajualb_retail)
+                                                            var harga1 = formatRupiah(data.hargajualb_retail)
+                                                            if (data.id_satuan_besar != "") {
+                                                                var qtyyy = data.qty_besar
+                                                            }
+                                                            var jumlah = data.hargajualb_retail * qtyyy
                                                         <?php } else if ($this->session->userdata('tipe_penjualan') == 'grosir'){ ?>
-                                                            var harga1 ="Rp."+formatRupiah(data.hargajualb_grosir)
+                                                            var harga1 = formatRupiah(data.hargajualb_grosir)
                                                         <?php } else if ($this->session->userdata('tipe_penjualan') == 'partai'){ ?>
-                                                            var harga1 ="Rp."+formatRupiah(data.hargajualb_partai)
+                                                            var harga1 = formatRupiah(data.hargajualb_partai)
                                                         <?php } else if ($this->session->userdata('tipe_penjualan') == 'promo'){ ?>
-                                                            var harga1 ="Rp."+formatRupiah(data.hargajualb_promo)
+                                                            var harga1 = formatRupiah(data.hargajualb_promo)
                                                         <?php } ?>
-                                                        var jumlah ="Rp."+ data.hargajualb_retail * qty * data.qty_konv
+                                                        // var jumlah = harga1*qty
                                                         var stok = data.stok
                                                         var min_stok = data.min_stok
                                                     // }
@@ -835,9 +840,8 @@
                                                         $("#diskon_item").prop('disabled', false);
                                                         $('.satuan1').html(satuann);
                                                         $('.harga1').val(harga1);
-                                                        console.log(jumlah)
-                                                        // $('p.jumlah'+i+'').html("Rp."+formatRupiah(data.hargajualb));
-                                                        $('.jumlah1').val(jumlah);
+                                                        $('.qty_isi1').val(qtyyy);
+                                                        $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.total_pos').html(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock1').val(stok);
                                                         $('.stock-c1').val(stok - qty);
@@ -858,17 +862,17 @@
                             var id=$(this).val();
                             i = this.id.slice(3);
                             j = this.value;
-                            var satuan = $("select[id='ids"+i+"']")[0].value
+                            var qty_isi = $(".qty_isi"+i+"")[0].value
                             var diskon_item = $("input[id='idd"+i+"']")[0].value
                             var stock_c = $('.stock-c'+i+'').val()
-                            $.ajax({
-                                        url : "<?= site_url('pos/get_satuan');?>",
-                                        method : "POST",
-                                        data : {id: satuan},
-                                        async : true,
-                                        dataType : 'json',
-                                        success: function(dataa){
-                                            if (stock_c == 0) {
+                            // $.ajax({
+                            //             url : "<?= site_url('pos/get_satuan');?>",
+                            //             method : "POST",
+                            //             data : {id: satuan},
+                            //             async : true,
+                            //             dataType : 'json',
+                            //             success: function(dataa){
+                                                if (stock_c == 0) {
                                                     swal({
                                                         title: "Opss..!",
                                                         text: "Stock sisa 10",
@@ -882,22 +886,22 @@
                                                         //   text : "oke"
                                                     // })
                                                         }
-                                                });
+                                                    });
 
                                                 }else{
                                                 // if (satuan) {
-                                                    var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j * dataa.isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                                                        $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * dataa.isi);
-                                                        $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                                        $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi);
+                                                        $('.total_pos').html(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                     // }else{
                                                         // var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
                                                         // $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         // $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - j);
                                                 // }
                                             }
-                                        }
-                            })
+                                        // }
+                            // })
 
                         });
 
