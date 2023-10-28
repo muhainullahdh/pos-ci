@@ -403,7 +403,7 @@
                                             <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2x">
                                                     <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option>
                                                     <?php foreach($customers as $x )  { ?>
-                                                    <option <?= $this->session->userdata('tipe_penjualan') == $x->tipe_penjualan ? 'selected' : '' ?> value="<?= $x->tipe_penjualan ?>"><?= $x->nama ?></option>
+                                                    <option <?= $this->session->userdata('tipe_penjualan') == ($x->tipe_penjualan) ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan) ?>"><?= $x->nama_toko ?></option>
                                                     <?php } ?>
                                             </select>
                                         </form>

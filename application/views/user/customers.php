@@ -86,10 +86,11 @@
                     </div>
                   </div>
                     <div class="card-body">
-                        <div class="table-responsive" style="height: 450px;">
+                        <div class="table-responsive">
                             <table class="display" id="t_barang">
                                 <thead>
                                             <tr>
+                                            <th width="400" scope="col">Kode Pelanggan</th>
                                             <th width="400" scope="col">Nama</th>
                                             <th width="80" scope="col">Tipe Penjualan</th>
                                             <th width="80" scope="col">Telp</th>
@@ -100,7 +101,10 @@
                                     <?php foreach ($customers as $x) {  ?>
                                             <tr>
                                                 <td>
-                                                    <?= $x->nama ?>
+                                                    <?= $x->kode_pelanggan ?>
+                                                </td>
+                                                <td>
+                                                    <?= $x->nama_toko ?>
                                                 </td>
                                                 <td>
                                                     <?= $x->tipe_penjualan ?>
@@ -171,6 +175,22 @@
                                 </table>
                         </div>
                      </div>
+                </div>
+                <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                            <form enctype="multipart/form-data" action="<?= base_url('user/import') ?>" method="POST">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="">Import Customer</label>
+                                        <input type="file" class="form-control" required name="customer_imp">
+                                        <br>
+                                        <button type="submit" class="btn btn-primary">Import</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
               </div>
             </div>

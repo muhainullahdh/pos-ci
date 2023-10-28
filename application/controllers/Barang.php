@@ -138,7 +138,7 @@ class Barang extends CI_Controller {
 					// $kode_barang = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
 					// $nama = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
 					// $angkatan = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-					$temp_data = [
+					$temp_data[] = array(
 						'kode_barang'	=> $worksheet->getCellByColumnAndRow(0, $row)->getValue(),
 						'nama'	=> $worksheet->getCellByColumnAndRow(1, $row)->getValue(),
 						'id_satuan_besar'	=> $worksheet->getCellByColumnAndRow(2, $row)->getValue(),
@@ -167,19 +167,19 @@ class Barang extends CI_Controller {
 						'min_stok'	=> 1,
                         'kategori_id' => $worksheet->getCellByColumnAndRow(27, $row)->getValue(),
                         'user_id' => 1,
-                    ];
-			        $insert = $this->db->insert('barang',$temp_data);
+                    );
                     // var_dump(json_encode($nama));
 				}
 			}
+			$insert = $this->db->insert_batch('barang',$temp_data);
 			// $this->load->model('ImportModel');
-			// if($insert){
-			// 	$this->session->set_flashdata('status', '<span class="glyphicon glyphicon-ok"></span> Data Berhasil di Import ke Database');
-			// 	redirect($_SERVER['HTTP_REFERER']);
-			// }else{
-			// 	$this->session->set_flashdata('status', '<span class="glyphicon glyphicon-remove"></span> Terjadi Kesalahan');
-			// 	redirect($_SERVER['HTTP_REFERER']);
-			// }
+			if($insert){
+				$this->session->set_flashdata('status', '<span class="glyphicon glyphicon-ok"></span> Data Berhasil di Import ke Database');
+				redirect($_SERVER['HTTP_REFERER']);
+			}else{
+				$this->session->set_flashdata('status', '<span class="glyphicon glyphicon-remove"></span> Terjadi Kesalahan');
+				redirect($_SERVER['HTTP_REFERER']);
+			}
 		}else{
 			echo "Tidak ada file yang masuk";
 		}
