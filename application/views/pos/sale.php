@@ -481,7 +481,7 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col">
-                                            <button id="bayar" class="btn btn-square btn-primary col-xl-12" style="font-size:20px;">BAYAR</button>
+                                            <input id="bayar" class="btn btn-square btn-primary col-xl-12 submit" value="BAYAR" style="font-size:20px;">
                                         </div>
                                         <div class="col">
                                             <button id="tahan" class="btn btn-square btn-danger col-xl-12" style="font-size:20px;">TAHAN</button>
@@ -775,7 +775,7 @@
                                             // i = this.id.slice(2);
                                             // j = this.value;
                                             $('.total_item').val(1)
-                                            var qty = $("input[id='idq1']")[0].value
+
                                             // console.log('aaa')
                                             // $("#result"+i).html('<p>Number: '+j+'</p>');
                                             $.ajax({
@@ -842,8 +842,10 @@
                                                         $('.harga1').val(harga1);
                                                         $('.qty_isi1').val(qtyyy);
                                                         $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.total_pos').html(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock1').val(stok);
+                                                          var qty_isi = $(".qty_isi1")[0].value //qty isi satuan
+                                                          var qty = $("input[id='idq1']")[0].value * qty_isi
                                                         $('.stock-c1').val(stok - qty);
                                                     // console.log(data.nama)
                                                     }
@@ -890,10 +892,10 @@
 
                                                 }else{
                                                 // if (satuan) {
-                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi - diskon_item.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
+                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                         $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi);
-                                                        $('.total_pos').html(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                     // }else{
                                                         // var jumlah = $('p.harga'+i+'').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item
                                                         // $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
@@ -909,26 +911,23 @@
                                 i = this.id.slice(3);
                                 j = this.value;
                                 var qty = $("input[id='idq"+i+"']")[0].value
+                                var qty_isi_satuan = $(".qty_isi"+i+"")[0].value //qty satuan
+
                                 var satuan_p = $("select[id='ids"+i+"']")[0].value
-                                // if (satuan_p == true) {
-                                    // console.log(satuan_p)
-                                $.ajax({
-                                    url : "<?= site_url('pos/get_satuan');?>",
-                                    method : "POST",
-                                    data : {id: satuan_p},
-                                    async : true,
-                                    dataType : 'json',
-                                    success: function(dataa){
-                                        var jumlah = $('.harga'+i+'').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty * dataa.isi - j.slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                                        $('.jumlah'+i+'').val("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * dataa.isi);
-                                    }
-                                })
-                                // }else{
-                                //     var jumlah = $('p.harga1').text().slice(3).replace(/[^a-zA-Z0-9 ]/g, '') * qty - j
-                                //     $('p.jumlah'+i+'').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                //     $('p.stock-c'+i+'').html($('p.stock'+i+'').text() - qty[0].value);
-                                // }
+                                // $.ajax({
+                                //     url : "<?= site_url('pos/get_satuan');?>",
+                                //     method : "POST",
+                                //     data : {id: satuan_p},
+                                //     async : true,
+                                //     dataType : 'json',
+                                //     success: function(dataa){
+                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * qty_isi_satuan - j.replace(/[^a-zA-Z0-9 ]/g, '')
+                                        $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan);
+                                        $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+
+                                    // }
+                                // })
                         })
                         satuan_x.change(function(){
                                     var id=$(this).val();
@@ -962,7 +961,7 @@
                 //shortcut
                 var rupiah = document.getElementById('idd1');
                     rupiah.addEventListener('keyup', function(e){
-                    rupiah.value = formatRupiah(this.value, 'Rp.');
+                    rupiah.value = formatRupiah(this.value, '');
                   });
                   function formatRupiah(angka, prefix){
                     var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -978,7 +977,7 @@
                     }
 
                     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                    return prefix == undefined ? rupiah : (rupiah ? 'Rp.' + rupiah : '');
+                    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
                   }
                 document.onkeyup = function(e) {
                     if (e.which == 224) {
@@ -1268,35 +1267,96 @@
                     searching : false
                 });
 
-                // t.on('click', 'tbody tr', (e) => {
-                //     let classList = e.currentTarget.classList;
-
-                //     if (classList.contains('selected')) {
-                //         classList.remove('selected');
-                //     }
-                //     else {
-                //         t.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
-                //         classList.add('selected');
-                //     }
-                // });
-                                // var counter = 2;
-                // $('#addRow').on('click', function () {
-                //     t.row.add( [
-                //         '<br><select name="product'+counter+'" id="" class="form-control select2x barang" style="cursor: text;"><option value="">Pilih barang</option> <?php foreach($product as $x ) {?> <option value="<?= $x->nama ?>"><?= $x->nama ?></option> <?php } ?></select>',
-                //         '<input id="qty'+counter+'" type="number" style="width: 40px;text-align:center;" value="1" class="form-control">',
-                //         ' <br><select id="satuan'+counter+'" class="form-control select2x" style="cursor: text;"><option value="">Pilih satuan</option><?php foreach($satuan as $x ) {?><option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option><?php } ?></select>',
-                //         '<p class="harga'+counter+'"></p>',
-                //         counter +'.5',
-                //         counter +'.5',
-                //         counter +'.5'
-                //     ]).draw(false);
-                //     counter++;
-
-                //     $('.select2x').select2();
-                // });
-
-                ///end datatable
-
+                var action = $(".submit")
+                        action.on('click',function() {
+                            var value_ac = action.val();
+                            var datax = {
+                                    cek : value_ac,
+                                    kode_barang : $('.kd_barang').val(),
+                                    nama_barang : $('.nama_barang').val(),
+                                    id_satuanb : $('.satuanb').val(),
+                                    isi_besar : $('.isi_besar').val(),
+                                    id_satuank : $('.satuank').val(),
+                                    isi_kecil : $('.isi_kecil').val(),
+                                    satuan_konv : $('.satuan_konv').val(),
+                                    isi_konv : $('.isi_konv').val(),
+                                    kategori_id : $('.kategori').val(),
+                                    brand : $('.brand').val(),
+                                    stok : $('.stok').val(),
+                                    hpp_besar : $('.hpp_besar').val(),
+                                    hpp_kecil : $('.hpp_kecil').val(),
+                                    hpp_kecil_konv : $('.hpp_kecil_konv').val(),
+                                    tipe : $('.tipe').val(),
+                                    harga_j_besar_retail : $('.harga_j_besar_retail').val(),
+                                    harga_j_kecil_retail : $('.harga_j_kecil_retail').val(),
+                                    harga_j_konv_retail : $('.harga_j_konv_retail').val(),
+                                    harga_j_besar_grosir : $('.harga_j_besar_grosir').val(),
+                                    harga_j_kecil_grosir : $('.harga_j_kecil_grosir').val(),
+                                    harga_j_konv_grosir : $('.harga_j_konv_grosir').val(),
+                                    harga_j_besar_partai : $('.harga_j_besar_partai').val(),
+                                    harga_j_kecil_partai : $('.harga_j_kecil_partai').val(),
+                                    harga_j_konv_partai : $('.harga_j_konv_partai').val(),
+                                    harga_j_besar_promo : $('.harga_j_besar_promo').val(),
+                                    harga_j_kecil_promo : $('.harga_j_kecil_promo').val(),
+                                    harga_j_konv_promo : $('.harga_j_konv_promo').val(),
+                                    id_barang : $('.id_barang').val()
+                                }
+                            if (value_ac == "Simpan") {
+                                if ($('.nama_barang').val() == "") {
+                                    swal({
+                                         title: "Opss..!",
+                                          text: "Nama Barang tidak boleh kosong",
+                                          icon: "warning",
+                                    })
+                                 }else if ($('.satuanb').val() == "" && $('.satuank').val() == "") {
+                                    swal({
+                                         title: "Opss..!",
+                                          text: "Satuan Besar dan Kecil tidak boleh kosong",
+                                          icon: "warning",
+                                    })
+                                 }else{
+                                    // console.log($('.satuanb').val())
+                                    $.ajax({
+                                            url : "<?= site_url('barang/submit');?>",
+                                            method : "POST",
+                                            data : datax,
+                                            async : true,
+                                            dataType : 'json',
+                                            success: function(data){
+                                                            swal({
+                                                                title: "Berhasil..!",
+                                                                text: "Barang "+data.nama+" berhasil disimpan",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    location.reload();
+                                                                }
+                                                            });
+                                            }
+                                        })
+                                }
+                            }else if(value_ac == "Update"){
+                                $.ajax({
+                                    url : "<?= site_url('barang/submit');?>",
+                                    method : "POST",
+                                    data : datax,
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(data){
+                                            swal({
+                                                title: "Berhasil..!",
+                                                text: "Barang "+data.nama+" berhasil diupdate",
+                                                icon: "success",
+                                                })
+                                                .then((willDelete) => {
+                                                if (willDelete) {
+                                                    location.reload();
+                                                }
+                                                 });
+                                            }
+                                        })
+                            }
+                        })
 
 
             // console.log(localStorage.getItem("page-wrapper"))
