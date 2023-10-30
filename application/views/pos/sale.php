@@ -391,7 +391,7 @@
                                             <p>No Struk</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <input type="text" readonly class="form-control" value="<?= date('d')."/".date('m')."/" . date('Y') . "0001" ?>">
+                                            <input type="text" readonly class="form-control no_struk" value="<?= date('d')."/".date('m')."/" . date('Y') . "0001" ?>">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -404,7 +404,7 @@
                                                     <!-- <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option> -->
                                                     <?php foreach($customers as $x )  {
                                                         ?>
-                                                    <option <?= explode(',',$this->session->userdata('tipe_penjualan'))[0] == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer ?>"><?= $x->nama_toko ?></option>
+                                                    <option <?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer ?>"><?= $x->nama_toko ?></option>
                                                     <?php } ?>
                                             </select>
                                         </form>
@@ -753,16 +753,26 @@
                         $('.stock1').attr('disabled',true)
                         $('.stock-c1').attr('disabled',true)
                         bayar.on('click',function() {
-                                    $.ajax({
-                                        url : "<?= site_url('pos/submit');?>",
-                                        method : "POST",
-                                        data : {data: data},
-                                        async : true,
-                                        dataType : 'json',
-                                        success: function(data){
-                                            console.log(data)
-                                        }
-                                    })
+                            var value_ac = action.val();
+                            var datax = {
+                                    cek : value_ac,
+                                    no_struk : $('.no_struk').val(),
+                                    item : {
+                                        nama : $('.id_barang1').val(),
+                                        qty : $('.qty1').val()
+                                    }
+                                }
+                                console.log(datax)
+                                    // $.ajax({
+                                    //     url : "<?= site_url('pos/submit');?>",
+                                    //     method : "POST",
+                                    //     data : {data: data},
+                                    //     async : true,
+                                    //     dataType : 'json',
+                                    //     success: function(data){
+                                    //         console.log(data)
+                                    //     }
+                                    // })
                         })
                         var counter = 1;
                         var data = "<?= base_url('pos/get_barang') ?>";
@@ -796,19 +806,19 @@
                                                                 var qtyyy = data.qty_besar
                                                             }
                                                             var jumlah = data.hargajualb_retail * qtyyy
-                                                        <?php }else if ($this->session->userdata('tipe_penjualan') == 'retail') { ?>
+                                                        <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
                                                             var harga1 = formatRupiah(data.hargajualb_retail)
-                                                            if (data.id_satuan_besar != "") {
-                                                                var qtyyy = data.qty_besar
-                                                            }
+                                                                if (data.id_satuan_besar != "") {
+                                                                    var qtyyy = data.qty_besar
+                                                                }
                                                             var jumlah = data.hargajualb_retail * qtyyy
-                                                        <?php } else if ($this->session->userdata('tipe_penjualan') == 'grosir'){ ?>
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
                                                             var harga1 = formatRupiah(data.hargajualb_grosir)
-                                                        <?php } else if ($this->session->userdata('tipe_penjualan') == 'partai'){ ?>
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
                                                             var harga1 = formatRupiah(data.hargajualb_partai)
-                                                        <?php } else if ($this->session->userdata('tipe_penjualan') == 'promo'){ ?>
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
                                                             var harga1 = formatRupiah(data.hargajualb_promo)
-                                                        <?php } ?>
+                                                        <?php }?>
                                                         var stok = data.stok
                                                         var min_stok = data.min_stok
                                                     if (stok == min_stok) {
@@ -1021,17 +1031,17 @@
                                                                     var qtyyy = data.qty_besar
                                                                 }
                                                                 var jumlah = data.hargajualb_retail * qtyyy
-                                                            <?php }else if ($this->session->userdata('tipe_penjualan') == 'retail') { ?>
+                                                            <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
                                                                 var harga1 = formatRupiah(data.hargajualb_retail)
                                                                 if (data.id_satuan_besar != "") {
                                                                     var qtyyy = data.qty_besar
                                                                 }
                                                                 var jumlah = data.hargajualb_retail * qtyyy
-                                                            <?php } else if ($this->session->userdata('tipe_penjualan') == 'grosir'){ ?>
+                                                            <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
                                                                 var harga1 = formatRupiah(data.hargajualb_grosir)
-                                                            <?php } else if ($this->session->userdata('tipe_penjualan') == 'partai'){ ?>
+                                                            <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
                                                                 var harga1 = formatRupiah(data.hargajualb_partai)
-                                                            <?php } else if ($this->session->userdata('tipe_penjualan') == 'promo'){ ?>
+                                                            <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
                                                                 var harga1 = formatRupiah(data.hargajualb_promo)
                                                             <?php } ?>
                                                             var stok = data.stok
@@ -1160,90 +1170,67 @@
                             var value_ac = action.val();
                             var datax = {
                                     cek : value_ac,
-                                    kode_barang : $('.kd_barang').val(),
-                                    nama_barang : $('.nama_barang').val(),
-                                    id_satuanb : $('.satuanb').val(),
-                                    isi_besar : $('.isi_besar').val(),
-                                    id_satuank : $('.satuank').val(),
-                                    isi_kecil : $('.isi_kecil').val(),
-                                    satuan_konv : $('.satuan_konv').val(),
-                                    isi_konv : $('.isi_konv').val(),
-                                    kategori_id : $('.kategori').val(),
-                                    brand : $('.brand').val(),
-                                    stok : $('.stok').val(),
-                                    hpp_besar : $('.hpp_besar').val(),
-                                    hpp_kecil : $('.hpp_kecil').val(),
-                                    hpp_kecil_konv : $('.hpp_kecil_konv').val(),
-                                    tipe : $('.tipe').val(),
-                                    harga_j_besar_retail : $('.harga_j_besar_retail').val(),
-                                    harga_j_kecil_retail : $('.harga_j_kecil_retail').val(),
-                                    harga_j_konv_retail : $('.harga_j_konv_retail').val(),
-                                    harga_j_besar_grosir : $('.harga_j_besar_grosir').val(),
-                                    harga_j_kecil_grosir : $('.harga_j_kecil_grosir').val(),
-                                    harga_j_konv_grosir : $('.harga_j_konv_grosir').val(),
-                                    harga_j_besar_partai : $('.harga_j_besar_partai').val(),
-                                    harga_j_kecil_partai : $('.harga_j_kecil_partai').val(),
-                                    harga_j_konv_partai : $('.harga_j_konv_partai').val(),
-                                    harga_j_besar_promo : $('.harga_j_besar_promo').val(),
-                                    harga_j_kecil_promo : $('.harga_j_kecil_promo').val(),
-                                    harga_j_konv_promo : $('.harga_j_konv_promo').val(),
-                                    id_barang : $('.id_barang').val()
+                                    no_struk : $('.no_struk').val(),
+                                    item : {
+                                        nama : $('.id_barang1').val(),
+                                        qty : $('.qty1').val()
+                                    }
                                 }
-                            if (value_ac == "Simpan") {
-                                if ($('.nama_barang').val() == "") {
-                                    swal({
-                                         title: "Opss..!",
-                                          text: "Nama Barang tidak boleh kosong",
-                                          icon: "warning",
-                                    })
-                                 }else if ($('.satuanb').val() == "" && $('.satuank').val() == "") {
-                                    swal({
-                                         title: "Opss..!",
-                                          text: "Satuan Besar dan Kecil tidak boleh kosong",
-                                          icon: "warning",
-                                    })
-                                 }else{
-                                    // console.log($('.satuanb').val())
-                                    $.ajax({
-                                            url : "<?= site_url('barang/submit');?>",
-                                            method : "POST",
-                                            data : datax,
-                                            async : true,
-                                            dataType : 'json',
-                                            success: function(data){
-                                                            swal({
-                                                                title: "Berhasil..!",
-                                                                text: "Barang "+data.nama+" berhasil disimpan",
-                                                                icon: "success",
-                                                                }).then((willDelete) => {
-                                                                if (willDelete) {
-                                                                    location.reload();
-                                                                }
-                                                            });
-                                            }
-                                        })
-                                }
-                            }else if(value_ac == "Update"){
-                                $.ajax({
-                                    url : "<?= site_url('barang/submit');?>",
-                                    method : "POST",
-                                    data : datax,
-                                    async : true,
-                                    dataType : 'json',
-                                    success: function(data){
-                                            swal({
-                                                title: "Berhasil..!",
-                                                text: "Barang "+data.nama+" berhasil diupdate",
-                                                icon: "success",
-                                                })
-                                                .then((willDelete) => {
-                                                if (willDelete) {
-                                                    location.reload();
-                                                }
-                                                 });
-                                            }
-                                        })
-                            }
+                            // if (value_ac == "Simpan") {
+                            //     if ($('.nama_barang').val() == "") {
+                            //         swal({
+                            //              title: "Opss..!",
+                            //               text: "Nama Barang tidak boleh kosong",
+                            //               icon: "warning",
+                            //         })
+                            //      }else if ($('.satuanb').val() == "" && $('.satuank').val() == "") {
+                            //         swal({
+                            //              title: "Opss..!",
+                            //               text: "Satuan Besar dan Kecil tidak boleh kosong",
+                            //               icon: "warning",
+                            //         })
+                            //      }else{
+                            //         // console.log($('.satuanb').val())
+                            //         $.ajax({
+                            //                 url : "<?= site_url('barang/submit');?>",
+                            //                 method : "POST",
+                            //                 data : datax,
+                            //                 async : true,
+                            //                 dataType : 'json',
+                            //                 success: function(data){
+                            //                                 swal({
+                            //                                     title: "Berhasil..!",
+                            //                                     text: "Barang "+data.nama+" berhasil disimpan",
+                            //                                     icon: "success",
+                            //                                     }).then((willDelete) => {
+                            //                                     if (willDelete) {
+                            //                                         location.reload();
+                            //                                     }
+                            //                                 });
+                            //                 }
+                            //             })
+                            //     }
+                            // }else if(value_ac == "Update"){
+                            //     $.ajax({
+                            //         url : "<?= site_url('barang/submit');?>",
+                            //         method : "POST",
+                            //         data : datax,
+                            //         async : true,
+                            //         dataType : 'json',
+                            //         success: function(data){
+                            //                 swal({
+                            //                     title: "Berhasil..!",
+                            //                     text: "Barang "+data.nama+" berhasil diupdate",
+                            //                     icon: "success",
+                            //                     })
+                            //                     .then((willDelete) => {
+                            //                     if (willDelete) {
+                            //                         location.reload();
+                            //                     }
+                            //                      });
+                            //                 }
+                            //             })
+                            // }
                         })
 
 

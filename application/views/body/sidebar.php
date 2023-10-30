@@ -41,7 +41,6 @@
                       <span> Kelola User</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="dashboard-03.html">Pengguna</a></li>
-                      <li><a href="<?= base_url('user/customer') ?>">Customers</a></li>
                     </ul>
                   </li>
                     <!---- Kontak--->
@@ -50,8 +49,9 @@
                     <i data-feather="book"></i>
                       <span>Kontak</span></a>
                     <ul class="sidebar-submenu">
-                      <li><a href="dashboard-03.html">Supplier</a></li>
+                      <li><a href="<?= base_url('user/supplier') ?>">Supplier</a></li>
                       <li><a href="dashboard-04.html">Pelanggan</a></li>
+                      <li><a href="<?= base_url('user/customer') ?>">Customers</a></li>
                     </ul>
                   </li>
                   <!---- produk--->
