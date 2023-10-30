@@ -396,15 +396,15 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-xl-4">
-                                            <p>Pelanggan <?= $this->session->userdata('tipe_penjualan') ?></p>
+                                            <p>Pelanggan <?= explode(',',$this->session->userdata('tipe_penjualan'))[0] ?></p>
                                         </div>
                                         <div class="col-xl-8">
                                         <form action="<?= base_url('pos') ?>" method="POST">
                                             <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2x">
-                                                    <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option>
+                                                    <!-- <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option> -->
                                                     <?php foreach($customers as $x )  {
                                                         ?>
-                                                    <option <?= $this->session->userdata('tipe_penjualan') == ($x->tipe_penjualan) ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan) ?>"><?= $x->nama_toko ?></option>
+                                                    <option <?= explode(',',$this->session->userdata('tipe_penjualan'))[0] == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer ?>"><?= $x->nama_toko ?></option>
                                                     <?php } ?>
                                             </select>
                                         </form>

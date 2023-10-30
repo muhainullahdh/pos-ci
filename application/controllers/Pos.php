@@ -67,7 +67,9 @@ class Pos extends CI_Controller {
     function change_customer()
     {
         $tipe = $this->input->post('tipe');
-        $this->session->set_userdata('tipe_penjualan',$tipe);
-        redirect('pos/sale');
+        $xx = $this->session->set_userdata('tipe_penjualan',$tipe);
+        if ($xx == true) {
+            redirect('pos/sale');
+        }
     }
 }
