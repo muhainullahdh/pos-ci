@@ -887,7 +887,11 @@
                                                     var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                         $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi);
-                                                        $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        var total_pos_fix = 0;
+                                                        for (let t = 1; t <=counter; t++) {
+                                                            total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                        }
+                                                        $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
 
                                             }
 
