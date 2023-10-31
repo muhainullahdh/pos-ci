@@ -244,10 +244,11 @@
                                             <tbody id="sampel-wrapper">
                                                 <tr style="background-color: white;">
                                                 <td>
-                                                    <div class="form-check checkbox checkbox-primary mb-0">
+                                                    <!-- <div class="form-check checkbox checkbox-primary mb-0">
                                                     <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
                                                     <label class="form-check-label" for="checkbox-primary-1"></label>
-                                                    </div>
+                                                    </div> -->
+                                                    <button type="button" class="btn btn-danger delete_satuan"><i class="icon-minus"></i></button>
                                                 </td>
                                                     <td class="order">
                                                     <input class="form-control barang1">
@@ -391,7 +392,8 @@
                                             <p>No Struk</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <input type="text" readonly class="form-control no_struk" value="<?= date('d')."/".date('m')."/" . date('Y') . "0001" ?>">
+                                            <?php $urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi ")->row_array() ?>
+                                            <input type="text" readonly class="form-control no_struk" value="<?= date('d')."/".date('m')."/" . date('Y') .sprintf('%04d',$urutan['t']+1); ?>">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -404,7 +406,7 @@
                                                     <!-- <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option> -->
                                                     <?php foreach($customers as $x )  {
                                                         ?>
-                                                    <option <?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer ?>"><?= $x->nama_toko ?></option>
+                                                    <option <?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer.",".$x->nama_toko ?>"><?= $x->nama_toko ?></option>
                                                     <?php } ?>
                                             </select>
                                         </form>
@@ -416,7 +418,7 @@
                                             <p>Member</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <input type="text" class="form-control" value="">
+                                            <input type="text" class="form-control member" value="">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -424,7 +426,7 @@
                                             <p>Diskon</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <input type="text" class="form-control" value="0">
+                                            <input type="text" class="form-control diskon_all" value="0">
                                         </div>
                                     </div>
 
@@ -433,7 +435,7 @@
                                             <p>Total Netto</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <input type="text" class="form-control" value="0">
+                                            <input type="text" class="form-control total_netto" value="0">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -441,7 +443,7 @@
                                             <p>Total Bayar</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <input type="text" class="form-control" value="0">
+                                            <input type="text" class="form-control total_bayar" value="0">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -457,7 +459,7 @@
                                             <p>Keterangan</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control keterangan">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -749,31 +751,9 @@
         $(function() {
           $('.select2x').select2();
 
-                        var bayar = $("#bayar")
                         $('.stock1').attr('disabled',true)
                         $('.stock-c1').attr('disabled',true)
-                        bayar.on('click',function() {
-                            var value_ac = action.val();
-                            var datax = {
-                                    cek : value_ac,
-                                    no_struk : $('.no_struk').val(),
-                                    item : {
-                                        nama : $('.id_barang1').val(),
-                                        qty : $('.qty1').val()
-                                    }
-                                }
-                                console.log(datax)
-                                    // $.ajax({
-                                    //     url : "<?= site_url('pos/submit');?>",
-                                    //     method : "POST",
-                                    //     data : {data: data},
-                                    //     async : true,
-                                    //     dataType : 'json',
-                                    //     success: function(data){
-                                    //         console.log(data)
-                                    //     }
-                                    // })
-                        })
+
                         var counter = 1;
                         var data = "<?= base_url('pos/get_barang') ?>";
                         $(".barang1").autocomplete({
@@ -1171,70 +1151,89 @@
 
                         var action = $(".submit")
                         action.on('click',function() {
-                            var value_ac = action.val();
-                            var datax = {
-                                    cek : value_ac,
-                                    no_struk : $('.no_struk').val(),
-                                    item : {
-                                        nama : $('.id_barang1').val(),
-                                        qty : $('.qty1').val()
-                                    }
-                                }
-                            // if (value_ac == "Simpan") {
-                            //     if ($('.nama_barang').val() == "") {
-                            //         swal({
-                            //              title: "Opss..!",
-                            //               text: "Nama Barang tidak boleh kosong",
-                            //               icon: "warning",
-                            //         })
-                            //      }else if ($('.satuanb').val() == "" && $('.satuank').val() == "") {
-                            //         swal({
-                            //              title: "Opss..!",
-                            //               text: "Satuan Besar dan Kecil tidak boleh kosong",
-                            //               icon: "warning",
-                            //         })
-                            //      }else{
-                            //         // console.log($('.satuanb').val())
-                            //         $.ajax({
-                            //                 url : "<?= site_url('barang/submit');?>",
-                            //                 method : "POST",
-                            //                 data : datax,
-                            //                 async : true,
-                            //                 dataType : 'json',
-                            //                 success: function(data){
-                            //                                 swal({
-                            //                                     title: "Berhasil..!",
-                            //                                     text: "Barang "+data.nama+" berhasil disimpan",
-                            //                                     icon: "success",
-                            //                                     }).then((willDelete) => {
-                            //                                     if (willDelete) {
-                            //                                         location.reload();
-                            //                                     }
-                            //                                 });
-                            //                 }
-                            //             })
-                            //     }
-                            // }else if(value_ac == "Update"){
-                            //     $.ajax({
-                            //         url : "<?= site_url('barang/submit');?>",
-                            //         method : "POST",
-                            //         data : datax,
-                            //         async : true,
-                            //         dataType : 'json',
-                            //         success: function(data){
-                            //                 swal({
-                            //                     title: "Berhasil..!",
-                            //                     text: "Barang "+data.nama+" berhasil diupdate",
-                            //                     icon: "success",
-                            //                     })
-                            //                     .then((willDelete) => {
-                            //                     if (willDelete) {
-                            //                         location.reload();
-                            //                     }
-                            //                      });
-                            //                 }
-                            //             })
-                            // }
+                            if ($(".id_barang"+counter+"").val() == "") {
+                                swal({
+                                           title: "Opss..!",
+                                            text: "Barang tidak boleh kosong",
+                                            icon: "warning",
+                                      })
+                            }else{
+                              var value_ac = action.val();
+                              var barang = ''
+                              var xx = []
+                              for (let i = 1; i <= counter; i++) {
+
+                                // var a = $('.barang'+i+'').val()
+                                // var qty = $('.qty'+i+'').val()
+                                xx.push ({
+                                    barang : $('.barang'+i+'').val(),
+                                    qty : $('.qty'+i+'').val(),
+                                    satuan : $('.satuan'+i+'').val(),
+                                    harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                })
+                              }
+                              var datax = {
+                                      cek : value_ac,
+                                      no_struk : $('.no_struk').val(),
+                                      tipe : $('select[name="tipe"]').val(),
+                                      member : $('.member').val(),
+                                      diskon_all : $('.diskon_all').val(),
+                                      total_netto : $('.total_netto').val(),
+                                      total_bayar : $('.total_bayar').val(),
+                                      jumlah_item : $('.jumlah_item').val(),
+                                      keterangan : $('.keterangan').val(),
+                                      item : xx
+                                  }
+                              if (value_ac == "BAYAR") {
+                                      $.ajax({
+                                              url : "<?= site_url('pos/submit');?>",
+                                              method : "POST",
+                                              data : datax,
+                                              async : true,
+                                              dataType : 'json',
+                                              success: function(data){
+                                                              swal({
+                                                                  title: "Berhasil..!",
+                                                                  text: "Transaksi "+data.nama+"  berhasil disimpan",
+                                                                  icon: "success",
+                                                                  }).then((willDelete) => {
+                                                                  if (willDelete) {
+                                                                    //   location.reload();
+                                                                    // $("#sampel-wrapper").show();
+                                                                    var divToPrint=document.getElementById("sampel-wrapper");
+                                                                    var print_struk = "No. "+$('.no_struk').val()+"<br>Cust "+$('select[name="tipe"]').val().split(',')[2]+"<br>"
+                                                                    newWin= window.open("");
+                                                                    newWin.document.write(print_struk);
+                                                                    newWin.print();
+                                                                    newWin.close();
+                                                                  }
+                                                              });
+                                              }
+                                          })
+                              }else if(value_ac == "Update"){
+                                  $.ajax({
+                                      url : "<?= site_url('barang/submit');?>",
+                                      method : "POST",
+                                      data : datax,
+                                      async : true,
+                                      dataType : 'json',
+                                      success: function(data){
+                                              swal({
+                                                  title: "Berhasil..!",
+                                                  text: "Barang "+data.nama+" berhasil diupdate",
+                                                  icon: "success",
+                                                  })
+                                                  .then((willDelete) => {
+                                                  if (willDelete) {
+                                                      location.reload();
+                                                  }
+                                                   });
+                                              }
+                                          })
+                              }
+                            }
                         })
 
 

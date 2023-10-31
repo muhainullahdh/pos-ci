@@ -72,4 +72,54 @@ class Pos extends CI_Controller {
             redirect('pos/sale');
         }
     }
+    function submit()
+    {
+        $id_barang = $this->input->post('id_barang');
+        $cek = $this->input->post('cek');
+        $urutan = substr($this->input->post('no_struk'),10);
+        $data = [
+            "no_struk" => $this->input->post('no_struk'),
+            "urutan" => $urutan,
+            "pelanggan" => explode(',',$this->input->post('tipe'))[1],
+            "diskon" => $this->clean($this->input->post('diskon_all')),
+            "total_netto" => $this->clean($this->input->post('total_netto')),
+            "total_bayar" => $this->clean($this->input->post('total_bayar')),
+            "keterangan" => $this->clean($this->input->post('keterangan')),
+            "user_id" => $this->session->userdata('id_user')
+        ];
+        if ($cek == 'BAYAR') {
+            foreach ($this->input->post('item') as $x) {
+                $output[] = array(
+                    "id_transaksi" => 2,
+                    "barang" => $x['barang'],
+                    "qty" => $x['qty'],
+                    "satuan" => $x['satuan'],
+                    "harga_satuan" => $x['harga_satuan'],
+                    "diskon_item" => $x['diskon_item'],
+                    "jumlah" => $x['jumlah'],
+                );
+            }
+            $this->db->insert('transaksi',$data);
+            $this->db->insert_batch('transaksi_item',$output);
+            $data_ec = [
+                "nama" => $this->input->post('no_struk'),
+                "status" => 200
+            ];
+
+                echo json_encode($data_ec);
+        }else if($cek == 'TAHAN'){
+            // $this->db->where('id',$id_barang);
+            // $this->db->update('barang',$data);
+            // $data_ec = [
+            //     "nama" => $this->input->post('nama_barang'),
+            //     "status" => 200
+            // ];
+            // echo json_encode($data_ec);
+        }
+    }
+    function clean($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+     }
 }
