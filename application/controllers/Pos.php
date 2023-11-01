@@ -139,6 +139,7 @@ class Pos extends CI_Controller {
             $this->db->insert_batch('transaksi_item',$output);
             $data_ec = [
                 "id_transaksi" => $get_transkasi['id_transaksi'],
+                'no_struk' => $this->input->post('no_struk'),
                 "status" => 200
             ];
             echo json_encode($data_ec);

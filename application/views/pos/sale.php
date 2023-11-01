@@ -1196,7 +1196,7 @@
                                               success: function(data){
                                                               swal({
                                                                   title: "Berhasil..!",
-                                                                  text: "Transaksi "+data.nama+"  berhasil disimpan",
+                                                                  text: "Transaksi "+data.no_struk+"  berhasil disimpan",
                                                                   icon: "success",
                                                                   }).then((willDelete) => {
                                                                   if (willDelete) {
