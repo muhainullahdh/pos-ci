@@ -772,13 +772,13 @@
                                                 success: function(data){
                                                         var satuann = ''
                                                         if (data.id_satuan_besar != "") {
-                                                            satuann += '<option value=' + data.qty_besar + '>'+ data.id_satuan_besar +' </option>';
+                                                            satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
                                                         }
                                                         if (data.id_satuan_kecil != "") {
-                                                            satuann += '<option value=' + data.qty_kecil + '>'+ data.id_satuan_kecil +' </option>';
+                                                            satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
                                                         }
                                                          if (data.id_satuan_kecil_konv != "") {
-                                                            satuann += '<option value=' + data.qty_konv + '>'+ data.id_satuan_kecil_konv +' </option>';
+                                                            satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
                                                         }
                                                         <?php if ($this->session->userdata('tipe_penjualan') == 'umum') { ?>
                                                             var harga1 = formatRupiah(data.hargajualb_retail)
@@ -825,7 +825,7 @@
                                                         $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock1').val(stok);
                                                           var qty_isi = $(".satuan1")[0].value //qty isi satuan
-                                                          var qty = $("input[id='idq1']")[0].value * qty_isi
+                                                          var qty = $("input[id='idq1']")[0].value * qty_isi.split(',')[0]
                                                         $('.stock-c1').val(stok - qty);
                                                     // console.log(data.nama)
                                                     }
@@ -864,9 +864,9 @@
                                                     });
 
                                                 }else{
-                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                         $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi);
+                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi.split(',')[0]);
                                                         var total_pos_fix = 0;
                                                         for (let t = 1; t <=counter; t++) {
                                                             total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
@@ -883,9 +883,9 @@
                                 var qty = $("input[id='idq"+i+"']")[0].value
                                 var qty_isi_satuan = satuan_x[0].value //qty satuan
 
-                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * qty_isi_satuan - j.replace(/[^a-zA-Z0-9 ]/g, '')
+                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * qty_isi_satuan.split(',')[0] - j.replace(/[^a-zA-Z0-9 ]/g, '')
                                         $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan);
+                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan.split(',')[0]);
                                         $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                         })
                         satuan_x.change(function(){
@@ -894,10 +894,10 @@
                                     j = this.value; //isi satuan
                                     var qty = $("input[id='idq"+i+"']")[0].value
                                     var diskon_item = $("input[id='idd"+i+"']")[0].value
-                                                var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                 console.log(jumlah)
                                                 $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j);
+                                                $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j.split(',')[0]);
                                                 $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
 
                         })
@@ -1001,13 +1001,13 @@
                                                     success: function(data){
                                                             var satuann = ''
                                                             if (data.id_satuan_besar != "") {
-                                                                satuann += '<option value=' + data.qty_besar + '>'+ data.id_satuan_besar +' </option>';
+                                                            satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
                                                             }
                                                             if (data.id_satuan_kecil != "") {
-                                                                satuann += '<option value=' + data.qty_kecil + '>'+ data.id_satuan_kecil +' </option>';
+                                                                satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
                                                             }
                                                             if (data.id_satuan_kecil_konv != "") {
-                                                                satuann += '<option value=' + data.qty_konv + '>'+ data.id_satuan_kecil_konv +' </option>';
+                                                                satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
                                                             }
                                                             <?php if ($this->session->userdata('tipe_penjualan') == 'umum') { ?>
                                                                 var harga1 = formatRupiah(data.hargajualb_retail)
@@ -1058,7 +1058,7 @@
                                                             $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             $('.stock'+counter+'').val(stok);
                                                               var qty_isi = $(".satuan"+counter+"")[0].value //qty isi satuan
-                                                              var qty = $("input[id='idq"+counter+"']")[0].value * qty_isi
+                                                              var qty = $("input[id='idq"+counter+"']")[0].value * qty_isi.split(',')[0]
                                                             $('.stock-c'+counter+'').val(stok - qty);
                                                         // console.log(data.nama)
                                                              $('.total_item').val(counter)
@@ -1079,7 +1079,7 @@
                                 var id=$(this).val();
                                 i = this.id.slice(3);
                                 j = this.value;
-                                var qty_isi = satuan_x[0].value
+                                var qty_isi = satuan_x[0].value //isi satuan
                                 var diskon_item = $("input[id='idd"+i+"']")[0].value
                                 var stock_c = $('.stock-c'+i+'').val()
                                                     if (stock_c == 0) {
@@ -1099,9 +1099,9 @@
                                                         });
 
                                                     }else{
-                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                             $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                            $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi);
+                                                            $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi.split(',')[0]);
                                                             var total_pos_fix = 0;
                                                             for (let t = 1; t <=counter; t++) {
                                                               total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
@@ -1119,9 +1119,9 @@
                                     var qty = $("input[id='idq"+i+"']")[0].value
                                     var qty_isi_satuan = satuan_x[0].value //qty satuan
 
-                                            var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * qty_isi_satuan - j.replace(/[^a-zA-Z0-9 ]/g, '')
+                                            var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * qty_isi_satuan.split(',')[0] - j.replace(/[^a-zA-Z0-9 ]/g, '')
                                             $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                            $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan);
+                                            $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan.split(',')[0]);
                                             var total_pos_fix = 0;
                                              for (let t = 1; t <=counter; t++) {
                                                total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
@@ -1134,10 +1134,10 @@
                                         j = this.value; //isi satuan
                                         var qty = $("input[id='idq"+i+"']")[0].value
                                         var diskon_item = $("input[id='idd"+i+"']")[0].value
-                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                     console.log(jumlah)
                                                     $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                    $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j);
+                                                    $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j.split(',')[0]);
                                                     var total_pos_fix = 0;
                                                      for (let t = 1; t <=counter; t++) {
                                                       total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
@@ -1200,14 +1200,21 @@
                                                                   icon: "success",
                                                                   }).then((willDelete) => {
                                                                   if (willDelete) {
+                                                                    window.location = '<?= base_url() ?>pos/cetak?id=' + data.id_transaksi;
                                                                     //   location.reload();
                                                                     // $("#sampel-wrapper").show();
-                                                                    var divToPrint=document.getElementById("sampel-wrapper");
-                                                                    var print_struk = "No. "+$('.no_struk').val()+"<br>Cust "+$('select[name="tipe"]').val().split(',')[2]+"<br>"
-                                                                    newWin= window.open("");
-                                                                    newWin.document.write(print_struk);
-                                                                    newWin.print();
-                                                                    newWin.close();
+                                                                    // var divToPrint=document.getElementById("sampel-wrapper");
+                                                                    // const date = new Date()
+                                                                    // var print_struk = "<div class='row'>"+
+                                                                    // "<div class='col'>"+
+                                                                    // "No. "+$('.no_struk').val()+"       "+
+                                                                    // date.getDate() +"/"+ date.getMonth() + "/"+ date.getFullYear();
+                                                                    // "</div>"+
+                                                                    // "<br>Cust "+$('select[name="tipe"]').val().split(',')[2]+"<br>"
+                                                                    // newWin= window.open("");
+                                                                    // newWin.document.write(print_struk);
+                                                                    // newWin.print();
+                                                                    // newWin.close();
                                                                   }
                                                               });
                                               }

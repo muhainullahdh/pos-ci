@@ -72,6 +72,39 @@ class Pos extends CI_Controller {
             redirect('pos/sale');
         }
     }
+    function cetak()
+    {
+        $id_transaksi = $this->input->get('id');
+        $mpdf = new \Mpdf\Mpdf([
+            'tempDir' => '/tmp',
+            'mode' => '',
+            'format' => 'A4',
+            'default_font_size' => 0,
+            'default_font' => '',
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 5,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 5,
+            'orientation' => 'P',
+            'showImageErrors' => true
+        ]);
+        $this->db->where('id',$id_transaksi);
+        $get_transaksi = $this->db->get("transaksi")->row_array();
+        $this->db->where('id_transaksi',$id_transaksi);
+        $get_transaksi_item = $this->db->get("transaksi_item")->result();
+        $data = [
+            "transkasi" => $get_transaksi,
+            "transaksi_item" => $get_transaksi_item
+        ];
+        $html = $this->load->view('pos/cetak', $data, true);
+        $mpdf->defaultfooterline=0;
+        // $mpdf->setFooter('<div style="text-align: left;">F.7.1.1</div>');
+        $mpdf->WriteHTML($html);
+        $mpdf->SetJS('this.print();');
+        $mpdf->Output();
+    }
     function submit()
     {
         $id_barang = $this->input->post('id_barang');
@@ -85,28 +118,30 @@ class Pos extends CI_Controller {
             "total_netto" => $this->clean($this->input->post('total_netto')),
             "total_bayar" => $this->clean($this->input->post('total_bayar')),
             "keterangan" => $this->clean($this->input->post('keterangan')),
-            "user_id" => $this->session->userdata('id_user')
+            "kasir" => $this->session->userdata('id_user')
         ];
+        $this->db->insert('transaksi',$data);
+        $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
         if ($cek == 'BAYAR') {
             foreach ($this->input->post('item') as $x) {
+                $ex_satuan = explode(',',$x['satuan']);
                 $output[] = array(
-                    "id_transaksi" => 2,
+                    "id_transaksi" => $get_transkasi['id_transaksi'],
                     "barang" => $x['barang'],
                     "qty" => $x['qty'],
-                    "satuan" => $x['satuan'],
+                    "qty_satuan" => $ex_satuan[0],
+                    "satuan" => $ex_satuan[1],
                     "harga_satuan" => $x['harga_satuan'],
                     "diskon_item" => $x['diskon_item'],
                     "jumlah" => $x['jumlah'],
                 );
             }
-            $this->db->insert('transaksi',$data);
             $this->db->insert_batch('transaksi_item',$output);
             $data_ec = [
-                "nama" => $this->input->post('no_struk'),
+                "id_transaksi" => $get_transkasi['id_transaksi'],
                 "status" => 200
             ];
-
-                echo json_encode($data_ec);
+            echo json_encode($data_ec);
         }else if($cek == 'TAHAN'){
             // $this->db->where('id',$id_barang);
             // $this->db->update('barang',$data);
