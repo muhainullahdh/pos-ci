@@ -9,9 +9,9 @@
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-/* * {
-  box-sizing: border-box;
-} */
+body{
+ font-size: 18px;
+}
 
 /* Create two equal columns that floats next to each other */
 .col {

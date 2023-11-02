@@ -117,12 +117,14 @@ class Pos extends CI_Controller {
             "diskon" => $this->clean($this->input->post('diskon_all')),
             "total_netto" => $this->clean($this->input->post('total_netto')),
             "total_bayar" => $this->clean($this->input->post('total_bayar')),
-            "keterangan" => $this->clean($this->input->post('keterangan')),
-            "kasir" => $this->session->userdata('id_user')
+            "keterangan" => $this->input->post('keterangan'),
+            "kasir" => $this->session->userdata('id_user'),
+            "pengiriman" => $this->input->post('pengiriman'),
+            "tahan" => $this->clean($this->input->post('tahan'))
         ];
         $this->db->insert('transaksi',$data);
         $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
-        if ($cek == 'BAYAR') {
+        // if ($cek == 'BAYAR') {
             foreach ($this->input->post('item') as $x) {
                 $ex_satuan = explode(',',$x['satuan']);
                 $output[] = array(
@@ -140,18 +142,19 @@ class Pos extends CI_Controller {
             $data_ec = [
                 "id_transaksi" => $get_transkasi['id_transaksi'],
                 'no_struk' => $this->input->post('no_struk'),
+                'tahan' => $this->clean($this->input->post('tahan')),
                 "status" => 200
             ];
             echo json_encode($data_ec);
-        }else if($cek == 'TAHAN'){
-            // $this->db->where('id',$id_barang);
-            // $this->db->update('barang',$data);
-            // $data_ec = [
-            //     "nama" => $this->input->post('nama_barang'),
-            //     "status" => 200
-            // ];
-            // echo json_encode($data_ec);
-        }
+        // }else if($cek == 'TAHAN'){
+        //     // $this->db->where('id',$id_barang);
+        //     // $this->db->update('barang',$data);
+        //     // $data_ec = [
+        //     //     "nama" => $this->input->post('nama_barang'),
+        //     //     "status" => 200
+        //     // ];
+        //     // echo json_encode($data_ec);
+        // }
     }
     function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.

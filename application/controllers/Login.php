@@ -37,6 +37,7 @@ class Login extends CI_Controller {
                         'email' => $user['email'],
                     ];
                     $this->session->set_userdata($data);
+                    $this->session->set_userdata('tipe_penjualan','umum');
                     $this->session->set_flashdata('massage', '<div class="alert alert-success" role="alert">Login Berhasil !</div>');
                     redirect();
                 } else {

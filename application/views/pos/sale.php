@@ -464,6 +464,18 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-xl-4">
+                                            <p>Pengiriman</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <select name="" id="" class="form-control select2x pengiriman">
+                                                <option value="">Pilih Pengiriman</option>
+                                                <option value="Kurir Toko">Kurir Toko</option>
+                                                <option value="Cargo">Cargo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4">
                                             <p>Status PPN</p>
                                         </div>
                                         <div class="col-xl">
@@ -484,13 +496,13 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col">
-                                            <input id="bayar" class="btn btn-square btn-primary col-xl-12 submit" value="BAYAR" style="font-size:20px;">
+                                            <input id="BAYAR" class="btn btn-square btn-primary col-xl-12 submit" value="BAYAR" style="font-size:20px;">
                                         </div>
                                         <div class="col">
-                                            <button id="tahan" class="btn btn-square btn-danger col-xl-12" style="font-size:20px;">TAHAN</button>
+                                            <input id="TAHAN" class="btn btn-square btn-danger col-xl-12 submit" style="font-size:20px;" value="TAHAN">
                                         </div>
                                     </div>
-                                    <hr>
+                                    <!-- <hr>
                                     <div class="row mt-3">
                                         <div class="col">
                                             <button id="bayar3332312" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek POIN</button>
@@ -498,7 +510,7 @@
                                         <div class="col">
                                             <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">POIN CUST</button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- <div class="row mt-3">
                                         <div class="col">
                                             <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Barang</button>
@@ -1150,11 +1162,13 @@
                 };
 
                         var action = $(".submit")
+
                         action.on('click',function() {
+
                             if ($(".id_barang"+counter+"").val() == "") {
                                 swal({
                                            title: "Opss..!",
-                                            text: "Barang tidak boleh kosong",
+                                            text: "Barang tidak boleh kosong"+action.val(),
                                             icon: "warning",
                                       })
                             }else{
@@ -1184,9 +1198,11 @@
                                       total_bayar : $('.total_bayar').val(),
                                       jumlah_item : $('.jumlah_item').val(),
                                       keterangan : $('.keterangan').val(),
+                                      pengiriman : $('.pengiriman').val(),
+                                      tahan : this.id == "TAHAN" ? 1 : 0,
                                       item : xx
                                   }
-                              if (value_ac == "BAYAR") {
+                            //   if (value_ac == "BAYAR") {
                                       $.ajax({
                                               url : "<?= site_url('pos/submit');?>",
                                               method : "POST",
@@ -1194,52 +1210,31 @@
                                               async : true,
                                               dataType : 'json',
                                               success: function(data){
-                                                              swal({
-                                                                  title: "Berhasil..!",
-                                                                  text: "Transaksi "+data.no_struk+"  berhasil disimpan",
-                                                                  icon: "success",
-                                                                  }).then((willDelete) => {
-                                                                  if (willDelete) {
-                                                                    window.location = '<?= base_url() ?>pos/cetak?id=' + data.id_transaksi;
-                                                                    //   location.reload();
-                                                                    // $("#sampel-wrapper").show();
-                                                                    // var divToPrint=document.getElementById("sampel-wrapper");
-                                                                    // const date = new Date()
-                                                                    // var print_struk = "<div class='row'>"+
-                                                                    // "<div class='col'>"+
-                                                                    // "No. "+$('.no_struk').val()+"       "+
-                                                                    // date.getDate() +"/"+ date.getMonth() + "/"+ date.getFullYear();
-                                                                    // "</div>"+
-                                                                    // "<br>Cust "+$('select[name="tipe"]').val().split(',')[2]+"<br>"
-                                                                    // newWin= window.open("");
-                                                                    // newWin.document.write(print_struk);
-                                                                    // newWin.print();
-                                                                    // newWin.close();
-                                                                  }
-                                                              });
+                                                if (data.tahan == 1) {
+                                                    swal({
+                                                            title: "Berhasil..!",
+                                                            text: "Transaksi "+data.no_struk+"  berhasil ditahan",
+                                                            icon: "success",
+                                                            })
+                                                            .then((willDelete) => {
+                                                                if (willDelete) {
+                                                                window.location = '<?= base_url() ?>pos/';
+                                                                }
+                                                            });
+                                                }else{
+                                                    swal({
+                                                        title: "Berhasil..!",
+                                                        text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
+                                                        icon: "success",
+                                                        }).then((willDelete) => {
+                                                        if (willDelete) {
+                                                          window.location = '<?= base_url() ?>pos/cetak?id=' + data.id_transaksi;
+                                                        }
+                                                    });
+                                                }
                                               }
                                           })
-                              }else if(value_ac == "Update"){
-                                  $.ajax({
-                                      url : "<?= site_url('barang/submit');?>",
-                                      method : "POST",
-                                      data : datax,
-                                      async : true,
-                                      dataType : 'json',
-                                      success: function(data){
-                                              swal({
-                                                  title: "Berhasil..!",
-                                                  text: "Barang "+data.nama+" berhasil diupdate",
-                                                  icon: "success",
-                                                  })
-                                                  .then((willDelete) => {
-                                                  if (willDelete) {
-                                                      location.reload();
-                                                  }
-                                                   });
-                                              }
-                                          })
-                              }
+
                             }
                         })
 
