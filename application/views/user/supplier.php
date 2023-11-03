@@ -20,7 +20,7 @@
             </div>
           </div>
           <?php
-          if ($this->session->flashdata('msg') == 'double_customers') { ?>
+          if ($this->session->flashdata('msg') == 'double_suppliers') { ?>
           <script>
             $(document).ready(function() {
                 swal({
@@ -45,12 +45,16 @@
                           <div class="modal-body">
                             <div class="modal-toggle-wrapper">
                                 <?= $this->session->flashdata('msg') ?>
-                                <form action="<?= base_url('user/customer') ?>" method="post">
+                                <form action="<?= base_url('user/supplier') ?>" method="post">
                                     <div class="row">
                                             <!-- <div class="modal-img"> <img src="../assets/images/gif/online-shopping.gif" alt="online-shopping"></div> -->
-                                            <div class="col-xl-6">
+                                            <div class="col-xl-3">
+                                                <h6>kode supplier</h6>
+                                                <input required value="<?= $kd_supplier ?>" type="text" name="kd_supplier" readonly class="form-control">
+                                            </div>
+                                            <div class="col-xl-3">
                                                 <h6>Nama supplier</h6>
-                                                <input required type="text" placeholder="Bungkus" name="nama" class="form-control">
+                                                <input required type="text" placeholder="" name="nama" class="form-control">
                                             </div>
                                             <div class="col-xl-6">
                                                 <h6>Tipe Penjualan</h6>
@@ -114,7 +118,7 @@
                                                 </td>
                                                 <td>
                                                  <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#satua_edit<?= $x->id ?>"><i class="fa fa-edit"></i></button>
-                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_customers"><i class="fa fa-trash-o"></i></button>
+                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_suppliers"><i class="fa fa-trash-o"></i></button>
                                                 </td>
 
                                             </tr>
@@ -127,14 +131,14 @@
                                                   <div class="modal-body">
                                                     <div class="modal-toggle-wrapper">
                                                         <?= $this->session->flashdata('msg') ?>
-                                                        <form action="<?= base_url('user/customer') ?>" method="post">
+                                                        <form action="<?= base_url('user/supplier') ?>" method="post">
                                                             <div class="row">
                                                                     <!-- <div class="modal-img"> <img src="../assets/images/gif/online-shopping.gif" alt="online-shopping"></div> -->
                                                                     <div class="col">
                                                                         <h6>Nama supplier</h6>
                                                                         <input type="hidden" value="edit" name="action">
-                                                                        <input type="hidden" value="<?= $x->id_customer ?>" name="id_customers">
-                                                                        <input required type="text" placeholder="Bungkus" value="<?= $x->nama ?>" name="nama" class="form-control">
+                                                                        <input type="hidden" value="<?= $x->id ?>" name="id_suppliers">
+                                                                        <input required type="text" placeholder="Bungkus" value="<?= $x->nama_supplier ?>" name="nama" class="form-control">
                                                                     </div>
                                                             </div>
                                                             <div class="row mt-2">
@@ -182,7 +186,7 @@
                             <form enctype="multipart/form-data" action="<?= base_url('user/import_supplier') ?>" method="POST">
                                 <div class="row">
                                     <div class="col">
-                                        <label for="">Import Customer</label>
+                                        <label for="">Import supplier</label>
                                         <input type="file" class="form-control" required name="supplier_imp">
                                         <br>
                                         <button type="submit" class="btn btn-primary">Import</button>
@@ -200,7 +204,7 @@
         <!-- footer start-->
 
 <script>
-                    $(document).on('click', '.delete_customers', function (e) {
+                    $(document).on('click', '.delete_suppliers', function (e) {
                     e.preventDefault();
                     var pid = this.id;
                     swal({
@@ -212,7 +216,7 @@
                     }).then((willDelete) => {
                         if (willDelete) {
                                 $.ajax({
-                                url : "<?= site_url('user/delete_customer');?>",
+                                url : "<?= site_url('user/delete_supplier');?>",
                                 method : "POST",
                                 data : {id: pid},
                                 async : true,

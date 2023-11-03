@@ -95,8 +95,15 @@ class User extends CI_Controller {
             redirect('user/customer');
 
         }
+        $data_b = $this->db->query('SELECT max(kode_supplier) as kode_supplier FROM supplier')->row_array();
+        $kodesupplier = $data_b['kode_supplier'];
+        $urutan = (int) substr($kodesupplier, 3, 6);
+        $urutan++;
+        $huruf = "SPL";
+        $kode_supplier = $huruf . sprintf("%05s", $urutan);
         $data = [
-            "supplier" => $this->db->get('supplier')->result()
+            "supplier" => $this->db->get('supplier')->result(),
+            "kd_supplier" => $kode_supplier
         ];
             // $this->session->set_flashdata('msg','Data tidak boleh kosong');
             // redirect('barang/satuan');
