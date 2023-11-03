@@ -87,7 +87,7 @@ class Pos extends CI_Controller {
             'margin_bottom' => 0,
             'margin_header' => 0,
             'margin_footer' => 0,
-            'orientation' => 'L',
+            'orientation' => 'P',
             'showImageErrors' => true
         ]);
         $this->db->where('id',$id_transaksi);
