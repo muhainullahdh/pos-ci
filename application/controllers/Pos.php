@@ -81,13 +81,13 @@ class Pos extends CI_Controller {
             'format' => 'A4',
             'default_font_size' => 0,
             'default_font' => '',
-            'margin_left' => 15,
-            'margin_right' => 15,
-            'margin_top' => 5,
-            'margin_bottom' => 10,
-            'margin_header' => 10,
-            'margin_footer' => 5,
-            'orientation' => 'P',
+            'margin_left' => 0,
+            'margin_right' => 0,
+            'margin_top' => 0,
+            'margin_bottom' => 0,
+            'margin_header' => 0,
+            'margin_footer' => 0,
+            'orientation' => 'L',
             'showImageErrors' => true
         ]);
         $this->db->where('id',$id_transaksi);
