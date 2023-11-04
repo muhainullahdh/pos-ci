@@ -52,6 +52,7 @@
                       <li><a href="<?= base_url('user/supplier') ?>">Supplier</a></li>
                       <li><a href="dashboard-04.html">Pelanggan</a></li>
                       <li><a href="<?= base_url('user/customer') ?>">Customers</a></li>
+                      <li><a href="<?= base_url('user/ekspedisi') ?>">Ekspedisi</a></li>
                     </ul>
                   </li>
                   <!---- produk--->

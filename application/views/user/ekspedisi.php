@@ -4,7 +4,7 @@
                 <br><br>
               <div class="row">
                 <div class="col-6">
-                  <h4>supplier</h4>
+                  <h4>ekspedisi</h4>
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
@@ -20,7 +20,7 @@
             </div>
           </div>
           <?php
-          if ($this->session->flashdata('msg') == 'double_suppliers') { ?>
+          if ($this->session->flashdata('msg') == 'double_ekspedisis') { ?>
           <script>
             $(document).ready(function() {
                 swal({
@@ -37,55 +37,40 @@
               <div class="col-sm-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>List supplier</h4><br>
+                    <h4>List ekspedisi</h4><br>
                     <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">Add</button>
                     <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                       <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Tambah Supplier <span class="badge bg-primary"><i data-feather="file-text"></i> <?= $kd_supplier ?></span></h5>
+                            <h5 class="modal-title">Tambah ekspedisi</h5>
                             <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
                             <div class="modal-toggle-wrapper">
                                 <?= $this->session->flashdata('msg') ?>
-                                <form action="<?= base_url('user/supplier') ?>" method="post">
+                                <form action="<?= base_url('user/ekspedisi') ?>" method="post">
                                     <div class="row">
                                             <div class="col-xl-4">
-                                                <h6>Nama supplier</h6>
-                                                <input type="hidden" name="kd_supplier" value="<?= $kd_supplier ?>">
+                                                <h6>Nama driver / ekspedisi</h6>
+                                                <!-- <input type="hidden" name="kd_ekspedisi" value="<?= $kd_ekspedisi ?>"> -->
                                                 <input required type="text" placeholder="" name="nama" class="form-control">
                                             </div>
                                             <div class="col-xl-4">
-                                                <h6>Alamat</h6>
-                                                <input required type="text" placeholder="" name="alamat" class="form-control">
+                                                <h6>Kurir</h6>
+                                                <select name="kurir" required id="" class="form-control">
+                                                    <option value="">Pilih kurir</option>
+                                                    <option value="Internal">Kurir Toko</option>
+                                                    <option value="Eksternal">Kurir Eksternal</option>
+                                                </select>
                                             </div>
-                                            <div class="col-xl-4">
-                                                <h6>Kota</h6>
-                                                <input required type="text" placeholder="" name="kota" class="form-control">
-                                            </div>
-                                            <div class="col-xl-4 mt-3">
-                                                <h6>No telp</h6>
-                                                <input required type="text" placeholder="08111" name="telp" class="form-control">
-                                            </div>
-                                            <div class="col-xl-4 mt-3">
-                                                <h6>Email</h6>
-                                                <input required type="text" placeholder="" name="email" class="form-control">
-                                            </div>
-                                            <div class="col-xl-4 mt-3">
-                                                <h6>Contact</h6>
-                                                <input required type="text" placeholder="" name="contact" class="form-control">
-                                            </div>
+                                            <!-- <div class="col-xl-4">
+                                                <h6>Resi </h6>
+                                                <input type="text" placeholder="" name="resi" class="form-control">
+                                                <i>* di isi jika kurir eksternal</i>
+                                            </div> -->
                                     </div>
-                                    <div class="row mt-3">
-                                        <div class="col">
-                                            <select name="tipe" id="" class="form-control">
-                                                <option value="">Pilih tipe pembayaran</option>
-                                                <option value="Transfer">Transfer</option>
-                                                <option value="Cash">Cash</option>
-                                            </select>
-                                        </div>
-                                    </div>
+
                                     <div class="row mt-3">
                                         <div class="col-xl-8"></div>
                                         <div class="col-xl-2">
@@ -109,31 +94,27 @@
                             <table class="display" id="t_barang">
                                 <thead>
                                             <tr>
-                                            <th width="400" scope="col">Kode Supplier</th>
                                             <th width="400" scope="col">Nama</th>
-                                            <th width="80" scope="col">Tipe Penjualan</th>
-                                            <th width="80" scope="col">Telp</th>
+                                            <th width="400" scope="col">Kurir</th>
+                                            <th width="400" scope="col">Resi</th>
                                             <th width="80" scope="col">Action</th>
                                             </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($supplier as $x) {  ?>
+                                    <?php foreach ($ekspedisi as $x) {  ?>
                                             <tr>
                                                 <td>
-                                                    <?= $x->kode_supplier ?>
+                                                    <?= $x->nama ?>
                                                 </td>
                                                 <td>
-                                                    <?= $x->nama_supplier ?>
+                                                    <?= $x->kurir ?>
                                                 </td>
-                                                <td>
-                                                    <?= $x->tipe_pembayaran ?>
-                                                </td>
-                                                <td>
-                                                    <?= $x->telpon ?>
-                                                </td>
+                                                <!-- <td>
+                                                    <?= $x->no_resi ?>
+                                                </td> -->
                                                 <td>
                                                  <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#satua_edit<?= $x->id ?>"><i class="fa fa-edit"></i></button>
-                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_suppliers"><i class="fa fa-trash-o"></i></button>
+                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_ekspedisis"><i class="fa fa-trash-o"></i></button>
                                                 </td>
 
                                             </tr>
@@ -141,49 +122,13 @@
                                               <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
                                                   <div class="modal-header">
-                                                    <h5>Edit supplier</h5>
+                                                    <h5>Edit ekspedisi</h5>
                                                   </div>
                                                   <div class="modal-body">
                                                     <div class="modal-toggle-wrapper">
                                                         <?= $this->session->flashdata('msg') ?>
-                                                        <form action="<?= base_url('user/supplier') ?>" method="post">
-                                                        <div class="row">
-                                                            <div class="col-xl-4">
-                                                                <h6>Nama supplier</h6>
-                                                                <input type="hidden" name="id" value="<?= $x->id ?>">
-                                                                <input type="hidden" name="action" value="edit">
-                                                                <input required type="text" placeholder="" value="<?= $x->nama_supplier ?>" name="nama" class="form-control">
-                                                            </div>
-                                                            <div class="col-xl-4">
-                                                                <h6>Alamat</h6>
-                                                                <input required type="text" placeholder="" value="<?= $x->alamat ?>" name="alamat" class="form-control">
-                                                            </div>
-                                                            <div class="col-xl-4">
-                                                                <h6>Kota</h6>
-                                                                <input required type="text" placeholder="" value="<?= $x->kota ?>" name="kota" class="form-control">
-                                                            </div>
-                                                            <div class="col-xl-4 mt-3">
-                                                                <h6>No telp</h6>
-                                                                <input required type="text" value="<?= $x->telpon ?>" name="telp" class="form-control">
-                                                            </div>
-                                                            <div class="col-xl-4 mt-3">
-                                                                <h6>Email</h6>
-                                                                <input required type="text" value="<?= $x->email ?>" name="email" class="form-control">
-                                                            </div>
-                                                            <div class="col-xl-4 mt-3">
-                                                                <h6>Contact</h6>
-                                                                <input required type="text" value="<?= $x->contact ?>" name="contact" class="form-control">
-                                                            </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col">
-                                                            <select name="tipe" id="" class="form-control">
-                                                                <option value="">Pilih tipe pembayaran</option>
-                                                                <option value="Transfer">Transfer</option>
-                                                                <option value="Cash">Cash</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                        <form action="<?= base_url('user/ekspedisi') ?>" method="post">
+
                                                             <div class="row mt-3">
                                                                 <div class="col-xl-8"></div>
                                                                 <div class="col-xl-2">
@@ -207,14 +152,14 @@
                         </div>
                      </div>
                 </div>
-                <div class="col-xl-4">
-                <div class="card">
+                <!-- <div class="col-xl-4">
+                    <div class="card">
                     <div class="card-body">
-                            <form enctype="multipart/form-data" action="<?= base_url('user/import_supplier') ?>" method="POST">
+                            <form enctype="multipart/form-data" action="<?= base_url('user/import_ekspedisi') ?>" method="POST">
                                 <div class="row">
                                     <div class="col">
-                                        <label for="">Import supplier</label>
-                                        <input type="file" class="form-control" required name="supplier_imp">
+                                        <label for="">Import ekspedisi</label>
+                                        <input type="file" class="form-control" required name="ekspedisi_imp">
                                         <br>
                                         <button type="submit" class="btn btn-primary">Import</button>
                                     </div>
@@ -222,7 +167,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -231,19 +176,19 @@
         <!-- footer start-->
 
 <script>
-                    $(document).on('click', '.delete_suppliers', function (e) {
+                    $(document).on('click', '.delete_ekspedisis', function (e) {
                     e.preventDefault();
                     var pid = this.id;
                     swal({
                         title: "Delete",
-                        text: "Apakah anda yakin ingin delete supplier?",
+                        text: "Apakah anda yakin ingin delete ekspedisi?",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
                     }).then((willDelete) => {
                         if (willDelete) {
                                 $.ajax({
-                                url : "<?= site_url('user/delete_supplier');?>",
+                                url : "<?= site_url('user/delete_ekspedisi');?>",
                                 method : "POST",
                                 data : {id: pid},
                                 async : true,
@@ -251,7 +196,7 @@
                                     success: function(data){
                                         swal({
                                                                 title: "Berhasil..!",
-                                                                text: "supplier berhasil didelete",
+                                                                text: "ekspedisi berhasil didelete",
                                                                 icon: "success",
                                                                 }).then((willDelete) => {
                                                                 if (willDelete) {

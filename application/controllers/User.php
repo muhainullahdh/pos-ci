@@ -62,37 +62,52 @@ class User extends CI_Controller {
     }
     function supplier()
     {
+        $kd_supplier = $this->input->post('kd_supplier');
         $nama = $this->input->post('nama');
+        $alamat = $this->input->post('alamat');
+        $kota = $this->input->post('kota');
         $no_telp = $this->input->post('telp');
-        $tipe_penjualan = $this->input->post('tipe_penjualan');
+        $email = $this->input->post('email');
+        $contact = $this->input->post('contact');
+        $tipe_pem = $this->input->post('tipe');
         $action = $this->input->post('action');
-        $id = $this->input->post('id_customers');
+        $id = $this->input->post('id');
         if ($nama == true && $no_telp == true && $action != 'edit') {
-            $cek = $this->db->query("SELECT * FROM supplier where nama='$nama' ")->num_rows();
+            $cek = $this->db->query("SELECT * FROM supplier where nama_supplier='$nama' ")->num_rows();
             if ($cek == true) {
                 $this->session->set_flashdata('msg','double_satuan');
                 $this->session->set_flashdata('msg_val',$nama);
                 redirect('user/supplier');
             }else{
                 $datax = [
-                    "nama" => $nama,
-                    "no_telp" => $no_telp,
-                    "tipe_penjualan" => $tipe_penjualan
+                    "kode_supplier" => $kd_supplier,
+                    "nama_supplier" => $nama,
+                    "alamat" => $alamat,
+                    "kota" => $kota,
+                    "telpon" => $no_telp,
+                    "email" => $email,
+                    "contact" => $contact,
+                    "tipe_pembayaran" => $tipe_pem,
+                    "status" => 1
                 ];
                 $this->db->insert('supplier',$datax);
                 redirect('user/supplier');
             }
         }
         if ($action == 'edit') {
-
             $datax = [
-                "nama" => $nama,
-                "no_telp" => $no_telp,
-                "tipe_penjualan" => $tipe_penjualan
+                "nama_supplier" => $nama,
+                "alamat" => $alamat,
+                "kota" => $kota,
+                "telpon" => $no_telp,
+                "email" => $email,
+                "contact" => $contact,
+                "tipe_pembayaran" => $tipe_pem,
+                "status" => 1
             ];
-            $this->db->where('id_customer',$id);
+            $this->db->where('id',$id);
             $this->db->update('supplier',$datax);
-            redirect('user/customer');
+            redirect('user/supplier');
 
         }
         $data_b = $this->db->query('SELECT max(kode_supplier) as kode_supplier FROM supplier')->row_array();
@@ -109,6 +124,57 @@ class User extends CI_Controller {
             // redirect('barang/satuan');
             $this->load->view('body/header');
             $this->load->view('user/supplier',$data);
+            $this->load->view('body/footer');
+    }
+    function ekspedisi()
+    {
+        $kd_supplier = $this->input->post('kd_supplier');
+        $nama = $this->input->post('nama');
+        $kurir = $this->input->post('kurir');
+        $resi = $this->input->post('resi');
+        $action = $this->input->post('action');
+        $id = $this->input->post('id');
+        if ($nama == true && $kurir == true && $action != 'edit') {
+            $cek = $this->db->query("SELECT * FROM supplier where nama_supplier='$nama' ")->num_rows();
+            if ($cek == true) {
+                $this->session->set_flashdata('msg','double_satuan');
+                $this->session->set_flashdata('msg_val',$nama);
+                redirect('user/ekspedisi');
+            }else{
+                $datax = [
+                    "nama" => $nama,
+                    "kurir" => $kurir,
+                    "no_resi" => $resi,
+                ];
+                $this->db->insert('ekspedisi',$datax);
+                redirect('user/ekspedisi');
+            }
+        }
+        if ($action == 'edit') {
+            $datax = [
+                "nama" => $nama,
+                "kurir" => $kurir,
+                "no_resi" => $resi,
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('ekspedisi',$datax);
+            redirect('user/ekspedisi');
+
+        }
+        $data_b = $this->db->query('SELECT max(kode_supplier) as kode_supplier FROM supplier')->row_array();
+        $kodesupplier = $data_b['kode_supplier'];
+        $urutan = (int) substr($kodesupplier, 3, 6);
+        $urutan++;
+        $huruf = "SPL";
+        $kode_supplier = $huruf . sprintf("%05s", $urutan);
+        $data = [
+            "ekspedisi" => $this->db->get('ekspedisi')->result(),
+            "kd_supplier" => $kode_supplier
+        ];
+            // $this->session->set_flashdata('msg','Data tidak boleh kosong');
+            // redirect('barang/satuan');
+            $this->load->view('body/header');
+            $this->load->view('user/ekspedisi',$data);
             $this->load->view('body/footer');
     }
     function delete_customer()

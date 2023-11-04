@@ -22,7 +22,8 @@ class Pos extends CI_Controller {
         $data = [
             "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result(),
-            "customers" => $this->db->get('customers')->result()
+            "customers" => $this->db->get('customers')->result(),
+            "ekspedisi" => $this->db->get('ekspedisi')->result()
         ];
 		$this->load->view('pos/sale',$data);
 		// $this->load->view('body/foot/er');
@@ -142,7 +143,7 @@ class Pos extends CI_Controller {
             $data_ec = [
                 "id_transaksi" => $get_transkasi['id_transaksi'],
                 'no_struk' => $this->input->post('no_struk'),
-                'tahan' => $this->clean($this->input->post('tahan')),
+                'tahan' => $this->input->post('tahan'),
                 "status" => 200
             ];
             echo json_encode($data_ec);

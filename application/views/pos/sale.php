@@ -403,7 +403,7 @@
                                         <div class="col-xl-8">
                                         <form action="<?= base_url('pos') ?>" method="POST">
                                             <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2x">
-                                                    <!-- <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option> -->
+                                                    <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option>
                                                     <?php foreach($customers as $x )  {
                                                         ?>
                                                     <option <?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer.",".$x->nama_toko ?>"><?= $x->nama_toko ?></option>
@@ -469,8 +469,9 @@
                                         <div class="col-xl-8">
                                             <select name="" id="" class="form-control select2x pengiriman">
                                                 <option value="">Pilih Pengiriman</option>
-                                                <option value="Kurir Toko">Kurir Toko</option>
-                                                <option value="Cargo">Cargo</option>
+                                               <?php foreach($ekspedisi as $x) { ?>
+                                                <option value="<?= $x->id ?>"><?= $x->nama ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -494,14 +495,14 @@
                                             Non PPN
                                         </div>
                                     </div>
-                                    <div class="row mt-3">
+                                    <!-- <div class="row mt-3">
                                         <div class="col">
                                             <input id="BAYAR" class="btn btn-square btn-primary col-xl-12 submit" value="BAYAR" style="font-size:20px;">
                                         </div>
                                         <div class="col">
                                             <input id="TAHAN" class="btn btn-square btn-danger col-xl-12 submit" style="font-size:20px;" value="TAHAN">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- <hr>
                                     <div class="row mt-3">
                                         <div class="col">
@@ -792,7 +793,7 @@
                                                          if (data.id_satuan_kecil_konv != "") {
                                                             satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
                                                         }
-                                                        <?php if ($this->session->userdata('tipe_penjualan') == 'umum') { ?>
+                                                        <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
                                                             var harga1 = formatRupiah(data.hargajualb_retail)
                                                             if (data.id_satuan_besar != "") {
                                                                 var qtyyy = data.qty_besar
@@ -939,8 +940,7 @@
                     if (e.which == 224) {
                         // location.reload();
                     }else if (e.which == 16) {
-                    //   var t = $('#API-1').DataTable();
-                      // $('#addRow').on('click', function () {
+
                         var max_fields = 100;
                         var wrapper = $("#sampel-wrapper");
                         // var add_kom = $("#add-sampel");
@@ -1158,27 +1158,24 @@
 
                             })
                         }
-                    }
-                };
-
-                        var action = $(".submit")
-
-                        action.on('click',function() {
-
+                    }else if (e.which == 112 || e.which == 113) {
+                        // var action = $(".submit")
+                        // action.on('click',function() {
+                            if (e.which == 112) {
+                                var value_ac = "BAYAR"
+                            }else if (e.which == 113) {
+                                var value_ac = "TAHAN"
+                            }
                             if ($(".id_barang"+counter+"").val() == "") {
                                 swal({
                                            title: "Opss..!",
-                                            text: "Barang tidak boleh kosong"+action.val(),
+                                            text: "Barang tidak boleh kosong",
                                             icon: "warning",
                                       })
                             }else{
-                              var value_ac = action.val();
                               var barang = ''
                               var xx = []
                               for (let i = 1; i <= counter; i++) {
-
-                                // var a = $('.barang'+i+'').val()
-                                // var qty = $('.qty'+i+'').val()
                                 xx.push ({
                                     barang : $('.barang'+i+'').val(),
                                     qty : $('.qty'+i+'').val(),
@@ -1199,7 +1196,7 @@
                                       jumlah_item : $('.jumlah_item').val(),
                                       keterangan : $('.keterangan').val(),
                                       pengiriman : $('.pengiriman').val(),
-                                      tahan : this.id == "TAHAN" ? 1 : 0,
+                                      tahan : value_ac == "TAHAN" ? 1 : 0,
                                       item : xx
                                   }
                             //   if (value_ac == "BAYAR") {
@@ -1210,7 +1207,7 @@
                                               async : true,
                                               dataType : 'json',
                                               success: function(data){
-                                                if (data.tahan == 1) {
+                                                if (data.tahan == '1') {
                                                     swal({
                                                             title: "Berhasil..!",
                                                             text: "Transaksi "+data.no_struk+"  berhasil ditahan",
@@ -1236,7 +1233,10 @@
                                           })
 
                             }
-                        })
+                        // })
+                    }
+                };
+
 
 
             // console.log(localStorage.getItem("page-wrapper"))
