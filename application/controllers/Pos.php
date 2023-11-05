@@ -121,7 +121,8 @@ class Pos extends CI_Controller {
             "keterangan" => $this->input->post('keterangan'),
             "kasir" => $this->session->userdata('id_user'),
             "pengiriman" => $this->input->post('pengiriman'),
-            "tahan" => $this->clean($this->input->post('tahan'))
+            "tahan" => $this->clean($this->input->post('tahan')),
+            "pembayaran" => $this->input->post('pembayaran')
         ];
         $this->db->insert('transaksi',$data);
         $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
