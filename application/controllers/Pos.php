@@ -19,15 +19,49 @@ class Pos extends CI_Controller {
         if ($tipe == true) {
             $this->session->set_userdata('tipe_penjualan',$tipe);
         }
+        $load = $this->db->get_where('transaksi',['tahan' => 1])->result();
+        $id = $this->uri->segment(3);
+        if ($id == true) {
+            $transkasi = $this->db->get_where('transaksi',['id' => $id])->row_array();
+            $transkasi_item = $this->db->get_where('transaksi_item',['id_transaksi' => $id])->result();
+        }else{
+            $transkasi = '';
+            $transkasi_item = '';
+        }
+
+        $load = $this->db->get_where('transaksi',['tahan' => 1])->result();
         $data = [
             "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result(),
             "customers" => $this->db->get('customers')->result(),
-            "ekspedisi" => $this->db->get('ekspedisi')->result()
+            "ekspedisi" => $this->db->get('ekspedisi')->result(),
+            "transaksi" => $transkasi,
+            "transaksi_item" => $transkasi_item,
+            "load" => $load
         ];
 		$this->load->view('pos/sale',$data);
 		// $this->load->view('body/foot/er');
 	}
+    // function load_hold($id)
+    // {
+    //     $tipe = $this->input->post('tipe');
+    //     if ($tipe == true) {
+    //         $this->session->set_userdata('tipe_penjualan',$tipe);
+    //     }
+    //     $transkasi = $this->db->get_where('transaksi',['id' => $id])->row_array();
+    //     $transkasi_item = $this->db->get_where('transaksi_item',['id_transaksi' => $id])->result();
+    //     $load = $this->db->get_where('transaksi',['tahan' => 1])->result();
+    //     $data = [
+    //         "product" => $this->db->get('barang')->result(),
+    //         "satuan" => $this->db->get('satuan')->result(),
+    //         "customers" => $this->db->get('customers')->result(),
+    //         "ekspedisi" => $this->db->get('ekspedisi')->result(),
+    //         "transaksi" => $transkasi,
+    //         "transaksi_item" => $transkasi_item,
+    //         "load" => $load
+    //     ];
+	// 	$this->load->view('pos/load_sale',$data);
+    // }
     function search_barang()
     {
         $id = $this->input->post('id');
@@ -79,7 +113,7 @@ class Pos extends CI_Controller {
         $mpdf = new \Mpdf\Mpdf([
             'tempDir' => '/tmp',
             'mode' => '',
-            'format' => 'A4',   
+            'format' => 'A4',
             'default_font_size' => 0,
             'default_font' => '',
             'margin_left' => 15,
@@ -131,6 +165,7 @@ class Pos extends CI_Controller {
                 $ex_satuan = explode(',',$x['satuan']);
                 $output[] = array(
                     "id_transaksi" => $get_transkasi['id_transaksi'],
+                    "kd_barang" => $x['kd_barang'],
                     "barang" => $x['barang'],
                     "qty" => $x['qty'],
                     "qty_satuan" => $ex_satuan[0],

@@ -185,8 +185,7 @@
                         <div class="card">
                             <div class="card-body pt-0">
                                 <div class="row mt-3">
-                                    <?php if($this->uri->segment(3) == true) { ?>
-                                        <div class="col">
+                                    <div class="col">
                                         <div class="table-responsive" style="min-height:650px; max-height: 650px;">
                                             <table>
                                             <thead>
@@ -212,11 +211,11 @@
                                                         <button type="button" class="btn btn-danger delete_satuan"><i class="icon-minus"></i></button>
                                                     </td>
                                                         <td class="order">
-                                                        <input class="form-control barang1" value="<?= $x->barang ?>">
-                                                        <input type="hidden" class="form-control id_barang1">
-                                                                </td>
+                                                            <input class="form-control barang1" value="<?= $x->barang ?>">
+                                                            <input type="hidden" class="form-control id_barang1">
+                                                        </td>
                                                         <td>
-                                                            <input id="idq1" type="number" <?= $x->qty ?> style="text-align:center;" value="1" class="form-control qty1">
+                                                            <input id="idq1" type="number" style="text-align:center;" value="<?= $x->qty ?>" class="form-control qty1">
                                                         </td>
                                                         <td>
                                                             <select id="ids1" class="form-control satuan1" style="cursor: text;">
@@ -225,13 +224,13 @@
                                                             <input type="hidden" class="qty_isi1">
                                                         </td>
                                                         <td>
-                                                            <input readonly type="text" value="<?= number_format($x->harga_satuan,0,'.','.') ?>" id="idh1" class="form-control harga1">
+                                                            <input readonly type="text" id="idh1" value="" class="form-control harga1">
                                                         </td>
                                                         <td>
                                                             <input type="text" id="idd1" placeholder="0" style="text-align:center;" class="form-control diskon_item1">
                                                         </td>
                                                         <td>
-                                                        <input readonly type="text" value="<?= number_format($x->jumlah,0,'.','.') ?>" class="form-control jumlah1">
+                                                        <input readonly type="text" class="form-control jumlah1">
                                                         </td>
                                                         <td>
                                                             <div class="row">
@@ -249,69 +248,6 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <?php }else{ ?>
-                                    <div class="col">
-                                        <div class="table-responsive" style="min-height:650px; max-height: 650px;">
-                                            <table>
-                                            <thead>
-                                                <tr>
-                                                <th></th>
-                                                <th width="400" scope="col">Nama Barang</th>
-                                                <th width="80" scope="col">Qty</th>
-                                                <th width="180" scope="col">Satuan</th>
-                                                <th width="180" scope="col">Harga Satuan</th>
-                                                <th width="180" scope="col">Diskon</th>
-                                                <th width="280" scope="col">Jumlah</th>
-                                                <th width="280" scope="col">Stock</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="sampel-wrapper">
-                                                <tr style="background-color: white;">
-                                                <td>
-                                                    <!-- <div class="form-check checkbox checkbox-primary mb-0">
-                                                    <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
-                                                    <label class="form-check-label" for="checkbox-primary-1"></label>
-                                                    </div> -->
-                                                    <button type="button" class="btn btn-danger delete_satuan"><i class="icon-minus"></i></button>
-                                                </td>
-                                                    <td class="order">
-                                                    <input class="form-control barang1">
-                                                    <input type="hidden" class="form-control id_barang1">
-                                                            </td>
-                                                    <td>
-                                                        <input id="idq1" type="number" style="text-align:center;" value="1" class="form-control qty1">
-                                                    </td>
-                                                    <td>
-                                                        <select id="ids1" class="form-control satuan1" style="cursor: text;">
-                                                            <option value="">Pilih satuan</option>
-                                                        </select>
-                                                        <input type="hidden" class="qty_isi1">
-                                                    </td>
-                                                    <td>
-                                                        <input readonly type="text" id="idh1" class="form-control harga1">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" id="idd1" placeholder="0" style="text-align:center;" class="form-control diskon_item1">
-                                                    </td>
-                                                    <td>
-                                                    <input readonly type="text" class="form-control jumlah1">
-                                                    </td>
-                                                    <td>
-                                                        <div class="row">
-                                                                <div class="col-xl-6">
-                                                                    <input type="text" class="form-control stock1">
-                                                                </div>
-                                                                <div class="col-xl-6">
-                                                                    <input type="text" class="form-control stock-c1">
-                                                                </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -361,6 +297,12 @@
                                                     [CTRL + R] : Batal Transaksi <br>
                                                     F3 = TAHAN
                                                 </div>
+                                                <!-- <div class="col-xl-2">
+                                                    <button class="btn btn-square btn-primary col">Data Penjualan</button>
+                                                </div>
+                                                <div class="col-xl-2">
+                                                    <button class="btn btn-square btn-warning col-xl-12" style="font-size:14px;">Pelunasan</button>
+                                                </div> -->
                                                 <div class="col">
                                                     <button id="bayar333" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
                                                 </div>
@@ -370,6 +312,9 @@
                                                 <div class="col">
                                                     <button class="btn btn-square btn-outline-primary col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modaload" style="font-size:20px;">LOAD</button>
                                                 </div>
+                                                <!-- <div class="col-xl-2">
+                                                    <button class="btn btn-square btn-primary col" style="font-size:14px;">Stok Barang</button>
+                                                </div> -->
                                             </div>
                                         </div>
                                 </div>
@@ -512,211 +457,14 @@
                                             Non PPN
                                         </div>
                                     </div>
-                                    <!-- <div class="row mt-3">
-                                        <div class="col">
-                                            <input id="BAYAR" class="btn btn-square btn-primary col-xl-12 submit" value="BAYAR" style="font-size:20px;">
-                                        </div>
-                                        <div class="col">
-                                            <input id="TAHAN" class="btn btn-square btn-danger col-xl-12 submit" style="font-size:20px;" value="TAHAN">
-                                        </div>
-                                    </div> -->
-                                    <!-- <hr>
-                                    <div class="row mt-3">
-                                        <div class="col">
-                                            <button id="bayar3332312" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek POIN</button>
-                                        </div>
-                                        <div class="col">
-                                            <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">POIN CUST</button>
-                                        </div>
-                                    </div> -->
-                                    <!-- <div class="row mt-3">
-                                        <div class="col">
-                                            <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Barang</button>
-                                        </div>
-                                        <div class="col">
-                                            <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Penjualan</button>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col">
-                                            <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Stock</button>
-                                        </div>
-                                        <div class="col">
-                                            <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek Poin</button>
-                                        </div>
-                                    </div> -->
-
-                                    <!-- <div class="row mt-2">
-                                    <button class="btn btn-square btn-warning" style="font-size:14px;">Stok Barang</button>
-                                    </div>
-                                    <div class="row mt-2">
-                                    <button class="btn btn-square btn-primary" style="font-size:14px;">Data Penjualan</button>
-                                    </div> -->
                                 </div>
                         </div>
                     </div>
 
                   </div>
                   </div>
-                <!--<div class="col-md-4 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-                      <div class="card-header card-no-border pb-2">
-                        <h5>Menu</h5>
-                      </div>
-                      <div class="card-body pt-0 count-student">
-                        <div class="school-wrapper">
-                          <div class="school-header align-self">
-                            <button class="btn btn-square btn-primary" style="font-size:14px;">Data Penjualan</button>
-                            <button class="btn btn-square btn-warning" style="font-size:14px;">Master Barang</button>
-                            <button class="btn btn-square btn-primary" style="font-size:14px;">Stok Barang</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
-                  <!-- <div class="col-md-9 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-
-                      <div class="card-body pt-0 count-student">
-                        <div class="">
-                            <div class="row mt-4">
-                                <div class="col-xl-2">
-                                  <label for="">Jumlah Item</label>
-                                        <input readonly type="text" class="form-control">
-                                </div>
-                                <div class="col-xl-2">
-                                  <label for="">Discount</label>
-                                        <input type="text" class="form-control">
-                                </div>
-                                <div class="col-xl-2 text-center">
-
-                                </div>
-                                <div class="col-xl-3">
-                                  <label for="">Total Bayar</label>
-                                  <h2 class="txt-secondary">Rp.121.098.221</h2>
-                                </div>
-                                <div class="col-xl-3 mt-4 justify-content-between">
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                  </div> -->
                 </div>
               </div>
-              <!-- <div class="col-xxl-3 d-xxl-block d-none box-col-none">
-                <div class="row">
-                  <div class="col-xl-12 d-xl-block d-none">
-                    <div class="card">
-                      <div class="card-header card-no-border pb-4">
-                        <h5>Increase your knowledge by Learning!</h5>
-                      </div>
-                      <div class="card-body pt-0 position-relative pb-0 pe-0 increase-content">
-                        <div class="knowledge-wrapper">
-                          <div>
-                            <p class="f-light">The essential way to learn about anything is by reading quality literature!</p>
-                            <button class="btn btn-primary btn-hover-effect f-w-500 knowledge-btn" type="button">Learn More</button>
-                          </div>
-                          <div class="knowledgebase-wrapper"><img class="knowledge-img img-fluid w-100" src="<?= base_url() ?>assets/images/dashboard-7/knowledge-base.png" alt="knowledge-base"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-12 notification box-col-6 d-xl-block d-none">
-                    <div class="card">
-                      <div class="card-header card-no-border">
-                        <div class="header-top">
-                          <h5>Notice Board</h5>
-                          <div class="dropdown icon-dropdown">
-                            <button class="btn dropdown-toggle" id="notice_dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notice_dropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-body pt-0 notice-board">
-                        <ul>
-                          <li class="d-flex">
-                            <div class="activity-dot-primary"></div>
-                            <div class="ms-3">
-                              <p class="d-flex mb-2"><span class="date-content light-background">16 Feb, 2023</span></p>
-                              <h6>We have over 25 years of experience. We've rented more than 250 properties and won awards.<span class="dot-notification"></span></h6>
-                              <p class="f-light">Jennyfar Lopez / 5 min ago<span class="badge alert-light-success txt-success ms-2 f-w-600">New</span></p>
-                            </div>
-                          </li>
-                          <li class="d-flex">
-                            <div class="activity-dot-secondary"></div>
-                            <div class="ms-3">
-                              <p class="d-flex mb-2"><span class="date-content light-background">17 Feb, 2023</span></p>
-                              <h6>Drawing Competition, Story Telling Competition, Craft and Creativity & Dance Competition<span class="dot-notification"></span></h6>
-                              <p class="f-light">Rubi Rao / 10 min ago</p>
-                            </div>
-                          </li>
-                          <li class="d-flex">
-                            <div class="activity-dot-success"></div>
-                            <div class="ms-3">
-                              <p class="d-flex mb-2"><span class="date-content light-background">18 Feb, 2023</span></p>
-                              <h6>Announces a series of Parent Education Webinars for connected parents<span class="dot-notification"></span></h6>
-                              <p class="f-light">Jenny Wilson / 1 hr ago</p>
-                            </div>
-                          </li>
-                          <li class="d-flex pb-0">
-                            <div class="activity-dot-warning"></div>
-                            <div class="ms-3">
-                              <p class="d-flex mb-2"><span class="date-content light-background">19 Feb, 2023</span></p>
-                              <h6>Rakhi Making Competition  & Independence day and Investiture Ceremony<span class="dot-notification"></span></h6>
-                              <p class="f-light">Cameron Williamson / 10 min ago</p>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-12 d-xl-block d-none">
-                    <div class="card">
-                      <div class="card-header card-no-border">
-                        <div class="header-top">
-                          <h5>Student's Leader</h5>
-                          <div class="dropdown icon-dropdown">
-                            <button class="btn dropdown-toggle" id="students_dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="students_dropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-body pt-0">
-                        <div class="student-leader-wrapper">
-                          <div class="student-leader-content light-card"><img src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/rank-1.svg" alt="rank-1"><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-1.jpg" alt="user 1">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Brooklyn </h6><span class="text-muted">Helping Other</span>
-                            </div>
-                          </div>
-                          <div class="student-leader-content light-card"><img src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/rank-2.svg" alt="rank-2"><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-2.jpg" alt="user 2">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Jenny Wilson</h6><span class="text-muted">Game Winner</span>
-                            </div>
-                          </div>
-                          <div class="student-leader-content light-card"><img src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/rank-3.svg" alt="rank-2"><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-3.jpg" alt="user 3">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Savannah</h6><span class="text-muted">Great Job!</span>
-                            </div>
-                          </div>
-                          <div class="student-leader-content">
-                            <h5>4<sup>th</sup></h5><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-4.jpg" alt="user 4">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Esther Howard</h6><span class="text-muted">Best Developer</span>
-                            </div>
-                          </div>
-                          <div class="student-leader-content border-0 pb-0">
-                            <h5>5<sup>th</sup></h5><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-5.jpg" alt="user 5">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Ralph Edwards</h6><span class="text-muted">Best Designer              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
           <!-- Container-fluid Ends-->
@@ -831,7 +579,7 @@
                         </div>
                       </div>
                     </div>
-                                                    <div class="modal fade bd-example-modal-lg" id="modaload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                    <div class="modal fade bd-example-modal-lg" id="modaload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg" role="document">
                                                             <div class="modal-content">
                                                             <div class="modal-header">
@@ -868,7 +616,7 @@
                                                                                         <td>
                                                                                             <?= $x->pelanggan ?>"
                                                                                         </td>
-                                                                                        <td><a class="badge badge-primary" href="<?= base_url('pos/index/'.$x->id) ?>" ><i data-feather="edit-3"></i></a></td>
+                                                                                        <td><a class="badge badge-primary" href="<?= base_url('pos/load_hold/'.$x->id) ?>" ><i data-feather="edit-3"></i></a></td>
 
                                                                                 </tr>
                                                                                 <?php } ?>
@@ -1453,7 +1201,6 @@
                               var xx = []
                               for (let i = 1; i <= counter; i++) {
                                 xx.push ({
-                                    kd_barang : $('.id_barang'+i+'').val(),
                                     barang : $('.barang'+i+'').val(),
                                     qty : $('.qty'+i+'').val(),
                                     satuan : $('.satuan'+i+'').val(),
