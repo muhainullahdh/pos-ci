@@ -394,9 +394,10 @@
                                             <p>No Struk</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <?php $urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi ")->row_array() ?>
+                                            <?php $date = date('d').date('m').date('Y'); $urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%".$date."%'")->row_array() ?>
                                             <input type="text" readonly class="form-control no_struk" value="<?= date('d') . date('m') . date('Y') .sprintf('%04d',$urutan['t']+1); ?>">
-                                        </div>
+                                          <?= $date; ?>
+                                          </div>
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-xl-4">
