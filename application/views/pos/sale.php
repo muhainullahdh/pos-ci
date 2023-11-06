@@ -213,7 +213,7 @@
                                                     </td>
                                                         <td class="order">
                                                         <input class="form-control barang1" value="<?= $x->barang ?>">
-                                                        <input type="hidden" class="form-control id_barang1">
+                                                        <input type="hidden" value="<?= $x->kd_barang ?>" class="form-control id_barang1">
                                                                 </td>
                                                         <td>
                                                             <input id="idq1" type="number" <?= $x->qty ?> style="text-align:center;" value="1" class="form-control qty1">
@@ -1417,7 +1417,7 @@
                                             icon: "warning",
                                       })
                             }else{
-                                if ($('.total_bayar').val() == 0 || $('.total_bayar').val() == "") {
+                                if ($('.total_bayar').val() == "") {
                                     swal({
                                            title: "Opss..!",
                                             text: "Total bayar tidak boleh kosong",
@@ -1439,13 +1439,13 @@
                 };
                 var action = $(".submit")
                 action.on('click',function() {
-                    // if ($('.pembayaran:checked').val() == "") {
-                    //         swal({
-                    //                        title: "Opss..!",
-                    //                         text: "Pembayaran harus dipilih..!",
-                    //                         icon: "warning",
-                    //                   })
-                    // }else{
+                    if ($('.total_bayar').val() == 0 &&  ($('.pembayaran:checked').val() == "TRANSFER" || $('.pembayaran:checked').val() == "UTANG" || $('.pembayaran:checked').val() == "VOCHER")) {
+                            swal({
+                                           title: "Opss..!",
+                                            text: "Pembayaran 0 hanya boleh cash untuk piutang..!",
+                                            icon: "warning",
+                                      })
+                    }else{
                             var value_ac = "BAYAR"
                             var value_id = this.id
                             // console.log($('.pembayaran:checked').val())
@@ -1475,6 +1475,7 @@
                                       pengiriman : $('.pengiriman').val(),
                                       tahan : value_ac == "TAHAN" ? 1 : 0,
                                       pembayaran : $('.pembayaran:checked').val(),
+                                      piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
                                       item : xx
                                   }
                                     $.ajax({
@@ -1511,7 +1512,7 @@
                                                 console.log(data)
                                               }
                                     })
-                    // }
+                    }
                 })
 
 
