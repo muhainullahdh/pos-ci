@@ -79,7 +79,7 @@ class Pos extends CI_Controller {
         $mpdf = new \Mpdf\Mpdf([
             'tempDir' => '/tmp',
             'mode' => '',
-            'format' => 'A4',
+            'format' => 'A4',   
             'default_font_size' => 0,
             'default_font' => '',
             'margin_left' => 15,
@@ -110,7 +110,7 @@ class Pos extends CI_Controller {
     {
         $id_barang = $this->input->post('id_barang');
         $cek = $this->input->post('cek');
-        $urutan = substr($this->input->post('no_struk'),10);
+        $urutan = substr($this->input->post('no_struk'),8);
         $data = [
             "no_struk" => $this->input->post('no_struk'),
             "urutan" => $urutan,
