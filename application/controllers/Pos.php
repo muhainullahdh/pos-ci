@@ -18,6 +18,8 @@ class Pos extends CI_Controller {
         $tipe = $this->input->post('tipe');
         if ($tipe == true) {
             $this->session->set_userdata('tipe_penjualan',$tipe);
+        }else{
+            $this->session->set_userdata('tipe_penjualan','umum,273,1');
         }
         $load = $this->db->get_where('transaksi',['tahan' => 1])->result();
         $id = $this->uri->segment(3);
@@ -28,6 +30,7 @@ class Pos extends CI_Controller {
             $transkasi = '';
             $transkasi_item = '';
         }
+                    // $this->session->set_userdata('tipe_penjualan','umum,1,1');
 
         $load = $this->db->get_where('transaksi',['tahan' => 1])->result();
         $data = [

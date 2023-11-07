@@ -420,7 +420,7 @@
                                         <div class="col-xl-8">
                                         <form action="<?= base_url('pos') ?>" method="POST">
                                             <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2x">
-                                                    <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="umum">UMUM</option>
+                                                    <!-- <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="">UMUM</option> -->
                                                     <?php foreach($customers as $x )  {
                                                         ?>
                                                     <option <?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer.",".$x->nama_toko ?>"><?= $x->nama_toko ?></option>
@@ -429,7 +429,6 @@
                                         </form>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-xl-4">
                                             <p>Member</p>
@@ -1439,92 +1438,107 @@
                     }
                 };
                 var bayar = $(".total_bayar")
-                var diskon_all = $(".diskon_all")
+                var diskon_all2 = $(".diskon_all")
                 bayar.keyup(function() {
-                  var diskon_al = diskon_all[0].value
+                  var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
                 })
-                diskon_all.keyup(function() {
-                  var bayar_x = bayar[0].value
-                    var value_bayar = bayar_x - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                    $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
-                })
+                // diskon_all2.keyup(function() {
+                //   var bayar_x = bayar.val().replace(/[^a-zA-Z0-9 ]/g, '')
+                //     var value_bayar2 = bayar_x - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                //     $('.kembali').html(parseInt(bayar_x))
+                // })
                 var action = $(".submit")
                 action.on('click',function() {
-                    if ($('.total_bayar').val() == 0 &&  ($('.pembayaran:checked').val() == "TRANSFER" || $('.pembayaran:checked').val() == "UTANG" || $('.pembayaran:checked').val() == "VOCHER")) {
+                    if (!$('.pembayaran').prop('checked')) {
                             swal({
                                            title: "Opss..!",
-                                            text: "Pembayaran 0 hanya boleh cash untuk piutang..!",
+                                            text: "Pembayaran harus dipilih..!",
                                             icon: "warning",
                                       })
-                    }else{
-                            var value_ac = "BAYAR"
-                            var value_id = this.id
-                            // console.log($('.pembayaran:checked').val())
-                            var barang = ''
-                              var xx = []
-                              for (let i = 1; i <= counter; i++) {
-                                xx.push ({
-                                    kd_barang : $('.id_barang'+i+'').val(),
-                                    barang : $('.barang'+i+'').val(),
-                                    qty : $('.qty'+i+'').val(),
-                                    satuan : $('.satuan'+i+'').val(),
-                                    harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                    diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                    jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                })
-                              }
-                              var datax = {
-                                      cek : value_ac,
-                                      no_struk : $('.no_struk').val(),
-                                      tipe : $('select[name="tipe"]').val(),
-                                      member : $('.member').val(),
-                                      diskon_all : $('.diskon_all').val(),
-                                      total_netto : $('.total_netto').val(),
-                                      total_bayar : $('.total_bayar').val(),
-                                      jumlah_item : $('.jumlah_item').val(),
-                                      keterangan : $('.keterangan').val(),
-                                      pengiriman : $('.pengiriman').val(),
-                                      tahan : value_ac == "TAHAN" ? 1 : 0,
-                                      pembayaran : $('.pembayaran:checked').val(),
-                                      piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
-                                      item : xx
-                                  }
-                                    $.ajax({
-                                              url : "<?= site_url('pos/submit');?>",
-                                              method : "POST",
-                                              data : datax,
-                                              async : true,
-                                              dataType : 'json',
-                                              success: function(data){
-                                                if (data.tahan == '1') {
-                                                    swal({
-                                                            title: "Berhasil..!",
-                                                            text: "Transaksi "+data.no_struk+"  berhasil ditahan",
-                                                            icon: "success",
-                                                            })
-                                                            .then((willDelete) => {
+                        }else if($('.total_bayar').val() == ""){
+                            swal({
+                                           title: "Opss..!",
+                                            text: "Total Pembayaran harus diisi..!",
+                                            icon: "warning",
+                                      })
+                        }else{
+                            if ($('.total_bayar').val() == 0 &&  ($('.pembayaran:checked').val() == "TRANSFER" || $('.pembayaran:checked').val() == "UTANG" || $('.pembayaran:checked').val() == "VOCHER")) {
+                                    swal({
+                                                title: "Opss..!",
+                                                    text: "Pembayaran 0 hanya boleh cash untuk piutang..!",
+                                                    icon: "warning",
+                                            })
+                            }else{
+                                    var value_ac = "BAYAR"
+                                    var value_id = this.id
+                                    // console.log($('.pembayaran:checked').val())
+                                    var barang = ''
+                                    var xx = []
+                                    for (let i = 1; i <= counter; i++) {
+                                        xx.push ({
+                                            kd_barang : $('.id_barang'+i+'').val(),
+                                            barang : $('.barang'+i+'').val(),
+                                            qty : $('.qty'+i+'').val(),
+                                            satuan : $('.satuan'+i+'').val(),
+                                            harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                        })
+                                    }
+                                    var datax = {
+                                            cek : value_ac,
+                                            no_struk : $('.no_struk').val(),
+                                            tipe : $('select[name="tipe"]').val(),
+                                            member : $('.member').val(),
+                                            diskon_all : $('.diskon_all').val(),
+                                            total_netto : $('.total_netto').val(),
+                                            total_bayar : $('.total_bayar').val(),
+                                            jumlah_item : $('.jumlah_item').val(),
+                                            keterangan : $('.keterangan').val(),
+                                            pengiriman : $('.pengiriman').val(),
+                                            tahan : value_ac == "TAHAN" ? 1 : 0,
+                                            pembayaran : $('.pembayaran:checked').val(),
+                                            piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
+                                            item : xx
+                                        }
+                                            $.ajax({
+                                                    url : "<?= site_url('pos/submit');?>",
+                                                    method : "POST",
+                                                    data : datax,
+                                                    async : true,
+                                                    dataType : 'json',
+                                                    success: function(data){
+                                                        if (data.tahan == '1') {
+                                                            swal({
+                                                                    title: "Berhasil..!",
+                                                                    text: "Transaksi "+data.no_struk+"  berhasil ditahan",
+                                                                    icon: "success",
+                                                                    })
+                                                                    .then((willDelete) => {
+                                                                        if (willDelete) {
+                                                                        window.location = '<?= base_url() ?>pos/';
+                                                                        }
+                                                                    });
+                                                        }else{
+                                                            swal({
+                                                                title: "Berhasil..!",
+                                                                text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
                                                                 if (willDelete) {
-                                                                window.location = '<?= base_url() ?>pos/';
+                                                                window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi,'_blank');
+                                                                window.location = '<?= base_url() ?>pos'
                                                                 }
                                                             });
-                                                }else{
-                                                    swal({
-                                                        title: "Berhasil..!",
-                                                        text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
-                                                        icon: "success",
-                                                        }).then((willDelete) => {
-                                                        if (willDelete) {
-                                                          window.location = '<?= base_url() ?>pos/cetak?id=' + data.id_transaksi;
                                                         }
-                                                    });
-                                                }
-                                              },
-                                              error: function(data){
-                                                console.log(data)
-                                              }
-                                    })
+                                                    },
+                                                    error: function(data){
+                                                        console.log(data)
+                                                    }
+                                            })
+                        }
                     }
                 })
 
