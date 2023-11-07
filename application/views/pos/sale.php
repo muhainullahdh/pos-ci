@@ -1441,13 +1441,13 @@
                 var bayar = $(".total_bayar")
                 var diskon_all = $(".diskon_all")
                 bayar.keyup(function() {
-                  var diskon_al = $("input[class='diskon_all']")[0].value
+                  var diskon_al = diskon_all[0].value
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
                 })
                 diskon_all.keyup(function() {
-                  var bayar = $("input[class='total_bayar']")[0].value
-                    var value_bayar = bayar - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var bayar_x = bayar[0].value
+                    var value_bayar = bayar_x - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                     $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
                 })
                 var action = $(".submit")
