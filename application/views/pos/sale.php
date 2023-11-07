@@ -438,14 +438,14 @@
                                             <input type="text" class="form-control member" value="">
                                         </div>
                                     </div>
-                                    <div class="row mt-3">
+                                    <!-- <div class="row mt-3">
                                         <div class="col-xl-4">
                                             <p>Diskon</p>
                                         </div>
                                         <div class="col-xl-8">
                                             <input type="text" id="diskon_all" class="form-control diskon_all">
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="row mt-3">
                                         <div class="col-xl-4">
@@ -455,14 +455,14 @@
                                             <input type="text" class="form-control total_netto">
                                         </div>
                                     </div>
-                                    <div class="row mt-3">
+                                    <!-- <div class="row mt-3">
                                         <div class="col-xl-4">
                                             <p>Total Bayar</p>
                                         </div>
                                         <div class="col-xl-8">
                                             <input type="text" id="total_bayar" class="form-control total_bayar">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="row mt-3">
                                         <div class="col-xl-4">
                                             <p>Jumlah Item</p>
@@ -753,23 +753,26 @@
                                         <h6> Total Bayar </h6>
                                     </div>
                                     <div class="col-xl-3">
-                                        <span style="font-size:20px" class="bayar_show"></span>
+                                        <input type="text" class="form-control total_bayar" id="total_bayar">
+                                        <!-- <span style="font-size:20px" class="bayar_show"></span> -->
                                     </div>
                                 </div>
-                                <div class="row justify-content-md-center">
+                                <div class="row justify-content-md-center mt-2">
                                     <div class="col-xl-3">
                                         <h6> Total Transaksi </h6>
                                     </div>
                                     <div class="col-xl-3">
-                                        <span style="font-size:20px" class="transaksi_show"></span>
+                                        <input type="text" class="form-control transaksi_show" readonly>
+                                        <!-- <span style="font-size:20px" class="transaksi_show"></span> -->
                                     </div>
                                 </div>
-                                <div class="row justify-content-md-center">
+                                <div class="row justify-content-md-center mt-2">
                                     <div class="col-xl-3">
                                        <h6>Diskon </h6>
                                     </div>
                                     <div class="col-xl-3">
-                                        <span style="font-size:20px" class="diskon_show"></span>
+                                      <input type="text" class="form-control diskon_all" id="diskon_all">
+                                        <!-- <span style="font-size:20px" class="diskon_show"></span> -->
                                     </div>
                                 </div>
                                 <div class="row justify-content-md-center">
@@ -777,12 +780,12 @@
                                        <h6> Kembali </h6>
                                     </div>
                                     <div class="col-xl-3">
-                                        <span style="font-size:20px" class="kembali"></span>
+                                        <span style="font-size:20px" class="kembali">Rp.0</span>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row justify-content-md-center mt-3">
-                                        <div class="col-xl-4 text-warning">
+                                        <div class="col-xl-4">
                                             <span style="font-size:20px;text-align:center;">Metode Pembayaran</span>
                                         </div>
                                 </div>
@@ -1417,26 +1420,36 @@
                                             icon: "warning",
                                       })
                             }else{
-                                if ($('.total_bayar').val() == "") {
-                                    swal({
-                                           title: "Opss..!",
-                                            text: "Total bayar tidak boleh kosong",
-                                            icon: "warning",
-                                      })
-                                }else{
-                                  var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
-                                  $('.kembali').html("Rp."+total_final.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
-                                  $('.transaksi_show').html($('.total_pos').html())
-                                  $('.diskon_show').html($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
+                                // if ($('.total_bayar').val() == "") {
+                                //     swal({
+                                //            title: "Opss..!",
+                                //             text: "Total bayar tidak boleh kosong",
+                                //             icon: "warning",
+                                //       })
+                                // }else{
+                                  // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
+                                  $('.transaksi_show').val($('.total_pos').html())
+                                  // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
                                   $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                                   $('#payment').modal('show');
                                 //   - $('.total_bayar').val()
-                                }
-
+                                // }
                             }
                         // })
                     }
                 };
+                var bayar = $(".total_bayar")
+                var diskon_all = $(".diskon_all")
+                bayar.keyup(function() {
+                  var diskon_al = $("input[class='diskon_all']")[0].value
+                    var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                    $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
+                })
+                diskon_all.keyup(function() {
+                  var bayar = $("input[class='total_bayar']")[0].value
+                    var value_bayar = bayar - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                    $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
+                })
                 var action = $(".submit")
                 action.on('click',function() {
                     if ($('.total_bayar').val() == 0 &&  ($('.pembayaran:checked').val() == "TRANSFER" || $('.pembayaran:checked').val() == "UTANG" || $('.pembayaran:checked').val() == "VOCHER")) {
