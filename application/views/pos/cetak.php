@@ -34,7 +34,7 @@ body{
         <td width="180">
             No. <?= $transkasi['no_struk'] ?>
         </td>
-        <td><?= substr($transkasi['no_struk'],0,10) ?></td>
+        <td><?=  date('d-m-Y',strtotime($transkasi['date_created']))?></td>
     </tr>
     <tr>
         <td>Cus : <?=  $this->db->get_where('customers',['id_customer' => $transkasi['pelanggan']])->row_array()['nama_toko']; ?></td>
@@ -77,7 +77,7 @@ body{
     </tr>
     <tr>
         <td>Total</td>
-        <td style="text-align:right"><?= number_format($sub_total,0,',',',') ?></td>
+        <td style="text-align:right"><?= number_format($transkasi['total_bayar'],0,',',',') ?></td>
     </tr>
     <tr>
         <td>
