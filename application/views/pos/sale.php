@@ -1450,14 +1450,19 @@
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
                 })
-                // diskon_all2.keyup(function() {
-                //   var bayar_x = bayar.val().replace(/[^a-zA-Z0-9 ]/g, '')
-                //     var value_bayar2 = bayar_x - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
-                //     $('.kembali').html(parseInt(bayar_x))
-                // })
+                diskon_all2.keyup(function() {
+                  var bayar_x = bayar.val().replace(/[^a-zA-Z0-9 ]/g, '')
+                  if (this.value == "") {
+                    var diskon_cal = 0
+                  }else{
+                    var diskon_cal = parseInt(this.value.replace(/[^a-zA-Z0-9 ]/g, ''));
+                  }
+                    var value_bayar2 = bayar_x - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_cal
+                    $('.kembali').html("Rp."+value_bayar2.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
+                })
                 var action = $(".submit")
                 action.on('click',function() {
-                    if (!$('.pembayaran').prop('checked')) {
+                    if ($('.pembayaran').val() == false) {
                             swal({
                                            title: "Opss..!",
                                             text: "Pembayaran harus dipilih..!",

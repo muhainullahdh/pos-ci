@@ -76,20 +76,21 @@ body{
         <td style="text-align:right"><?= number_format(0,0,',',',') ?></td>
     </tr>
     <tr>
-        <td>Total</td>
+        <td>Total Bayar</td>
         <td style="text-align:right"><?= number_format($transkasi['total_bayar'],0,',',',') ?></td>
     </tr>
     <tr>
         <td>
-            <?php if($transkasi['pembayaran'] == "CASH") {
+            <!-- <?php if($transkasi['pembayaran'] == "CASH") {
                 echo "Cash";
             }else if ($transkasi['pembayaran'] == "TRANSFER") {
                 echo "Transfer";
             }
-            
-            ?>
+
+            ?> -->
+            Diskon
         </td>
-        <td style="text-align:right"><?= number_format($sub_total,0,',',',') ?></td>
+        <td style="text-align:right"><?= number_format($transkasi['diskon'],0,',',',') ?></td>
     </tr>
     <tr>
         <td>Kembali</td>
