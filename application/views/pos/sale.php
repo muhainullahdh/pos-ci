@@ -801,20 +801,26 @@
                                                 <label class="form-check-label" for="radio22">CASH </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-xl-2">
-                                            <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio23" type="radio" name="radio" value="UTANG">
-                                                <label class="form-check-label" for="radio23">UTANG </label>
-                                            </div>
-                                        </div>
                                         <div class="col-xl-2">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio" value="VOCHER">
                                                 <label class="form-check-label" for="radio24">VOCHER </label>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row justify-content-md-center">
+                                        <!-- <div class="col-xl-2">
+                                            <div class="form-check radio radio-secondary">
+                                                <input class="form-check-input pembayaran" id="radio23" type="radio" name="radio" value="UTANG">
+                                                <label class="form-check-label" for="radio23">UTANG </label>
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-xl-2">
+                                            <div class="form-check radio radio-secondary">
+                                                <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio" value="VOCHER">
+                                                <label class="form-check-label" for="radio24">VOCHER </label>
+                                            </div>
+                                        </div> -->
 
                                     </div>
                                     <div class="row mt-3">
@@ -1495,7 +1501,8 @@
                                             diskon_all : $('.diskon_all').val(),
                                             total_netto : $('.total_netto').val(),
                                             total_bayar : $('.total_bayar').val(),
-                                            jumlah_item : $('.jumlah_item').val(),
+                                            kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            jumlah_item : $('.total_item').val(),
                                             keterangan : $('.keterangan').val(),
                                             pengiriman : $('.pengiriman').val(),
                                             tahan : value_ac == "TAHAN" ? 1 : 0,

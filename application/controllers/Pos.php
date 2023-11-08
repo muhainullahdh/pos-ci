@@ -155,6 +155,8 @@ class Pos extends CI_Controller {
             "diskon" => $this->clean($this->input->post('diskon_all')),
             "total_netto" => $this->clean($this->input->post('total_netto')),
             "total_bayar" => $this->clean($this->input->post('total_bayar')),
+            "kembali" => $this->clean($this->input->post('kembali')),
+            "jumlah_item" => $this->clean($this->input->post('jumlah_item')),
             "keterangan" => $this->input->post('keterangan'),
             "kasir" => $this->session->userdata('id_user'),
             "pengiriman" => $this->input->post('pengiriman'),

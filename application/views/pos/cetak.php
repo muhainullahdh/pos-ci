@@ -64,7 +64,8 @@ body{
         <th colspan="2"><hr></th>
     </tr>
     <tr>
-        <td>Total</td>
+        <td>Total Item</td>
+        <td style="text-align:right"><?= count($transaksi_item) ?></td>
     </tr>
     <tr>
         <td>Sub Total</td>
@@ -79,12 +80,20 @@ body{
         <td style="text-align:right"><?= number_format($sub_total,0,',',',') ?></td>
     </tr>
     <tr>
-        <td>Tunai</td>
+        <td>
+            <?php if($transkasi['pembayaran'] == "CASH") {
+                echo "Cash";
+            }else if ($transkasi['pembayaran'] == "TRANSFER") {
+                echo "Transfer";
+            }
+            
+            ?>
+        </td>
         <td style="text-align:right"><?= number_format($sub_total,0,',',',') ?></td>
     </tr>
     <tr>
         <td>Kembali</td>
-        <td style="text-align:right"><?= number_format(0,0,',',',') ?></td>
+        <td style="text-align:right"><?= number_format($transkasi['kembali'],0,',',',') ?></td>
     </tr>
     <tr>
         <td></td>
