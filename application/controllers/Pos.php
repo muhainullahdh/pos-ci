@@ -113,21 +113,21 @@ class Pos extends CI_Controller {
     function cetak()
     {
         $id_transaksi = $this->input->get('id');
-        $mpdf = new \Mpdf\Mpdf([
-            'tempDir' => '/tmp',
-            'mode' => '',
-            'format' => 'A4',
-            'default_font_size' => 0,
-            'default_font' => '',
-            'margin_left' => 15,
-            'margin_right' => 15,
-            'margin_top' => 5,
-            'margin_bottom' => 10,
-            'margin_header' => 10,
-            'margin_footer' => 5,
-            'orientation' => 'P',
-            'showImageErrors' => true
-        ]);
+        // $mpdf = new \Mpdf\Mpdf([
+        //     // 'tempDir' => '/tmp',
+        //     'mode' => '',
+        //     'format' => array(90, 80),
+        //     'default_font_size' => 0,
+        //     'default_font' => '',
+        //     'margin_left' => 15,
+        //     'margin_right' => 15,
+        //     'margin_top' => 5,
+        //     'margin_bottom' => 10,
+        //     'margin_header' => 10,
+        //     'margin_footer' => 5,
+        //     'orientation' => 'P',
+        //     'showImageErrors' => true
+        // ]);
         $this->db->where('id',$id_transaksi);
         $get_transaksi = $this->db->get("transaksi")->row_array();
         $this->db->where('id_transaksi',$id_transaksi);
@@ -136,12 +136,12 @@ class Pos extends CI_Controller {
             "transkasi" => $get_transaksi,
             "transaksi_item" => $get_transaksi_item
         ];
-        $html = $this->load->view('pos/cetak', $data, true);
-        $mpdf->defaultfooterline=0;
-        // $mpdf->setFooter('<div style="text-align: left;">F.7.1.1</div>');
-        $mpdf->WriteHTML($html);
-        $mpdf->SetJS('this.print();');
-        $mpdf->Output();
+        $this->load->view('pos/cetak', $data);
+        // $mpdf->defaultfooterline=0;
+        // // $mpdf->setFooter('<div style="text-align: left;">F.7.1.1</div>');
+        // $mpdf->WriteHTML($html);
+        // $mpdf->SetJS('this.print();');
+        // $mpdf->Output();
     }
     function submit()
     {
