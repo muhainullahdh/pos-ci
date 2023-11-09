@@ -1,3 +1,6 @@
+<script>
+    window.print()
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
