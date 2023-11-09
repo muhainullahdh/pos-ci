@@ -14,6 +14,7 @@
 <style>
 body{
  font-size: 18px;
+ font-family: Arial;
 }
 
 /* Create two equal columns that floats next to each other */
@@ -34,14 +35,16 @@ body{
 <body>
 <table>
     <tr>
-        <td>Toko Ling Ling</td>
-        <td>Toko lingling Jl raya tengah no.1</td>
+        <td colspan="2" style="text-align: center; vertical-align: middle;"><b style="font-size:28px;">TOKO LINGLING</b><br> JL.RAYA TENGAH NO.1 <br>No.tlp : 081111</td>
     </tr>
+    <!-- <tr>
+        <td style="text-align:right">JL.RAYA TENGAH NO.1</td>
+    </tr> -->
     <tr>
         <td width="180">
             No. <?= $transkasi['no_struk'] ?>
         </td>
-        <td style="text-align:right"><?=  date('d-m-Y',strtotime($transkasi['date_created']))?></td>
+        <td style="text-align:right"><?=  date('d/m/Y',strtotime($transkasi['date_created']))?></td>
     </tr>
     <tr>
         <td>Cus : <?=  $this->db->get_where('customers',['id_customer' => $transkasi['pelanggan']])->row_array()['nama_toko']; ?></td>
@@ -49,7 +52,7 @@ body{
     </tr>
     <tr>
         <td>Ksr : <?=  $this->db->get_where('users',['id' => $transkasi['kasir']])->row_array()['nama']; ?></td>
-        <td style="text-align:right"><?= date('H:i:s') ?></td>
+        <td style="text-align:right"><?=  $this->db->get_where('ekspedisi',['id' => $transkasi['pengiriman']])->row_array()['kurir'] == "Internal" ? "Ambil ditoko" : "Ekspedisi"; ?></td>
     </tr>
     <tr>
         <th colspan="2"><hr></th>
@@ -71,19 +74,32 @@ body{
         <th colspan="2"><hr></th>
     </tr>
     <tr>
-        <td>Total Item</td>
-        <td style="text-align:right"><?= count($transaksi_item) ?></td>
+        <td>
+            <div style="float:left;width:50%;"> Total Item </div>
+            <div style="float:left;width:50%;text-align:center"><?= count($transaksi_item) ?> item</div>
+        </td>
+        <td style="text-align:left"></td>
     </tr>
     <tr>
         <td>Sub Total</td>
         <td style="text-align:right"><?= number_format($sub_total,0,',',',') ?></td>
     </tr>
     <tr>
-        <td>Sisa Bon</td>
+        <td>Sisa Bon Yang lalu</td>
         <td style="text-align:right"><?= number_format(0,0,',',',') ?></td>
     </tr>
     <tr>
-        <td>Tunai</td>
+        <td>
+            <div style="float:left;width:50%;"> Tunai / Transfer</div>
+            <div style="float:left;width:50%;text-align:center">BCA</div>
+        </td>
+        <td style="text-align:right"><?= number_format($transkasi['total_bayar'],0,',',',') ?></td>
+    </tr>
+    <tr>
+        <td>
+            <div style="float:left;width:50%;"> Vocher</div>
+            <div style="float:left;width:50%;text-align:center">NC00001</div>
+        </td>
         <td style="text-align:right"><?= number_format($transkasi['total_bayar'],0,',',',') ?></td>
     </tr>
     <tr>
@@ -106,6 +122,10 @@ body{
     <tr>
         <td></td>
         <td><hr></td>
+    </tr>
+    <tr>
+        <td>Sisa Bon</td>
+        <td></td>
     </tr>
 </table>
 </body>

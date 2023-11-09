@@ -732,12 +732,12 @@
         </footer> -->
       </div>
     </div>
-                    <div class="modal fade bd-example-modal-lg" id="payment" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-                      <div class="modal-dialog modal-lg" role="document">
+                     <div class="modal fade" id="payment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+                      <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Pembayaran</h5>
-                            <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <!-- <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button> -->
                           </div>
                           <div class="modal-body mdl-payment">
                             <div class="modal-toggle-wrapper">
@@ -748,37 +748,37 @@
                                     </div>
                                 </div> -->
                                 <div class="row justify-content-md-center">
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <h6> Total Bayar </h6>
                                     </div>
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-6">
                                         <input type="text" class="form-control total_bayar" id="total_bayar">
                                         <!-- <span style="font-size:20px" class="bayar_show"></span> -->
                                     </div>
                                 </div>
                                 <div class="row justify-content-md-center mt-2">
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <h6> Total Transaksi </h6>
                                     </div>
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-6">
                                         <input type="text" class="form-control transaksi_show" readonly>
                                         <!-- <span style="font-size:20px" class="transaksi_show"></span> -->
                                     </div>
                                 </div>
                                 <div class="row justify-content-md-center mt-2">
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                        <h6>Diskon </h6>
                                     </div>
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-6">
                                       <input type="text" class="form-control diskon_all" id="diskon_all">
                                         <!-- <span style="font-size:20px" class="diskon_show"></span> -->
                                     </div>
                                 </div>
                                 <div class="row justify-content-md-center">
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                        <h6> Kembali </h6>
                                     </div>
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-6">
                                         <span style="font-size:20px" class="kembali">Rp.0</span>
                                     </div>
                                 </div>
@@ -789,19 +789,19 @@
                                         </div>
                                 </div>
                                     <div class="row justify-content-md-center mt-3">
-                                        <div class="col-xl-2">
+                                        <div class="col-xl-6">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio21" type="radio" name="radio" value="TRANSFER">
                                                 <label class="form-check-label" for="radio21">TRANSFER </label>
                                             </div>
                                         </div>
-                                        <div class="col-xl-2">
+                                        <div class="col-xl-6">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio22" type="radio" name="radio" value="CASH">
                                                 <label class="form-check-label" for="radio22">CASH </label>
                                             </div>
                                         </div>
-                                        <div class="col-xl-2">
+                                        <div class="col-xl-4">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio" value="VOCHER">
                                                 <label class="form-check-label" for="radio24">VOCHER </label>
@@ -825,7 +825,7 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-xl-8"></div>
-                                        <div class="col-xl-2">
+                                        <div class="col-xl-2 mr-2">
                                             <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
                                             <button id="BAYAR" class="btn bg-primary d-flex align-items-center gap-2 text-light ms-auto submit" type="button">BAYAR</button>
                                         </div>
@@ -1432,11 +1432,23 @@
                                 //             icon: "warning",
                                 //       })
                                 // }else{
+                                //   $('#payment')[0].reset();
+                                  $('.value_ac').val(value_ac);
+                                  if (value_ac == 'TAHAN') {
+                                    $('.submit').attr('id','TAHAN');
+                                    $('.submit').html('TAHAN');
+                                    $('.submit').attr('class','btn btn-warning submit');
+                                  }else if(value_ac == 'BAYAR'){
+                                    $('.submit').attr('id','BAYAR');
+                                    $('.submit').html('BAYAR');
+                                    $('.submit').attr('class','btn btn-primary');
+                                  }
                                   // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
                                   $('.transaksi_show').val($('.total_pos').html())
                                   // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
                                   $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                                   $('#payment').modal('show');
+
                                 //   - $('.total_bayar').val()
                                 // }
                             }
