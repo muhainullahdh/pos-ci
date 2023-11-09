@@ -34,10 +34,14 @@ body{
 <body>
 <table>
     <tr>
+        <td>Toko Ling Ling</td>
+        <td>Toko lingling Jl raya tengah no.1</td>
+    </tr>
+    <tr>
         <td width="180">
             No. <?= $transkasi['no_struk'] ?>
         </td>
-        <td><?=  date('d-m-Y',strtotime($transkasi['date_created']))?></td>
+        <td style="text-align:right"><?=  date('d-m-Y',strtotime($transkasi['date_created']))?></td>
     </tr>
     <tr>
         <td>Cus : <?=  $this->db->get_where('customers',['id_customer' => $transkasi['pelanggan']])->row_array()['nama_toko']; ?></td>
@@ -79,7 +83,7 @@ body{
         <td style="text-align:right"><?= number_format(0,0,',',',') ?></td>
     </tr>
     <tr>
-        <td>Total Bayar</td>
+        <td>Tunai</td>
         <td style="text-align:right"><?= number_format($transkasi['total_bayar'],0,',',',') ?></td>
     </tr>
     <tr>
