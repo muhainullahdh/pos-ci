@@ -777,7 +777,7 @@
                         $('.stock1').attr('disabled',true)
                         $('.stock-c1').attr('disabled',true)
 
-                        var counter = 1;
+                        var counter = 0;
                         var data = "<?= base_url('pos/get_barang') ?>";
                         $(".barang1").autocomplete({
                             source: data,
