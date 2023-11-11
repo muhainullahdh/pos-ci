@@ -1395,7 +1395,7 @@
                                     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
                                 }
                         }
-                    }else if (e.which == 113 || e.which == 114) {
+                    }else if (e.which == 113 || e.which == 119) {
                             if (e.which == 113) {
                                 var value_ac = "BAYAR"
                                 if ($(".id_barang"+counter+"").val() == "") {
@@ -1432,7 +1432,7 @@
 
 
                                 }
-                            }else if (e.which == 114) {
+                            }else if (e.which == 119) {
                                 var value_ac = "TAHAN"
                                     var barang = ''
                                     var xx = []
