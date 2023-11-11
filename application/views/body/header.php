@@ -107,7 +107,7 @@
                 </div>
               </li> -->
               <li>
-                <a class="btn btn-pill btn-primary" href="<?= base_url('pos') ?>">
+                <a target="_blank" class="btn btn-pill btn-primary" href="<?= base_url('pos') ?>">
                   <i class="icon-shopping-cart" style="font-size: 15px;"></i> <span style="font-size: 18px;">POS</span>
                 </a>
                 </li>
