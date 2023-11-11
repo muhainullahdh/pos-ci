@@ -164,9 +164,9 @@ class Pos extends CI_Controller {
             "pembayaran" => $this->input->post('pembayaran'),
             "piutang" => $this->input->post('piutang')
         ];
-        $this->db->insert('transaksi',$data);
-        $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
         // if ($cek == 'BAYAR') {
+            $this->db->insert('transaksi',$data);
+            $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
             foreach ($this->input->post('item') as $x) {
                 $ex_satuan = explode(',',$x['satuan']);
                 $output[] = array(
@@ -189,7 +189,8 @@ class Pos extends CI_Controller {
                 "status" => 200
             ];
             echo json_encode($data_ec);
-        // }else if($cek == 'TAHAN'){
+        // }else{
+        // }
         //     // $this->db->where('id',$id_barang);
         //     // $this->db->update('barang',$data);
         //     // $data_ec = [

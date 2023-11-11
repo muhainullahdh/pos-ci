@@ -784,18 +784,18 @@
                                 </div>
                                 <hr>
                                 <div class="row justify-content-md-center mt-3">
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-6">
                                             <span style="font-size:20px;text-align:center;">Metode Pembayaran</span>
                                         </div>
                                 </div>
                                     <div class="row justify-content-md-center mt-3">
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio21" type="radio" name="radio" value="TRANSFER">
                                                 <label class="form-check-label" for="radio21">TRANSFER </label>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio22" type="radio" name="radio" value="CASH">
                                                 <label class="form-check-label" for="radio22">CASH </label>
@@ -809,8 +809,8 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-xl-8"></div>
-                                        <div class="col-xl-2 mr-2">
+                                        <div class="col-xl-6"></div>
+                                        <div class="col-xl-3 mr-2">
                                             <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
                                             <button id="BAYAR" class="btn bg-primary d-flex align-items-center gap-2 text-light ms-auto submit" type="button">BAYAR</button>
                                         </div>
@@ -1091,26 +1091,26 @@
                         })
 
                 //shortcut
-                var rupiah = document.getElementById('idd1');
-                rupiah.addEventListener('keyup', function(e){
-                    rupiah.value = formatRupiah(this.value, '');
-                  });
-                  function formatRupiah(angka, prefix){
-                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                    split   		= number_string.split(','),
-                    sisa     		= split[0].length % 3,
-                    rupiah     		= split[0].substr(0, sisa),
-                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+                                var rupiah = document.getElementById('idd1');
+                                rupiah.addEventListener('keyup', function(e){
+                                    rupiah.value = formatRupiah(this.value, '');
+                                });
+                                function formatRupiah(angka, prefix){
+                                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                                    split   		= number_string.split(','),
+                                    sisa     		= split[0].length % 3,
+                                    rupiah     		= split[0].substr(0, sisa),
+                                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
 
-                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                    if(ribuan){
-                      separator = sisa ? '.' : '';
-                      rupiah += separator + ribuan.join('.');
-                    }
+                                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                    if(ribuan){
+                                    separator = sisa ? '.' : '';
+                                    rupiah += separator + ribuan.join('.');
+                                    }
 
-                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
-                }
+                                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                                    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                                }
                                 var rupiah3 = document.getElementById('diskon_all');
                                 // var rupiah = document.getElementsByClassName('diskon_all');
                                 rupiah3.addEventListener('keyup', function(e){
@@ -1395,47 +1395,113 @@
                                     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
                                 }
                         }
-                    }else if (e.which == 112 || e.which == 113) {
-                            if (e.which == 112) {
+                    }else if (e.which == 113 || e.which == 114) {
+                            if (e.which == 113) {
                                 var value_ac = "BAYAR"
-                            }else if (e.which == 113) {
-                                var value_ac = "TAHAN"
-                            }
-
-                            if ($(".id_barang"+counter+"").val() == "") {
+                                if ($(".id_barang"+counter+"").val() == "") {
                                 swal({
                                            title: "Opss..!",
                                             text: "Barang tidak boleh kosong",
                                             icon: "warning",
                                       })
-                            }else{
-                                // if ($('.total_bayar').val() == "") {
-                                //     swal({
-                                //            title: "Opss..!",
-                                //             text: "Total bayar tidak boleh kosong",
-                                //             icon: "warning",
-                                //       })
-                                // }else{
-                                //   $('#payment')[0].reset();
-                                  $('.value_ac').val(value_ac);
-                                  if (value_ac == 'TAHAN') {
-                                    $('.submit').attr('id','TAHAN');
-                                    $('.submit').html('TAHAN');
-                                    $('.submit').attr('class','btn btn-warning submit');
-                                  }else if(value_ac == 'BAYAR'){
-                                    $('.submit').attr('id','BAYAR');
-                                    $('.submit').html('BAYAR');
-                                    $('.submit').attr('class','btn btn-primary');
-                                  }
-                                  // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
-                                  $('.transaksi_show').val($('.total_pos').html())
-                                  // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
-                                  $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                  $('#payment').modal('show');
+                                }else{
+                                    // if ($('.total_bayar').val() == "") {
+                                    //     swal({
+                                    //            title: "Opss..!",
+                                    //             text: "Total bayar tidak boleh kosong",
+                                    //             icon: "warning",
+                                    //       })
+                                    // }else{
+                                    //   $('#payment')[0].reset();
+                                    $('.value_ac').val(value_ac);
+                                    if (value_ac == 'TAHAN') {
+                                        $('.submit').attr('id','TAHAN');
+                                        $('.submit').html('TAHAN');
+                                        $('.submit').attr('class','btn btn-warning submit');
+                                    }else if(value_ac == 'BAYAR'){
+                                        $('.submit').attr('id','BAYAR');
+                                        $('.submit').html('BAYAR');
+                                        $('.submit').attr('class','btn btn-primary');
+                                    }
+                                    // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
+                                    $('.transaksi_show').val($('.total_pos').html())
+                                    // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
+                                    $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
 
-                                //   - $('.total_bayar').val()
-                                // }
+                                    $('#payment').modal('show');
+
+
+                                }
+                            }else if (e.which == 114) {
+                                var value_ac = "TAHAN"
+                                    var barang = ''
+                                    var xx = []
+                                    for (let i = 1; i <= counter; i++) {
+                                        xx.push ({
+                                            kd_barang : $('.id_barang'+i+'').val(),
+                                            barang : $('.barang'+i+'').val(),
+                                            qty : $('.qty'+i+'').val(),
+                                            satuan : $('.satuan'+i+'').val(),
+                                            harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                        })
+                                    }
+                                    var datax = {
+                                            cek : value_ac,
+                                            no_struk : $('.no_struk').val(),
+                                            tipe : $('select[name="tipe"]').val(),
+                                            member : $('.member').val(),
+                                            diskon_all : $('.diskon_all').val(),
+                                            total_netto : $('.total_netto').val(),
+                                            total_bayar : $('.total_bayar').val(),
+                                            kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            jumlah_item : $('.total_item').val(),
+                                            keterangan : $('.keterangan').val(),
+                                            pengiriman : $('.pengiriman').val(),
+                                            tahan : value_ac == "TAHAN" ? 1 : 0,
+                                            pembayaran : $('.pembayaran:checked').val(),
+                                            piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
+                                            item : xx
+                                        }
+                                            $.ajax({
+                                                    url : "<?= site_url('pos/submit');?>",
+                                                    method : "POST",
+                                                    data : datax,
+                                                    async : true,
+                                                    dataType : 'json',
+                                                    success: function(data){
+                                                        if (data.tahan == '1') {
+                                                            swal({
+                                                                    title: "Berhasil..!",
+                                                                    text: "Transaksi "+data.no_struk+"  berhasil ditahan",
+                                                                    icon: "success",
+                                                                    })
+                                                                    .then((willDelete) => {
+                                                                        if (willDelete) {
+                                                                        window.location = '<?= base_url() ?>pos/';
+                                                                        }
+                                                                    });
+                                                        }else{
+                                                            swal({
+                                                                title: "Berhasil..!",
+                                                                text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi,'_blank');
+                                                                window.location = '<?= base_url() ?>pos'
+                                                                }
+                                                            });
+                                                        }
+                                                    },
+                                                    error: function(data){
+                                                        console.log(data)
+                                                    }
+                                            })
                             }
+
+
                         // })
                     }else if (e.which == 115) { //load transaksi
                         $('#modaload').modal('show');
@@ -1480,9 +1546,7 @@
                                                     icon: "warning",
                                             })
                             }else{
-                                    var value_ac = "BAYAR"
-                                    var value_id = this.id
-                                    // console.log($('.pembayaran:checked').val())
+                                    var value_ac = this.id
                                     var barang = ''
                                     var xx = []
                                     for (let i = 1; i <= counter; i++) {
