@@ -109,7 +109,6 @@ body{
             }else if ($transkasi['pembayaran'] == "TRANSFER") {
                 echo "Transfer";
             }
-
             ?> -->
             Diskon
         </td>

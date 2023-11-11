@@ -1007,6 +1007,13 @@
                                 icon: "warning",
                                 dangerMode: true,
                                 })
+                        }else if ($(".harga"+counter+"").val() == "") {
+                            swal({
+                                title: "Opss..!",
+                                text: "stock barang "+$(".barang"+counter+"").val()+" kurang dari batas minimum",
+                                icon: "warning",
+                                dangerMode: true,
+                                })
                         }else{
                             if (counter < max_fields) {
                                 counter++;
@@ -1038,10 +1045,10 @@
                                     '<td>'+
                                     '<div class="row">'+
                                             '<div class="col-xl-6">'+
-                                                '<input type="text" class="form-control stock">'+
+                                                '<input readonly type="text" class="form-control stock'+counter+'">'+
                                             '</div>'+
                                             '<div class="col-xl-6">'+
-                                                '<input type="text" class="form-control stock-c">'+
+                                                '<input readonly type="text" class="form-control stock-c'+counter+'">'+
                                             ' </div>'+
                                     '</div>'+
                                     '</td>'+
@@ -1107,7 +1114,7 @@
                                                         <?php }?>
                                                             var stok = data.stok
                                                             var min_stok = data.min_stok
-                                                        if (stok == min_stok) {
+                                                        if (stok < min_stok) {
                                                                 swal({
                                                                 title: "Opss..!",
                                                                 text: "Barang "+ data.nama+" sisa "+data.stok,
@@ -1115,7 +1122,7 @@
                                                                 dangerMode: true,
                                                                 }).then((r) => {
                                                                     if (r) {
-                                                                    location.reload();
+                                                                    // location.reload();
                                                                     //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
                                                                     // swal({
                                                                     //   text : "oke"
