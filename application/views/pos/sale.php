@@ -266,14 +266,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="sampel-wrapper">
-                                                <tr style="background-color: white;">
-                                                <td>
-                                                    <!-- <div class="form-check checkbox checkbox-primary mb-0">
-                                                    <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
-                                                    <label class="form-check-label" for="checkbox-primary-1"></label>
-                                                    </div> -->
-                                                    <button type="button" class="btn btn-danger btn-square delete_satuan"><i class="icon-trash"></i></button>
-                                                </td>
+                                                <!-- <tr style="background-color: white;">
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-square delete_satuan"><i class="icon-trash"></i></button>
+                                                    </td>
                                                     <td class="order">
                                                     <input class="form-control barang1">
                                                     <input type="hidden" class="form-control id_barang1">
@@ -306,7 +302,7 @@
                                                                 </div>
                                                         </div>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
                                             </tbody>
                                             </table>
                                         </div>
@@ -933,27 +929,26 @@
 
                         })
 
-                //shortcut
-                                var rupiah = document.getElementById('idd1');
-                                rupiah.addEventListener('keyup', function(e){
-                                    rupiah.value = formatRupiah(this.value, '');
-                                });
-                                function formatRupiah(angka, prefix){
-                                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                    split   		= number_string.split(','),
-                                    sisa     		= split[0].length % 3,
-                                    rupiah     		= split[0].substr(0, sisa),
-                                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+                                //shortcut
+                                // var rupiah = document.getElementById('idd1');
+                                // rupiah.addEventListener('keyup', function(e){
+                                //     rupiah.value = formatRupiah(this.value, '');
+                                // });
+                                // function formatRupiah(angka, prefix){
+                                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                                //     split   		= number_string.split(','),
+                                //     sisa     		= split[0].length % 3,
+                                //     rupiah     		= split[0].substr(0, sisa),
+                                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
 
-                                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                    if(ribuan){
-                                    separator = sisa ? '.' : '';
-                                    rupiah += separator + ribuan.join('.');
-                                    }
+                                //     if(ribuan){
+                                //     separator = sisa ? '.' : '';
+                                //     rupiah += separator + ribuan.join('.');
+                                //     }
 
-                                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
-                                }
+                                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                                // }
                                 var rupiah3 = document.getElementById('diskon_all');
                                 // var rupiah = document.getElementsByClassName('diskon_all');
                                 rupiah3.addEventListener('keyup', function(e){
