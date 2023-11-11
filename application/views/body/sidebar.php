@@ -61,7 +61,7 @@
                     <i data-feather="package"></i>
                       <span>Barang</span></a>
                     <ul class="sidebar-submenu">
-                      <li><a href="<?= base_url('barang') ?>">Daftar Barang</a></li>
+                      <li><a href="<?= base_url('barang') ?>">List Barang</a></li>
                       <li><a href="<?= base_url('barang/satuan') ?>">Satuan</a></li>
                       <li><a href="<?= base_url('barang/kategori') ?>">Kategori</a></li>
                       <li><a href="<?= base_url('barang/brand') ?>">brand</a></li>
@@ -84,7 +84,7 @@
                     <i data-feather="arrow-up-circle"></i>
                       <span>Penjualan</span></a>
                     <ul class="sidebar-submenu">
-                      <li><a href="dashboard-03.html">Pengguna</a></li>
+                    <li><a href="<?= base_url('penjualan') ?>">List Penjualan</a></li>
                       <li><a href="dashboard-04.html">Role</a></li>
                     </ul>
                   </li>
