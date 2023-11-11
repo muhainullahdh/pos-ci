@@ -808,21 +808,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-md-center">
-                                        <!-- <div class="col-xl-2">
-                                            <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio23" type="radio" name="radio" value="UTANG">
-                                                <label class="form-check-label" for="radio23">UTANG </label>
-                                            </div>
-                                        </div> -->
-                                        <!-- <div class="col-xl-2">
-                                            <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio" value="VOCHER">
-                                                <label class="form-check-label" for="radio24">VOCHER </label>
-                                            </div>
-                                        </div> -->
-
-                                    </div>
                                     <div class="row mt-3">
                                         <div class="col-xl-8"></div>
                                         <div class="col-xl-2 mr-2">
@@ -1411,7 +1396,6 @@
                                 }
                         }
                     }else if (e.which == 112 || e.which == 113) {
-                        // action.on('click',function() {
                             if (e.which == 112) {
                                 var value_ac = "BAYAR"
                             }else if (e.which == 113) {
@@ -1453,6 +1437,8 @@
                                 // }
                             }
                         // })
+                    }else if (e.which == 115) { //load transaksi
+                        $('#modaload').modal('show');
                     }
                 };
                 var bayar = $(".total_bayar")
