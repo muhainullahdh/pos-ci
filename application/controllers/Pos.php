@@ -208,6 +208,39 @@ class Pos extends CI_Controller {
         //     // echo json_encode($data_ec);
         // }
     }
+    function load($id) {
+        $draw=intval($this->input->get("draw"));
+        $start=intval($this->input->get("start"));
+        $length=intval($this->input->get("length"));
+        $this->db->where('id_transaksi',$id);
+        $query=$this->db->get("transaksi_item")->result();
+
+        // $data= [];
+
+        // foreach($query->result() as$r) {
+
+        //     $data[] =array(
+        //             $r->id_transaksi_item,
+        //             $r->barang,
+        //             $r->qty
+        //     );
+
+        // }
+        // $result=array(
+
+        //         "draw"=>$draw,
+        //             "recordsTotal"=>$query->num_rows(),
+
+        //             "recordsFiltered"=>$query->num_rows(),
+
+        //             "data"=>$data
+        //         );
+
+        echo json_encode($query);
+
+        exit();
+
+    }
     function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 

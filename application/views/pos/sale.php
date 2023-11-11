@@ -187,8 +187,8 @@
                                 <div class="row mt-3">
                                     <?php if($this->uri->segment(3) == true) { ?>
                                         <div class="col">
-                                        <div class="table-responsive" style="min-height:650px; max-height: 650px;">
-                                            <table>
+                                        <div  class="table-responsive" style="min-height:650px; max-height: 650px;">
+                                            <table id="load-list">
                                             <thead>
                                                 <tr>
                                                 <th></th>
@@ -202,13 +202,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="sampel-wrapper">
-                                                <?php foreach($transaksi_item as $x){ ?>
+                                                <!-- <?php foreach($transaksi_item as $x){ ?>
                                                 <tr style="background-color: white;">
                                                     <td>
-                                                        <!-- <div class="form-check checkbox checkbox-primary mb-0">
-                                                        <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
-                                                        <label class="form-check-label" for="checkbox-primary-1"></label>
-                                                        </div> -->
                                                         <button type="button" class="btn btn-danger delete_satuan"><i class="icon-trash"></i></button>
                                                     </td>
                                                         <td class="order">
@@ -244,7 +240,7 @@
                                                             </div>
                                                         </td>
                                                 </tr>
-                                                <?php } ?>
+                                                <?php } ?> -->
                                             </tbody>
                                             </table>
                                         </div>
@@ -665,6 +661,7 @@
                     </div>
                                                     <div class="modal fade bd-example-modal-lg" id="modaload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg" role="document">
+
                                                             <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="exampleModalLongTitle">Load Data POS</h5>
@@ -1359,6 +1356,7 @@
 
                         // })
                     }else if (e.which == 115) { //load transaksi
+                        $('#t_barang').DataTable({order:[[0,"desc"]]})
                         $('#modaload').modal('show');
                     }
                 };
@@ -1470,6 +1468,18 @@
                         }
                     }
                 })
+
+                $(window).on("load", function () {
+                    $.get("<?php echo base_url('pos/load/'.$this->uri->segment(3)); ?>", function (data) {
+                        var result = JSON.parse(data);
+                        $.each(result, function (i, item) {
+                            $('#load-list tbody').append('<tr>'+
+                            '<td><button id='+parseInt(counter+1)+' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button></td>'+
+                            '<td><input value="'+item.barang+'" class="form-control barang'+parseInt(counter+1)+' ui-autocomplete-input" autocomplete="off"></td>'+
+                            '</tr>');
+                        });
+                    });
+                });
 
 
             // console.log(localStorage.getItem("page-wrapper"))
