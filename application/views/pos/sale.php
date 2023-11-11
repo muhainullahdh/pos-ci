@@ -209,7 +209,7 @@
                                                         <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
                                                         <label class="form-check-label" for="checkbox-primary-1"></label>
                                                         </div> -->
-                                                        <button type="button" class="btn btn-danger delete_satuan"><i class="icon-minus"></i></button>
+                                                        <button type="button" class="btn btn-danger delete_satuan"><i class="icon-trash"></i></button>
                                                     </td>
                                                         <td class="order">
                                                         <input class="form-control barang1" value="<?= $x->barang ?>">
@@ -272,7 +272,7 @@
                                                     <input class="form-check-input delete_check" value="1" id="checkbox-primary-1" type="checkbox">
                                                     <label class="form-check-label" for="checkbox-primary-1"></label>
                                                     </div> -->
-                                                    <button type="button" class="btn btn-danger delete_satuan"><i class="icon-minus"></i></button>
+                                                    <button type="button" class="btn btn-danger btn-square delete_satuan"><i class="icon-trash"></i></button>
                                                 </td>
                                                     <td class="order">
                                                     <input class="form-control barang1">
@@ -557,165 +557,8 @@
 
                   </div>
                   </div>
-                <!--<div class="col-md-4 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-                      <div class="card-header card-no-border pb-2">
-                        <h5>Menu</h5>
-                      </div>
-                      <div class="card-body pt-0 count-student">
-                        <div class="school-wrapper">
-                          <div class="school-header align-self">
-                            <button class="btn btn-square btn-primary" style="font-size:14px;">Data Penjualan</button>
-                            <button class="btn btn-square btn-warning" style="font-size:14px;">Master Barang</button>
-                            <button class="btn btn-square btn-primary" style="font-size:14px;">Stok Barang</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
-                  <!-- <div class="col-md-9 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-
-                      <div class="card-body pt-0 count-student">
-                        <div class="">
-                            <div class="row mt-4">
-                                <div class="col-xl-2">
-                                  <label for="">Jumlah Item</label>
-                                        <input readonly type="text" class="form-control">
-                                </div>
-                                <div class="col-xl-2">
-                                  <label for="">Discount</label>
-                                        <input type="text" class="form-control">
-                                </div>
-                                <div class="col-xl-2 text-center">
-
-                                </div>
-                                <div class="col-xl-3">
-                                  <label for="">Total Bayar</label>
-                                  <h2 class="txt-secondary">Rp.121.098.221</h2>
-                                </div>
-                                <div class="col-xl-3 mt-4 justify-content-between">
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                  </div> -->
                 </div>
               </div>
-              <!-- <div class="col-xxl-3 d-xxl-block d-none box-col-none">
-                <div class="row">
-                  <div class="col-xl-12 d-xl-block d-none">
-                    <div class="card">
-                      <div class="card-header card-no-border pb-4">
-                        <h5>Increase your knowledge by Learning!</h5>
-                      </div>
-                      <div class="card-body pt-0 position-relative pb-0 pe-0 increase-content">
-                        <div class="knowledge-wrapper">
-                          <div>
-                            <p class="f-light">The essential way to learn about anything is by reading quality literature!</p>
-                            <button class="btn btn-primary btn-hover-effect f-w-500 knowledge-btn" type="button">Learn More</button>
-                          </div>
-                          <div class="knowledgebase-wrapper"><img class="knowledge-img img-fluid w-100" src="<?= base_url() ?>assets/images/dashboard-7/knowledge-base.png" alt="knowledge-base"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-12 notification box-col-6 d-xl-block d-none">
-                    <div class="card">
-                      <div class="card-header card-no-border">
-                        <div class="header-top">
-                          <h5>Notice Board</h5>
-                          <div class="dropdown icon-dropdown">
-                            <button class="btn dropdown-toggle" id="notice_dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notice_dropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-body pt-0 notice-board">
-                        <ul>
-                          <li class="d-flex">
-                            <div class="activity-dot-primary"></div>
-                            <div class="ms-3">
-                              <p class="d-flex mb-2"><span class="date-content light-background">16 Feb, 2023</span></p>
-                              <h6>We have over 25 years of experience. We've rented more than 250 properties and won awards.<span class="dot-notification"></span></h6>
-                              <p class="f-light">Jennyfar Lopez / 5 min ago<span class="badge alert-light-success txt-success ms-2 f-w-600">New</span></p>
-                            </div>
-                          </li>
-                          <li class="d-flex">
-                            <div class="activity-dot-secondary"></div>
-                            <div class="ms-3">
-                              <p class="d-flex mb-2"><span class="date-content light-background">17 Feb, 2023</span></p>
-                              <h6>Drawing Competition, Story Telling Competition, Craft and Creativity & Dance Competition<span class="dot-notification"></span></h6>
-                              <p class="f-light">Rubi Rao / 10 min ago</p>
-                            </div>
-                          </li>
-                          <li class="d-flex">
-                            <div class="activity-dot-success"></div>
-                            <div class="ms-3">
-                              <p class="d-flex mb-2"><span class="date-content light-background">18 Feb, 2023</span></p>
-                              <h6>Announces a series of Parent Education Webinars for connected parents<span class="dot-notification"></span></h6>
-                              <p class="f-light">Jenny Wilson / 1 hr ago</p>
-                            </div>
-                          </li>
-                          <li class="d-flex pb-0">
-                            <div class="activity-dot-warning"></div>
-                            <div class="ms-3">
-                              <p class="d-flex mb-2"><span class="date-content light-background">19 Feb, 2023</span></p>
-                              <h6>Rakhi Making Competition  & Independence day and Investiture Ceremony<span class="dot-notification"></span></h6>
-                              <p class="f-light">Cameron Williamson / 10 min ago</p>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-12 d-xl-block d-none">
-                    <div class="card">
-                      <div class="card-header card-no-border">
-                        <div class="header-top">
-                          <h5>Student's Leader</h5>
-                          <div class="dropdown icon-dropdown">
-                            <button class="btn dropdown-toggle" id="students_dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="students_dropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-body pt-0">
-                        <div class="student-leader-wrapper">
-                          <div class="student-leader-content light-card"><img src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/rank-1.svg" alt="rank-1"><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-1.jpg" alt="user 1">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Brooklyn </h6><span class="text-muted">Helping Other</span>
-                            </div>
-                          </div>
-                          <div class="student-leader-content light-card"><img src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/rank-2.svg" alt="rank-2"><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-2.jpg" alt="user 2">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Jenny Wilson</h6><span class="text-muted">Game Winner</span>
-                            </div>
-                          </div>
-                          <div class="student-leader-content light-card"><img src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/rank-3.svg" alt="rank-2"><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-3.jpg" alt="user 3">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Savannah</h6><span class="text-muted">Great Job!</span>
-                            </div>
-                          </div>
-                          <div class="student-leader-content">
-                            <h5>4<sup>th</sup></h5><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-4.jpg" alt="user 4">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Esther Howard</h6><span class="text-muted">Best Developer</span>
-                            </div>
-                          </div>
-                          <div class="student-leader-content border-0 pb-0">
-                            <h5>5<sup>th</sup></h5><img class="leader-img" src="<?= base_url() ?>assets/images/dashboard-7/attendance/student-leader/user-5.jpg" alt="user 5">
-                            <div class="leader-content-height">
-                              <h6 class="pb-1">Ralph Edwards</h6><span class="text-muted">Best Designer              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
           <!-- Container-fluid Ends-->
@@ -836,13 +679,13 @@
                                                                     <div class="row justify-content-md-center">
                                                                         <div class="col-xl-12">
                                                                         <div class="table-responsive">
-                                                                          <table class="display" id="t_barang">
+                                                                          <table class="display table" id="t_barang">
                                                                             <thead>
                                                                                 <tr>
-                                                                                <th></th>
+                                                                                <th width="70"></th>
                                                                                 <th width="400" scope="col">No Struk</th>
                                                                                 <th width="80" scope="col">Pelanggan</th>
-                                                                                <th width="180" scope="col">Total Transaksi</th>
+                                                                                <th width="180" scope="col">Total Item</th>
                                                                                 <th width="180" scope="col">Load</th>
                                                                                 </tr>
                                                                             </thead>
@@ -856,15 +699,15 @@
                                                                                         <?= $x->no_struk ?>
                                                                                                 </td>
                                                                                         <td>
-                                                                                            <?= $x->pelanggan ?>
+                                                                                            <?= $x->nama_toko ?>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <?= $x->pelanggan ?>"
+                                                                                            <?= $x->jumlah_item ?>
                                                                                         </td>
                                                                                         <td><a class="badge badge-primary" href="<?= base_url('pos/index/'.$x->id) ?>" ><i data-feather="edit-3"></i></a></td>
-
                                                                                 </tr>
                                                                                 <?php } ?>
+
                                                                             </tbody>
                                                                             </table>
                                                                         </div>
@@ -1161,6 +1004,7 @@
                         var max_fields = 100;
                         var wrapper = $("#sampel-wrapper");
                         // var add_kom = $("#add-sampel");
+
                         if ($(".barang"+counter+"").val() == "") {
                             swal({
                                 title: "Opss..!",
@@ -1172,13 +1016,9 @@
                             if (counter < max_fields) {
                                 counter++;
                                 $(wrapper).append(
-                                    '<tr>'+
+                                    '<tr id=r'+counter+'>'+
                                     '<td>'+
-                                    '<div class="form-check checkbox checkbox-primary mb-0">'+
-                                                        '<input class="form-check-input delete_check" value="'+counter+'" id="checkbox-primary-'+counter+'" type="checkbox">'+
-                                                        '<label class="form-check-label" for="checkbox-primary-'+counter+'"></label>'+
-                                                        '</div>'+
-                                                        '</td>'+
+                                   '<button id='+counter+' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>'+
                                     '<td>'+
                                     '<input class="form-control barang'+counter+'">'+
                                     '<input type="hidden" class="form-control id_barang'+counter+'">'+
@@ -1214,6 +1054,15 @@
                               );
                               $('.select2x').select2();
                             }
+
+                            $('.delete_item').click(function(){
+                                e.preventDefault();
+                                // $(this).parent('tbody').parent('tr').remove(); counter--;
+                                // $("#"+wrapper+" tr:eq("+counter+")").remove();
+                                // $('#r'+counter+'').remove(); counter--;
+                                $('#r'+this.id+'').remove();
+                                console.log(this.id)
+                            });
                             var data = "<?= base_url('pos/get_barang') ?>";
                             $(".barang"+counter+"").autocomplete({
                                 source: data,
@@ -1228,35 +1077,39 @@
                                                     async : true,
                                                     dataType : 'json',
                                                     success: function(data){
-                                                            var satuann = ''
-                                                            if (data.id_satuan_besar != "") {
+                                                        var satuann = ''
+                                                        if (data.id_satuan_besar != "") {
                                                             satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
+                                                        }
+                                                        if (data.id_satuan_kecil != "") {
+                                                            satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
+                                                        }
+                                                         if (data.id_satuan_kecil_konv != "") {
+                                                            satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
+                                                        }
+                                                        <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_retail)
+                                                            if (data.id_satuan_besar != "") {
+                                                                var qtyyy = data.qty_besar
                                                             }
+                                                            var jumlah = data.hargajualb_retail * qtyyy
+                                                        <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_retail)
+                                                                if (data.id_satuan_besar != "") {
+                                                                    var qtyyy = data.qty_besar
+                                                                }
+                                                            var jumlah = data.hargajualb_retail * qtyyy
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_grosir)
                                                             if (data.id_satuan_kecil != "") {
-                                                                satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
-                                                            }
-                                                            if (data.id_satuan_kecil_konv != "") {
-                                                                satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
-                                                            }
-                                                            <?php if ($this->session->userdata('tipe_penjualan') == 'umum') { ?>
-                                                                var harga1 = formatRupiah(data.hargajualb_retail)
-                                                                if (data.id_satuan_besar != "") {
-                                                                    var qtyyy = data.qty_besar
+                                                                    var qtyyy = data.qty_kecil
                                                                 }
-                                                                var jumlah = data.hargajualb_retail * qtyyy
-                                                            <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
-                                                                var harga1 = formatRupiah(data.hargajualb_retail)
-                                                                if (data.id_satuan_besar != "") {
-                                                                    var qtyyy = data.qty_besar
-                                                                }
-                                                                var jumlah = data.hargajualb_retail * qtyyy
-                                                            <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
-                                                                var harga1 = formatRupiah(data.hargajualb_grosir)
-                                                            <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
-                                                                var harga1 = formatRupiah(data.hargajualb_partai)
-                                                            <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
-                                                                var harga1 = formatRupiah(data.hargajualb_promo)
-                                                            <?php } ?>
+                                                            var jumlah = data.hargajualk_grosir * qtyyy
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_partai)
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_promo)
+                                                        <?php }?>
                                                             var stok = data.stok
                                                             var min_stok = data.min_stok
                                                         if (stok == min_stok) {

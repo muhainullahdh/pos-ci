@@ -21,7 +21,11 @@ class Pos extends CI_Controller {
         }else{
             $this->session->set_userdata('tipe_penjualan','umum,273,1');
         }
-        $load = $this->db->get_where('transaksi',['tahan' => 1])->result();
+        $this->db->from('transaksi as a');
+        $this->db->join('customers as b','a.pelanggan=b.id_customer');
+        $this->db->where('a.trash',0);
+        $this->db->where('a.tahan',1);
+        $load = $this->db->get()->result();
         $id = $this->uri->segment(3);
         if ($id == true) {
             $transkasi = $this->db->get_where('transaksi',['id' => $id])->row_array();
@@ -32,7 +36,6 @@ class Pos extends CI_Controller {
         }
                     // $this->session->set_userdata('tipe_penjualan','umum,1,1');
 
-        $load = $this->db->get_where('transaksi',['tahan' => 1])->result();
         $data = [
             "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result(),
