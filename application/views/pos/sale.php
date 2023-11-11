@@ -367,9 +367,9 @@
                                                 <div class="col">
                                                     <button id="bayar333" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
                                                 </div>
-                                                <div class="col">
+                                                <!-- <div class="col">
                                                     <button class="btn btn-square btn-outline-primary col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modaload" style="font-size:20px;">LOAD</button>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                 </div>
@@ -1395,7 +1395,7 @@
                                     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
                                 }
                         }
-                    }else if (e.which == 113 || e.which == 11) {
+                    }else if (e.which == 113 || e.which == 114) {
                             if (e.which == 113) {
                                 var value_ac = "BAYAR"
                                 if ($(".id_barang"+counter+"").val() == "") {
@@ -1432,7 +1432,7 @@
 
 
                                 }
-                            }else if (e.which == 119) {
+                            }else if (e.which == 114) {
                                 var value_ac = "TAHAN"
                                     var barang = ''
                                     var xx = []
