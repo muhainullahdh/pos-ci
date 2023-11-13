@@ -974,8 +974,9 @@
                                     var row_data = '';
                                     for (let i = 0; i < data.length; i++) {
                                         // barang += '';
-                                        // $('#load-list tbody').append(
-                                        row_data += '<tr>'+
+                                        counter++;
+                                        $('#load-list tbody').append(
+                                        '<tr>'+
                                         '<td>'+
                                         '<button id='+counter+' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>'+
                                         '</td>'+
@@ -1010,14 +1011,13 @@
                                                 ' </div>'+
                                         '</div>'+
                                         '</td>'+
-                                        '</tr>';
-                                        counter++;
+                                        '</tr>');
                                         // '</tr>');
-
-                                    }
                                         check_pos()
 
-                                $('#sampel-wrapper').html(row_data);
+                                    }
+
+                                // $('#sampel-wrapper').html(row_data);
                                 },
                                 error: function(e){
                                     console.log(e)
