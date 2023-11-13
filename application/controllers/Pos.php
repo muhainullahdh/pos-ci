@@ -184,11 +184,13 @@ class Pos extends CI_Controller {
                     "diskon_item" => $x['diskon_item'],
                     "jumlah" => $x['jumlah'],
                 );
-                $barang = $this->db->get_where('barang',['id' => $x['kd_barang']])->row_array();
-                $total_qty_pcs = $barang['stok'] - (intval($x['qty']) *  intval($ex_satuan[0]));
-                $this->db->set('stok', $total_qty_pcs);
-                $this->db->where('id', $x['kd_barang']);
-                $this->db->update('barang');
+                if ($cek == 'BAYAR') {
+                    $barang = $this->db->get_where('barang',['id' => $x['kd_barang']])->row_array();
+                    $total_qty_pcs = $barang['stok'] - (intval($x['qty']) *  intval($ex_satuan[0]));
+                    $this->db->set('stok', $total_qty_pcs);
+                    $this->db->where('id', $x['kd_barang']);
+                    $this->db->update('barang');
+                }
             }
             $this->db->insert_batch('transaksi_item',$output);
             $data_ec = [
