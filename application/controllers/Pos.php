@@ -21,10 +21,13 @@ class Pos extends CI_Controller {
         }else{
             $this->session->set_userdata('tipe_penjualan','umum,273,1');
         }
+        $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
         $this->db->join('customers as b','a.pelanggan=b.id_customer');
+        $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
         $this->db->where('a.trash',0);
         $this->db->where('a.tahan',1);
+        $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
         $id = $this->uri->segment(3);
         if ($id == true) {
@@ -34,8 +37,6 @@ class Pos extends CI_Controller {
             $transkasi = '';
             $transkasi_item = '';
         }
-                    // $this->session->set_userdata('tipe_penjualan','umum,1,1');
-
         $data = [
             "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result(),
@@ -208,10 +209,11 @@ class Pos extends CI_Controller {
         //     // echo json_encode($data_ec);
         // }
     }
-    function load($id) {
-        $draw=intval($this->input->get("draw"));
-        $start=intval($this->input->get("start"));
-        $length=intval($this->input->get("length"));
+    function load() {
+        $id = $this->input->post('id');
+        // $draw=intval($this->input->get("draw"));
+        // $start=intval($this->input->get("start"));
+        // $length=intval($this->input->get("length"));
         $this->db->where('id_transaksi',$id);
         $query=$this->db->get("transaksi_item")->result();
 
