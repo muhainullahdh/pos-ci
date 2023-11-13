@@ -217,32 +217,20 @@ class Pos extends CI_Controller {
         // $start=intval($this->input->get("start"));
         // $length=intval($this->input->get("length"));
         $this->db->where('id_transaksi',$id);
-        $query=$this->db->get("transaksi_item")->result();
-
-        // $data= [];
-
-        // foreach($query->result() as$r) {
-
-        //     $data[] =array(
-        //             $r->id_transaksi_item,
-        //             $r->barang,
-        //             $r->qty
-        //     );
-
-        // }
-        // $result=array(
-
-        //         "draw"=>$draw,
-        //             "recordsTotal"=>$query->num_rows(),
-
-        //             "recordsFiltered"=>$query->num_rows(),
-
-        //             "data"=>$data
-        //         );
-
+        $this->db->from('transaksi_item as a');
+        $this->db->join('barang as b','a.kd_barang=b.id');
+        $query=$this->db->get()->result();
         echo json_encode($query);
 
         exit();
+
+    }
+    function del_row_hold()
+    {
+        $id = $this->input->post('id');//id_transaksi_item
+        $this->db->where('id_transaksi_item',$id);
+        $this->db->delete('transaksi_item');
+        echo json_encode('berhasil');
 
     }
     function clean($string) {
