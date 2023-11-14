@@ -1261,8 +1261,8 @@
                                                             var harga1 = formatRupiah(data.hargajualb_retail)
                                                             if (data.id_satuan_besar != "") {
                                                                 var qtyyy = data.qty_besar
+                                                                var jumlah = data.hargajualb_retail * qtyyy
                                                             }
-                                                            var jumlah = data.hargajualb_retail * qtyyy
                                                         <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
                                                             var harga1 = formatRupiah(data.hargajualb_retail)
                                                                 if (data.id_satuan_besar != "") {
@@ -1271,7 +1271,7 @@
                                                             var jumlah = data.hargajualb_retail * qtyyy
                                                         <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
                                                             var harga1 = formatRupiah(data.hargajualb_grosir)
-                                                            if (data.id_satuan_kecil != "") {
+                                                                if (data.id_satuan_kecil != "") {
                                                                     var qtyyy = data.qty_kecil
                                                                 }
                                                             var jumlah = data.hargajualk_grosir * qtyyy
