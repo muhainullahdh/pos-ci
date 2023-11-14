@@ -25,6 +25,18 @@
                 <div class="card">
                   <div class="card-header">
                     <h4>List penjualan</h4>
+                    <form action="<?= base_url('penjualan/change_date') ?>" method="POST">
+                        <div class="row">
+                            <div class="col-xl-2">
+                                <label>Start Date</label>
+                                <input type="date" class="form-control" value="<?= $this->session->userdata('date_penjualan') ?>" name="date" onchange="this.form.submit()">
+                            </div>
+                            <div class="col-xl-2">
+                                <label>End Date</label>
+                                <input type="date" class="form-control" value="<?= $this->session->userdata('date_penjualan2') ?>" name="date2" onchange="this.form.submit()">
+                            </div>
+                        </div>
+                    </form>
                   </div>
                     <div class="card-body">
                         <div class="table-responsive">

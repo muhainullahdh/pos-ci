@@ -323,7 +323,44 @@ class Barang extends CI_Controller {
             echo json_encode($data_ec);
         }
     }
+    function penerimaan()
+    {
+        $brand = $this->input->post('brand');
+        $action = $this->input->post('action');
+        $id = $this->input->post('id_brand');
+        if ($brand == true) {
+            $cek = $this->db->query("SELECT * FROM brand where nama_brand='$brand' ")->num_rows();
+            if ($cek == true) {
+                $this->session->set_flashdata('msg','double_satuan');
+                $this->session->set_flashdata('msg_val',$brand);
+                redirect('barang/penerimaan');
+            }else{
+                $datax = [
+                    "nama_brand" => $brand,
+                ];
+                $this->db->insert('penerimaan',$datax);
+                redirect('barang/brand');
+            }
+        }
+        if ($action == 'edit') {
 
+            $datax = [
+                "penerimaan" => $brand,
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('penerimaan',$datax);
+            redirect('barang/penerimaan');
+
+        }
+        $data = [
+            "penerimaan" => $this->db->get('penerimaan')->result()
+        ];
+            // $this->session->set_flashdata('msg','Data tidak boleh kosong');
+            // redirect('barang/satuan');
+            $this->load->view('body/header');
+            $this->load->view('barang/brand',$data);
+            $this->load->view('body/footer');
+    }
     function delete_kategori()
     {
         $id = $this->input->post('id');

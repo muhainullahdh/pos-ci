@@ -166,7 +166,7 @@
                                 <span>Stock</span>
                             </div>
                             <div class="col-xl-4">
-                                <input type="text" class="form-control stok">
+                                <input type="text" readonly class="form-control stok">
                             </div>
                         </div>
                         <hr>

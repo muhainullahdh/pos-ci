@@ -18,6 +18,10 @@ class Penjualan extends CI_Controller {
 	}
 	public function index()
 	{
+        $first_date = $this->session->userdata('date_penjualan');
+        $second_date = $this->session->userdata('date_penjualan2');
+        $this->db->where('b.date_created >=',$first_date);
+        $this->db->where('b.date_created <=',$second_date);
         $this->db->from('customers as a');
         $this->db->join('transaksi as b','a.id_customer=b.pelanggan');
         $this->db->join('users as c','c.id=b.kasir');
@@ -28,6 +32,14 @@ class Penjualan extends CI_Controller {
 		$this->load->view('body/header');
 		$this->load->view('penjualan/index',$data);
 		$this->load->view('body/footer');
+    }
+
+    function change_date(){
+        $date = $this->input->post('date');
+        $date2 = $this->input->post('date2');
+        $this->session->set_userdata('date_penjualan',$date);
+        $this->session->set_userdata('date_penjualan2',$date2);
+        redirect('penjualan');
     }
 }
 
