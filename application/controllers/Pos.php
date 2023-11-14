@@ -151,6 +151,8 @@ class Pos extends CI_Controller {
     {
         $id_barang = $this->input->post('id_barang');
         $cek = $this->input->post('cek');
+        $update = $this->input->post('update');
+        $id_transaksi = $this->input->post('id_transaksi');
         $urutan = substr($this->input->post('no_struk'),8);
         $data = [
             "no_struk" => $this->input->post('no_struk'),
@@ -168,8 +170,12 @@ class Pos extends CI_Controller {
             "pembayaran" => $this->input->post('pembayaran'),
             "piutang" => $this->input->post('piutang')
         ];
-        // if ($cek == 'BAYAR') {
-            $this->db->insert('transaksi',$data);
+            if ($update == 'update') {
+                $this->db->where('id',$id_transaksi); //update data hold
+                $this->db->update('transaksi',$data);
+            }else{
+                $this->db->insert('transaksi',$data); //submit
+            }
             $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
             foreach ($this->input->post('item') as $x) {
                 $ex_satuan = explode(',',$x['satuan']);
@@ -190,9 +196,46 @@ class Pos extends CI_Controller {
                     $this->db->set('stok', $total_qty_pcs);
                     $this->db->where('id', $x['kd_barang']);
                     $this->db->update('barang');
+
+                    //update transaksi item
+                    if ($update == 'update') {
+                        $cek_item = $this->db->get_where('transaksi_item',['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
+                        if ($cek_item == true) {
+                            $this->db->set('kd_barang', $x['kd_barang']);
+                            $this->db->set('barang', $x['barang']);
+                            $this->db->set('qty', $x['qty']);
+                            $this->db->set('qty_satuan', $ex_satuan[0]);
+                            $this->db->set('satuan', $ex_satuan[1]);
+                            $this->db->set('harga_satuan', $x['harga_satuan']);
+                            $this->db->set('diskon_item', $x['diskon_item']);
+                            $this->db->set('jumlah', $x['jumlah']);
+                            $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
+                            $this->db->update('transaksi_item');
+                        }
+                        //jika ada penambahan row di transaksi hold
+                        if ($cek_item == false) {
+                            $insert_hold = [
+                                "id_transaksi" => $get_transkasi['id_transaksi'],
+                                "kd_barang" => $x['kd_barang'],
+                                "barang" => $x['barang'],
+                                "qty" => $x['qty'],
+                                "qty_satuan" => $ex_satuan[0],
+                                "satuan" => $ex_satuan[1],
+                                "harga_satuan" => $x['harga_satuan'],
+                                "diskon_item" => $x['diskon_item'],
+                                "jumlah" => $x['jumlah'],
+                            ];
+                            $this->db->insert('transaksi_item',$insert_hold);
+                        }
+                    }
                 }
             }
-            $this->db->insert_batch('transaksi_item',$output);
+            if ($update == 'update') {
+                // $this->db->where('id_transaksi',$id_transaksi); //update data hold
+                // $this->db->update_batch('transaksi_item',$output,'id_transaksi_item');
+            }else{
+                $this->db->insert_batch('transaksi_item',$output);
+            }
             $data_ec = [
                 "id_transaksi" => $get_transkasi['id_transaksi'],
                 'no_struk' => $this->input->post('no_struk'),
@@ -219,6 +262,9 @@ class Pos extends CI_Controller {
         $this->db->where('id_transaksi',$id);
         $this->db->from('transaksi_item as a');
         $this->db->join('barang as b','a.kd_barang=b.id');
+        $this->db->join('transaksi as c','c.id=a.id_transaksi');
+        $this->db->join('customers as d','c.pelanggan=d.id_customer');
+        $this->db->join('ekspedisi as e','c.pengiriman=e.id');
         $query=$this->db->get()->result();
         echo json_encode($query);
 

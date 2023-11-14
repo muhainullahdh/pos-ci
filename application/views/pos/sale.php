@@ -351,7 +351,7 @@
                                                 <div class="col-xl-2">
                                                     [+] : Tambah Transaksi<br>
                                                     [CTRL + R] : Batal Transaksi <br>
-                                                    F3 = TAHAN
+                                                    F8 = TAHAN
                                                 </div>
                                                 <div class="col">
                                                     <button id="bayar333" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
@@ -962,7 +962,7 @@
                             var rupiah = document.getElementById('idd'+counter+'');
                         }
                         // var counter = <?= $this->uri->segment(3) == true ? 1 : 0 ?>;
-                        <?php if($this->uri->segment(3) == true){ ?> //hold
+                        <?php if($this->uri->segment(3) == true){ ?> //submit hold
                         $.ajax({
                                 url : "<?= site_url('pos/load');?>",
                                 method : "POST",
@@ -970,7 +970,6 @@
                                 async : true,
                                 dataType : 'json',
                                 success: function(data){
-                                //alert(data);
                                     var row_data = '';
                                     var total_pos = 0;
                                     for (let i = 0; i < data.length; i++) {
@@ -978,15 +977,24 @@
                                         counter++;
                                         if (data[i].id_satuan_besar == data[i].satuan) {
                                                 var kd_satuan = data[i].id_satuan_besar
-                                                var qty_satuan = data[i].qty_besar
+                                                var qty_satuan = data[i].qty_besar + "," + data[i].id_satuan_besar
                                         }else  if (data[i].id_satuan_kecil == data[i].satuan) {
                                                 var kd_satuan = data[i].id_satuan_kecil
-                                                var qty_satuan = data[i].qty_kecil
+                                                var qty_satuan = data[i].qty_kecil + "," + data[i].id_satuan_kecil
 
                                         }else if (data[i].id_satuan_kecil_konv == data[i].satuan){
                                                 var kd_satuan = data[i].id_satuan_kecil_konv
-                                                var qty_satuan = data[i].qty_konv
+                                                var qty_satuan = data[i].qty_konv + "," + data[i].id_satuan_kecil_konv
                                         }
+
+                                        // var tipe_cust = "<?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) ?>"
+                                        // var id_cust = "<?= explode(',',$this->session->userdata('tipe_penjualan'))[1] ?>"
+                                        // if (tipe_cust == data[i].tipe_penjualan.toLowerCase() && data[i].id_customer) {
+                                        //     var action_tipe = 'selected'
+                                        // }
+                                        $('select[name="tipe"]').html('<option selected value='+ data[i].tipe_penjualan.toLowerCase() + ","+data[i].id_customer + "," + data[i].nama_toko+'>'+data[i].nama_toko+'</option');
+                                        $('.no_struk').val(data[i].no_struk);
+                                        $('.pengiriman').html('<option value='+data[i].nama+' selected>'+data[i].nama+'</option>');
                                         total_pos += parseInt(data[i].jumlah)
                                         $('#load-list tbody').append(
                                         '<tr class="cb" id=r'+counter+'>'+
@@ -996,6 +1004,7 @@
                                         '<td>'+
                                         '<input class="form-control barang'+counter+'" value="'+data[i].barang+'">'+
                                         '<input type="hidden" value="'+data[i].kd_barang+'" class="form-control id_barang'+counter+'">'+
+                                        '<input type="hidden" value="'+data[i].id_transaksi_item+'" class="form-control id_item'+counter+'">'+
                                         '</td>'+
                                         '<td>'+
                                         '<input id="idq'+counter+'" value="'+data[i].qty+'" type="number" style="text-align:center;" value="1" class="form-control qty'+counter+'">'+
@@ -1029,8 +1038,9 @@
                                         // '</tr>');
                                         // check_pos()
                                     }
+
                                     $('.total_pos').html('Rp'+total_pos.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                    for (let xx = 0; xx < counter; xx++) {
+                                    for (let xx = 0; xx <= counter; xx++) {
                                         var data = "<?= base_url('pos/get_barang') ?>";
                                         $(".barang"+xx+"").autocomplete({
                                             source: data,
@@ -1121,6 +1131,42 @@
                                                         // });
                                             }
                                         });
+                                        var qty = $(".qty"+xx+"")
+                                        var diskon_item = $(".diskon_item"+xx+"")
+                                        var satuan_x = $(".satuan"+xx+"")
+                                        qty.keyup(function() {
+                                            var id=$(this).val();
+                                            i = this.id.slice(3);
+                                            j = this.value;
+                                            var qty_isi = satuan_x[0].value //isi satuan
+                                            var diskon_item = $("input[id='idd"+i+"']")[0].value
+                                            var stock_c = $('.stock-c'+i+'').val()
+                                                                if (stock_c == 0) {
+                                                                    swal({
+                                                                        title: "Opss..!",
+                                                                        text: "Stock sisa 10",
+                                                                        icon: "warning",
+                                                                        dangerMode: true,
+                                                                    }).then((r) => {
+                                                                        if (r) {
+                                                                        location.reload();
+                                                                        }
+                                                                    });
+
+                                                                }else{
+                                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                                        $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi.split(',')[0]);
+                                                                        var total_pos_fix = 0;
+                                                                        for (let t = 1; t <=counter; t++) {
+                                                                        total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                                        }
+                                                                        $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+
+
+                                                            }
+
+                                        });
                                     }
                                     $('.delete_item').click(function(){
                                         // e.preventDefault();
@@ -1175,7 +1221,6 @@
                                         // });
                                     });
 
-                                // $('#sampel-wrapper').html(row_data);
                                 },
                                 error: function(e){
                                     console.log(e)
@@ -1565,8 +1610,16 @@
 
 
                                 }
-                            }else if (e.which == 119) {
-                                var value_ac = "TAHAN"
+                            }else if (e.which == 119) { //tahan
+                                if ($('.pengiriman').val() == "") {
+                                    swal({
+                                    title: "Opss..!",
+                                    text: "Pengiriman harus di pilih",
+                                    icon: "warning",
+                                    dangerMode: true,
+                                    })
+                                }else{
+                                    var value_ac = "TAHAN"
                                     var barang = ''
                                     var xx = []
                                     for (let i = 1; i <= counter; i++) {
@@ -1632,6 +1685,7 @@
                                                         console.log(data)
                                                     }
                                             })
+                                }
                             }
 
 
@@ -1685,6 +1739,7 @@
                                     var xx = []
                                     for (let i = 1; i <= counter; i++) {
                                         xx.push ({
+                                            id_transaksi_item : $('.id_item'+i+'').val(),
                                             kd_barang : $('.id_barang'+i+'').val(),
                                             barang : $('.barang'+i+'').val(),
                                             qty : $('.qty'+i+'').val(),
@@ -1709,6 +1764,8 @@
                                             tahan : value_ac == "TAHAN" ? 1 : 0,
                                             pembayaran : $('.pembayaran:checked').val(),
                                             piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
+                                            update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
+                                            id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
                                             item : xx
                                         }
                                             $.ajax({
