@@ -136,7 +136,7 @@ class Penjualan extends CI_Controller {
         // $this->db->join('barang as f','f.id=d.kd_barang');
         // $this->db->join('kategori as g','g.id=f.kategori_id');
         // $penjualan = $this->db->get()->result();
-        $penjualan = $this->db->query("SELECT * from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
+        $penjualan = $this->db->query("SELECT *,b.date_created as tgl_transaksi from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
         left join customers as c on(a.pelanggan=c.id_customer)
         left join users d on (a.kasir=d.id)
         left join barang as e on(b.kd_barang=e.id)
@@ -145,7 +145,7 @@ class Penjualan extends CI_Controller {
         $no = 1; // Untuk penomoran tabel, di awal set dengan 1
         $numrow = 2; // Set baris pertama untuk isi tabel adalah baris ke 4
         foreach($penjualan as $data){ // Lakukan looping pada variabel siswa
-            $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $data->date_created);
+            $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $data->tgl_transaksi);
             $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $data->no_struk);
             $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->kd_barang);
             $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->barang);
