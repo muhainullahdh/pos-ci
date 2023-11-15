@@ -91,19 +91,20 @@ class Penjualan extends CI_Controller {
         $excel->setActiveSheetIndex(0)->setCellValue('B1', "No.Bukti"); //no struk
         $excel->setActiveSheetIndex(0)->setCellValue('C1', "Kode Barang");
         $excel->setActiveSheetIndex(0)->setCellValue('D1', "Nama Barang");
-        $excel->setActiveSheetIndex(0)->setCellValue('E1', "alamat");
-        $excel->setActiveSheetIndex(0)->setCellValue('F1', "kontak person");
-        $excel->setActiveSheetIndex(0)->setCellValue('G1', "No.kontak");
-        $excel->setActiveSheetIndex(0)->setCellValue('H1', "Tipe pelanggan");
-        $excel->setActiveSheetIndex(0)->setCellValue('I1', "Jenis pembayaran");
-        $excel->setActiveSheetIndex(0)->setCellValue('J1', "Satuan"); // satuan terkecil
-        $excel->setActiveSheetIndex(0)->setCellValue('K1', "Qty");//qty terkecil
-        $excel->setActiveSheetIndex(0)->setCellValue('L1', "Harga satuan");
-        $excel->setActiveSheetIndex(0)->setCellValue('M1', "Jumlah(Rp)");
-        $excel->setActiveSheetIndex(0)->setCellValue('N1', "Kategori");
-        $excel->setActiveSheetIndex(0)->setCellValue('O1', "Sales");
-        $excel->setActiveSheetIndex(0)->setCellValue('P1', "Pengiriman");
-        $excel->setActiveSheetIndex(0)->setCellValue('Q1', "Status");
+        $excel->setActiveSheetIndex(0)->setCellValue('E1', "Nama Pelanggan");
+        $excel->setActiveSheetIndex(0)->setCellValue('F1', "alamat");
+        $excel->setActiveSheetIndex(0)->setCellValue('G1', "kontak person");
+        $excel->setActiveSheetIndex(0)->setCellValue('H1', "No.kontak");
+        $excel->setActiveSheetIndex(0)->setCellValue('I1', "Tipe pelanggan");
+        $excel->setActiveSheetIndex(0)->setCellValue('J1', "Jenis pembayaran");
+        $excel->setActiveSheetIndex(0)->setCellValue('K1', "Satuan"); // satuan terkecil
+        $excel->setActiveSheetIndex(0)->setCellValue('L1', "Qty");//qty terkecil
+        $excel->setActiveSheetIndex(0)->setCellValue('M1', "Harga satuan");
+        $excel->setActiveSheetIndex(0)->setCellValue('N1', "Jumlah(Rp)");
+        $excel->setActiveSheetIndex(0)->setCellValue('O1', "Kategori");
+        $excel->setActiveSheetIndex(0)->setCellValue('P1', "Sales");
+        $excel->setActiveSheetIndex(0)->setCellValue('Q1', "Pengiriman");
+        $excel->setActiveSheetIndex(0)->setCellValue('R1', "Status");
 
         // Apply style header yang telah kita buat tadi ke masing-masing kolom header
         $excel->getActiveSheet()->getStyle('A1')->applyFromArray($style_col);
@@ -147,7 +148,7 @@ class Penjualan extends CI_Controller {
         foreach($penjualan as $data){ // Lakukan looping pada variabel siswa
             $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $data->tgl_transaksi);
             $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $data->no_struk);
-            $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->kd_barang);
+            $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->kode_barang);
             $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->barang);
             $excel->setActiveSheetIndex(0)->setCellValue('E'.$numrow, $data->nama_toko);
             $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $data->alamat);
@@ -157,11 +158,12 @@ class Penjualan extends CI_Controller {
             $excel->setActiveSheetIndex(0)->setCellValue('J'.$numrow, $data->pembayaran);
             $excel->setActiveSheetIndex(0)->setCellValue('K'.$numrow, $data->satuan);
             $excel->setActiveSheetIndex(0)->setCellValue('L'.$numrow, $data->qty);
-            $excel->setActiveSheetIndex(0)->setCellValue('M'.$numrow, $data->jumlah);
-            $excel->setActiveSheetIndex(0)->setCellValue('N'.$numrow, $data->nama_kategori);
-            $excel->setActiveSheetIndex(0)->setCellValue('O'.$numrow, $data->salesman);
-            $excel->setActiveSheetIndex(0)->setCellValue('P'.$numrow, $data->pengiriman);
-            $excel->setActiveSheetIndex(0)->setCellValue('Q'.$numrow, "ok");//blm tau status ini apa
+            $excel->setActiveSheetIndex(0)->setCellValue('M'.$numrow, $data->harga_satuan);
+            $excel->setActiveSheetIndex(0)->setCellValue('N'.$numrow, $data->jumlah);
+            $excel->setActiveSheetIndex(0)->setCellValue('O'.$numrow, $data->nama_kategori);
+            $excel->setActiveSheetIndex(0)->setCellValue('P'.$numrow, $data->salesman);
+            $excel->setActiveSheetIndex(0)->setCellValue('Q'.$numrow, $data->pengiriman);
+            $excel->setActiveSheetIndex(0)->setCellValue('R'.$numrow, "ok");//blm tau status ini apa
 
             // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
             $excel->getActiveSheet()->getStyle('A'.$numrow)->applyFromArray($style_row);
@@ -181,6 +183,8 @@ class Penjualan extends CI_Controller {
             $excel->getActiveSheet()->getStyle('O'.$numrow)->applyFromArray($style_row);
             $excel->getActiveSheet()->getStyle('P'.$numrow)->applyFromArray($style_row);
             $excel->getActiveSheet()->getStyle('Q'.$numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('R'.$numrow)->applyFromArray($style_row);
+
 
             $no++; // Tambah 1 setiap kali looping
             $numrow++; // Tambah 1 setiap kali looping
