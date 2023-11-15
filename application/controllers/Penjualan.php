@@ -165,7 +165,7 @@ class Penjualan extends CI_Controller {
 
             // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
             $excel->getActiveSheet()->getStyle('A'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('B'.$numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('B'.$numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
             $excel->getActiveSheet()->getStyle('C'.$numrow)->applyFromArray($style_row);
             $excel->getActiveSheet()->getStyle('D'.$numrow)->applyFromArray($style_row);
             $excel->getActiveSheet()->getStyle('E'.$numrow)->applyFromArray($style_row);
