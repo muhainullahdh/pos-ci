@@ -24,7 +24,7 @@
               <div class="col-sm-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>List penjualan</h4>
+                    <h4>List penjualan </h4>
                     <form action="<?= base_url('penjualan/change_date') ?>" method="POST">
                         <div class="row">
                             <div class="col-xl-2">
@@ -36,6 +36,12 @@
                                 <input type="date" class="form-control" value="<?= $this->session->userdata('date_penjualan2') ?>" name="date2" onchange="this.form.submit()">
                             </div>
                         </div>
+                        <div class="row mt-2">
+                            <div class="col-xl-2">
+                                <a href="<?= base_url('penjualan/excel') ?>" class="btn btn-primary btn-square">Export</a>
+                            </div>
+                        </div>
+
                     </form>
                   </div>
                     <div class="card-body">
