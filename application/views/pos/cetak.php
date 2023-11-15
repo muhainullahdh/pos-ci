@@ -91,10 +91,14 @@ body{
     <tr>
         <td>
             <div style="float:left;width:50%;"> Tunai / Transfer</div>
-            <div style="float:left;width:50%;text-align:center">BCA</div>
+            <?php
+                $bank = json_decode($transkasi['info_pembayaran'])->bank;
+            ?>
+            <div style="float:left;width:50%;text-align:center"><?= $bank ?></div>
         </td>
         <td style="text-align:right"><?= number_format($transkasi['total_bayar'],0,',',',') ?></td>
     </tr>
+    <?php if ($transkasi['pembayaran'] == 'VOCHER') { ?>
     <tr>
         <td>
             <div style="float:left;width:50%;"> Vocher</div>
@@ -102,6 +106,7 @@ body{
         </td>
         <td style="text-align:right"><?= number_format($transkasi['total_bayar'],0,',',',') ?></td>
     </tr>
+    <?php } ?>
     <tr>
         <td>
             <!-- <?php if($transkasi['pembayaran'] == "CASH") {

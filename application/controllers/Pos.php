@@ -168,6 +168,7 @@ class Pos extends CI_Controller {
             "pengiriman" => $this->input->post('pengiriman'),
             "tahan" => $this->clean($this->input->post('tahan')),
             "pembayaran" => $this->input->post('pembayaran'),
+            "info_pembayaran" => $this->input->post('info_pembayaran'),
             "piutang" => $this->input->post('piutang')
         ];
             if ($update == 'update') {
@@ -253,6 +254,12 @@ class Pos extends CI_Controller {
         //     // ];
         //     // echo json_encode($data_ec);
         // }
+    }
+    function tes()
+    {
+        //contoh get array dalam kolom
+        $xx = $this->db->get_where('transaksi',['id' => 385])->row_array();
+        echo json_decode($xx['info_pembayaran'])->tujuan;
     }
     function load() {
         $id = $this->input->post('id');

@@ -632,29 +632,73 @@
                                         </div>
                                 </div>
                                     <div class="row justify-content-md-center mt-3">
-                                        <div class="col-xl-3">
+                                        <div class="col">
                                             <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio21" type="radio" name="radio" value="TRANSFER">
+                                                <input class="form-check-input pembayaran" id="radio21" type="radio" name="radio_pembayaran" value="TRANSFER">
                                                 <label class="form-check-label" for="radio21">TRANSFER </label>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
+                                        <div class="col">
                                             <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio22" type="radio" name="radio" value="CASH">
+                                                <input class="form-check-input pembayaran" id="radio22" type="radio" name="radio_pembayaran" value="CASH">
                                                 <label class="form-check-label" for="radio22">CASH </label>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
+                                        <div class="col">
                                             <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio" value="EDC">
-                                                <label class="form-check-label" for="radio24">EDC </label>
+                                                <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio_pembayaran" value="GIRO">
+                                                <label class="form-check-label" for="radio24">GIRO </label>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-check radio radio-secondary">
+                                                <input class="form-check-input pembayaran" id="radio25" type="radio" name="radio_pembayaran" value="EDC">
+                                                <label class="form-check-label" for="radio25">EDC </label>
                                             </div>
                                         </div>
                                         <div class="col-xl-3">
                                             <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio" value="VOCHER">
-                                                <label class="form-check-label" for="radio24">VOCHER </label>
+                                                <input class="form-check-input pembayaran" id="radio26" type="radio" name="radio_pembayaran" value="VOCHER">
+                                                <label class="form-check-label" for="radio26">VOCHER </label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-md-center mt-3 transfer_vis">
+                                        <div class="col-xl-6">
+                                            <label for="">Dari Bank</label>
+                                            <input type="text" class="form-control bank">
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label for="">No Tujuan Rek</label>
+                                            <input type="text" class="form-control tujuan">
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-md-center mt-3 giro_vis">
+                                        <div class="col-xl-4">
+                                            <label for="">Dari Bank</label>
+                                            <input type="text" class="form-control bank_giro">
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label for="">Rekening Pencairan</label>
+                                            <input type="text" class="form-control rekening_giro">
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label for="">Jatoh Tempo</label>
+                                            <input type="text" class="form-control tempo">
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-md-center mt-3 edc_vis">
+                                        <div class="col-xl-4">
+                                            <label for="">Bank Kartu</label>
+                                            <input type="text" class="form-control bank_edc">
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label for="">No Kartu</label>
+                                            <input type="text" class="form-control rekening_edc">
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label for="">Nama</label>
+                                            <input type="text" class="form-control nama_edc">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -787,14 +831,14 @@
     <script>
 
         $(function() {
-          $('.select2x').select2();
-
+                        $('.select2x').select2();
                         $('.stock1').attr('disabled',true)
                         $('.stock-c1').attr('disabled',true)
                         var counter = 0;
 
                         function check_pos()
                         {
+                            $(".barang"+counter+"").focus();
                             var data = "<?= base_url('pos/get_barang') ?>";
                             $(".barang"+counter+"").autocomplete({
                                 source: data,
@@ -1040,6 +1084,7 @@
                                     }
 
                                     $('.total_pos').html('Rp'+total_pos.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                    $('.total_item').val(data.length);
                                     for (let xx = 0; xx <= counter; xx++) {
                                         var data = "<?= base_url('pos/get_barang') ?>";
                                         $(".barang"+xx+"").autocomplete({
@@ -1714,7 +1759,7 @@
                 })
                 var action = $(".submit")
                 action.on('click',function() {
-                    if ($('.pembayaran').val() == false) {
+                        if ($('.pembayaran').val() == false) {
                             swal({
                                            title: "Opss..!",
                                             text: "Pembayaran harus dipilih..!",
@@ -1737,6 +1782,13 @@
                                     var value_ac = this.id
                                     var barang = ''
                                     var xx = []
+                                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                                        var info_pembayaran = '{"bank" : "'+$('.bank').val()+'" ,"tujuan" : "'+$('.tujuan').val()+'"}';
+                                    }else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
+                                        var info_pembayaran = '{"bank" : "'+$('.bank_edc').val()+'" ,"no_kartu" : "'+$('.tujuan').val()+'","nama" : "'+$('.nama_edc').val()+'"}';
+                                    } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO'){
+                                        var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
+                                    }
                                     for (let i = 1; i <= counter; i++) {
                                         xx.push ({
                                             id_transaksi_item : $('.id_item'+i+'').val(),
@@ -1763,6 +1815,7 @@
                                             pengiriman : $('.pengiriman').val(),
                                             tahan : value_ac == "TAHAN" ? 1 : 0,
                                             pembayaran : $('.pembayaran:checked').val(),
+                                            info_pembayaran : info_pembayaran.toString(),
                                             piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
                                             update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
                                             id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
@@ -1807,19 +1860,39 @@
                     }
                 })
 
-                // function loadd(){
-                //     $(window).on("load", function () {
-                //         $.get("<?php echo base_url('pos/load/'.$this->uri->segment(3)); ?>", function (data) {
-                //             var result = JSON.parse(data);
-                //             $.each(result, function (i, item) {
-                //                 $('#load-list tbody').append('<tr>'+
-                //                 '<td><button id='+parseInt(counter+1)+' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button></td>'+
-                //                 '<td><input value="'+item.barang+'" class="form-control barang1" autocomplete="off"></td>'+
-                //                 '</tr>');
-                //             });
-                //         });
-                //     });
-                // }
+
+                $('.transfer_vis').hide()
+                $('.cash_vis').hide()
+                $('.giro_vis').hide()
+                $('.edc_vis').hide()
+                $('input[type=radio][name=radio_pembayaran]').change(function() {
+                    if (this.value == 'TRANSFER') {
+                        $('.transfer_vis').show()
+                        $('.cash_vis').hide()
+                        $('.giro_vis').hide()
+                        $('.edc_vis').hide()
+                    }else if (this.value == 'CASH') {
+                        $('.transfer_vis').hide()
+                        $('.cash_vis').hide()
+                        $('.giro_vis').hide()
+                        $('.edc_vis').hide()
+                    }else if (this.value == 'GIRO') {
+                        $('.giro_vis').show()
+                        $('.cash_vis').hide()
+                        $('.transfer_vis').hide()
+                        $('.edc_vis').hide()
+                    }else if (this.value == 'EDC') {
+                        $('.giro_vis').hide()
+                        $('.cash_vis').hide()
+                        $('.transfer_vis').hide()
+                        $('.edc_vis').show()
+                    }else if (this.value == 'VOCHER') {
+                        $('.giro_vis').hide()
+                        $('.cash_vis').hide()
+                        $('.transfer_vis').hide()
+                        $('.edc_vis').hide()
+                    }
+                });
 
 
 
