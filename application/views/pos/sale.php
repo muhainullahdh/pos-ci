@@ -891,7 +891,7 @@
                                                         if (stok < min_stok) {
                                                                 swal({
                                                                 title: "Opss..!",
-                                                                text: "Barang "+ data.nama+" sisa "+data.stok,
+                                                                text: "Barang "+ data.nama+" sisa "+data.stok,//sisa
                                                                 icon: "warning",
                                                                 dangerMode: true,
                                                                 }).then((r) => {
@@ -901,6 +901,7 @@
                                                                     // swal({
                                                                     //   text : "oke"
                                                                     // })
+                                                                    $(".barang"+counter+"").focus();
                                                                     }
                                                                 });
                                                         }else{
@@ -1506,14 +1507,32 @@
                                 text: "Barang sebelumnya harus di isi",
                                 icon: "warning",
                                 dangerMode: true,
-                                })
+                            }).then((r) => {
+                                if (r) {
+                                // location.reload();
+                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                // swal({
+                                //   text : "oke"
+                                // })
+                                $(".barang"+counter+"").focus();
+                                }
+                            });
                         }else if ($(".harga"+counter+"").val() == "") {
                             swal({
                                 title: "Opss..!",
                                 text: "stock barang "+$(".barang"+counter+"").val()+" kurang dari batas minimum",
                                 icon: "warning",
                                 dangerMode: true,
-                                })
+                            }).then((r) => {
+                                if (r) {
+                                // location.reload();
+                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                // swal({
+                                //   text : "oke"
+                                // })
+                                $(".barang"+counter+"").focus();
+                                }
+                            });
                         }else{
                             if (counter < max_fields) {
                                 counter++;
