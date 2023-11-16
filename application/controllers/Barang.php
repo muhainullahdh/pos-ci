@@ -358,8 +358,14 @@ class Barang extends CI_Controller {
             // $this->session->set_flashdata('msg','Data tidak boleh kosong');
             // redirect('barang/satuan');
             $this->load->view('body/header');
-            $this->load->view('barang/brand',$data);
+            $this->load->view('barang/penerimaan',$data);
             $this->load->view('body/footer');
+    }
+    function add_pb()
+    {
+        $this->load->view('body/header');
+        $this->load->view('barang/penerimaan');
+        $this->load->view('body/footer');
     }
     function delete_kategori()
     {
