@@ -180,8 +180,8 @@ class User extends CI_Controller {
     function delete_ekspedisi()
     {
         $id = $this->input->post('id');
-        $this->db->where('id_customer',$id);
-        $this->db->delete('customers');
+        $this->db->where('id',$id);
+        $this->db->delete('ekspedisi');
         echo json_encode('berhasil');
     }
     function delete_customer()
