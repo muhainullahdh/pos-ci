@@ -1072,7 +1072,7 @@
                                                                         var satuan_ = data2.hargajual_konv_promo
                                                                     }
                                                             <?php }?>
-                                                            var jumlah = satuan_p * qtyyyx * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                            var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                             $('.harga'+i+'').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j.split(',')[0]);
