@@ -478,7 +478,7 @@
                                             <select name="" id="" class="form-control select2x pengiriman">
                                                 <option value="">Pilih Pengiriman</option>
                                                <?php foreach($ekspedisi as $x) { ?>
-                                                <option value="<?= $x->id ?>"><?= $x->nama ?></option>
+                                                <option <?= $x->nama == "Ambil di toko" ? 'selected' : '' ?> value="<?= $x->id ?>"><?= $x->nama ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
