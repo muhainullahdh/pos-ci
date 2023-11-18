@@ -1333,7 +1333,6 @@
                                         });
                                         var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah"+this.id+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
                                         $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('.total_item').val(counter)
 
                                         $(this).closest('tr').remove();
                                         <?php if ($this->uri->segment(3) == true) { ?>
@@ -1350,6 +1349,8 @@
                                         <?php } ?>
                                         // Decreasing total number of rows by 1.
                                         counter--;
+                                        $('.total_item').val(counter)
+
                                         // });
                                     });
 
@@ -1697,11 +1698,12 @@
                                     $('#idd'+counter+'').attr("id", "idd"+parseInt(dig-1)+"");
                                     $('button[id='+counter+']').attr("id", ""+parseInt(dig-1)+"");
                                 });
-                                $('.total_item').val(counter)
                                 $(this).closest('tr').remove();
                                 // Decreasing total number of rows by 1.
                                 counter--;
                                 // });
+                                $('.total_item').val(counter)
+
                             });
                             check_pos()
                                 // rupiah.addEventListener('keyup', function(e){
