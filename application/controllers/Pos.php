@@ -301,9 +301,8 @@ class Pos extends CI_Controller {
     {
         $id = $this->input->post('id');
         $this->db->where('id',$id);
-        $this->db->delete('transaksi');
-        $this->db->where('id_transaksi',$id);
-        $this->db->delete('transaksi_item');
+        $this->db->set('trash',1);
+        $this->db->update('transaksi');
         echo json_encode('berhasil');
     }
     function clean($string) {
