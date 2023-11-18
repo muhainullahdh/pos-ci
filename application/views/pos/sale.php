@@ -993,7 +993,7 @@
                                         j = this.value; //isi satuan
                                         var qty = $("input[id='idq"+i+"']")[0].value
                                         var diskon_item = $("input[id='idd"+i+"']")[0].value
-                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty / j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                     console.log(jumlah)
                                                     $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                     $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j.split(',')[0]);
