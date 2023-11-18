@@ -1011,7 +1011,7 @@
                                                                         var satuan_p = data2.hargajualk_retail;
 
                                                                     }
-                                                                    if (data2.id_satuan_kecil_konv == "") {
+                                                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
                                                                         var qtyyyx = data2.qty_konv;
                                                                         var satuan_ = data2.hargajual_konv_retail
                                                                     }
@@ -1025,7 +1025,7 @@
                                                                         var satuan_p = data2.hargajualk_retail;
 
                                                                     }
-                                                                    if (data2.id_satuan_kecil_konv == "") {
+                                                                    if (data2.id_satuan_kecil_konv == j.split(',')[1] == ) {
                                                                         var qtyyyx = data2.qty_konv;
                                                                         var satuan_ = data2.hargajual_konv_retail
                                                                     }
@@ -1053,7 +1053,7 @@
                                                                         var satuan_p = data2.hargajualk_partai;
 
                                                                     }
-                                                                    if (data2.id_satuan_kecil_konv == "") {
+                                                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
                                                                         var qtyyyx = data2.qty_konv;
                                                                         var satuan_ = data2.hargajual_konv_partai
                                                                     }
@@ -1067,7 +1067,7 @@
                                                                         var satuan_p = data2.hargajualk_promo;
 
                                                                     }
-                                                                    if (data2.id_satuan_kecil_konv == "") {
+                                                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
                                                                         var qtyyyx = data2.qty_konv;
                                                                         var satuan_ = data2.hargajual_konv_promo
                                                                     }
