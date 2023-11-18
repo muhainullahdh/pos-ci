@@ -232,8 +232,16 @@ class Pos extends CI_Controller {
                     }
                 }else{//tahan
                     if ($update == 'update') {
-                        $this->db->where('id_transaksi',$id_transaksi); //update data hold
-                        $this->db->update_batch('transaksi_item',$output,'id_transaksi_item');
+                            $this->db->set('kd_barang', $x['kd_barang']);
+                            $this->db->set('barang', $x['barang']);
+                            $this->db->set('qty', $x['qty']);
+                            $this->db->set('qty_satuan', $ex_satuan[0]);
+                            $this->db->set('satuan', $ex_satuan[1]);
+                            $this->db->set('harga_satuan', $x['harga_satuan']);
+                            $this->db->set('diskon_item', $x['diskon_item']);
+                            $this->db->set('jumlah', $x['jumlah']);
+                            $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
+                            $this->db->update('transaksi_item');
                     }else{
                         $this->db->insert_batch('transaksi_item',$output);
                     }
