@@ -640,7 +640,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio22" type="radio" name="radio_pembayaran" value="CASH">
+                                                <input class="form-check-input pembayaran" checked id="radio22" type="radio" name="radio_pembayaran" value="CASH">
                                                 <label class="form-check-label" for="radio22">CASH </label>
                                             </div>
                                         </div>
@@ -1640,39 +1640,52 @@
                     }else if (e.which == 113 || e.which == 119) { // bayar dan tahan
                             if (e.which == 113) {
                                 var value_ac = "BAYAR"
-                                if ($(".id_barang"+counter+"").val() == "") {
-                                swal({
-                                           title: "Opss..!",
-                                            text: "Barang tidak boleh kosong",
-                                            icon: "warning",
-                                      })
+                                if (counter < 1) {
+                                    swal({
+                                        title: "Opss..!",
+                                        text: "Data transaksi kosong",
+                                        icon: "warning",
+                                        dangerMode: true,
+                                    })
                                 }else{
-                                    // if ($('.total_bayar').val() == "") {
-                                    //     swal({
-                                    //            title: "Opss..!",
-                                    //             text: "Total bayar tidak boleh kosong",
-                                    //             icon: "warning",
-                                    //       })
-                                    // }else{
-                                    //   $('#payment')[0].reset();
-                                    $('.value_ac').val(value_ac);
-                                    if (value_ac == 'TAHAN') {
-                                        $('.submit').attr('id','TAHAN');
-                                        $('.submit').html('TAHAN');
-                                        $('.submit').attr('class','btn btn-warning submit');
-                                    }else if(value_ac == 'BAYAR'){
-                                        $('.submit').attr('id','BAYAR');
-                                        $('.submit').html('BAYAR');
-                                        $('.submit').attr('class','btn btn-primary');
+                                    if ($(".id_barang"+counter+"").val() == "") {
+                                        swal({
+                                                title: "Opss..!",
+                                                    text: "Barang tidak boleh kosong",
+                                                    icon: "warning",
+                                            })
+                                    }else{
+                                        // if ($('.total_bayar').val() == "") {
+                                        //     swal({
+                                        //            title: "Opss..!",
+                                        //             text: "Total bayar tidak boleh kosong",
+                                        //             icon: "warning",
+                                        //       })
+                                        // }else{
+                                        //   $('#payment')[0].reset();
+                                        $('.value_ac').val(value_ac);
+                                        if (value_ac == 'TAHAN') {
+                                            $('.submit').attr('id','TAHAN');
+                                            $('.submit').html('TAHAN');
+                                            $('.submit').attr('class','btn btn-warning submit');
+                                        }else if(value_ac == 'BAYAR'){
+                                            $('.submit').attr('id','BAYAR');
+                                            $('.submit').html('BAYAR');
+                                            $('.submit').attr('class','btn btn-primary');
+                                        }
+                                        // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
+                                        $('.transaksi_show').val($('.total_pos').html())
+                                        $('.total_bayar').val($('.total_pos').html().slice(3))
+                                        // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
+                                        $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                        $(".total_bayar").focus();
+                                        $('#payment').modal('show');
+                                        $('#payment').on('shown.bs.modal', function () {
+                                            $('.total_bayar').focus();
+                                        })
+
+
                                     }
-                                    // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
-                                    $('.transaksi_show').val($('.total_pos').html())
-                                    // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
-                                    $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-
-                                    $('#payment').modal('show');
-
-
                                 }
                             }else if (e.which == 119) { //tahan
                                 if ($('.pengiriman').val() == "") {
