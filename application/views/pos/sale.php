@@ -1697,6 +1697,7 @@
                                     $('#idd'+counter+'').attr("id", "idd"+parseInt(dig-1)+"");
                                     $('button[id='+counter+']').attr("id", ""+parseInt(dig-1)+"");
                                 });
+                                $('.total_item').val(counter)
                                 $(this).closest('tr').remove();
                                 // Decreasing total number of rows by 1.
                                 counter--;
