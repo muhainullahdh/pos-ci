@@ -46,6 +46,7 @@ class Pos extends CI_Controller {
             "transaksi_item" => $transkasi_item,
             "load" => $load
         ];
+        // $this->session->unset_userdata('tipe_penjualan');
 		$this->load->view('pos/sale',$data);
 		// $this->load->view('body/foot/er');
 	}
@@ -229,14 +230,16 @@ class Pos extends CI_Controller {
                             $this->db->insert('transaksi_item',$insert_hold);
                         }
                     }
+                }else{//tahan
+                    if ($update == 'update') {
+                        $this->db->where('id_transaksi',$id_transaksi); //update data hold
+                        $this->db->update_batch('transaksi_item',$output,'id_transaksi_item');
+                    }else{
+                        $this->db->insert_batch('transaksi_item',$output);
+                    }
                 }
             }
-            if ($update == 'update') {
-                // $this->db->where('id_transaksi',$id_transaksi); //update data hold
-                // $this->db->update_batch('transaksi_item',$output,'id_transaksi_item');
-            }else{
-                $this->db->insert_batch('transaksi_item',$output);
-            }
+
             $data_ec = [
                 "id_transaksi" => $get_transkasi['id_transaksi'],
                 'no_struk' => $this->input->post('no_struk'),
@@ -291,4 +294,7 @@ class Pos extends CI_Controller {
 
         return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
      }
+    //  function remove_session_customer() {
+    //     $this->session->unset_userdata('tipe_penjualan');
+    //  }
 }
