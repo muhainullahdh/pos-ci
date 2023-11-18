@@ -1861,6 +1861,8 @@
                     }else if (e.which == 115) { //load transaksi
                         $('#t_barang').DataTable({order:[[0,"desc"]]})
                         $('#modaload').modal('show');
+                    }else if (e.which == 82) {
+                        window.location = '<?= base_url() ?>pos/';
                     }
                 };
                 var bayar = $(".total_bayar")
