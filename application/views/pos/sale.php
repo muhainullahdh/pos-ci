@@ -1009,21 +1009,18 @@
                                                                 var jumlah = data2.hargajualb_retail * qtyyy
                                                             <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
                                                                 // var harga1 = formatRupiah(data.hargajualb_retail)
-                                                                    if (!data.id_satuan_besar == "") {
-                                                                        var qtyyy = data2.qty_besar
-                                                                        var satuan_p = data2.hargajualb_retail
-                                                                        var satuan_h = data2.hargajualb_retail * qtyyy
+                                                                    if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                                        var qtyyyx = data2.qty_besar;
+                                                                        var satuan_p = data2.hargajualb_retail;
                                                                     }
-                                                                    if (data.id_satuan_kecil != "") {
-                                                                        var qtyyy = data2.qty_kecil
-                                                                        var satuan_p = data2.hargajualk_retail
-                                                                        var satuan_h = data2.hargajualk_retail * qtyyy
+                                                                    if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                                        var qtyyyx = data2.qty_kecil;
+                                                                        var satuan_p = data2.hargajualk_retail;
 
                                                                     }
-                                                                    if (!data.id_satuan_kecil_konv == "") {
+                                                                    if (data2.id_satuan_kecil_konv == "") {
                                                                         var qtyyy = data2.qty_kecil_konid_satuan_kecil_konv
                                                                         var satuan_ = data2.hargajual_konv_retail
-                                                                        var satuan_h = data2.hargajual_konv_retail * qtyyy
                                                                     }
                                                             <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
                                                                 var harga1 = formatRupiah(data.hargajualb_grosir)
@@ -1036,7 +1033,7 @@
                                                             <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
                                                                 var harga1 = formatRupiah(data.hargajualb_promo)
                                                             <?php }?>
-                                                            var jumlah = satuan_h * qty / j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                            var jumlah = satuan_p * qtyyyx * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                             $('.harga'+i+'').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j.split(',')[0]);
