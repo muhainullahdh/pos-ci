@@ -177,11 +177,18 @@ class User extends CI_Controller {
             $this->load->view('user/ekspedisi',$data);
             $this->load->view('body/footer');
     }
-    function delete_customer()
+    function delete_ekspedisi()
     {
         $id = $this->input->post('id');
         $this->db->where('id_customer',$id);
         $this->db->delete('customers');
+        echo json_encode('berhasil');
+    }
+    function delete_customer()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id',$id);
+        $this->db->delete('ekspedisi');
         echo json_encode('berhasil');
     }
     function import()
