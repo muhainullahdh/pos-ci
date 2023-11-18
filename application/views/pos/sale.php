@@ -1790,6 +1790,7 @@
                                     var xx = []
                                     for (let i = 1; i <= counter; i++) {
                                         xx.push ({
+                                            id_transaksi_item : $('.id_item'+i+'').val(),
                                             kd_barang : $('.id_barang'+i+'').val(),
                                             barang : $('.barang'+i+'').val(),
                                             qty : $('.qty'+i+'').val(),
@@ -1814,6 +1815,7 @@
                                             tahan : value_ac == "TAHAN" ? 1 : 0,
                                             pembayaran : $('.pembayaran:checked').val(),
                                             piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
+                                            update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
                                             item : xx
                                         }
                                             $.ajax({
