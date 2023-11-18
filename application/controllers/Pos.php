@@ -302,7 +302,12 @@ class Pos extends CI_Controller {
         $id = $this->input->post('id');
         $this->db->where('id',$id);
         $this->db->set('trash',1);
+        $this->db->set('trash_by',$this->session->userdata('id_user'));
         $this->db->update('transaksi');
+
+        $this->db->where('id_transaksi',$id);
+        $this->db->set('trash',1);
+        $this->db->update('transaksi_item');
         echo json_encode('berhasil');
     }
     function clean($string) {
