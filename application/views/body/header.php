@@ -40,6 +40,8 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/responsive.css">
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+    <link href="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
+
 
   </head>
   <body onload="startTime()">

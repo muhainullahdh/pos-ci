@@ -26,6 +26,11 @@
     <script src="<?= base_url() ?>assets/js/config.js"></script>
     <script src="<?= base_url() ?>assets/js/sweet-alert/sweetalert.min.js"></script>
 
+<script type="text/javascript" src="https://repo.rachmat.id/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Plugins JS start-->
     <script src="<?= base_url() ?>assets/js/cleave/cleave.min.js"></script>
     <script src="<?= base_url() ?>assets/js/cleave/custom-cleave.js"></script>

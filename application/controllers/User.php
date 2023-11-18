@@ -144,7 +144,7 @@ class User extends CI_Controller {
                 $datax = [
                     "nama" => $nama,
                     "kurir" => $kurir,
-                    "no_resi" => $resi,
+                    // "no_resi" => $resi,
                 ];
                 $this->db->insert('ekspedisi',$datax);
                 redirect('user/ekspedisi');
@@ -154,7 +154,7 @@ class User extends CI_Controller {
             $datax = [
                 "nama" => $nama,
                 "kurir" => $kurir,
-                "no_resi" => $resi,
+                // "no_resi" => $resi,
             ];
             $this->db->where('id',$id);
             $this->db->update('ekspedisi',$datax);

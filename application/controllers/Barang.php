@@ -24,14 +24,8 @@ class Barang extends CI_Controller {
 
         $data_b = $this->db->query('SELECT max(kode_barang) as kode_barang FROM barang')->row_array();
         $kodeBarang = $data_b['kode_barang'];
-        // mengambil angka dari kode barang terbesar, menggunakan fungsi substr dan diubah ke integer dengan (int)
         $urutan = (int) substr($kodeBarang, 2, 5);
-        // nomor yang diambil akan ditambah 1 untuk menentukan nomor urut berikutnya
         $urutan++;
-        // membuat kode barang baru
-        // string sprintf("%03s", $urutan); berfungsi untuk membuat string menjadi 3 karakter
-        // misalnya string sprintf("%03s", 22); maka akan menghasilkan '022'
-        // angka yang diambil tadi digabungkan dengan kode huruf yang kita inginkan, misalnya PC
         $huruf = "BH";
         $kodeBarang = $huruf . sprintf("%05s", $urutan);
         $data = [
@@ -353,7 +347,8 @@ class Barang extends CI_Controller {
 
         }
         $data = [
-            "penerimaan" => $this->db->get('penerimaan')->result()
+            "penerimaan" => $this->db->get('penerimaan')->result(),
+            "satuan" => $satuan
         ];
             // $this->session->set_flashdata('msg','Data tidak boleh kosong');
             // redirect('barang/satuan');
@@ -363,9 +358,67 @@ class Barang extends CI_Controller {
     }
     function add_pb()
     {
+        $satuan = $this->db->get('satuan')->result();
+        $data = [
+            "penerimaan" => $this->db->get('penerimaan')->result(),
+            "satuan" => $satuan
+        ];
         $this->load->view('body/header');
-        $this->load->view('barang/penerimaan');
+        $this->load->view('barang/penerimaan',$data);
         $this->load->view('body/footer');
+    }
+    function submit_pb()
+    {
+
+    }
+
+    function gudang()
+    {
+        $kd_supplier = $this->input->post('kd_supplier');
+        $nama = $this->input->post('nama');
+        $kode = $this->input->post('kode');
+        $action = $this->input->post('action');
+        $id = $this->input->post('id');
+        if ($nama == true && $kode == true && $action != 'edit') {
+            $cek = $this->db->query("SELECT * FROM gudang where kode='$kode' ")->num_rows();
+            if ($cek == true) {
+                $this->session->set_flashdata('msg','double_satuan');
+                $this->session->set_flashdata('msg_val',$nama);
+                redirect('barang/gudang');
+            }else{
+                $datax = [
+                    "nama" => $nama,
+                    "kode" => $kode,
+                ];
+                $this->db->insert('gudang',$datax);
+                redirect('barang/gudang');
+            }
+        }
+        if ($action == 'edit') {
+            $datax = [
+                "nama" => $nama,
+                "kode" => $kode,
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('gudang',$datax);
+            redirect('barang/gudang');
+
+        }
+        $data = [
+            "gudang" => $this->db->get('gudang')->result(),
+        ];
+            // $this->session->set_flashdata('msg','Data tidak boleh kosong');
+            // redirect('barang/satuan');
+            $this->load->view('body/header');
+            $this->load->view('barang/gudang',$data);
+            $this->load->view('body/footer');
+    }
+    function delete_gudang()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id',$id);
+        $this->db->delete('gudang');
+        echo json_encode('berhasil');
     }
     function delete_kategori()
     {

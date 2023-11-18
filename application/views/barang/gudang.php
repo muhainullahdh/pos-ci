@@ -4,7 +4,7 @@
                 <br><br>
               <div class="row">
                 <div class="col-6">
-                  <h4>ekspedisi</h4>
+                  <h4>gudang</h4>
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
@@ -20,7 +20,7 @@
             </div>
           </div>
           <?php
-          if ($this->session->flashdata('msg') == 'double_ekspedisis') { ?>
+          if ($this->session->flashdata('msg') == 'double_gudang') { ?>
           <script>
             $(document).ready(function() {
                 swal({
@@ -37,38 +37,29 @@
               <div class="col-sm-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>List ekspedisi</h4><br>
+                    <h4>List gudang</h4><br>
                     <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">Add</button>
                     <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                       <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Tambah ekspedisi</h5>
+                            <h5 class="modal-title">Tambah gudang</h5>
                             <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
                             <div class="modal-toggle-wrapper">
                                 <?= $this->session->flashdata('msg') ?>
-                                <form action="<?= base_url('user/ekspedisi') ?>" method="post">
+                                <form action="<?= base_url('barang/gudang') ?>" method="post">
                                     <div class="row">
                                             <div class="col-xl-4">
-                                                <h6>Nama driver / ekspedisi</h6>
-                                                <!-- <input type="hidden" name="kd_ekspedisi" value="<?= $kd_ekspedisi ?>"> -->
+                                                <h6>Nama gudang</h6>
+                                                <!-- <input type="hidden" name="kd_gudang" value="<?= $kd_gudang ?>"> -->
                                                 <input required type="text" placeholder="" name="nama" class="form-control">
                                             </div>
                                             <div class="col-xl-4">
-                                                <h6>Kurir</h6>
-                                                <select name="kurir" required id="" class="form-control">
-                                                    <option value="">Pilih kurir</option>
-                                                    <option value="Internal">Kurir Toko</option>
-                                                    <option value="Eksternal">Kurir Eksternal</option>
-                                                </select>
+                                                <h6>Kode</h6>
+                                                <input required type="text" placeholder="" name="kode" class="form-control">
                                             </div>
-                                            <!-- <div class="col-xl-4">
-                                                <h6>Resi </h6>
-                                                <input type="text" placeholder="" name="resi" class="form-control">
-                                                <i>* di isi jika kurir eksternal</i>
-                                            </div> -->
                                     </div>
 
                                     <div class="row mt-3">
@@ -95,26 +86,22 @@
                                 <thead>
                                             <tr>
                                             <th width="400" scope="col">Nama</th>
-                                            <th width="400" scope="col">Kurir</th>
-                                            <th width="400" scope="col">Resi</th>
+                                            <th width="400" scope="col">Kode</th>
                                             <th width="80" scope="col">Action</th>
                                             </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($ekspedisi as $x) {  ?>
+                                    <?php foreach ($gudang as $x) {  ?>
                                             <tr>
                                                 <td>
                                                     <?= $x->nama ?>
                                                 </td>
                                                 <td>
-                                                    <?= $x->kurir ?>
+                                                    <?= $x->kode ?>
                                                 </td>
-                                                <!-- <td>
-                                                    <?= $x->no_resi ?>
-                                                </td> -->
                                                 <td>
                                                  <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#satua_edit<?= $x->id ?>"><i class="fa fa-edit"></i></button>
-                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_ekspedisis"><i class="fa fa-trash-o"></i></button>
+                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_gudangs"><i class="fa fa-trash-o"></i></button>
                                                 </td>
 
                                             </tr>
@@ -122,33 +109,23 @@
                                               <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
                                                   <div class="modal-header">
-                                                    <h5>Edit ekspedisi</h5>
+                                                    <h5>Edit gudang</h5>
                                                   </div>
                                                   <div class="modal-body">
                                                     <div class="modal-toggle-wrapper">
                                                         <?= $this->session->flashdata('msg') ?>
-                                                        <form action="<?= base_url('user/ekspedisi') ?>" method="post">
-                                                        <?php $eksp = $this->db->get_where('ekspedisi',['id' => $x->id])->row_array(); ?>
-                                                            <div class="row mt-3">
-                                                                <div class="col-xl-4">
-                                                                    <h6>Nama driver / ekspedisi</h6>
-                                                                    <input type="hidden" name="action" value="edit">
-                                                                    <input type="hidden" name="id" value="<?= $eksp['id'] ?>">
-                                                                    <input required type="text" value=<?= $eksp['nama'] ?>  placeholder="" name="nama" class="form-control">
-                                                                </div>
-                                                                <div class="col-xl-4">
-                                                                    <h6>Kurir</h6>
-                                                                    <select name="kurir" required id="" class="form-control">
-                                                                        <option value="">Pilih kurir</option>
-                                                                        <option <?= $eksp['kurir'] == 'Internal' ? 'selected' : '' ?>  value="Internal">Kurir Toko</option>
-                                                                        <option <?= $eksp['kurir'] == 'Eksternal' ? 'selected' : '' ?> value="Eksternal">Kurir Eksternal</option>
-                                                                    </select>
-                                                                </div>
-                                                                <!-- <div class="col-xl-4">
-                                                                    <h6>Resi </h6>
-                                                                    <input type="text" placeholder="" name="resi" class="form-control">
-                                                                    <i>* di isi jika kurir eksternal</i>
-                                                                </div> -->
+                                                        <form action="<?= base_url('barang/gudang') ?>" method="post">
+                                                        <?php $eksp = $this->db->get_where('gudang',['id' => $x->id])->row_array(); ?>
+                                                        <div class="row">
+                                                                    <div class="col-xl-4">
+                                                                        <h6>Nama</h6>
+                                                                        <input type="hidden" name="kd_gudang" value="<?= $x->id ?>">
+                                                                        <input required type="text" placeholder="" value="<?= $x->nama ?>" name="nama" class="form-control">
+                                                                    </div>
+                                                                    <div class="col-xl-4">
+                                                                        <h6>Kode</h6>
+                                                                        <input required type="text" placeholder="" value="<?= $x->kode ?>" name="kode" class="form-control">
+                                                                    </div>
                                                             </div>
                                                             <div class="row mt-2">
                                                                 <div class="col-xl-2">
@@ -175,11 +152,11 @@
                 <!-- <div class="col-xl-4">
                     <div class="card">
                     <div class="card-body">
-                            <form enctype="multipart/form-data" action="<?= base_url('user/import_ekspedisi') ?>" method="POST">
+                            <form enctype="multipart/form-data" action="<?= base_url('user/import_gudang') ?>" method="POST">
                                 <div class="row">
                                     <div class="col">
-                                        <label for="">Import ekspedisi</label>
-                                        <input type="file" class="form-control" required name="ekspedisi_imp">
+                                        <label for="">Import gudang</label>
+                                        <input type="file" class="form-control" required name="gudang_imp">
                                         <br>
                                         <button type="submit" class="btn btn-primary">Import</button>
                                     </div>
@@ -196,19 +173,19 @@
         <!-- footer start-->
 
 <script>
-                    $(document).on('click', '.delete_ekspedisis', function (e) {
+                    $(document).on('click', '.delete_gudang', function (e) {
                     e.preventDefault();
                     var pid = this.id;
                     swal({
                         title: "Delete",
-                        text: "Apakah anda yakin ingin delete ekspedisi?",
+                        text: "Apakah anda yakin ingin delete gudang?",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
                     }).then((willDelete) => {
                         if (willDelete) {
                                 $.ajax({
-                                url : "<?= site_url('user/delete_ekspedisi');?>",
+                                url : "<?= site_url('barang/delete_gudang');?>",
                                 method : "POST",
                                 data : {id: pid},
                                 async : true,
@@ -216,7 +193,7 @@
                                     success: function(data){
                                         swal({
                                                                 title: "Berhasil..!",
-                                                                text: "ekspedisi berhasil didelete",
+                                                                text: "gudang berhasil didelete",
                                                                 icon: "success",
                                                                 }).then((willDelete) => {
                                                                 if (willDelete) {
