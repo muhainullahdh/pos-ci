@@ -854,13 +854,13 @@
                                                     dataType : 'json',
                                                     success: function(data){
                                                         var satuann = ''
-                                                        if (data.id_satuan_besar != "") {
+                                                        if (data.id_satuan_besar != "" || data.id_satuan_besar != null) {
                                                             satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
                                                         }
-                                                        if (data.id_satuan_kecil != "") {
+                                                        if (data.id_satuan_kecil != "" || data.id_satuan_kecil != null) {
                                                             satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
                                                         }
-                                                        if (data.id_satuan_kecil_konv != "") {
+                                                        if (data.id_satuan_kecil_konv != "" || data.id_satuan_kecil_konv != null) {
                                                             satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
                                                         }
                                                         <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
