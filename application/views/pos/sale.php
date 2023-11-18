@@ -865,19 +865,19 @@
                                                         }
                                                         <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
                                                             var harga1 = formatRupiah(data.hargajualb_retail)
-                                                            if (data.id_satuan_besar != "") {
+                                                            if (data.id_satuan_besar != "" || data.id_satuan_besar != null) {
                                                                 var qtyyy = data.qty_besar
                                                             }
                                                             var jumlah = data.hargajualb_retail * qtyyy
                                                         <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
                                                             var harga1 = formatRupiah(data.hargajualb_retail)
-                                                                if (data.id_satuan_besar != "") {
+                                                                if (data.id_satuan_besar != "" || data.id_satuan_besar != null) {
                                                                     var qtyyy = data.qty_besar
                                                                 }
                                                             var jumlah = data.hargajualb_retail * qtyyy
                                                         <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
                                                             var harga1 = formatRupiah(data.hargajualb_grosir)
-                                                            if (data.id_satuan_kecil != "") {
+                                                            if (data.id_satuan_kecil != "" || data.id_satuan_kecil != null) {
                                                                     var qtyyy = data.qty_kecil
                                                                 }
                                                             var jumlah = data.hargajualk_grosir * qtyyy
@@ -994,12 +994,34 @@
                                         var qty = $("input[id='idq"+i+"']")[0].value
                                         var diskon_item = $("input[id='idd"+i+"']")[0].value
                                                     var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty / j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
-                                                    console.log(jumlah)
                                                     $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                     $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j.split(',')[0]);
+                                                    <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_retail)
+                                                            if (data.id_satuan_besar != "" || data.id_satuan_besar != null) {
+                                                                var qtyyy = data.qty_besar
+                                                            }
+                                                            var jumlah = data.hargajualb_retail * qtyyy
+                                                        <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_retail)
+                                                                if (data.id_satuan_besar != "" || data.id_satuan_besar != null) {
+                                                                    var qtyyy = data.qty_besar
+                                                                }
+                                                            var jumlah = data.hargajualb_retail * qtyyy
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_grosir)
+                                                            if (data.id_satuan_kecil != "" || data.id_satuan_kecil != null) {
+                                                                    var qtyyy = data.qty_kecil
+                                                                }
+                                                            var jumlah = data.hargajualk_grosir * qtyyy
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_partai)
+                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
+                                                            var harga1 = formatRupiah(data.hargajualb_promo)
+                                                        <?php }?>
                                                     var total_pos_fix = 0;
                                                     for (let t = 1; t <=counter; t++) {
-                                                    total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                        total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
                                                     }
                                                     $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
 
