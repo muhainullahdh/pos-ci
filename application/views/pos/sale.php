@@ -1013,7 +1013,7 @@
                                                                     }
                                                                     if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
                                                                         var qtyyyx = data2.qty_konv;
-                                                                        var satuan_ = data2.hargajual_konv_retail
+                                                                        var satuan_p = data2.hargajual_konv_retail
                                                                     }
                                                             <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
                                                                     if (data2.id_satuan_besar == j.split(',')[1]) {
@@ -1025,9 +1025,9 @@
                                                                         var satuan_p = data2.hargajualk_retail;
 
                                                                     }
-                                                                    if (data2.id_satuan_kecil_konv == j.split(',')[1] == ) {
+                                                                    if (data2.id_satuan_kecil_konv == j.split(',')[1] ) {
                                                                         var qtyyyx = data2.qty_konv;
-                                                                        var satuan_ = data2.hargajual_konv_retail
+                                                                        var satuan_p = data2.hargajual_konv_retail
                                                                     }
                                                             <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
                                                                 if (data2.id_satuan_besar == j.split(',')[1]) {
@@ -1039,9 +1039,9 @@
                                                                         var satuan_p = data2.hargajualk_grosir;
 
                                                                     }
-                                                                    if (data2.id_satuan_kecil_konv == "") {
+                                                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
                                                                         var qtyyyx = data2.qty_konv;
-                                                                        var satuan_ = data2.hargajual_konv_grosir
+                                                                        var satuan_p = data2.hargajual_konv_grosir
                                                                     }
                                                             <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
                                                                     if (data2.id_satuan_besar == j.split(',')[1]) {
@@ -1055,7 +1055,7 @@
                                                                     }
                                                                     if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
                                                                         var qtyyyx = data2.qty_konv;
-                                                                        var satuan_ = data2.hargajual_konv_partai
+                                                                        var satuan_p = data2.hargajual_konv_partai
                                                                     }
                                                             <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
                                                                 if (data2.id_satuan_besar == j.split(',')[1]) {
@@ -1069,7 +1069,7 @@
                                                                     }
                                                                     if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
                                                                         var qtyyyx = data2.qty_konv;
-                                                                        var satuan_ = data2.hargajual_konv_promo
+                                                                        var satuan_p = data2.hargajual_konv_promo
                                                                     }
                                                             <?php }?>
                                                             var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
