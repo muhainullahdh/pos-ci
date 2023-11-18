@@ -1333,18 +1333,21 @@
                                         });
                                         var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah"+this.id+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
                                         $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('.total_item').val(counter)
 
                                         $(this).closest('tr').remove();
-                                        $.ajax({
-                                            url : "<?= site_url('pos/del_row_hold');?>",
-                                            method : "POST",
-                                            data : {id : this.value},
-                                            async : true,
-                                            dataType : 'json',
-                                            success: function(data){
-                                                console.log(data)
-                                            }
-                                        })
+                                        <?php if ($this->uri->segment(3) == true) { ?>
+                                            $.ajax({
+                                                url : "<?= site_url('pos/del_row_hold');?>",
+                                                method : "POST",
+                                                data : {id : this.value},
+                                                async : true,
+                                                dataType : 'json',
+                                                success: function(data){
+                                                    console.log(data)
+                                                }
+                                            })
+                                        <?php } ?>
                                         // Decreasing total number of rows by 1.
                                         counter--;
                                         // });
