@@ -297,6 +297,15 @@ class Pos extends CI_Controller {
         echo json_encode('berhasil');
 
     }
+    function delete_transaksi()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id',$id);
+        $this->db->delete('transaksi');
+        $this->db->where('id_transaksi',$id);
+        $this->db->delete('transaksi_item');
+        echo json_encode('berhasil');
+    }
     function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 
