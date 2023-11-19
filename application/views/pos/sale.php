@@ -730,7 +730,7 @@
                                                                     <div class="row justify-content-md-center">
                                                                         <div class="col-xl-12">
                                                                         <div class="table-responsive">
-                                                                          <table class="display table" id="t_barang">
+                                                                          <table id="load-hold" class="display table" id="t_barang">
                                                                             <thead>
                                                                                 <tr>
                                                                                 <th width="70"></th>
@@ -742,7 +742,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                <?php foreach($load as $x) { ?>
+                                                                                <!-- <?php foreach($load as $x) { ?>
                                                                                 <tr style="background-color: white;">
                                                                                         <td>
                                                                                             <a type="button" id="<?= $x->id.','.$x->no_struk ?>" class="delete_transaksi badge badge-danger"><i data-feather="trash-2"></i></a>
@@ -761,7 +761,7 @@
                                                                                         </td>
                                                                                         <td><a class="badge badge-primary" href="<?= base_url('pos/index/'.$x->id) ?>" ><i data-feather="edit-3"></i></a></td>
                                                                                 </tr>
-                                                                                <?php } ?>
+                                                                                <?php } ?> -->
 
                                                                             </tbody>
                                                                             </table>
@@ -1860,7 +1860,32 @@
                         // })
                     }else if (e.which == 115) { //load transaksi
                         $('#t_barang').DataTable({order:[[0,"desc"]]})
-                        $('#modaload').modal('show');
+                        $.ajax({
+                                    url : "<?= site_url('pos/load_hold');?>",
+                                    method : "GET",
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(data){
+                                        var row_data = '';
+                                        var total_pos = 0;
+                                        $('#modaload').modal('show');
+                                        for (let i = 0; i < data.length; i++) {
+                                            $('#load-hold tbody').append(
+                                            '<tr style="background-color: white;">'+
+                                                    '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="delete_transaksi badge badge-danger">Delete</a></td>'+
+                                                    '<td class="order">'+data[i].no_struk+'</td>'+
+                                                    '<td>'+data[i].nama_toko+'</td>'+
+                                                    '<td>'+data[i].jumlah_item+'</td>'+
+                                                    '<td>'+data[i].total_transaksi+'</td>'+
+                                                    '<td><a class="badge badge-primary" href="<?= base_url('pos/index/') ?>'+data[i].id+'" >Edit</a></td>'+
+                                            '</tr>');
+                                            // check_pos()
+                                        }
+                                    },
+                                    error: function(e){
+                                        console.log(e)
+                                    }
+                            });
                     }else if (e.which == 82) {
                         window.location = '<?= base_url() ?>pos/';
                     }
@@ -2051,14 +2076,39 @@
                                 data : {id: pid},
                                 async : true,
                                 dataType : 'json',
-                                    success: function(data){
+                                    success: function(data2){
                                         swal({
                                                                 title: "Berhasil..!",
                                                                 text: "transaksi berhasil didelete",
                                                                 icon: "success",
                                                                 }).then((willDelete) => {
                                                                 if (willDelete) {
-                                                                    location.reload();
+                                                                    $.ajax({
+                                                                        url : "<?= site_url('pos/load_hold');?>",
+                                                                        method : "GET",
+                                                                        // data : {id: pid},
+                                                                        async : true,
+                                                                        dataType : 'json',
+                                                                        success: function(data){
+                                                                            // $('#modaload').modal('toggle');
+                                                                            $('#modaload tbody').empty();
+                                                                            setTimeout(() => {
+                                                                                $('#modaload').modal('show');
+                                                                                for (let i = 0; i < data.length; i++) {
+                                                                                    $('#load-hold tbody').append(
+                                                                                    '<tr style="background-color: white;">'+
+                                                                                            '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="delete_transaksi badge badge-danger">Delete</a></td>'+
+                                                                                            '<td class="order">'+data[i].no_struk+'</td>'+
+                                                                                            '<td>'+data[i].nama_toko+'</td>'+
+                                                                                            '<td>'+data[i].jumlah_item+'</td>'+
+                                                                                            '<td>'+data[i].total_transaksi+'</td>'+
+                                                                                            '<td><a class="badge badge-primary" href="<?= base_url('pos/index/') ?>'+data[i].id+'" >Edit</a></td>'+
+                                                                                    '</tr>');
+                                                                                    // check_pos()
+                                                                                }
+                                                                            }, 500);
+                                                                        }
+                                                                    })
                                                                 }
                                                             });
                                     }
