@@ -958,7 +958,8 @@
                                                         });
 
                                                     }else{
-                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                        // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                             $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi.split(',')[0]);
                                                             var total_pos_fix = 0;
@@ -1303,14 +1304,15 @@
                                                                         });
 
                                                                     }else{
-                                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                                        // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                                                             $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                                             $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi.split(',')[0]);
                                                                             var total_pos_fix = 0;
                                                                             for (let t = 1; t <=counter; t++) {
                                                                             total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
                                                                             }
-                                                                            $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                            $('.total_pos').html("Rp"+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
 
 
                                                                 }
@@ -1381,160 +1383,6 @@
                             });
                         <?php } ?>
 
-
-
-
-
-                        var data = "<?= base_url('pos/get_barang') ?>";
-                        $(".barang1").autocomplete({
-                            source: data,
-                            select: function (event, ui) {
-                                $('.barang1').val(ui.item.label);
-                                $('.id_barang1').val(ui.item.description);
-                                var i,j;
-                                            $('.total_item').val(1)
-                                            $.ajax({
-                                                url : "<?= site_url('pos/search_barang');?>",
-                                                method : "POST",
-                                                data : {id: ui.item.description},
-                                                async : true,
-                                                dataType : 'json',
-                                                success: function(data){
-                                                        var satuann = ''
-                                                        if (data.id_satuan_besar != "") {
-                                                            satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
-                                                        }
-                                                        if (data.id_satuan_kecil != "") {
-                                                            satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
-                                                        }
-                                                         if (data.id_satuan_kecil_konv != "") {
-                                                            satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
-                                                        }
-                                                        <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
-                                                            var harga1 = formatRupiah(data.hargajualb_retail)
-                                                            if (data.id_satuan_besar != "") {
-                                                                var qtyyy = data.qty_besar
-                                                                var jumlah = data.hargajualb_retail * qtyyy
-                                                            }
-                                                        <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
-                                                            var harga1 = formatRupiah(data.hargajualb_retail)
-                                                                if (data.id_satuan_besar != "") {
-                                                                    var qtyyy = data.qty_besar
-                                                                }
-                                                            var jumlah = data.hargajualb_retail * qtyyy
-                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
-                                                            var harga1 = formatRupiah(data.hargajualb_grosir)
-                                                                if (data.id_satuan_kecil != "") {
-                                                                    var qtyyy = data.qty_kecil
-                                                                }
-                                                            var jumlah = data.hargajualk_grosir * qtyyy
-                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
-                                                            var harga1 = formatRupiah(data.hargajualb_partai)
-                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
-                                                            var harga1 = formatRupiah(data.hargajualb_promo)
-                                                        <?php }?>
-                                                        var stok = data.stok
-                                                        var min_stok = data.min_stok
-                                                    if (stok == min_stok) {
-                                                            swal({
-                                                            title: "Opss..!",
-                                                            text: "Barang "+ data.nama+" sisa "+data.stok,
-                                                            icon: "warning",
-                                                            dangerMode: true,
-                                                            }).then((r) => {
-                                                                if (r) {
-                                                                location.reload();
-                                                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                                                // swal({
-                                                                //   text : "oke"
-                                                                // })
-                                                                }
-                                                            });
-                                                    }else{
-                                                        $("#diskon_item").prop('disabled', false);
-                                                        $('.satuan1').html(satuann);
-                                                        $('.harga1').val(harga1);
-                                                        $('.qty_isi1').val(qtyyy);
-                                                        $('.jumlah1').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.stock1').val(stok);
-                                                          var qty_isi = $(".satuan1")[0].value //qty isi satuan
-                                                          var qty = $("input[id='idq1']")[0].value * qty_isi.split(',')[0]
-                                                        $('.stock-c1').val(stok - qty);
-                                                    // console.log(data.nama)
-                                                    }
-
-                                                }
-                                            });
-                                            return false;
-                                        // });
-                            }
-                        });
-
-                        var qty = $(".qty1")
-                        var diskon_item = $(".diskon_item1")
-                        var satuan_x = $(".satuan1")
-                        qty.keyup(function() {
-                            var id=$(this).val();
-                            i = this.id.slice(3);
-                            j = this.value;
-                            var qty_isi = satuan_x[0].value
-                            var diskon_item = $("input[id='idd"+i+"']")[0].value
-                            var stock_c = $('.stock-c'+i+'').val()
-                                                if (stock_c == 0) {
-                                                    swal({
-                                                        title: "Opss..!",
-                                                        text: "Stock sisa 10",
-                                                        icon: "warning",
-                                                        dangerMode: true,
-                                                    }).then((r) => {
-                                                        if (r) {
-                                                        location.reload();
-                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                                        // swal({
-                                                        //   text : "oke"
-                                                    // })
-                                                        }
-                                                    });
-
-                                                }else{
-                                                    var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
-                                                        $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi.split(',')[0]);
-                                                        var total_pos_fix = 0;
-                                                        for (let t = 1; t <=counter; t++) {
-                                                            total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
-                                                        }
-                                                        $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-
-                                            }
-
-                        });
-
-                        diskon_item.keyup(function() {
-                                i = this.id.slice(3);
-                                j = this.value;
-                                var qty = $("input[id='idq"+i+"']")[0].value
-                                var qty_isi_satuan = satuan_x[0].value //qty satuan
-
-                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * qty_isi_satuan.split(',')[0] - j.replace(/[^a-zA-Z0-9 ]/g, '')
-                                        $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan.split(',')[0]);
-                                        $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                        })
-                        satuan_x.change(function(){
-                                    var id=$(this).val();
-                                    i = this.id.slice(3);
-                                    j = this.value; //isi satuan
-                                    var qty = $("input[id='idq"+i+"']")[0].value
-                                    var diskon_item = $("input[id='idd"+i+"']")[0].value
-                                                var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
-                                                console.log(jumlah)
-                                                $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j.split(',')[0]);
-                                                $('.total_pos').html("Rp."+jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-
-                        })
 
 
                                 //shortcut
