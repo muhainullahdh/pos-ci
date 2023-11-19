@@ -44,9 +44,11 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css"> -->
     <link href="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
   </head>
+
   <body style="background-color: #eee;">
-    <!-- loader starts-->
-    <div class="loader-wrapper">
+
+  <!-- loader starts-->
+    <!-- <div class="loader-wrapper">
       <div class="loader-index"> <span></span></div>
       <svg>
         <defs></defs>
@@ -55,7 +57,7 @@
           <fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"> </fecolormatrix>
         </filter>
       </svg>
-    </div>
+    </div> -->
     <!-- loader ends-->
     <!-- tap on top starts-->
     <div class="tap-top"><i data-feather="chevrons-up"></i></div>
@@ -177,6 +179,42 @@
             </div>
           </div> -->
           <!-- Container-fluid starts-->
+                    <div class="modal fade" id="modal_penjualan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Penjualan</h5>
+
+                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                                                <div class="modal-toggle-wrapper">
+                                                                    <div class="row justify-content-md-center">
+                                                                        <div class="col-xl-12">
+                                                                        <div class="table-responsive">
+                                                                          <table id="load-transaksi" class="display table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                <th width="70"></th>
+                                                                                <th width="400" scope="col">No Struk</th>
+                                                                                <th width="80" scope="col">Pelanggan</th>
+                                                                                <th width="180" scope="col">Total Item</th>
+                                                                                <th width="180" scope="col">Total Transaksi</th>
+                                                                                <th width="180" scope="col"></th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            </tbody>
+                                                                            </table>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                     </div>
+                            </div>
+                        </div>
+                    </div>
           <div class="container-fluid">
             <div class="row mt-1">
               <div class="col-xxl-12 box-col-12">
@@ -353,9 +391,9 @@
                                                     [CTRL + R] : Batal Transaksi <br>
                                                     F8 = TAHAN
                                                 </div>
-                                                <div class="col">
-                                                    <button id="bayar333" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
-                                                </div>
+                                                <!-- <div class="col">
+                                                    <button data-bs-toggle="modal" data-original-title="test" data-bs-target="#modaload" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
+                                                </div> -->
                                                 <div class="col">
                                                     <button id="bayar333" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
                                                 </div>
@@ -567,7 +605,8 @@
         </footer> -->
       </div>
     </div>
-                     <div class="modal fade" id="payment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+
+                    <div class="modal fade" id="payment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -725,6 +764,8 @@
                         </div>
                       </div>
                     </div>
+
+
                                                     <div class="modal fade bd-example-modal-lg" id="modaload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg" role="document">
 
@@ -738,7 +779,7 @@
                                                                     <div class="row justify-content-md-center">
                                                                         <div class="col-xl-12">
                                                                         <div class="table-responsive">
-                                                                          <table id="load-hold" class="display table" id="t_barang">
+                                                                          <table id="load-hold" class="display table">
                                                                             <thead>
                                                                                 <tr>
                                                                                 <th width="70"></th>
@@ -783,6 +824,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+
     <!-- latest jquery-->
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 
@@ -1869,7 +1912,7 @@
 
                         // })
                     }else if (e.which == 115) { //load transaksi
-                        $('#t_barang').DataTable({order:[[0,"desc"]]})
+                        $('#t-load').DataTable({order:[[0,"desc"]]})
                         $.ajax({
                                     url : "<?= site_url('pos/load_hold');?>",
                                     method : "GET",
@@ -1891,6 +1934,35 @@
                                             '</tr>');
                                             // check_pos()
                                         }
+                                    },
+                                    error: function(e){
+                                        console.log(e)
+                                    }
+                            });
+                    }else if(e.which == 192){
+                        // $('#load-transaksi').DataTable()
+                            $.ajax({
+                                    url : "<?= site_url('pos/load_transaksi');?>",
+                                    method : "GET",
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(data){
+                                        var row_data = '';
+                                        var total_pos = 0;
+                                        $('#modal_penjualan').modal('show');
+                                        for (let i = 0; i < data.length; i++) {
+                                            $('#load-transaksi tbody').append(
+                                            '<tr style="background-color: white;">'+
+                                                    '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
+                                                    '<td class="order">'+data[i].no_struk+'</td>'+
+                                                    '<td>'+data[i].nama_toko+'</td>'+
+                                                    '<td>'+data[i].jumlah_item+'</td>'+
+                                                    '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
+                                                    '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
+                                            '</tr>');
+                                            // check_pos()
+                                        }
+                                        console.log(data)
                                     },
                                     error: function(e){
                                         console.log(e)

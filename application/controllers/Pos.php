@@ -318,6 +318,18 @@ class Pos extends CI_Controller {
         $load = $this->db->get()->result();
         echo json_encode($load);
     }
+    function load_transaksi()
+    {
+        $this->db->select('*,sum(c.jumlah) as total_transaksi');
+        $this->db->from('transaksi as a');
+        $this->db->join('customers as b','a.pelanggan=b.id_customer');
+        $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
+        $this->db->where('a.trash !=',1);
+        $this->db->where('a.tahan !=',1);
+        $this->db->group_by('a.no_struk');
+        $load = $this->db->get()->result();
+        echo json_encode($load);
+    }
     function del_row_hold()
     {
         $id = $this->input->post('id');//id_transaksi_item
