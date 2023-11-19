@@ -40,7 +40,7 @@ class Pos extends CI_Controller {
         $data = [
             "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result(),
-            "customers" => $this->db->get('customers')->result(),
+            "customers" => $this->db->get_where('customers',['tipe_penjualan !=' => null])->result(),
             "ekspedisi" => $this->db->get('ekspedisi')->result(),
             "transaksi" => $transkasi,
             "transaksi_item" => $transkasi_item,
