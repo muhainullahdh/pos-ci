@@ -769,17 +769,7 @@
                                                                         <div class="col-xl-3">
                                                                             <span style="font-size:20px" class="bayar_show"></span>
                                                                         </div>
-                                                                    </div>                                                                        <div class="row mt-3">
-                                                                            <div class="col-xl-8"></div>
-                                                                            <div class="col-xl-2">
-                                                                                <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
-                                                                                <button id="BAYAR" class="btn bg-primary d-flex align-items-center gap-2 text-light ms-auto submit" type="button">BAYAR</button>
-                                                                            </div>
-                                                                            <div class="col-xl-2">
-                                                                                <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
-                                                                                <button class="btn bg-secondary d-flex align-items-center gap-2 text-light ms-auto" type="button" data-bs-dismiss="modal">Close</button>
-                                                                            </div>
-                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             </div>
