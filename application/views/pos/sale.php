@@ -1949,6 +1949,8 @@
                                         var info_pembayaran = '{"bank" : "'+$('.bank_edc').val()+'" ,"no_kartu" : "'+$('.tujuan').val()+'","nama" : "'+$('.nama_edc').val()+'"}';
                                     } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO'){
                                         var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'","Nomor" : "'+$('.no_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
+                                    }else{
+                                        var info_pembayaran = '';//cash
                                     }
                                     for (let i = 1; i <= counter; i++) {
                                         xx.push ({
