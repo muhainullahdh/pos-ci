@@ -1143,7 +1143,7 @@
                                             // }
                                             $('select[name="tipe"]').html('<option selected value='+ data[i].tipe_penjualan.toLowerCase() + ","+data[i].id_customer + "," + data[i].nama_toko+'>'+data[i].nama_toko+'</option');
                                             $('.no_struk').val(data[i].no_struk);
-                                            $('.pengiriman').html('<option value='+data[i].nama+' selected>'+data[i].nama+'</option>');
+                                            $('.pengiriman').html('<option value='+data[i].pengiriman+' selected>'+data[i].nama+'</option>');
                                             total_pos += parseInt(data[i].jumlah)
                                             $('#load-list tbody').append(
                                             '<tr class="cb" id=r'+counter+'>'+
@@ -1761,7 +1761,14 @@
                                     }
                                 }
                             }else if (e.which == 119) { //tahan
-                                if ($('.pengiriman').val() == "") {
+                                if (counter < 1) {
+                                    swal({
+                                        title: "Opss..!",
+                                        text: "Data transaksi kosong",
+                                        icon: "warning",
+                                        dangerMode: true,
+                                    })
+                                }else if ($('.pengiriman').val() == "") {
                                     swal({
                                     title: "Opss..!",
                                     text: "Pengiriman harus di pilih",
@@ -1785,6 +1792,7 @@
                                         })
                                     }
                                     var datax = {
+                                            id_transaksi : <?= $this->uri->segment(3) == true ? $this->uri->segment(3) : 0?>,
                                             cek : "TAHAN",
                                             no_struk : $('.no_struk').val(),
                                             tipe : $('select[name="tipe"]').val(),

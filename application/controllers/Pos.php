@@ -163,7 +163,7 @@ class Pos extends CI_Controller {
             "total_netto" => $this->clean($this->input->post('total_netto')),
             "total_bayar" => $this->clean($this->input->post('total_bayar')),
             "kembali" => $this->clean($this->input->post('kembali')),
-            "jumlah_item" => $this->clean($this->input->post('jumlah_item')),
+            "jumlah_item" => $this->input->post('jumlah_item'),
             "keterangan" => $this->input->post('keterangan'),
             "kasir" => $this->session->userdata('id_user'),
             "pengiriman" => $this->input->post('pengiriman'),
@@ -232,6 +232,8 @@ class Pos extends CI_Controller {
                     }
                 }else{//tahan
                     if ($update == 'update') {
+                        $cek_item = $this->db->get_where('transaksi_item',['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
+                        if ($cek_item == true) {
                             $this->db->set('kd_barang', $x['kd_barang']);
                             $this->db->set('barang', $x['barang']);
                             $this->db->set('qty', $x['qty']);
@@ -242,8 +244,22 @@ class Pos extends CI_Controller {
                             $this->db->set('jumlah', $x['jumlah']);
                             $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
                             $this->db->update('transaksi_item');
-                    }else{
-                        $this->db->insert_batch('transaksi_item',$output);
+                        }
+                        //jika ada penambahan row di transaksi hold
+                        if ($cek_item == false) {
+                            $insert_hold = [
+                                "id_transaksi" => $get_transkasi['id_transaksi'],
+                                "kd_barang" => $x['kd_barang'],
+                                "barang" => $x['barang'],
+                                "qty" => $x['qty'],
+                                "qty_satuan" => $ex_satuan[0],
+                                "satuan" => $ex_satuan[1],
+                                "harga_satuan" => $x['harga_satuan'],
+                                "diskon_item" => $x['diskon_item'],
+                                "jumlah" => $x['jumlah'],
+                            ];
+                            $this->db->insert('transaksi_item',$insert_hold);
+                        }
                     }
                 }
             }
