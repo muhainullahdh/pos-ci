@@ -263,7 +263,10 @@ class Pos extends CI_Controller {
                     }
                 }
             }
+            if ($update != 'update') {
+                $this->db->insert('transaksi',$output); //submit
 
+            }
             $data_ec = [
                 "id_transaksi" => $get_transkasi['id_transaksi'],
                 'no_struk' => $this->input->post('no_struk'),
