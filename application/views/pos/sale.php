@@ -1581,7 +1581,7 @@
                                 }
                 document.onkeyup = function(e) {
                     if (e.which == 224) {
-                        // location.reload();
+                        window.location = '<?= base_url() ?>pos/';
                     }else if (e.which == 16) {
 
                         var max_fields = 100;
