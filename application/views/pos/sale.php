@@ -1103,17 +1103,37 @@
                                         for (let i = 0; i < data.length; i++) {
                                             // barang += '';
                                             counter++;
-                                            if (data[i].id_satuan_besar == data[i].satuan) {
+                                            var satuan_option = '';
+                                            if (data[i].id_satuan_besar == data[i].satuan) { //satuan besar
                                                     var kd_satuan = data[i].id_satuan_besar
                                                     var qty_satuan = data[i].qty_besar + "," + data[i].id_satuan_besar
-                                            }else  if (data[i].id_satuan_kecil == data[i].satuan) {
+                                                    satuan_option += '<option selected value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }else if(data[i].id_satuan_besar != data[i].satuan && !data[i].id_satuan_besar == ""){
+                                                var kd_satuan = data[i].id_satuan_besar
+                                                var qty_satuan = data[i].qty_besar + "," + data[i].id_satuan_besar
+                                                satuan_option += '<option value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }
+
+                                            if (data[i].id_satuan_kecil == data[i].satuan) { // satuan kecil
                                                     var kd_satuan = data[i].id_satuan_kecil
                                                     var qty_satuan = data[i].qty_kecil + "," + data[i].id_satuan_kecil
+                                                    satuan_option += '<option selected value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }else if(data[i].id_satuan_kecil != data[i].satuan && !data[i].id_satuan_kecil == ""){
+                                                var kd_satuan = data[i].id_satuan_kecil
+                                                var qty_satuan = data[i].qty_kecil + "," + data[i].id_satuan_kecil
+                                                satuan_option += '<option value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }
 
-                                            }else if (data[i].id_satuan_kecil_konv == data[i].satuan){
+                                            if (data[i].id_satuan_kecil_konv == data[i].satuan){ // satuan kecil kov
                                                     var kd_satuan = data[i].id_satuan_kecil_konv
                                                     var qty_satuan = data[i].qty_konv + "," + data[i].id_satuan_kecil_konv
+                                                    satuan_option += '<option selected value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }else if (data[i].id_satuan_kecil_konv != data[i].satuan && !data[i].id_satuan_kecil_konv == ""){
+                                                var kd_satuan = data[i].id_satuan_kecil_konv
+                                                var qty_satuan = data[i].qty_konv + "," + data[i].id_satuan_kecil_konv
+                                                satuan_option += '<option value="'+qty_satuan+'">'+kd_satuan+'</option>'
                                             }
+
 
                                             // var tipe_cust = "<?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) ?>"
                                             // var id_cust = "<?= explode(',',$this->session->userdata('tipe_penjualan'))[1] ?>"
@@ -1140,7 +1160,7 @@
                                             '<td>'+
                                             '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
                                                 '<option value="">Pilih satuan</option>'+
-                                                '<option selected value="'+qty_satuan+'">'+kd_satuan+'</option>'+
+                                                satuan_option+
                                             '</select>'+
                                             '</td>'+
                                             '<td>'+
