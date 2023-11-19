@@ -1133,7 +1133,7 @@
                                                 var qty_satuan = data[i].qty_konv + "," + data[i].id_satuan_kecil_konv
                                                 satuan_option += '<option value="'+qty_satuan+'">'+kd_satuan+'</option>'
                                             }
-
+                                            var qty_kurangi = data[i].stok - parseInt(qty_satuan)
 
                                             // var tipe_cust = "<?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) ?>"
                                             // var id_cust = "<?= explode(',',$this->session->userdata('tipe_penjualan'))[1] ?>"
@@ -1178,7 +1178,7 @@
                                                         '<input readonly type="text" value="'+data[i].stok+'" class="form-control stock'+counter+'">'+
                                                     '</div>'+
                                                     '<div class="col-xl-6">'+
-                                                        '<input readonly type="text" class="form-control stock-c'+counter+'">'+
+                                                        '<input readonly type="text" value='+ qty_kurangi+' class="form-control stock-c'+counter+'">'+
                                                     ' </div>'+
                                             '</div>'+
                                             '</td>'+
