@@ -1886,9 +1886,10 @@
                                         console.log(e)
                                     }
                             });
-                    }else if (e.which == 82) {
-                        window.location = '<?= base_url() ?>pos/';
                     }
+                    // else if (e.which == 82) {
+                    //     // window.location = '<?= base_url() ?>pos/';
+                    // }
                 };
                 var bayar = $(".total_bayar")
                 var diskon_all2 = $(".diskon_all")
