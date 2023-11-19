@@ -47,7 +47,6 @@
                                 <?= $this->session->flashdata('msg') ?>
                                 <form action="<?= base_url('user/customer') ?>" method="post">
                                     <div class="row">
-                                            <!-- <div class="modal-img"> <img src="../assets/images/gif/online-shopping.gif" alt="online-shopping"></div> -->
                                             <div class="col-xl-6">
                                                 <h6>Nama customers</h6>
                                                 <input required type="text" placeholder="Bungkus" name="nama" class="form-control">
@@ -84,6 +83,20 @@
                         </div>
                       </div>
                     </div>
+                    <form action="<?= base_url('user/filter_penjualan') ?>" method="POST">
+                        <div class="row mt-2">
+                            <div class="col-xl-2">
+                                <select name="filter_penjualan" class="form-control" onchange="this.form.submit()" id="">
+                                    <option value="">Pilih Tipe penjualan</option>
+                                    <option <?= $this->session->userdata('filter_penjualan') == 'retail' ? 'selected' : '' ?> value="retail">retail</option>
+                                    <option <?= $this->session->userdata('filter_penjualan') == 'grosir' ? 'selected' : '' ?> value="grosir">grosir</option>
+                                    <option <?= $this->session->userdata('filter_penjualan') == 'partai' ? 'selected' : '' ?> value="partai">partai</option>
+                                    <option <?= $this->session->userdata('filter_penjualan') == 'promo' ? 'selected' : '' ?> value="promo">promo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
                   </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -128,29 +141,26 @@
                                                     <div class="modal-toggle-wrapper">
                                                         <?= $this->session->flashdata('msg') ?>
                                                         <form action="<?= base_url('user/customer') ?>" method="post">
-                                                            <div class="row">
-                                                                    <!-- <div class="modal-img"> <img src="../assets/images/gif/online-shopping.gif" alt="online-shopping"></div> -->
-                                                                    <div class="col">
+                                                        <div class="row">
+                                                                    <div class="col-xl-6">
                                                                         <h6>Nama customers</h6>
-                                                                        <input type="hidden" value="edit" name="action">
-                                                                        <input type="hidden" value="<?= $x->id_customer ?>" name="id_customers">
-                                                                        <input required type="text" placeholder="Bungkus" value="<?= $x->nama ?>" name="nama" class="form-control">
+                                                                        <input type="hidden" value="<?= $x->id_customer ?>" name="id" class="form-control">
+                                                                        <input type="hidden" value="edit" name="action" class="form-control">
+                                                                        <input required type="text" placeholder="Bungkus" value="<?= $x->nama_toko ?>" name="nama" class="form-control">
                                                                     </div>
-                                                            </div>
-                                                            <div class="row mt-2">
-                                                                    <div class="col">
-                                                                        <h6>Nama Singkat</h6>
+                                                                    <div class="col-xl-6">
+                                                                        <h6>Tipe Penjualan</h6>
                                                                         <select required name="tipe_penjualan" class="form-control" id="">
-                                                                            <option value="">Pilih tipe penjualan</option>
+                                                                            <!-- <option value="">Pilih tipe penjualan</option> -->
                                                                             <option <?= $x->tipe_penjualan == 'retail' ? 'selected' : '' ?> value="retail">retail</option>
                                                                             <option <?= $x->tipe_penjualan == 'grosir' ? 'selected' : '' ?> value="grosir">grosir</option>
                                                                             <option <?= $x->tipe_penjualan == 'partai' ? 'selected' : '' ?> value="partai">partai</option>
                                                                             <option <?= $x->tipe_penjualan == 'promo' ? 'selected' : '' ?> value="promo">promo</option>
                                                                         </select>
                                                                     </div>
-                                                                    <div class="col-xl-4">
-                                                                        <h6>Telp</h6>
-                                                                        <input required type="text" placeholder="1" name="telp" value="<?= $x->no_telp ?>" class="form-control">
+                                                                    <div class="col-xl-6 mt-2">
+                                                                        <h6>No telp</h6>
+                                                                        <input required type="text" value="<?= $x->no_telp ?>"  placeholder="1" name="telp" class="form-control">
                                                                     </div>
                                                             </div>
                                                             <div class="row mt-3">

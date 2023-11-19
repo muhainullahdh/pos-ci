@@ -51,8 +51,12 @@ class User extends CI_Controller {
             redirect('user/customer');
 
         }
+        if ($this->session->userdata('filter_penjualan') == true) {
+            $this->db->where('tipe_penjualan',$this->session->userdata('filter_penjualan'));
+        }
+        $cust = $this->db->get('customers')->result();
         $data = [
-            "customers" => $this->db->get('customers')->result()
+            "customers" => $cust
         ];
             // $this->session->set_flashdata('msg','Data tidak boleh kosong');
             // redirect('barang/satuan');
@@ -279,5 +283,14 @@ class User extends CI_Controller {
 		}else{
 			echo "Tidak ada file yang masuk";
 		}
+    }
+    function filter_penjualan() {
+        $x = $this->input->post('filter_penjualan');
+        if ($x == "") {
+            $this->session->unset_userdata('filter_penjualan');
+        }else{
+            $this->session->set_userdata('filter_penjualan',$x);
+        }
+        redirect('user/customer');
     }
 }

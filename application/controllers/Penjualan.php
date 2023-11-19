@@ -252,5 +252,6 @@ class Penjualan extends CI_Controller {
         $this->session->set_userdata('date_penjualan2',$date2);
         redirect('penjualan');
     }
+
 }
 
