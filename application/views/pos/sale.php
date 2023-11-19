@@ -1427,7 +1427,7 @@
                                                                         for (let t = 1; t <=counter; t++) {
                                                                             total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
                                                                         }
-                                                                        $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                        $('.total_pos').html("Rp"+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                                     }
                                                                 })
                                                     // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty / j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
@@ -1785,7 +1785,7 @@
                                         })
                                     }
                                     var datax = {
-                                            cek : value_ac,
+                                            cek : "TAHAN",
                                             no_struk : $('.no_struk').val(),
                                             tipe : $('select[name="tipe"]').val(),
                                             member : $('.member').val(),
