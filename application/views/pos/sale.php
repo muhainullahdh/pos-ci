@@ -988,7 +988,7 @@
                                     var qty = $("input[id='idq"+i+"']")[0].value
                                     var qty_isi_satuan = satuan_x[0].value //qty satuan
 
-                                            var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * qty_isi_satuan.split(',')[0] - j.replace(/[^a-zA-Z0-9 ]/g, '')
+                                            var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty - j.replace(/[^a-zA-Z0-9 ]/g, '')
                                             $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                             $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan.split(',')[0]);
                                             var total_pos_fix = 0;
@@ -1334,7 +1334,7 @@
                                                 var qty = $("input[id='idq"+i+"']")[0].value
                                                 var qty_isi_satuan = satuan_x[0].value //qty satuan
 
-                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty * qty_isi_satuan.split(',')[0] - j.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty - j.replace(/[^a-zA-Z0-9 ]/g, '')
                                                         $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                         $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan.split(',')[0]);
                                                         var total_pos_fix = 0;
