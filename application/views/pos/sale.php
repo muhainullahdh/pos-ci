@@ -1878,7 +1878,7 @@
                                                     '<td class="order">'+data[i].no_struk+'</td>'+
                                                     '<td>'+data[i].nama_toko+'</td>'+
                                                     '<td>'+data[i].jumlah_item+'</td>'+
-                                                    '<td>'+data[i].total_transaksi+'</td>'+
+                                                    '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
                                                     '<td><a class="badge badge-primary" href="<?= base_url('pos/index/') ?>'+data[i].id+'" >Edit</a></td>'+
                                             '</tr>');
                                             // check_pos()
