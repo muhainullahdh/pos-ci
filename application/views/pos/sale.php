@@ -648,6 +648,16 @@
                                         <!-- <span style="font-size:20px" class="diskon_show"></span> -->
                                     </div>
                                 </div>
+                                <div class="row justify-content-md-center mt-3 transfer_vis">
+                                    <div class="col-xl-4">
+                                       <h6>Tunai</h6>
+                                    </div>
+                                    <div class="col-xl-6">
+                                      <input type="text" class="form-control tunai" id="tunai">
+                                      <i>Bayar sisa transfer dengan tunai</i>
+                                        <!-- <span style="font-size:20px" class="diskon_show"></span> -->
+                                    </div>
+                                </div>
                                 <div class="row justify-content-md-center">
                                     <div class="col-xl-4">
                                        <h6> Sisa Utang </h6>
@@ -1624,6 +1634,11 @@
                                     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
                                     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
                                 }
+                                var rupiah5 = document.getElementById('tunai');
+                                rupiah5.addEventListener('keyup', function(e){
+                                    rupiah5.value = formatRupiah(this.value, '');
+                                });
+
                 document.onkeyup = function(e) {
                     if (e.which == 18) {
                         window.location = '<?= base_url() ?>pos/';
@@ -1861,6 +1876,7 @@
                                             diskon_all : $('.diskon_all').val(),
                                             total_netto : $('.total_netto').val(),
                                             total_bayar : $('.total_bayar').val(),
+                                            tunai : $('.tunai').val(),
                                             kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                             jumlah_item : $('.total_item').val(),
                                             keterangan : $('.keterangan').val(),
@@ -1978,7 +1994,10 @@
                 bayar.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                    // $('.tunai').val(value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
+                    // if ($('.tunai').val()[0].value == "") {
                     $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
+
                 })
                 diskon_all2.keyup(function() {
                   var bayar_x = bayar.val().replace(/[^a-zA-Z0-9 ]/g, '')
@@ -2044,6 +2063,7 @@
                                             diskon_all : $('.diskon_all').val(),
                                             total_netto : $('.total_netto').val(),
                                             total_bayar : $('.total_bayar').val(),
+                                            tunai : $('.tunai').val(),
                                             kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                             jumlah_item : $('.total_item').val(),
                                             keterangan : $('.keterangan').val(),
