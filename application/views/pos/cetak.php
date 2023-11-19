@@ -92,7 +92,7 @@ body{
         <td>
             <div style="float:left;width:50%;"> Tunai / Transfer</div>
             <?php
-                $bank = json_decode($transkasi['info_pembayaran'])->bank;
+                $bank = json_decode($transkasi['info_pembayaran']) == "" ? 'Cash' : json_decode($transkasi['info_pembayaran'])->bank;
             ?>
             <div style="float:left;width:50%;text-align:center"><?= $bank ?></div>
         </td>
