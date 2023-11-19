@@ -619,24 +619,36 @@
                                     })
                                  }else{
                                     // console.log($('.satuanb').val())
-                                    $.ajax({
-                                            url : "<?= site_url('barang/submit');?>",
-                                            method : "POST",
-                                            data : datax,
-                                            async : true,
-                                            dataType : 'json',
-                                            success: function(data){
+                                        $.ajax({
+                                                url : "<?= site_url('barang/submit');?>",
+                                                method : "POST",
+                                                data : datax,
+                                                async : true,
+                                                dataType : 'json',
+                                                success: function(data){
+                                                    if (data.status == 'double') {
                                                             swal({
-                                                                title: "Berhasil..!",
-                                                                text: "Barang "+data.nama+" berhasil disimpan",
-                                                                icon: "success",
-                                                                }).then((willDelete) => {
-                                                                if (willDelete) {
-                                                                    location.reload();
-                                                                }
-                                                            });
-                                            }
-                                        })
+                                                                    title: "Opss..!",
+                                                                    text: "Kode barang "+data.nama+" sudah ada",
+                                                                    icon: "success",
+                                                                    }).then((willDelete) => {
+                                                                    if (willDelete) {
+                                                                        location.reload();
+                                                                    }
+                                                                });
+                                                    }else{
+                                                                swal({
+                                                                    title: "Berhasil..!",
+                                                                    text: "Barang "+data.nama+" berhasil disimpan",
+                                                                    icon: "success",
+                                                                    }).then((willDelete) => {
+                                                                    if (willDelete) {
+                                                                        location.reload();
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                            })
                                 }
                             }else if(value_ac == "Update"){
                                 $.ajax({

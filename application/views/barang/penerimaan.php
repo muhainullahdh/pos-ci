@@ -151,7 +151,7 @@
                                 <label>Tgl Srt Jln</label>
                             </div>
                             <div class="col-xl-3">
-                                <input type="text" class="form-control tgl_srt_jln">
+                                <input type="date" class="form-control tgl_srt_jln">
                             </div>
                        </div>
                        <div class="row mt-3">
@@ -159,7 +159,7 @@
                                 <label>Cara Bayar</label>
                             </div>
                             <div class="col-xl-3">
-                                <input type="text" class="form-control bayar">
+                                <input type="number" class="form-control c_bayar">
                             </div>
                             <div class="col-xl-3">
                                 <div class="row">
@@ -302,7 +302,7 @@
                                 source: data,
                                 select: function (event, ui) {
                                     $('.barang'+counter+'').val(ui.item.label);
-                                    $('.id_barang'+counter+'').val(ui.item.description);
+                                    $('.id_pb_list'+counter+'').val(ui.item.description);
                                     var i,j;
                                                 // $.ajax({
                                                 //     url : "<?= site_url('pos/search_barang');?>",
@@ -437,21 +437,25 @@
                                    '<button id='+counter+' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>'+
                                     '<td>'+
                                     '<input class="form-control barang'+counter+'">'+
-                                    '<input type="hidden" class="form-control id_barang'+counter+'">'+
+                                    '<input type="hidden" class="form-control id_pb_list'+counter+'">'+
                                     '</td>'+
                                     '<td>'+
                                     '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
                                         '<option value="">Pilih satuan</option>'+
-                                        <?php foreach ($satuan as $x) { ?>
+                                        <?php
+                                        if ($this->uri->segment(2) == 'add_pb') {
+                                            foreach ($satuan as $x) {
+                                        ?>
                                         '<option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option>'+
-                                        <?php } ?>
+                                        <?php }
+                                            }?>
                                     '</select>'+
                                     '</td>'+
                                     '<td>'+
-                                        '<input id="idq'+counter+'" type="text" style="text-align:center;" value="1" class="form-control qty'+counter+'">'+
+                                        '<input id="idq'+counter+'" type="text" style="text-align:center;" class="form-control qty'+counter+'">'+
                                     '</td>'+
                                     '<td>'+
-                                    '<input type="text" class="form-control harga'+counter+'">'+
+                                    '<input type="text" class="form-control uang'+counter+' harga'+counter+'">'+
                                     '</td>'+
                                     '<td>'+
                                     '<input type="text" id="dis1'+counter+'" placeholder="0" style="text-align:center;" class="form-control dis1'+counter+'">'+
@@ -463,7 +467,7 @@
                                     '<input type="text" placeholder="0" style="text-align:center;" class="form-control dis_rp'+counter+'">'+
                                     '</td>'+
                                     '<td>'+
-                                    '<input type="text" class="form-control netto'+counter+'">'+
+                                    '<input type="text" class="form-control uang'+counter+' netto'+counter+'">'+
                                     '</td>'+
                                     '<td>'+
                                     '<input type="text" class="form-control gudang'+counter+'">'+
@@ -474,8 +478,8 @@
                             }
                             $('.delete_item').click(function(){
                                 e.preventDefault();
-                                var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah"+this.id+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
-                                $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                // var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah"+this.id+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                // $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
 
                                 var child = $(this).closest('tr').nextAll();
 
@@ -495,7 +499,7 @@
                                     // Modifying row id.
                                     $(this).attr('id', `r${dig - 1}`);
                                     $('.barang'+counter+'').removeClass('barang'+counter+'').addClass('barang'+parseInt(dig-1)+'');
-                                    $('.id_barang'+counter+'').removeClass('id_barang'+counter+'').addClass('id_barang'+parseInt(dig-1)+'');
+                                    $('.id_pb_list'+counter+'').removeClass('id_pb_list'+counter+'').addClass('id_pb_list'+parseInt(dig-1)+'');
                                     $('.qty'+counter+'').removeClass('qty'+counter+'').addClass('qty'+parseInt(dig-1)+'');
                                     $('.satuan'+counter+'').removeClass('satuan'+counter+'').addClass('satuan'+parseInt(dig-1)+'');
                                     $('.diskon_item'+counter+'').removeClass('diskon_item'+counter+'').addClass('diskon_item'+parseInt(dig-1)+'');
@@ -513,15 +517,38 @@
                                 counter--;
                                 // });
                             });
+                            $(".uang"+counter+"").keyup(function(e){
+                                $(this).val(format($(this).val()));
+                            });
+                            var format = function(num){
+                                var str = num.toString().replace("", ""), parts = false, output = [], i = 1, formatted = null;
+                                if(str.indexOf(".") > 0) {
+                                    parts = str.split(".");
+                                    str = parts[0];
+                                }
+                                str = str.split("").reverse();
+                                for(var j = 0, len = str.length; j < len; j++) {
+                                    if(str[j] != ",") {
+                                    output.push(str[j]);
+                                    if(i%3 == 0 && j < (len - 1)) {
+                                        output.push(",");
+                                    }
+                                    i++;
+                                    }
+                                }
+                                formatted = output.reverse().join("");
+                                return("" + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
+                            };
                             cek_barang()
 
                         }
                     }else if(e.which == 113){ // submit f2
+                                    var barang = ''
+                                    var xx = []
                                     for (let i = 1; i <= counter; i++) {
                                         xx.push ({ // loop table
-                                            id_pb_list : $('.id_item'+i+'').val(),
+                                            id_pb_list : $('.id_pb_list'+i+'').val(),
                                             nama_barang : $('.barang'+i+'').val(),
-                                            barang : $('.barang'+i+'').val(),
                                             qty : $('.qty'+i+'').val(),
                                             satuan : $('.satuan'+i+'').val(),
                                             harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
@@ -531,22 +558,19 @@
                                     }
                                     var datax = {
                                             cek : value_ac,
-                                            no_struk : $('.no_struk').val(),
-                                            tipe : $('select[name="tipe"]').val(),
+                                            no_pb : $('.no_pb').val(),
+                                            tgl_pb : $('.tgl_pb').val(),
                                             member : $('.member').val(),
-                                            diskon_all : $('.diskon_all').val(),
-                                            total_netto : $('.total_netto').val(),
-                                            total_bayar : $('.total_bayar').val(),
-                                            kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            jumlah_item : $('.total_item').val(),
+                                            supplier : $('.supplier').val(),
+                                            srt_jln : $('.srt_jln').val(),
+                                            tgl_srt_jln : $('.tgl_srt_jln').val(),
+                                            c_bayar : $('.c_bayar').val(),
+                                            tempo : $('.tempo').val(),
+                                            ppn : $('.ppn').val(),
+                                            fp : $('.fp').val(),
+                                            tgl_fp : $('.tgl_fp').val(),
                                             keterangan : $('.keterangan').val(),
-                                            pengiriman : $('.pengiriman').val(),
-                                            tahan : value_ac == "TAHAN" ? 1 : 0,
-                                            pembayaran : $('.pembayaran:checked').val(),
-                                            info_pembayaran : info_pembayaran.toString(),
-                                            piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
-                                            update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
-                                            id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
+                                            // id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
                                             item : xx
                                         }
                                             $.ajax({

@@ -301,11 +301,19 @@ class Barang extends CI_Controller {
             "user_id" => $this->session->userdata('id_user')
         ];
         if ($cek == 'Simpan') {
-            $this->db->insert('barang',$data);
-            $data_ec = [
-                "nama" => $this->input->post('nama_barang'),
-                "status" => 200
-            ];
+            $cek_db = $this->db->get_where('barang',['kode_barang' => $this->input->post('kode_barang')])->num_rows();
+            if ($cek_db == true) {
+                $data_ec = [
+                    "nama" => $this->input->post('nama_barang'),
+                    "status" => "double"
+                ];
+            }else{
+                $this->db->insert('barang',$data);
+                $data_ec = [
+                    "nama" => $this->input->post('nama_barang'),
+                    "status" => 200
+                ];
+            }
             echo json_encode($data_ec);
         }else if($cek == 'Update'){
             $this->db->where('id',$id_barang);
@@ -348,7 +356,6 @@ class Barang extends CI_Controller {
         }
         $data = [
             "penerimaan" => $this->db->get('penerimaan')->result(),
-            "satuan" => $satuan
         ];
             // $this->session->set_flashdata('msg','Data tidak boleh kosong');
             // redirect('barang/satuan');
