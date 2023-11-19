@@ -650,7 +650,9 @@
                                                 <label class="form-check-label" for="radio24">GIRO </label>
                                             </div>
                                         </div>
-                                        <div class="col">
+                                    </div>
+                                    <div class="row justify-content-md-center mt-3">
+                                        <div class="col-xl-3">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio25" type="radio" name="radio_pembayaran" value="EDC">
                                                 <label class="form-check-label" for="radio25">EDC </label>
@@ -674,15 +676,21 @@
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center mt-3 giro_vis">
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-6">
                                             <label for="">Dari Bank</label>
                                             <input type="text" class="form-control bank_giro">
                                         </div>
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-6">
+                                            <label for="">Nomor</label>
+                                            <input type="text" class="form-control no_giro">
+                                        </div>
+                                     </div>
+                                     <div class="row justify-content-md-center mt-3 giro_vis">
+                                        <div class="col-xl-6">
                                             <label for="">Rekening Pencairan</label>
                                             <input type="text" class="form-control rekening_giro">
                                         </div>
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-6">
                                             <label for="">Jatoh Tempo</label>
                                             <input type="text" class="form-control tempo">
                                         </div>
@@ -1940,7 +1948,7 @@
                                     }else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
                                         var info_pembayaran = '{"bank" : "'+$('.bank_edc').val()+'" ,"no_kartu" : "'+$('.tujuan').val()+'","nama" : "'+$('.nama_edc').val()+'"}';
                                     } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO'){
-                                        var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
+                                        var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'","Nomor" : "'+$('.no_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
                                     }
                                     for (let i = 1; i <= counter; i++) {
                                         xx.push ({
