@@ -1580,7 +1580,7 @@
                                     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
                                 }
                 document.onkeyup = function(e) {
-                    if (e.which == 224) {
+                    if (e.which == e.altKey) {
                         window.location = '<?= base_url() ?>pos/';
                     }else if (e.which == 16) {
 
