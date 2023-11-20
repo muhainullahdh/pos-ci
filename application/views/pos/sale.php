@@ -636,7 +636,7 @@
                                     </div>
                                     <div class="col-xl-6">
                                       <input type="text" class="form-control tunai" id="tunai">
-                                      <i>Bayar sisa transfer dengan tunai</i>
+                                      <!-- <i>Bayar sisa transfer dengan tunai</i> -->
                                         <!-- <span style="font-size:20px" class="diskon_show"></span> -->
                                     </div>
                                 </div>
@@ -1967,9 +1967,14 @@
                     //     // window.location = '<?= base_url() ?>pos/';
                     // }
                 };
+                function reverseInt(int){
+                    const intRev = int.toString().split('').reverse().join('');
+                    return parseInt(intRev) * Math.sign(int);
+                }
                 var bayar = $(".total_bayar")
                 var diskon_all2 = $(".diskon_all")
                 var tunaiy = $(".tunai")
+
 
                 bayar.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
@@ -1980,7 +1985,12 @@
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                         var total_xxx = total_transaksi - bayar_val - tunai_val
-                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        if (total_xxx > 0) {
+                            var xxx_total = Math.abs(total_xxx)* -1
+                        }else{
+                            var xxx_total = Math.abs(total_xxx)
+                        }
+                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
@@ -1995,7 +2005,12 @@
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                         var total_xxx = total_transaksi - bayar_val - tunai_val
-                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        if (total_xxx > 0) {
+                            var xxx_total = Math.abs(total_xxx)* -1
+                        }else{
+                            var xxx_total = Math.abs(total_xxx)
+                        }
+                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
