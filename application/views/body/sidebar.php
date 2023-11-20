@@ -40,7 +40,7 @@
                     <i data-feather="users"></i>
                       <span> Kelola User</span></a>
                     <ul class="sidebar-submenu">
-                      <li><a href="dashboard-03.html">Pengguna</a></li>
+                      <li><a href="<?= base_url('user/pengguna') ?>">Pengguna</a></li>
                     </ul>
                   </li>
                     <!---- Kontak--->
