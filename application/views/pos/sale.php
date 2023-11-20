@@ -2124,6 +2124,7 @@
                 $('.edc_vis').hide()
                 $('input[type=radio][name=radio_pembayaran]').change(function() {
                     if (this.value == 'TRANSFER') {
+                        $('.total_bayar').val(0)
                         $('.transfer_vis').show()
                         $('.cash_vis').hide()
                         $('.giro_vis').hide()
@@ -2134,11 +2135,13 @@
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'GIRO') {
+                        $('.total_bayar').val(0)
                         $('.giro_vis').show()
                         $('.cash_vis').hide()
                         $('.transfer_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'EDC') {
+                        $('.total_bayar').val(0)
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
                         $('.transfer_vis').hide()
