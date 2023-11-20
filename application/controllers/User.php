@@ -22,7 +22,7 @@ class User extends CI_Controller {
         $no_telp = $this->input->post('telp');
         $tipe_penjualan = $this->input->post('tipe_penjualan');
         $action = $this->input->post('action');
-        $id = $this->input->post('id_customers');
+        $id = $this->input->post('id');
         if ($nama == true && $no_telp == true && $action != 'edit') {
             $cek = $this->db->query("SELECT * FROM customers where nama='$nama' ")->num_rows();
             if ($cek == true) {
@@ -31,7 +31,7 @@ class User extends CI_Controller {
                 redirect('user/customer');
             }else{
                 $datax = [
-                    "nama" => $nama,
+                    "nama_toko" => $nama,
                     "no_telp" => $no_telp,
                     "tipe_penjualan" => $tipe_penjualan
                 ];
@@ -42,7 +42,7 @@ class User extends CI_Controller {
         if ($action == 'edit') {
 
             $datax = [
-                "nama" => $nama,
+                "nama_toko" => $nama,
                 "no_telp" => $no_telp,
                 "tipe_penjualan" => $tipe_penjualan
             ];
