@@ -623,7 +623,7 @@
                                 </div> -->
                                 <div class="row justify-content-md-center">
                                     <div class="col-xl-4">
-                                        <h6> Total Bayar </h6>
+                                        <h6 class="total_bayar"> Total Bayar </h6>
                                     </div>
                                     <div class="col-xl-6">
                                         <input type="text" class="form-control total_bayar" id="total_bayar">
@@ -632,7 +632,7 @@
                                 </div>
                                 <div class="row justify-content-md-center mt-3 transfer_vis">
                                     <div class="col-xl-4">
-                                       <h6>Tunai</h6>
+                                       <h6>Tunai </h6>
                                     </div>
                                     <div class="col-xl-6">
                                       <input type="text" class="form-control tunai" id="tunai">
@@ -2139,6 +2139,7 @@
                 $('.edc_vis').hide()
                 $('input[type=radio][name=radio_pembayaran]').change(function() {
                     if (this.value == 'TRANSFER') {
+                        $('.total_bayar').html('Transfer');
                         $('.total_bayar').val(0)
                         $('.transfer_vis').show()
                         $('.cash_vis').hide()
@@ -2150,12 +2151,14 @@
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'GIRO') {
+                        $('.total_bayar').html('Giro / Cek');
                         $('.total_bayar').val(0)
                         $('.giro_vis').show()
                         $('.cash_vis').hide()
                         $('.transfer_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'EDC') {
+                        $('.total_bayar').html('EDC');
                         $('.total_bayar').val(0)
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
