@@ -1977,13 +1977,13 @@
 
 
                 bayar.keyup(function() {
-                  var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var tunai_val = tunaiy[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var bayar_val = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                        var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                        // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                         var total_xxx = total_transaksi - bayar_val - tunai_val
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
@@ -1994,16 +1994,15 @@
                     }else{
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
-
                 })
                 tunaiy.keyup(function() {
-                  var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var bayar_val = bayar[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var tunai_val = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                        var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                        // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                         var total_xxx = total_transaksi - bayar_val - tunai_val
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
@@ -2014,17 +2013,25 @@
                     }else{
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
-
                 })
                 diskon_all2.keyup(function() {
-                  var bayar_x = bayar.val().replace(/[^a-zA-Z0-9 ]/g, '')
-                  if (this.value == "") {
-                    var diskon_cal = 0
-                  }else{
-                    var diskon_cal = parseInt(this.value.replace(/[^a-zA-Z0-9 ]/g, ''));
-                  }
-                    var value_bayar2 = bayar_x - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_cal
-                    $('.kembali').html("Rp."+value_bayar2.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
+                  var tunai_val = tunaiy[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var bayar_val = bayar[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var diskon_al = this.value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                    var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                        var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                        var total_xxx = parseInt(total_transaksi - bayar_val - tunai_val) + parseInt(diskon_al)
+                        if (total_xxx > 0) {
+                            var xxx_total = Math.abs(total_xxx)* -1
+                        }else{
+                            var xxx_total = Math.abs(total_xxx)
+                        }
+                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                    }else{
+                        $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                    }
                 })
                 var action = $(".submit")
                 action.on('click',function() {
@@ -2139,13 +2146,15 @@
                 $('.edc_vis').hide()
                 $('input[type=radio][name=radio_pembayaran]').change(function() {
                     if (this.value == 'TRANSFER') {
+                        $('.total_bayar').val($('.transaksi_show').val().slice(3))
                         $('.total_bayar').html('Transfer');
-                        $('.total_bayar').val(0)
                         $('.transfer_vis').show()
                         $('.cash_vis').hide()
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'CASH') {
+                        $('.total_bayar').val($('.transaksi_show').val().slice(3))
+                        $('.total_bayar').html('Total Bayar');
                         $('.transfer_vis').hide()
                         $('.cash_vis').hide()
                         $('.giro_vis').hide()
@@ -2155,19 +2164,20 @@
                         $('.total_bayar').val(0)
                         $('.giro_vis').show()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').hide()
+                        $('.transfer_vis').show()
                         $('.edc_vis').hide()
                     }else if (this.value == 'EDC') {
                         $('.total_bayar').html('EDC');
                         $('.total_bayar').val(0)
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').hide()
+                        $('.transfer_vis').show()
                         $('.edc_vis').show()
                     }else if (this.value == 'VOCHER') {
+                        $('.total_bayar').html('Total bayar');
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').hide()
+                        $('.transfer_vis').show()
                         $('.edc_vis').hide()
                     }
                 });
