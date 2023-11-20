@@ -1979,7 +1979,7 @@
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        var total_xxx = parseInt(total_transaksi - bayar_val) + parseInt(tunai_val)
+                        var total_xxx = parseInt(total_transaksi + bayar_val) - parseInt(tunai_val)
                         $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
@@ -1994,7 +1994,7 @@
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        var total_xxx = parseInt(total_transaksi - bayar_val) + parseInt(tunai_val)
+                        var total_xxx = parseInt(total_transaksi + bayar_val) - parseInt(tunai_val)
                         $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
