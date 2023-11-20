@@ -39,7 +39,11 @@ class Login extends CI_Controller {
                     $this->session->set_userdata($data);
                     $this->session->set_userdata('tipe_penjualan','umum,1,1');
                     $this->session->set_flashdata('massage', '<div class="alert alert-success" role="alert">Login Berhasil !</div>');
-                    redirect();
+                    if ($user['level'] == 1) {//admin
+                        redirect();
+                    }else if ($user['level'] == 2) {//pos
+                        redirect('pos');
+                    }
                 } else {
                     $this->session->set_flashdata('massage', '<div class="alert alert-danger" role="alert">Password salah !</div>');
                     // redirect('login');
