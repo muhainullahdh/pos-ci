@@ -1975,11 +1975,14 @@
                         var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                         $('.tunai').val(ppp.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                         // var transaksi_totallll = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
-                        // var tunaix = $('.tunai').val().replace(/[_\W]+/g, "").toString();
-                        // var total_bayar_val = this.value.replace(/[_\W]+/g, "").toString();
-
-                        // var kembaliix = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - tunaix ;
+                        var tunaix = $('.tunai').val().replace(/[_\W]+/g, "").toString();
+                        var total_bayar_val = this.value.replace(/[_\W]+/g, "").toString();
+                        // var kembaliix = 0;
+                        // kembaliix += parseInt(this.value.replace(/[^a-zA-Z0-9 ]/g, '')) ;
+                        // kembaliix += parseInt(tunaix)
+                        // kembaliix -= parseInt($('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''))
                         // console.log(kembaliix)
+                        // $('.kembali').html("Rp."+kembaliix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                         $('.kembali').html("Rp.0")
                     }else{
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
