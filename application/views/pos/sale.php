@@ -607,7 +607,7 @@
     </div>
 
                     <div class="modal fade" id="payment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
-                      <div class="modal-dialog">
+                      <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Pembayaran</h5>
@@ -699,15 +699,13 @@
                                                 <label class="form-check-label" for="radio24">GIRO </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row justify-content-md-center mt-3">
-                                        <div class="col-xl-3">
+                                        <div class="col">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio25" type="radio" name="radio_pembayaran" value="EDC">
                                                 <label class="form-check-label" for="radio25">EDC </label>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
+                                        <div class="col">
                                             <div class="form-check radio radio-secondary">
                                                 <input class="form-check-input pembayaran" id="radio26" type="radio" name="radio_pembayaran" value="VOCHER">
                                                 <label class="form-check-label" for="radio26">VOCHER </label>
@@ -745,11 +743,11 @@
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center mt-3 edc_vis">
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-3">
                                             <label for="">Bank Kartu</label>
                                             <input type="text" class="form-control bank_edc">
                                         </div>
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-5">
                                             <label for="">No Kartu</label>
                                             <input type="text" class="form-control rekening_edc">
                                         </div>
