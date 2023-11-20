@@ -64,6 +64,53 @@ class User extends CI_Controller {
             $this->load->view('user/customers',$data);
             $this->load->view('body/footer');
     }
+    function pengguna()
+    {
+        $nama = $this->input->post('nama');
+        $no_telp = $this->input->post('telp');
+        $action = $this->input->post('action');
+        $id = $this->input->post('id');
+        if ($nama == true && $no_telp == true && $action != 'edit') {
+            $cek = $this->db->query("SELECT * FROM users where username='$nama' ")->num_rows();
+            if ($cek == true) {
+                $this->session->set_flashdata('msg','double_satuan');
+                $this->session->set_flashdata('msg_val',$nama);
+                redirect('user/pengguna');
+            }else{
+                $datax = [
+                    "nama_toko" => $nama,
+                    "no_telp" => $no_telp,
+                    "tipe_penjualan" => $tipe_penjualan
+                ];
+                $this->db->insert('users',$datax);
+                redirect('user/pengguna');
+            }
+        }
+        if ($action == 'edit') {
+
+            $datax = [
+                "nama_toko" => $nama,
+                "no_telp" => $no_telp,
+                "tipe_penjualan" => $tipe_penjualan
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('users',$datax);
+            redirect('user/pengguna');
+
+        }
+        if ($this->session->userdata('filter_penjualan') == true) {
+            $this->db->where('tipe_penjualan',$this->session->userdata('filter_penjualan'));
+        }
+        $cust = $this->db->get('users')->result();
+        $data = [
+            "pengguna" => $cust
+        ];
+            // $this->session->set_flashdata('msg','Data tidak boleh kosong');
+            // redirect('barang/satuan');
+            $this->load->view('body/header');
+            $this->load->view('user/pengguna',$data);
+            $this->load->view('body/footer');
+    }
     function supplier()
     {
         $kd_supplier = $this->input->post('kd_supplier');

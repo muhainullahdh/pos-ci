@@ -2160,6 +2160,7 @@
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'GIRO') {
+                        $('.total_bayar').val($('.transaksi_show').val().slice(3))
                         $('.total_bayar').html('Giro / Cek');
                         $('.total_bayar').val(0)
                         $('.giro_vis').show()

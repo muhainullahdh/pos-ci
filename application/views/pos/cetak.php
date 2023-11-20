@@ -131,6 +131,10 @@ body{
         <td>Sisa Bon</td>
         <td></td>
     </tr>
+    <tr>
+        <td>Pengirim </td>
+        <td><?= $transkasi['pengirim'] ?></td>
+    </tr>
 </table>
 </body>
 </html>
