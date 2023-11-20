@@ -630,6 +630,16 @@
                                         <!-- <span style="font-size:20px" class="bayar_show"></span> -->
                                     </div>
                                 </div>
+                                <div class="row justify-content-md-center mt-3 transfer_vis">
+                                    <div class="col-xl-4">
+                                       <h6>Tunai</h6>
+                                    </div>
+                                    <div class="col-xl-6">
+                                      <input type="text" class="form-control tunai" id="tunai">
+                                      <i>Bayar sisa transfer dengan tunai</i>
+                                        <!-- <span style="font-size:20px" class="diskon_show"></span> -->
+                                    </div>
+                                </div>
                                 <div class="row justify-content-md-center mt-2">
                                     <div class="col-xl-4">
                                         <h6> Total Transaksi </h6>
@@ -648,16 +658,7 @@
                                         <!-- <span style="font-size:20px" class="diskon_show"></span> -->
                                     </div>
                                 </div>
-                                <div class="row justify-content-md-center mt-3 transfer_vis">
-                                    <div class="col-xl-4">
-                                       <h6>Tunai</h6>
-                                    </div>
-                                    <div class="col-xl-6">
-                                      <input type="text" class="form-control tunai" readonly id="tunai">
-                                      <i>Bayar sisa transfer dengan tunai</i>
-                                        <!-- <span style="font-size:20px" class="diskon_show"></span> -->
-                                    </div>
-                                </div>
+
                                 <div class="row justify-content-md-center">
                                     <div class="col-xl-4">
                                        <h6> Sisa Utang </h6>
@@ -1968,22 +1969,33 @@
                 };
                 var bayar = $(".total_bayar")
                 var diskon_all2 = $(".diskon_all")
+                var tunaiy = $(".tunai")
+
                 bayar.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var tunai_val = tunaiy[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var bayar_val = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        $('.tunai').val(ppp.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                        // var transaksi_totallll = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
-                        var tunaix = $('.tunai').val().replace(/[_\W]+/g, "").toString();
-                        var total_bayar_val = this.value.replace(/[_\W]+/g, "").toString();
-                        // var kembaliix = 0;
-                        // kembaliix += parseInt(this.value.replace(/[^a-zA-Z0-9 ]/g, '')) ;
-                        // kembaliix += parseInt(tunaix)
-                        // kembaliix -= parseInt($('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''))
-                        // console.log(kembaliix)
-                        // $('.kembali').html("Rp."+kembaliix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                        $('.kembali').html("Rp.0")
+                        var total_xxx = total_transaksi - bayar_val - tunai_val
+                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                    }else{
+                        $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                    }
+
+                })
+                tunaiy.keyup(function() {
+                  var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var bayar_val = bayar[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var tunai_val = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                    var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                        var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                        var total_xxx = total_transaksi - bayar_val - tunai_val
+                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
