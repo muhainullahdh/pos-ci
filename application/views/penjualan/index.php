@@ -48,7 +48,6 @@
                             <table class="display" id="t_barang">
                                 <thead>
                                             <tr>
-                                            <th width="20">No</th>
                                             <th width="400" scope="col">No Struk</th>
                                             <th width="280" scope="col">Pelanggan</th>
                                             <th width="280" scope="col">Jumlah Item</th>
@@ -59,7 +58,6 @@
                                 <tbody>
                                     <?php $no=1; foreach ($penjualan as $x) {?>
                                             <tr>
-                                                <td><?= $no++ ?></td>
                                                 <td>
                                                     <?= $x->no_struk ?>
                                                 </td>
