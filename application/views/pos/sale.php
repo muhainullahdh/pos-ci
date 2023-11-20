@@ -653,7 +653,7 @@
                                        <h6>Tunai</h6>
                                     </div>
                                     <div class="col-xl-6">
-                                      <input type="text" class="form-control tunai" id="tunai">
+                                      <input type="text" class="form-control tunai" readonly id="tunai">
                                       <i>Bayar sisa transfer dengan tunai</i>
                                         <!-- <span style="font-size:20px" class="diskon_show"></span> -->
                                     </div>
@@ -879,7 +879,7 @@
     <!-- Plugin used-->
     <script>
 
-        $(function() {
+        $( document ).ready(function() {
                         $('.select2x').select2();
                         $('.stock1').attr('disabled',true)
                         $('.stock-c1').attr('disabled',true)
@@ -1569,27 +1569,6 @@
                         <?php } ?>
 
 
-
-                                //shortcut
-                                // var rupiah = document.getElementById('idd1');
-                                // rupiah.addEventListener('keyup', function(e){
-                                //     rupiah.value = formatRupiah(this.value, '');
-                                // });
-                                // function formatRupiah(angka, prefix){
-                                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                //     split   		= number_string.split(','),
-                                //     sisa     		= split[0].length % 3,
-                                //     rupiah     		= split[0].substr(0, sisa),
-                                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
-
-                                //     if(ribuan){
-                                //     separator = sisa ? '.' : '';
-                                //     rupiah += separator + ribuan.join('.');
-                                //     }
-
-                                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
-                                // }
                                 var rupiah3 = document.getElementById('diskon_all');
                                 // var rupiah = document.getElementsByClassName('diskon_all');
                                 rupiah3.addEventListener('keyup', function(e){
@@ -1992,9 +1971,19 @@
                 bayar.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
-                    // $('.tunai').val(value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
-                    // if ($('.tunai').val()[0].value == "") {
-                    $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") )
+                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                        var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                        $('.tunai').val(ppp.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        // var transaksi_totallll = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                        // var tunaix = $('.tunai').val().replace(/[_\W]+/g, "").toString();
+                        // var total_bayar_val = this.value.replace(/[_\W]+/g, "").toString();
+
+                        // var kembaliix = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - tunaix ;
+                        // console.log(kembaliix)
+                        $('.kembali').html("Rp.0")
+                    }else{
+                        $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                    }
 
                 })
                 diskon_all2.keyup(function() {
