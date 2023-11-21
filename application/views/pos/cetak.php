@@ -131,10 +131,10 @@ body{
         <td>Sisa Bon</td>
         <td></td>
     </tr>
-    <tr>
+    <!-- <tr>
         <td>Pengirim </td>
         <td><?= $this->db->get_where('ekspedisi',['id' => $transkasi['pengiriman']])->row_array()['nama'] ?></td>
-    </tr>
+    </tr> -->
 </table>
 </body>
 </html>
