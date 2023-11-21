@@ -714,25 +714,19 @@
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center mt-3 transfer_vis">
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
                                             <label for="">Dari Bank</label>
                                             <input type="text" class="form-control bank">
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
                                             <label for="">No Tujuan Rek</label>
                                             <input type="text" class="form-control tujuan">
                                         </div>
-                                    </div>
-                                    <div class="row justify-content-md-center mt-3 giro_vis">
-                                        <div class="col-xl-6">
-                                            <label for="">Dari Bank</label>
-                                            <input type="text" class="form-control bank_giro">
-                                        </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-4">
                                             <label for="">Nomor</label>
                                             <input type="text" class="form-control no_giro">
                                         </div>
-                                     </div>
+                                    </div>
                                      <div class="row justify-content-md-center mt-3 giro_vis">
                                         <div class="col-xl-6">
                                             <label for="">Rekening Pencairan</label>
@@ -984,10 +978,17 @@
                                                             total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
                                                             }
                                                             $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                            $('.stock'+counter+'').val(stok);
                                                             var qty_isi = $(".satuan"+counter+"")[0].value //qty isi satuan
                                                             var qty = $("input[id='idq"+counter+"']")[0].value * qty_isi.split(',')[0]
-                                                            $('.stock-c'+counter+'').val(stok - qty);
+                                                            // if (counter > 1) {
+                                                            //     var co = counter - 1;
+                                                            //     $('.stock-c'+counter+'').val(stok - qty);
+                                                            //     $('.stock'+counter+'').val($('.stock-c'+co+'').val());
+                                                            //     // console.log($('.stock-c'+co+'').val())
+                                                            // }else{
+                                                                $('.stock'+counter+'').val(stok);
+                                                                $('.stock-c'+counter+'').val(stok - qty);
+                                                            // }
                                                         // console.log(data.nama)
                                                             $('.total_item').val(counter)
 
@@ -1971,14 +1972,14 @@
                     const intRev = int.toString().split('').reverse().join('');
                     return parseInt(intRev) * Math.sign(int);
                 }
-                var bayar = $(".total_bayar")
-                var diskon_all2 = $(".diskon_all")
-                var tunaiy = $(".tunai")
+                var bayar = $(".total_bayar");
+                var diskon_all2 = $(".diskon_all");
+                var tunaiii = $(".tunai");
 
 
                 bayar.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var tunai_val = tunaiy[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var tunai_val = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var bayar_val = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
@@ -1995,15 +1996,16 @@
                         $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
                 })
-                tunaiy.keyup(function() {
+                tunaiii.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var bayar_val = bayar[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var tunai_val = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var tunai_vall = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        var total_xxx = total_transaksi - bayar_val - tunai_val
+                        var total_xxx = total_transaksi - bayar_val - tunai_vall
+                        console.log(total_transaksi - tunai_vall - bayar_val)
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
