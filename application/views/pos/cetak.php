@@ -133,7 +133,7 @@ body{
     </tr>
     <tr>
         <td>Pengirim </td>
-        <td><?= $transkasi['pengirim'] ?></td>
+        <td><?= $this->db->get_where('ekspedisi',['id' => $transkasi['pengiriman']])->row_array()['nama'] ?></td>
     </tr>
 </table>
 </body>
