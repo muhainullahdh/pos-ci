@@ -141,7 +141,7 @@ body{
         <th colspan="2"><hr></th>
     </tr>
     <tr>
-        <td colspan="2" width="150" style="text-align: center; vertical-align: middle;font-size:12px;">Barang yang sudah dibeli tidak dapat di kembalikan <br>
+        <td colspan="2" width="150" style="text-align: center; vertical-align: middle;font-size:14px;">Barang yang sudah dibeli tidak dapat di kembalikan <br>
 Mohon croscek sebelum meninggalkan toko <br>
 <b>TERIMAKASIH</b></td>
     </tr>

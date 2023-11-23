@@ -2085,13 +2085,14 @@
                     }else{
                         var total_xxx = total_transaksi - bayar_val - tunai_vall
                     }
-                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER' || $('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO' || $('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
                             var xxx_total = Math.abs(total_xxx)
                         }
                         var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
+                        console.log(xxx_total)
                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
                         $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
@@ -2257,7 +2258,7 @@
                         $('.total_bayar').val(0)
                         $('.giro_vis').show()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').hide()
+                        $('.transfer_vis').show()
                         $('.edc_vis').hide()
                         $('.vocher_vis').hide()
                     }else if (this.value == 'EDC') {
@@ -2265,7 +2266,7 @@
                         $('.total_bayar').val(0)
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').hide()
+                        $('.transfer_vis').show()
                         $('.edc_vis').show()
                         $('.vocher_vis').hide()
                     }else if (this.value == 'VOCHER') {
