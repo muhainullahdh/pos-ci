@@ -295,8 +295,10 @@ class Pos extends CI_Controller {
     {
         $date = $this->input->post('date_print');
         $date2 = $this->input->post('date_print2');
+        $pelanggan = $this->input->post('pelanggan');
         $this->session->set_userdata('reprint_date_penjualan',$date);
         $this->session->set_userdata('reprint_date_penjualan2',$date2);
+        $this->session->set_userdata('reprint_tipe_penjualan',$pelanggan);
         echo json_encode($date);
         // redirect('pos/index/');
     }
@@ -332,16 +334,19 @@ class Pos extends CI_Controller {
     {
         $first_date = $this->session->userdata('reprint_date_penjualan');
         $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('reprint_date_penjualan2'))));
-        if ($first_date == true && $second_date == true) {
-            $this->db->where('a.date_created >=',$first_date);
-            $this->db->where('a.date_created <=',$second_date);
-        }
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
         $this->db->join('customers as b','a.pelanggan=b.id_customer');
         $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
         $this->db->where('a.trash !=',1);
         $this->db->where('a.tahan !=',1);
+        if ($first_date == true && $second_date == true) {
+            $this->db->where('a.date_created >=',$first_date);
+            $this->db->where('a.date_created <=',$second_date);
+        }
+        if ($this->session->userdata('reprint_tipe_penjualan') == true) {
+            $this->db->where('b.id_customer',$this->session->userdata('reprint_tipe_penjualan'));
+        }
         $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
         echo json_encode($load);

@@ -15,6 +15,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/font-awesome.css">
     <!-- ico-font-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/icofont.css">
     <!-- Themify icon-->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/themify.css">
@@ -34,7 +36,6 @@
 
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/datatables.css">
     <!-- App css-->
-
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/vendors/sweetalert2.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/style.css">
     <link id="color" rel="stylesheet" href="<?= base_url() ?>assets/css/color-1.css" media="screen">
@@ -200,12 +201,12 @@
                                                                             <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') ?>" name="date2">
                                                                         </div>
                                                                         <div class="col">
-                                                                            <label>Customers</label>
-                                                                            <select id="" class="form-control reprint_customers">
-                                                                                    <!-- <option <?= $this->session->userdata('reprint_tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="">UMUM</option> -->
+                                                                            <label>Pelanggan</label>
+                                                                            <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('reprint_tipe_penjualan') ?>"> -->
+                                                                            <select id="" class="reprint_customers select2x">
                                                                                     <?php foreach($customers as $x )  {
                                                                                         ?>
-                                                                                    <option <?= strtolower(explode(',',$this->session->userdata('reprint_tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('treprint_ipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer.",".$x->nama_toko ?>"><?= $x->nama_toko ?></option>
+                                                                                    <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
                                                                                     <?php } ?>
                                                                             </select>
                                                                         </div>
@@ -481,7 +482,7 @@
                                         </form>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-3">
                                         <div class="col-xl-4">
                                             <p>Member</p>
                                         </div>
@@ -874,11 +875,8 @@
 
 <script type="text/javascript" src="https://repo.rachmat.id/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script> -->
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
@@ -2012,6 +2010,9 @@
                                     success: function(data){
                                         var row_data = '';
                                         var total_pos = 0;
+                                        $(".select2x").select2({
+                                            dropdownParent: $("#modal_penjualan")
+                                        });
                                         $('#modal_penjualan').modal('show');
                                         for (let i = 0; i < data.length; i++) {
                                             $('#load-transaksi tbody').append(
@@ -2357,8 +2358,6 @@
                         })
                 });
                 $('.date_print2').on('change', function() {
-
-                    // alert( this.value );
                         $.ajax({
                             url : "<?= site_url('pos/reprint_date');?>",
                             method : "POST",
@@ -2385,7 +2384,6 @@
                                                                 '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
                                                                 '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
                                                         '</tr>');
-                                                        // check_pos()
                                                     }
                                                 },500)
                                             },
@@ -2397,6 +2395,54 @@
 
                         })
                 });
+                $('.reprint_customers').on('change', function() {
+                        $.ajax({
+                            url : "<?= site_url('pos/reprint_date');?>",
+                            method : "POST",
+                            data : {date_print : $('.date_print').val(),date_print2 : $('.date_print2').val(),pelanggan : this.value },
+                            async : true,
+                            dataType : 'json',
+                                success: function(data){
+                                    $.ajax({
+                                            url : "<?= site_url('pos/load_transaksi');?>",
+                                            method : "GET",
+                                            async : true,
+                                            dataType : 'json',
+                                            success: function(data){
+                                                $('#modal_penjualan tbody').empty();
+                                                setTimeout(() => {
+                                                    $('#modal_penjualan').modal('show');
+                                                    for (let i = 0; i <= data.length; i++) {
+                                                        if (data.length == true) {
+                                                            $('#load-transaksi tbody').append(
+                                                            '<tr style="background-color: white;">'+
+                                                                    '<td><a type="button" id="'+ data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
+                                                                    '<td class="order">'+data[i].no_struk+'</td>'+
+                                                                    '<td>'+data[i].nama_toko+'</td>'+
+                                                                    '<td>'+data[i].jumlah_item+'</td>'+
+                                                                    '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
+                                                                    '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
+                                                            '</tr>');
+                                                        }else{
+                                                            swal({
+                                                                title: "Opss..!",
+                                                                text: "Pelanggan di transaksi tidak ada..!",
+                                                                icon: "warning",
+                                                                dangerMode: true,
+                                                            })
+                                                        }
+                                                    }
+                                                },500)
+                                            },
+                                            error: function(e){
+                                                console.log(e)
+                                            }
+                                    });
+                                }
+
+                        })
+                });
+
 
 
 

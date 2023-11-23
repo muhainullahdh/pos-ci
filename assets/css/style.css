@@ -2905,9 +2905,9 @@ code {
   border-radius: 2px;
 }
 
-span {
+/* span {
   display: inline-block;
-}
+} */
 
 .media {
   display: flex;
@@ -7072,9 +7072,9 @@ btn-group .dropdown-wrapper .input-group .input-group-text {
   border-radius: 4px;
 }
 
-input {
+/* input {
   cursor: pointer;
-}
+} */
 
 textarea {
   resize: vertical;
