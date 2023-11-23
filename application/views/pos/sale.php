@@ -623,19 +623,19 @@
                                 </div> -->
                                 <div class="row justify-content-md-center">
                                     <div class="col-xl-4">
-                                        <h6 class="total_bayar"> Total Bayar </h6>
+                                        <h6 class="total_bayar_text"> Total Bayar </h6>
                                     </div>
                                     <div class="col-xl-6">
                                         <input type="text" class="form-control total_bayar" id="total_bayar">
                                         <!-- <span style="font-size:20px" class="bayar_show"></span> -->
                                     </div>
                                 </div>
-                                <div class="row justify-content-md-center mt-3 transfer_vis">
+                                <div class="row justify-content-md-center mt-3">
                                     <div class="col-xl-4">
                                        <h6>Tunai </h6>
                                     </div>
                                     <div class="col-xl-6">
-                                      <input type="text" class="form-control tunai" id="tunai">
+                                      <input type="text" class="form-control tunaii" id="tunaii">
                                       <!-- <i>Bayar sisa transfer dengan tunai</i> -->
                                         <!-- <span style="font-size:20px" class="diskon_show"></span> -->
                                     </div>
@@ -690,7 +690,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" checked id="radio22" type="radio" name="radio_pembayaran" value="CASH">
+                                                <input class="form-check-input pembayaran" id="radio22" type="radio" checked name="radio_pembayaran" value="CASH">
                                                 <label class="form-check-label" for="radio22">CASH </label>
                                             </div>
                                         </div>
@@ -1571,52 +1571,81 @@
                         <?php } ?>
 
 
-                                var rupiah3 = document.getElementById('diskon_all');
-                                // var rupiah = document.getElementsByClassName('diskon_all');
-                                rupiah3.addEventListener('keyup', function(e){
-                                    rupiah3.value = formatRupiah(this.value, '');
-                                });
-                                function formatRupiah(angka, prefix){
-                                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                    split   		= number_string.split(','),
-                                    sisa     		= split[0].length % 3,
-                                    rupiah     		= split[0].substr(0, sisa),
-                                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+                                // var rupiah3 = document.getElementById('diskon_all');
+                                // // var rupiah = document.getElementsByClassName('diskon_all');
+                                // rupiah3.addEventListener('keyup', function(e){
+                                //     rupiah3.value = formatRupiah(this.value, '');
+                                // });
+                                // function formatRupiah(angka, prefix){
+                                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                                //     split   		= number_string.split(','),
+                                //     sisa     		= split[0].length % 3,
+                                //     rupiah     		= split[0].substr(0, sisa),
+                                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
 
-                                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                    if(ribuan){
-                                    separator = sisa ? '.' : '';
-                                    rupiah += separator + ribuan.join('.');
-                                    }
+                                //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                //     if(ribuan){
+                                //     separator = sisa ? '.' : '';
+                                //     rupiah += separator + ribuan.join('.');
+                                //     }
 
-                                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                                // }
+
+                                // var rupiah4 = document.getElementById('total_bayar');
+                                // rupiah4.addEventListener('keyup', function(e){
+                                //     rupiah4.value = formatRupiah(this.value, '');
+                                // });
+                                // function formatRupiah(angka, prefix){
+                                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                                //     split   		= number_string.split(','),
+                                //     sisa     		= split[0].length % 3,
+                                //     rupiah     		= split[0].substr(0, sisa),
+                                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+                                //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                //     if(ribuan){
+                                //     separator = sisa ? '.' : '';
+                                //     rupiah += separator + ribuan.join('.');
+                                //     }
+
+                                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                                // }
+                                // var rupiah5 = document.getElementById('tunaii');
+                                // rupiah5.addEventListener('keyup', function(e){
+                                //     rupiah5.value = formatRupiah(this.value, '');
+                                // });
+
+                            $(".diskon_all").keyup(function(e){
+                                $(this).val(format($(this).val()));
+                            });
+                            $(".total_bayar").keyup(function(e){
+                                $(this).val(format($(this).val()));
+                            });
+                            $(".tunaii").keyup(function(e){
+                                $(this).val(format($(this).val()));
+                            });
+                            var format = function(num){
+                                var str = num.toString().replace("", ""), parts = false, output = [], i = 1, formatted = null;
+                                if(str.indexOf(",") > 0) {
+                                    parts = str.split(".");
+                                    str = parts[0];
                                 }
-
-                                var rupiah4 = document.getElementById('total_bayar');
-                                rupiah4.addEventListener('keyup', function(e){
-                                    rupiah4.value = formatRupiah(this.value, '');
-                                });
-                                function formatRupiah(angka, prefix){
-                                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                    split   		= number_string.split(','),
-                                    sisa     		= split[0].length % 3,
-                                    rupiah     		= split[0].substr(0, sisa),
-                                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
-
-                                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                    if(ribuan){
-                                    separator = sisa ? '.' : '';
-                                    rupiah += separator + ribuan.join('.');
+                                str = str.split("").reverse();
+                                for(var j = 0, len = str.length; j < len; j++) {
+                                    if(str[j] != ".") {
+                                    output.push(str[j]);
+                                    if(i%3 == 0 && j < (len - 1)) {
+                                        output.push(".");
                                     }
-
-                                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                                    i++;
+                                    }
                                 }
-                                var rupiah5 = document.getElementById('tunai');
-                                rupiah5.addEventListener('keyup', function(e){
-                                    rupiah5.value = formatRupiah(this.value, '');
-                                });
+                                formatted = output.reverse().join("");
+                                return("" + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
+                            };
 
                 document.onkeyup = function(e) {
                     if (e.which == 18) {
@@ -1803,7 +1832,7 @@
                                         }
                                         // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
                                         $('.transaksi_show').val($('.total_pos').html())
-                                        $('.total_bayar').val($('.total_pos').html().slice(3))
+                                        // $('.total_bayar').val($('.total_pos').html().slice(3))
                                         // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
                                         $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                                         $(".total_bayar").focus();
@@ -1855,7 +1884,7 @@
                                             diskon_all : $('.diskon_all').val(),
                                             total_netto : $('.total_netto').val(),
                                             total_bayar : $('.total_bayar').val(),
-                                            tunai : $('.tunai').val(),
+                                            tunai : $('.tunaii').val(),
                                             kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                             jumlah_item : $('.total_item').val(),
                                             keterangan : $('.keterangan').val(),
@@ -1974,14 +2003,14 @@
                 }
                 var bayar = $(".total_bayar");
                 var diskon_all2 = $(".diskon_all");
-                var tunaiii = $(".tunai");
+                var tunaiii = $(".tunaii");
 
 
                 bayar.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var tunai_val = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var bayar_val = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                  var total_transaksi = $('.transaksi_show').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
@@ -1993,46 +2022,54 @@
                         }
                         $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
-                        $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.kembali').html("Rp."+value_bayar.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
                 })
                 tunaiii.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var bayar_val = bayar[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var tunai_vall = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
-                    var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                  var bayar_val = $(".total_bayar").val().toString().replace(/[^a-zA-Z0-9 ]/g, '')
+                  var tunai_vall = this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '')
+                  var total_transaksi = $('.transaksi_show').val().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                    var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - bayar.val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                    var total_xxx = total_transaksi - bayar_val - tunai_vall
+                    // console.log(total_transaksi)
+                    // console.log(tunai_vall)
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        var total_xxx = total_transaksi - bayar_val - tunai_vall
-                        console.log(total_transaksi - tunai_vall - bayar_val)
+                        // var total_xxx = total_transaksi - bayar_val - tunai_vall
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
                             var xxx_total = Math.abs(total_xxx)
                         }
-                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
+                       $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
-                        $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
                 })
                 diskon_all2.keyup(function() {
-                  var tunai_val = tunaiy[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var bayar_val = bayar[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var tunai_val = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var bayar_val = bayar.val().toString().replace(/[^a-zA-Z0-9 ]/g, '')
                   var diskon_al = this.value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                        var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        var total_xxx = parseInt(total_transaksi - bayar_val - tunai_val) + parseInt(diskon_al)
+                        // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                        if (diskon_al) {
+                            var total_xxx = parseInt(total_transaksi) - bayar_val - parseInt(tunai_vall) + diskon_al
+                        }else{
+                            var total_xxx = parseInt(total_transaksi) - bayar_val - parseInt(tunai_vall)
+                        }
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
                             var xxx_total = Math.abs(total_xxx)
                         }
-                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        var cek_tunai = tunai_vall == "" ? 0 : xxx_total
+                        $('.kembali').html("Rp."+cek_tunai.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
-                        $('.kembali').html("Rp."+value_bayar.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.kembali').html("Rp."+value_bayar.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
                 })
                 var action = $(".submit")
@@ -2089,7 +2126,7 @@
                                             diskon_all : $('.diskon_all').val(),
                                             total_netto : $('.total_netto').val(),
                                             total_bayar : $('.total_bayar').val(),
-                                            tunai : $('.tunai').val(),
+                                            tunai : $('.tunaii').val(),
                                             kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                             jumlah_item : $('.total_item').val(),
                                             keterangan : $('.keterangan').val(),
@@ -2148,36 +2185,37 @@
                 $('.edc_vis').hide()
                 $('input[type=radio][name=radio_pembayaran]').change(function() {
                     if (this.value == 'TRANSFER') {
-                        $('.total_bayar').val($('.transaksi_show').val().slice(3))
-                        $('.total_bayar').html('Transfer');
+                        // $('.total_bayar').val($('.transaksi_show').val().slice(3))
+                        $('.total_bayar').val("")
+                        $('.total_bayar_text').html('Transfer');
                         $('.transfer_vis').show()
                         $('.cash_vis').hide()
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'CASH') {
                         $('.total_bayar').val($('.transaksi_show').val().slice(3))
-                        $('.total_bayar').html('Total Bayar');
+                        $('.total_bayar_text').html('Total Bayar');
                         $('.transfer_vis').hide()
                         $('.cash_vis').hide()
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'GIRO') {
                         $('.total_bayar').val($('.transaksi_show').val().slice(3))
-                        $('.total_bayar').html('Giro / Cek');
+                        $('.total_bayar_text').html('Giro / Cek');
                         $('.total_bayar').val(0)
                         $('.giro_vis').show()
                         $('.cash_vis').hide()
                         $('.transfer_vis').show()
                         $('.edc_vis').hide()
                     }else if (this.value == 'EDC') {
-                        $('.total_bayar').html('EDC');
+                        $('.total_bayar_text').html('EDC');
                         $('.total_bayar').val(0)
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
                         $('.transfer_vis').show()
                         $('.edc_vis').show()
                     }else if (this.value == 'VOCHER') {
-                        $('.total_bayar').html('Total bayar');
+                        $('.total_bayar_text').html('Total bayar');
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
                         $('.transfer_vis').show()
