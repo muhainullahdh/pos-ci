@@ -2205,14 +2205,14 @@
                         $('.total_bayar').val(0)
                         $('.giro_vis').show()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').show()
+                        $('.transfer_vis').hide()
                         $('.edc_vis').hide()
                     }else if (this.value == 'EDC') {
                         $('.total_bayar_text').html('EDC');
                         $('.total_bayar').val(0)
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').show()
+                        $('.transfer_vis').hide()
                         $('.edc_vis').show()
                     }else if (this.value == 'VOCHER') {
                         $('.total_bayar_text').html('Total bayar');
