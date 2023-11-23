@@ -2310,7 +2310,7 @@
                                                                             $('#modaload tbody').empty();
                                                                             setTimeout(() => {
                                                                                 $('#modaload').modal('show');
-                                                                                for (let i = 0; i < data.length; i++) {
+                                                                                for (let i = 0; i <= data.length; i++) {
                                                                                     $('#load-hold tbody').append(
                                                                                     '<tr style="background-color: white;">'+
                                                                                             '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="delete_transaksi badge badge-danger">Delete</a></td>'+
@@ -2365,7 +2365,7 @@
                                                 $('#modal_penjualan tbody').empty();
                                                 setTimeout(() => {
                                                     $('#modal_penjualan').modal('show');
-                                                    for (let i = 0; i < data.length; i++) {
+                                                    for (let i = 0; i <= data.length; i++) {
                                                         $('#load-transaksi tbody').append(
                                                         '<tr style="background-color: white;">'+
                                                                 '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
