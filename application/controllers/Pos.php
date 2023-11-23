@@ -340,6 +340,7 @@ class Pos extends CI_Controller {
         $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
         $this->db->where('a.trash !=',1);
         $this->db->where('a.tahan !=',1);
+        $this->db->where('a.cencel !=',1);
         if ($first_date == true && $second_date == true) {
             $this->db->where('a.date_created >=',$first_date);
             $this->db->where('a.date_created <=',$second_date);
@@ -370,6 +371,14 @@ class Pos extends CI_Controller {
         $this->db->where('id_transaksi',$id);
         $this->db->set('trash',1);
         $this->db->update('transaksi_item');
+        echo json_encode('berhasil');
+    }
+    function cancel_transaksi()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id',$id);
+        $this->db->set('cencel',1);
+        $this->db->update('transaksi');
         echo json_encode('berhasil');
     }
     function clean($string) {

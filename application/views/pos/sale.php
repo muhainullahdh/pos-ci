@@ -204,6 +204,7 @@
                                                                             <label>Pelanggan</label>
                                                                             <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('reprint_tipe_penjualan') ?>"> -->
                                                                             <select id="" class="reprint_customers select2x">
+                                                                                    <option value="">Pilih Pelanggan</option>
                                                                                     <?php foreach($customers as $x )  {
                                                                                         ?>
                                                                                     <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
@@ -2285,7 +2286,7 @@
                 localStorage.setItem("page-wrapper", "horizontal-wrapper");
             // }
             });
-                $(document).on('click', '.delete_transaksi', function (e) {
+                $(document).on('click', '.delete_transaksi', function (e) { //delete transksai di hold
                     e.preventDefault();
                     var pid = this.id.split(',')[0];
                     var struk = this.id.split(',')[1];
@@ -2332,6 +2333,72 @@
                                                                                             '<td><a class="badge badge-primary" href="<?= base_url('pos/index/') ?>'+data[i].id+'" >Edit</a></td>'+
                                                                                     '</tr>');
                                                                                     // check_pos()
+                                                                                }
+                                                                            }, 500);
+                                                                        }
+                                                                    })
+                                                                }
+                                                            });
+                                    }
+                                })
+                            }
+                    });
+                })
+                $(document).on('click', '.cencel_transaksi', function (e) {//cancel transksai di ketika data sudah di cetak / submit
+                    e.preventDefault();
+                    var pid = this.id.split(',')[0];
+                    var struk = this.id.split(',')[1];
+                    swal({
+                        title: "Struk "+struk+"",
+                        text: "Apakah anda yakin ingin cancel transaksi?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                                $.ajax({
+                                url : "<?= site_url('pos/cancel_transaksi');?>",
+                                method : "POST",
+                                data : {id: pid},
+                                async : true,
+                                dataType : 'json',
+                                    success: function(data2){
+                                        swal({
+                                                                title: "Berhasil..!",
+                                                                text: "transaksi berhasil dicancel",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    $.ajax({
+                                                                        url : "<?= site_url('pos/load_hold');?>",
+                                                                        method : "GET",
+                                                                        // data : {id: pid},
+                                                                        async : true,
+                                                                        dataType : 'json',
+                                                                        success: function(data){
+                                                                            // $('#modaload').modal('toggle');
+                                                                            $('#modal_penjualan tbody').empty();
+                                                                            setTimeout(() => {
+                                                                                $('#modal_penjualan').modal('show');
+                                                                                for (let i = 0; i <= data.length; i++) {
+                                                                                    if (data.length == true) {
+                                                                                        $('#load-transaksi tbody').append(
+                                                                                        '<tr style="background-color: white;">'+
+                                                                                                '<td><a type="button" id="'+ data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
+                                                                                                '<td class="order">'+data[i].no_struk+'</td>'+
+                                                                                                '<td>'+data[i].nama_toko+'</td>'+
+                                                                                                '<td>'+data[i].jumlah_item+'</td>'+
+                                                                                                '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
+                                                                                                '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
+                                                                                        '</tr>');
+                                                                                    }else{
+                                                                                        swal({
+                                                                                            title: "Opss..!",
+                                                                                            text: "Pelanggan di transaksi tidak ada..!",
+                                                                                            icon: "warning",
+                                                                                            dangerMode: true,
+                                                                                        })
+                                                                                    }
                                                                                 }
                                                                             }, 500);
                                                                         }
