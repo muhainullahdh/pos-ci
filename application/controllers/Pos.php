@@ -326,6 +326,7 @@ class Pos extends CI_Controller {
         $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
         $this->db->where('a.trash',0);
         $this->db->where('a.tahan',1);
+        $this->db->where('a.kasir',$this->session->userdata('id_user'));
         $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
         echo json_encode($load);
@@ -341,6 +342,7 @@ class Pos extends CI_Controller {
         $this->db->where('a.trash !=',1);
         $this->db->where('a.tahan !=',1);
         $this->db->where('a.cencel !=',1);
+        $this->db->where('a.kasir',$this->session->userdata('id_user'));
         if ($first_date == true && $second_date == true) {
             $this->db->where('a.date_created >=',$first_date);
             $this->db->where('a.date_created <=',$second_date);
