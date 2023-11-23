@@ -760,13 +760,13 @@
                                             <label for="">Nomor</label>
                                             <input type="text" class="form-control nomor">
                                         </div>
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-3">
                                             <label for="">Rekening Pencairan</label>
                                             <input type="text" class="form-control rekening_giro">
                                         </div>
-                                        <div class="col-xl-2">
+                                        <div class="col-xl-3">
                                             <label for="">Jatoh Tempo</label>
-                                            <input type="text" class="form-control tempo">
+                                            <input type="date" class="form-control tempo">
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center mt-3 edc_vis">

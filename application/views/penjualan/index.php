@@ -51,6 +51,7 @@
                                             <th width="400" scope="col">No Struk</th>
                                             <th width="280" scope="col">Pelanggan</th>
                                             <th width="280" scope="col">Jumlah Item</th>
+                                            <th width="280" scope="col">Total</th>
                                             <th width="280" scope="col">Kasir</th>
                                             <th width="280" scope="col">Action</th>
                                             </tr>
@@ -68,7 +69,10 @@
                                                     <?= $x->jumlah_item ?>
                                                 </td>
                                                 <td>
-                                                    <?= $x->nama ?>
+                                                    <?="Rp.". number_format($x->total_transaksi,0,'.','.') ?>
+                                                </td>
+                                                <td>
+                                                    <?= $x->nama_kasir ?>
                                                 </td>
                                                 <td>
                                                     <button type="button" id="<?= $x->id ?>" class="btn btn-primary btn-square penjualan_v"><i class="fa fa-eye"></i></button>
