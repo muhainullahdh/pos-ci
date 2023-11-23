@@ -630,7 +630,7 @@
                                         <!-- <span style="font-size:20px" class="bayar_show"></span> -->
                                     </div>
                                 </div>
-                                <div class="row justify-content-md-center mt-3">
+                                <div class="row justify-content-md-center mt-3 transfer_vis">
                                     <div class="col-xl-4">
                                        <h6>Tunai </h6>
                                     </div>
