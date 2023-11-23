@@ -751,6 +751,16 @@
                                             <input type="text" class="form-control nama_edc">
                                         </div>
                                     </div>
+                                    <div class="row justify-content-md-center mt-3 vocher_vis">
+                                        <div class="col-xl-6">
+                                            <label for="">No Vocher</label>
+                                            <input type="text" class="form-control vocher">
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label for="">Rupiah</label>
+                                            <input type="text" class="form-control rekening_edc">
+                                        </div>
+                                    </div>
                                     <div class="row mt-3">
                                         <div class="col-xl-6"></div>
                                         <div class="col-xl-3 mr-2">
@@ -2008,13 +2018,16 @@
 
                 bayar.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var tunai_val = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var bayar_val = this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var total_transaksi = $('.transaksi_show').val().slice(3).replace(/[^a-zA-Z0-9 ]/g, '')
-                    var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                  var tunai_vall = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var bayar_val = this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '')
+                  var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                    // var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                    if (diskon_al) {
+                        var total_xxx = parseInt(total_transaksi - bayar_val - tunai_vall) + parseInt(diskon_al)
+                    }else{
+                        var total_xxx = total_transaksi - bayar_val - tunai_vall
+                    }
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                        // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        var total_xxx = total_transaksi - bayar_val - tunai_val
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
@@ -2022,7 +2035,7 @@
                         }
                         $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
-                        $('.kembali').html("Rp."+value_bayar.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
                 })
                 tunaiii.keyup(function() {
@@ -2031,12 +2044,12 @@
                   var tunai_vall = this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '')
                   var total_transaksi = $('.transaksi_show').val().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - bayar.val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
-                    var total_xxx = total_transaksi - bayar_val - tunai_vall
-                    // console.log(total_transaksi)
-                    // console.log(tunai_vall)
+                    if (diskon_al) {
+                        var total_xxx = parseInt(total_transaksi - bayar_val - tunai_vall) + parseInt(diskon_al)
+                    }else{
+                        var total_xxx = total_transaksi - bayar_val - tunai_vall
+                    }
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                        // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        // var total_xxx = total_transaksi - bayar_val - tunai_vall
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
@@ -2049,27 +2062,26 @@
                     }
                 })
                 diskon_all2.keyup(function() {
-                  var tunai_val = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                  var tunai_vall = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var bayar_val = bayar.val().toString().replace(/[^a-zA-Z0-9 ]/g, '')
                   var diskon_al = this.value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.replace(/[^a-zA-Z0-9 ]/g, '')
                   var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
+                    if (diskon_al) {
+                        var total_xxx = parseInt(total_transaksi - bayar_val - tunai_vall) + parseInt(diskon_al)
+                    }else{
+                        var total_xxx = total_transaksi - bayar_val - tunai_vall
+                    }
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                        // var ppp = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                        if (diskon_al) {
-                            var total_xxx = parseInt(total_transaksi) - bayar_val - parseInt(tunai_vall) + diskon_al
-                        }else{
-                            var total_xxx = parseInt(total_transaksi) - bayar_val - parseInt(tunai_vall)
-                        }
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
                             var xxx_total = Math.abs(total_xxx)
                         }
-                        var cek_tunai = tunai_vall == "" ? 0 : xxx_total
-                        $('.kembali').html("Rp."+cek_tunai.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
+                       $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
-                        $('.kembali').html("Rp."+value_bayar.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
                 })
                 var action = $(".submit")
@@ -2183,6 +2195,7 @@
                 $('.cash_vis').hide()
                 $('.giro_vis').hide()
                 $('.edc_vis').hide()
+                $('.vocher_vis').hide()
                 $('input[type=radio][name=radio_pembayaran]').change(function() {
                     if (this.value == 'TRANSFER') {
                         // $('.total_bayar').val($('.transaksi_show').val().slice(3))
@@ -2218,7 +2231,7 @@
                         $('.total_bayar_text').html('Total bayar');
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').show()
+                        $('.vocher_vis').show()
                         $('.edc_vis').hide()
                     }
                 });
