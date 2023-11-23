@@ -32,7 +32,7 @@ class Login extends CI_Controller {
                         'id_user' => $user['id'],
                         'nama' => $user['nama'],
                         'username' => $user['username'],
-                        'role' => $user['role'],
+                        'level' => $user['level'],
                         'status' => $user['status'],
                         'email' => $user['email'],
                     ];

@@ -204,7 +204,7 @@
                                                                             <label>Pelanggan</label>
                                                                             <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('reprint_tipe_penjualan') ?>"> -->
                                                                             <select id="" class="reprint_customers select2x">
-                                                                                    <option value="">Pilih Pelanggan</option>
+                                                                                    <option value="0">Pilih Pelanggan</option>
                                                                                     <?php foreach($customers as $x )  {
                                                                                         ?>
                                                                                     <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
@@ -2016,9 +2016,14 @@
                                         });
                                         $('#modal_penjualan').modal('show');
                                         for (let i = 0; i < data.length; i++) {
+                                            <?php if ($this->session->userdata('level') == '1') { ?>
+                                                var invs_level = ''
+                                            <?php }else{ ?>
+                                                var invs_level = 'invisible'
+                                                <?php } ?>
                                             $('#load-transaksi tbody').append(
                                             '<tr style="background-color: white;">'+
-                                                    '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
+                                                    '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi '+invs_level+' badge badge-danger">Cencel</a></td>'+
                                                     '<td class="order">'+data[i].no_struk+'</td>'+
                                                     '<td>'+data[i].nama_toko+'</td>'+
                                                     '<td>'+data[i].jumlah_item+'</td>'+
@@ -2381,9 +2386,14 @@
                                                                             setTimeout(() => {
                                                                                 $('#modal_penjualan').modal('show');
                                                                                 for (let i = 0; i <= data.length; i++) {
+                                                                                    <?php if ($this->session->userdata('level') == '1') { ?>
+                                                                                    var invs_level = ''
+                                                                                    <?php }else{ ?>
+                                                                                    var invs_level = 'invisible'
+                                                                                    <?php } ?>
                                                                                         $('#load-transaksi tbody').append(
                                                                                         '<tr style="background-color: white;">'+
-                                                                                                '<td><a type="button" id="'+ data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
+                                                                                                '<td><a type="button" id="'+ data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi '+invs_level+' badge badge-danger">Cencel</a></td>'+
                                                                                                 '<td class="order">'+data[i].no_struk+'</td>'+
                                                                                                 '<td>'+data[i].nama_toko+'</td>'+
                                                                                                 '<td>'+data[i].jumlah_item+'</td>'+
@@ -2433,9 +2443,14 @@
                                                 setTimeout(() => {
                                                     $('#modal_penjualan').modal('show');
                                                     for (let i = 0; i <= data.length; i++) {
+                                                        <?php if ($this->session->userdata('level') == '1') { ?>
+                                                        var invs_level = ''
+                                                        <?php }else{ ?>
+                                                        var invs_level = 'invisible'
+                                                        <?php } ?>
                                                         $('#load-transaksi tbody').append(
                                                         '<tr style="background-color: white;">'+
-                                                                '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
+                                                                '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi '+invs_level+' badge badge-danger">Cencel</a></td>'+
                                                                 '<td class="order">'+data[i].no_struk+'</td>'+
                                                                 '<td>'+data[i].nama_toko+'</td>'+
                                                                 '<td>'+data[i].jumlah_item+'</td>'+
@@ -2471,10 +2486,15 @@
                                                 setTimeout(() => {
                                                     $('#modal_penjualan').modal('show');
                                                     for (let i = 0; i <= data.length; i++) {
+                                                        <?php if ($this->session->userdata('level') == '1') { ?>
+                                                        var invs_level = ''
+                                                        <?php }else{ ?>
+                                                        var invs_level = 'invisible'
+                                                        <?php } ?>
                                                         if (data.length == true) {
                                                             $('#load-transaksi tbody').append(
                                                             '<tr style="background-color: white;">'+
-                                                                    '<td><a type="button" id="'+ data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
+                                                                    '<td><a type="button" id="'+ data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge '+invs_level+' badge-danger">Cencel</a></td>'+
                                                                     '<td class="order">'+data[i].no_struk+'</td>'+
                                                                     '<td>'+data[i].nama_toko+'</td>'+
                                                                     '<td>'+data[i].jumlah_item+'</td>'+

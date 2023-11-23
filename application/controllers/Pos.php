@@ -345,7 +345,7 @@ class Pos extends CI_Controller {
             $this->db->where('a.date_created >=',$first_date);
             $this->db->where('a.date_created <=',$second_date);
         }
-        if ($this->session->userdata('reprint_tipe_penjualan') == true) {
+        if ($this->session->userdata('reprint_tipe_penjualan') != 0) {
             $this->db->where('b.id_customer',$this->session->userdata('reprint_tipe_penjualan'));
         }
         $this->db->group_by('a.no_struk');
