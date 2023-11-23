@@ -738,18 +738,18 @@
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center mt-3 transfer_vis">
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-6">
                                             <label for="">Dari Bank</label>
                                             <input type="text" class="form-control bank">
                                         </div>
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-6">
                                             <label for="">No Tujuan Rek</label>
                                             <input type="text" class="form-control tujuan">
                                         </div>
-                                        <div class="col-xl-4">
+                                        <!-- <div class="col-xl-4">
                                             <label for="">Nomor</label>
                                             <input type="text" class="form-control no_giro">
-                                        </div>
+                                        </div> -->
                                     </div>
                                      <div class="row justify-content-md-center mt-3 giro_vis">
                                         <div class="col-xl-2">
