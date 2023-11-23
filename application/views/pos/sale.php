@@ -654,7 +654,7 @@
                                         <!-- <span style="font-size:20px" class="bayar_show"></span> -->
                                     </div>
                                 </div>
-                                <div class="row justify-content-md-center mt-3 transfer_vis">
+                                <div class="row justify-content-md-center mt-3 tunai_vis">
                                     <div class="col-xl-4">
                                        <h6>Tunai </h6>
                                     </div>
@@ -2092,7 +2092,6 @@
                             var xxx_total = Math.abs(total_xxx)
                         }
                         var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
-                        console.log(xxx_total)
                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }else{
                         $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
@@ -2243,6 +2242,7 @@
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
                         $('.vocher_vis').hide()
+                        $('.tunai_vis').show()
 
                     }else if (this.value == 'CASH') {
                         $('.total_bayar').val($('.transaksi_show').val().slice(3))
@@ -2252,29 +2252,34 @@
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
                         $('.vocher_vis').hide()
+                        $('.tunai_vis').hide()
                     }else if (this.value == 'GIRO') {
                         $('.total_bayar').val($('.transaksi_show').val().slice(3))
                         $('.total_bayar_text').html('Giro / Cek');
                         $('.total_bayar').val(0)
                         $('.giro_vis').show()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').show()
+                        $('.transfer_vis').hide()
                         $('.edc_vis').hide()
                         $('.vocher_vis').hide()
+                        $('.tunai_vis').show()
                     }else if (this.value == 'EDC') {
                         $('.total_bayar_text').html('EDC');
                         $('.total_bayar').val(0)
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
-                        $('.transfer_vis').show()
+                        $('.transfer_vis').hide()
                         $('.edc_vis').show()
                         $('.vocher_vis').hide()
+                        $('.tunai_vis').show()
                     }else if (this.value == 'VOCHER') {
                         $('.total_bayar_text').html('Total bayar');
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
                         $('.vocher_vis').show()
                         $('.edc_vis').hide()
+                        $('.tunai_vis').hide()
+
                     }
                 });
 
