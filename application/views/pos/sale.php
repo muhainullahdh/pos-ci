@@ -199,6 +199,16 @@
                                                                             <label>End Date</label>
                                                                             <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') ?>" name="date2">
                                                                         </div>
+                                                                        <div class="col">
+                                                                            <label>Customers</label>
+                                                                            <select id="" class="form-control reprint_customers">
+                                                                                    <!-- <option <?= $this->session->userdata('reprint_tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="">UMUM</option> -->
+                                                                                    <?php foreach($customers as $x )  {
+                                                                                        ?>
+                                                                                    <option <?= strtolower(explode(',',$this->session->userdata('reprint_tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('treprint_ipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer.",".$x->nama_toko ?>"><?= $x->nama_toko ?></option>
+                                                                                    <?php } ?>
+                                                                            </select>
+                                                                        </div>
                                                                     </div>
                                                                 <!-- </form> -->
                                                                     <div class="row justify-content-md-center">
@@ -1993,7 +2003,7 @@
                                         console.log(e)
                                     }
                             });
-                    }else if(e.which == 192){
+                    }else if(e.which == 192){//load penjualan print
                             $.ajax({
                                     url : "<?= site_url('pos/load_transaksi');?>",
                                     method : "GET",
@@ -2046,16 +2056,16 @@
                     }else{
                         var total_xxx = total_transaksi - bayar_val - tunai_vall
                     }
-                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                    // if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
                             var xxx_total = Math.abs(total_xxx)
                         }
                         $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                    }else{
-                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                    }
+                    // }else{
+                    //     $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                    // }
                 })
                 tunaiii.keyup(function() {
                   var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
@@ -2091,7 +2101,7 @@
                     }else{
                         var total_xxx = total_transaksi - bayar_val - tunai_vall
                     }
-                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                    // if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
@@ -2099,9 +2109,9 @@
                         }
                         var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                    }else{
-                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                    }
+                    // }else{
+                    //     $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                    // }
                 })
                 var action = $(".submit")
                 action.on('click',function() {
