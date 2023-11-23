@@ -291,6 +291,15 @@ class Pos extends CI_Controller {
         $xx = $this->db->get_where('transaksi',['id' => 385])->row_array();
         echo json_decode($xx['info_pembayaran'])->tujuan;
     }
+    function reprint_date()
+    {
+        $date = $this->input->post('date_print');
+        $date2 = $this->input->post('date_print2');
+        $this->session->set_userdata('reprint_date_penjualan',$date);
+        $this->session->set_userdata('reprint_date_penjualan2',$date2);
+        echo json_encode($date);
+        // redirect('pos/index/');
+    }
     function load() {
         $id = $this->input->post('id');
         // $draw=intval($this->input->get("draw"));
@@ -321,6 +330,12 @@ class Pos extends CI_Controller {
     }
     function load_transaksi()
     {
+        $first_date = $this->session->userdata('reprint_date_penjualan');
+        $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('reprint_date_penjualan2'))));
+        if ($first_date == true && $second_date == true) {
+            $this->db->where('a.date_created >=',$first_date);
+            $this->db->where('a.date_created <=',$second_date);
+        }
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
         $this->db->join('customers as b','a.pelanggan=b.id_customer');

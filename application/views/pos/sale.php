@@ -189,6 +189,18 @@
                                 </div>
                                 <div class="modal-body">
                                                                 <div class="modal-toggle-wrapper">
+                                                                <!-- <form action="<?= base_url('pos/reprint_date') ?>" method="POST"> -->
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <label>Start Date</label>
+                                                                            <input type="date" class="form-control date_print" value="<?= $this->session->userdata('reprint_date_penjualan') ?>" name="date">
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label>End Date</label>
+                                                                            <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') ?>" name="date2">
+                                                                        </div>
+                                                                    </div>
+                                                                <!-- </form> -->
                                                                     <div class="row justify-content-md-center">
                                                                         <div class="col-xl-12">
                                                                         <div class="table-responsive">
@@ -728,11 +740,19 @@
                                         </div>
                                     </div>
                                      <div class="row justify-content-md-center mt-3 giro_vis">
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-2">
+                                            <label for="">Dari Bank</label>
+                                            <input type="text" class="form-control bank">
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label for="">Nomor</label>
+                                            <input type="text" class="form-control nomor">
+                                        </div>
+                                        <div class="col-xl-4">
                                             <label for="">Rekening Pencairan</label>
                                             <input type="text" class="form-control rekening_giro">
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-2">
                                             <label for="">Jatoh Tempo</label>
                                             <input type="text" class="form-control tempo">
                                         </div>
@@ -762,8 +782,8 @@
                                         </div>
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col-xl-6"></div>
-                                        <div class="col-xl-3 mr-2">
+                                        <div class="col-xl-8"></div>
+                                        <div class="col-xl-2">
                                             <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
                                             <button id="BAYAR" class="btn bg-primary d-flex align-items-center gap-2 text-light ms-auto submit" type="button">BAYAR</button>
                                         </div>
@@ -1974,7 +1994,6 @@
                                     }
                             });
                     }else if(e.which == 192){
-                        // $('#load-transaksi').DataTable()
                             $.ajax({
                                     url : "<?= site_url('pos/load_transaksi');?>",
                                     method : "GET",
@@ -2205,6 +2224,8 @@
                         $('.cash_vis').hide()
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
+                        $('.vocher_vis').hide()
+
                     }else if (this.value == 'CASH') {
                         $('.total_bayar').val($('.transaksi_show').val().slice(3))
                         $('.total_bayar_text').html('Total Bayar');
@@ -2212,6 +2233,7 @@
                         $('.cash_vis').hide()
                         $('.giro_vis').hide()
                         $('.edc_vis').hide()
+                        $('.vocher_vis').hide()
                     }else if (this.value == 'GIRO') {
                         $('.total_bayar').val($('.transaksi_show').val().slice(3))
                         $('.total_bayar_text').html('Giro / Cek');
@@ -2220,6 +2242,7 @@
                         $('.cash_vis').hide()
                         $('.transfer_vis').hide()
                         $('.edc_vis').hide()
+                        $('.vocher_vis').hide()
                     }else if (this.value == 'EDC') {
                         $('.total_bayar_text').html('EDC');
                         $('.total_bayar').val(0)
@@ -2227,6 +2250,7 @@
                         $('.cash_vis').hide()
                         $('.transfer_vis').hide()
                         $('.edc_vis').show()
+                        $('.vocher_vis').hide()
                     }else if (this.value == 'VOCHER') {
                         $('.total_bayar_text').html('Total bayar');
                         $('.giro_vis').hide()
@@ -2250,7 +2274,7 @@
                 localStorage.setItem("page-wrapper", "horizontal-wrapper");
             // }
             });
-            $(document).on('click', '.delete_transaksi', function (e) {
+                $(document).on('click', '.delete_transaksi', function (e) {
                     e.preventDefault();
                     var pid = this.id.split(',')[0];
                     var struk = this.id.split(',')[1];
@@ -2308,6 +2332,61 @@
                             }
                     });
                 })
+                $('.date_print').on('change', function() {
+                    // alert( this.value );
+                        $.ajax({
+                            url : "<?= site_url('pos/reprint_date');?>",
+                            method : "POST",
+                            data : {date_print : this.value},
+                            async : true,
+                            dataType : 'json',
+                                success: function(data){
+                                    console.log(data)
+                                }
+
+                        })
+                });
+                $('.date_print2').on('change', function() {
+
+                    // alert( this.value );
+                        $.ajax({
+                            url : "<?= site_url('pos/reprint_date');?>",
+                            method : "POST",
+                            data : {date_print : $('.date_print').val(),date_print2 : this.value},
+                            async : true,
+                            dataType : 'json',
+                                success: function(data){
+                                    $.ajax({
+                                            url : "<?= site_url('pos/load_transaksi');?>",
+                                            method : "GET",
+                                            async : true,
+                                            dataType : 'json',
+                                            success: function(data){
+                                                $('#modal_penjualan tbody').empty();
+                                                setTimeout(() => {
+                                                    $('#modal_penjualan').modal('show');
+                                                    for (let i = 0; i < data.length; i++) {
+                                                        $('#load-transaksi tbody').append(
+                                                        '<tr style="background-color: white;">'+
+                                                                '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge badge-danger">Cencel</a></td>'+
+                                                                '<td class="order">'+data[i].no_struk+'</td>'+
+                                                                '<td>'+data[i].nama_toko+'</td>'+
+                                                                '<td>'+data[i].jumlah_item+'</td>'+
+                                                                '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
+                                                                '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
+                                                        '</tr>');
+                                                        // check_pos()
+                                                    }
+                                                },500)
+                                            },
+                                            error: function(e){
+                                                console.log(e)
+                                            }
+                                    });
+                                }
+
+                        })
+                });
 
 
 
