@@ -469,6 +469,14 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-xl-4">
+                                            <p>Tanggal</p>
+                                        </div>
+                                        <div class="col-xl-8">
+                                            <input type="text" readonly class="form-control tgl_transaksi" value="<?= date('d-m-y H:i:s')?>">
+                                          </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-4">
                                             <p>Pelanggan <?= explode(',',$this->session->userdata('tipe_penjualan'))[0] ?></p>
                                         </div>
                                         <div class="col-xl-8">
@@ -2169,6 +2177,7 @@
                                     var datax = {
                                             cek : value_ac,
                                             no_struk : $('.no_struk').val(),
+                                            tgl_transaksi : $('.tgl_transaksi').val(),
                                             tipe : $('select[name="tipe"]').val(),
                                             member : $('.member').val(),
                                             diskon_all : $('.diskon_all').val(),
@@ -2228,6 +2237,7 @@
 
 
                 $('.transfer_vis').hide()
+                $('.tunai_vis').hide()
                 $('.cash_vis').hide()
                 $('.giro_vis').hide()
                 $('.edc_vis').hide()

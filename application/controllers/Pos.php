@@ -11,6 +11,7 @@ class Pos extends CI_Controller {
             $this->session->set_flashdata('massage', '<div class="alert alert-danger" role="alert">Maaf anda belum login !</div>');
             redirect('login');
         }
+        date_default_timezone_set('Asia/Jakarta');
     }
 	public function index()
 	{
@@ -157,6 +158,7 @@ class Pos extends CI_Controller {
         $urutan = substr($this->input->post('no_struk'),8);
         $data = [
             "no_struk" => $this->input->post('no_struk'),
+            "tgl_transaksi" => $this->input->post('tgl_transaksi'),
             "urutan" => $urutan,
             "pelanggan" => explode(',',$this->input->post('tipe'))[1],
             "diskon" => $this->clean($this->input->post('diskon_all')),
