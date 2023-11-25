@@ -455,6 +455,7 @@
                                     <div class="card-header card-no-border pb-2">
                                         <h5>Informasi</h5>
                                         <span>Toko Ling Ling</span>
+                                        <b><?= $this->session->userdata('nama') ?></b>
                                     </div>
                                 <br><br><hr>
                                 <div class="card-body pt-0 count-student">
