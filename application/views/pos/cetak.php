@@ -44,7 +44,7 @@ body{
         <td width="180">
             No. <?= $transkasi['no_struk'] ?>
         </td>
-        <td style="text-align:right"><?=  date('d/m/Y',strtotime($transkasi['date_created']))?></td>
+        <td style="text-align:right"><?=  date('d/m/Y',strtotime($transkasi['tgl_transaksi']))?></td>
     </tr>
     <tr>
         <td>Cus : <?=  $this->db->get_where('customers',['id_customer' => $transkasi['pelanggan']])->row_array()['nama_toko']; ?></td>

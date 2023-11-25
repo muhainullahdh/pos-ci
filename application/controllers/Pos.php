@@ -343,8 +343,8 @@ class Pos extends CI_Controller {
         $this->db->where('a.cencel !=',1);
         $this->db->where('a.kasir',$this->session->userdata('id_user'));
         if ($first_date == true && $second_date == true) {
-            $this->db->where('a.date_created >=',$first_date);
-            $this->db->where('a.date_created <=',$second_date);
+            $this->db->where('a.tgl_transaksi >=',$first_date);
+            $this->db->where('a.tgl_transaksi <=',$second_date);
         }
         if ($this->session->userdata('reprint_tipe_penjualan') != 0) {
             $this->db->where('b.id_customer',$this->session->userdata('reprint_tipe_penjualan'));
