@@ -186,7 +186,7 @@
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLongTitle">Penjualan</h5>
 
-                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button class="btn-close py-0 clear_penjualan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                                                 <div class="modal-toggle-wrapper">
@@ -2536,6 +2536,10 @@
 
                         })
                 });
+                $(document).on('click', '.clear_penjualan', function (e) {
+                    $('#modal_penjualan tbody').empty();
+                })
+
 
                 $('.tgl_transaksi').change(function(){
                      var tgl=$(this).val();
