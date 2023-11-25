@@ -473,7 +473,8 @@
                                             <p>Tanggal</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <input type="text" readonly class="form-control tgl_transaksi" value="<?= date('d-m-y H:i:s')?>">
+                                            <input type="text" readonly class="form-control" value="<?= date('d-m-y')?>">
+                                            <input type="hidden" readonly class="form-control tgl_transaksi" value="<?= date('d-m-y H:i:s')?>">
                                           </div>
                                     </div>
                                     <div class="row mt-3">
