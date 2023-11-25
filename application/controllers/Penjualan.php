@@ -31,8 +31,8 @@ class Penjualan extends CI_Controller {
         $this->db->join('users as d','d.id=a.kasir');
         $this->db->where('a.cencel !=',1);
         if ($first_date == true && $second_date == true) {
-            $this->db->where('b.date_created >=',$first_date);
-            $this->db->where('b.date_created <=',$second_date);
+            $this->db->where('a.tgl_transaksi >=',$first_date);
+            $this->db->where('a.tgl_transaksi <=',$second_date);
         }
         $this->db->group_by('a.no_struk');
         $penjualan = $this->db->get()->result();
@@ -138,8 +138,8 @@ class Penjualan extends CI_Controller {
         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
         $first_date = $this->session->userdata('date_penjualan');
         $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('date_penjualan2'))));
-        // $this->db->where('DATE(d.date_created)>=',$first_date);
-        // $this->db->where('DATE(d.date_created) <=',$second_date);
+        // $this->db->where('DATE(d.tgl_transaksi)>=',$first_date);
+        // $this->db->where('DATE(d.tgl_transaksi) <=',$second_date);
         // $this->db->from('customers as a');
         // $this->db->join('transaksi as b','a.id_customer=b.pelanggan');
         // $this->db->join('users as c','c.id=b.kasir');
@@ -147,11 +147,11 @@ class Penjualan extends CI_Controller {
         // $this->db->join('barang as f','f.id=d.kd_barang');
         // $this->db->join('kategori as g','g.id=f.kategori_id');
         // $penjualan = $this->db->get()->result();
-        $penjualan = $this->db->query("SELECT *,b.date_created as tgl_transaksi,d.nama as nama_kasir from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
+        $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
         left join customers as c on(a.pelanggan=c.id_customer)
         left join users d on (a.kasir=d.id)
         left join barang as e on(b.kd_barang=e.id)
-        left join kategori as f on(e.kategori_id=f.id) WHERE a.tahan=0 and DATE(b.date_created) BETWEEN '".$first_date."' and '".$second_date."' ")->result();
+        left join kategori as f on(e.kategori_id=f.id) WHERE a.tahan=0 and DATE(a.tgl_transaksi) BETWEEN '".$first_date."' and '".$second_date."' ")->result();
 
         $no = 1; // Untuk penomoran tabel, di awal set dengan 1
         $numrow = 2; // Set baris pertama untuk isi tabel adalah baris ke 4
