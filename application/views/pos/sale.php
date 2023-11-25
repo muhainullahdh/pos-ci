@@ -464,8 +464,7 @@
                                             <p>No Struk</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <?php $date = date('d').date('m').date('Y'); $urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%".$date."%'")->row_array() ?>
-                                            <input type="text" readonly class="form-control no_struk" value="<?= date('d') . date('m') . date('Y') .sprintf('%04d',$urutan['t']+1); ?>">
+                                            <input type="text" readonly class="form-control no_struk" value="<?= date('d') . date('m') . date('Y') .sprintf('%04d',$tgl_urutan['t']+1); ?>">
                                           </div>
                                     </div>
                                     <div class="row mt-3">
@@ -474,7 +473,6 @@
                                         </div>
                                         <div class="col-xl-8">
                                             <input type="date" class="form-control tgl_transaksi" value="<?= date('Y-m-d')?>">
-                                            <!-- <input type="hidden" readonly class="form-control tgl_transaksi" value="<?= date('d-m-y H:i:s')?>"> -->
                                           </div>
                                     </div>
                                     <div class="row mt-3">
@@ -2539,6 +2537,21 @@
                         })
                 });
 
+                $('.tgl_transaksi').change(function(){
+                     var tgl=$(this).val();
+                     $.ajax({
+                            url : "<?= site_url('pos/check_tgl_pos');?>",
+                            method : "POST",
+                            data : {tgl : tgl},
+                            async : true,
+                            dataType : 'json',
+                                success: function(data){
+                                    console.log(data)
+                                    $('.no_struk').val(data)
+                                }
+
+                        })
+                })
 
 
 

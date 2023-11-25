@@ -38,6 +38,8 @@ class Pos extends CI_Controller {
             $transkasi = '';
             $transkasi_item = '';
         }
+        $date = date('d').date('m').date('Y');
+        $tgl_urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%".$date."%'")->row_array();
         $data = [
             "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result(),
@@ -45,32 +47,13 @@ class Pos extends CI_Controller {
             "ekspedisi" => $this->db->get('ekspedisi')->result(),
             "transaksi" => $transkasi,
             "transaksi_item" => $transkasi_item,
-            "load" => $load
+            "load" => $load,
+            "tgl_urutan" => $tgl_urutan
         ];
         // $this->session->unset_userdata('tipe_penjualan');
 		$this->load->view('pos/sale',$data);
 		// $this->load->view('body/foot/er');
 	}
-    // function load_hold($id)
-    // {
-    //     $tipe = $this->input->post('tipe');
-    //     if ($tipe == true) {
-    //         $this->session->set_userdata('tipe_penjualan',$tipe);
-    //     }
-    //     $transkasi = $this->db->get_where('transaksi',['id' => $id])->row_array();
-    //     $transkasi_item = $this->db->get_where('transaksi_item',['id_transaksi' => $id])->result();
-    //     $load = $this->db->get_where('transaksi',['tahan' => 1])->result();
-    //     $data = [
-    //         "product" => $this->db->get('barang')->result(),
-    //         "satuan" => $this->db->get('satuan')->result(),
-    //         "customers" => $this->db->get('customers')->result(),
-    //         "ekspedisi" => $this->db->get('ekspedisi')->result(),
-    //         "transaksi" => $transkasi,
-    //         "transaksi_item" => $transkasi_item,
-    //         "load" => $load
-    //     ];
-	// 	$this->load->view('pos/load_sale',$data);
-    // }
     function search_barang()
     {
         $id = $this->input->post('id');
@@ -286,6 +269,16 @@ class Pos extends CI_Controller {
         //     // ];
         //     // echo json_encode($data_ec);
         // }
+    }
+    function check_tgl_pos()
+    {
+        $date = date('d').date('m').date('Y');
+        $d = date('d',strtotime($this->input->post('tgl')));
+        $m = date('m',strtotime($this->input->post('tgl')));
+        $y = date('Y',strtotime($this->input->post('tgl')));
+        $date = $d . $m . $y;
+        $tgl_urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%".$date."%'")->row_array();
+        echo json_encode($d . $m . $y . $tgl_urutan['t']+1);
     }
     function tes()
     {
