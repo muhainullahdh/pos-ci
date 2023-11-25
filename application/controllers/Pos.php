@@ -278,7 +278,11 @@ class Pos extends CI_Controller {
         $y = date('Y',strtotime($this->input->post('tgl')));
         $date = $d . $m . $y;
         $tgl_urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%".$date."%'")->row_array();
-        echo json_encode($d . $m . $y . $tgl_urutan['t']+1);
+        if ($tgl_urutan['t'] == null) {
+            echo json_encode($d . $m . $y .sprintf('%04d',$tgl_urutan['t']+1));
+        }else{
+            echo json_encode($d . $m . $y . $tgl_urutan['t']+1);
+        }
     }
     function tes()
     {
