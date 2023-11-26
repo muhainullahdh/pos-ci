@@ -140,25 +140,46 @@ class Pos extends CI_Controller {
         $id_transaksi = $this->input->post('id_transaksi');
         $edit_transaksi = $this->input->post('edit_transaksi');
         $urutan = substr($this->input->post('no_struk'),8);
-        $data = [
-            "no_struk" => $this->input->post('no_struk'),
-            "tgl_transaksi" => $this->input->post('tgl_transaksi'),
-            "urutan" => $urutan,
-            "pelanggan" => explode(',',$this->input->post('tipe'))[1],
-            "diskon" => $this->clean($this->input->post('diskon_all')),
-            "total_netto" => $this->clean($this->input->post('total_netto')),
-            "total_bayar" => $this->clean($this->input->post('total_bayar')),
-            "tunai" => $this->clean($this->input->post('tunai')),
-            "kembali" => $this->clean($this->input->post('kembali')),
-            "jumlah_item" => $this->input->post('jumlah_item'),
-            "keterangan" => $this->input->post('keterangan'),
-            "kasir" =>  $edit_transaksi == 'edit_transaksi' ? $this->session->userdata('id_user') : $this->session->userdata('id_user'),
-            "pengiriman" => $this->input->post('pengiriman'),
-            "tahan" => $this->clean($this->input->post('tahan')),
-            "pembayaran" => $this->input->post('pembayaran'),
-            "info_pembayaran" => $this->input->post('info_pembayaran'),
-            "piutang" => $this->input->post('piutang')
-        ];
+        if ($edit_transaksi == 'edit_transaksi') {
+            $data = [
+                "no_struk" => $this->input->post('no_struk'),
+                "tgl_transaksi" => $this->input->post('tgl_transaksi'),
+                "urutan" => $urutan,
+                "pelanggan" => explode(',',$this->input->post('tipe'))[1],
+                "diskon" => $this->clean($this->input->post('diskon_all')),
+                "total_netto" => $this->clean($this->input->post('total_netto')),
+                "total_bayar" => $this->clean($this->input->post('total_bayar')),
+                "tunai" => $this->clean($this->input->post('tunai')),
+                "kembali" => $this->clean($this->input->post('kembali')),
+                "jumlah_item" => $this->input->post('jumlah_item'),
+                "keterangan" => $this->input->post('keterangan'),
+                "pengiriman" => $this->input->post('pengiriman'),
+                "tahan" => $this->clean($this->input->post('tahan')),
+                "pembayaran" => $this->input->post('pembayaran'),
+                "info_pembayaran" => $this->input->post('info_pembayaran'),
+                "piutang" => $this->input->post('piutang')
+            ];
+        }else{
+            $data = [
+                "no_struk" => $this->input->post('no_struk'),
+                "tgl_transaksi" => $this->input->post('tgl_transaksi'),
+                "urutan" => $urutan,
+                "pelanggan" => explode(',',$this->input->post('tipe'))[1],
+                "diskon" => $this->clean($this->input->post('diskon_all')),
+                "total_netto" => $this->clean($this->input->post('total_netto')),
+                "total_bayar" => $this->clean($this->input->post('total_bayar')),
+                "tunai" => $this->clean($this->input->post('tunai')),
+                "kembali" => $this->clean($this->input->post('kembali')),
+                "jumlah_item" => $this->input->post('jumlah_item'),
+                "keterangan" => $this->input->post('keterangan'),
+                "kasir" => $this->session->userdata('id_user'),
+                "pengiriman" => $this->input->post('pengiriman'),
+                "tahan" => $this->clean($this->input->post('tahan')),
+                "pembayaran" => $this->input->post('pembayaran'),
+                "info_pembayaran" => $this->input->post('info_pembayaran'),
+                "piutang" => $this->input->post('piutang')
+            ];
+        }
             if ($update == 'update') {
                 $this->db->where('id',$id_transaksi); //update data hold
                 $this->db->update('transaksi',$data);
