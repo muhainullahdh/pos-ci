@@ -177,6 +177,18 @@ class User extends CI_Controller {
             $this->load->view('user/supplier',$data);
             $this->load->view('body/footer');
     }
+    function check_admin()
+    {
+        $id = $this->input->post('id_user');
+        $pass = $this->input->post('password');
+        $user = $this->db->get_where('users', ['id' => 1])->row_array();
+        if (password_verify($pass, $user['password'])) {
+            echo json_encode("berhasil");
+        }else{
+            echo json_encode("error");
+        }
+
+    }
     function ekspedisi()
     {
         $kd_supplier = $this->input->post('kd_supplier');

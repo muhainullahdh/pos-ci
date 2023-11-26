@@ -182,61 +182,61 @@
           <!-- Container-fluid starts-->
                     <div class="modal fade" id="modal_penjualan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Penjualan</h5>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Penjualan</h5>
 
-                                    <button class="btn-close py-0 clear_penjualan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                                                <div class="modal-toggle-wrapper">
-                                                                <!-- <form action="<?= base_url('pos/reprint_date') ?>" method="POST"> -->
-                                                                    <div class="row">
-                                                                        <div class="col">
-                                                                            <label>Start Date</label>
-                                                                            <input type="date" class="form-control date_print" value="<?= $this->session->userdata('reprint_date_penjualan') ?>" name="date">
+                                        <button class="btn-close py-0 clear_penjualan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                                                    <div class="modal-toggle-wrapper">
+                                                                    <!-- <form action="<?= base_url('pos/reprint_date') ?>" method="POST"> -->
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <label>Start Date</label>
+                                                                                <input type="date" class="form-control date_print" value="<?= $this->session->userdata('reprint_date_penjualan') ?>" name="date">
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <label>End Date</label>
+                                                                                <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') ?>" name="date2">
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <label>Pelanggan</label>
+                                                                                <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('reprint_tipe_penjualan') ?>"> -->
+                                                                                <select id="" class="reprint_customers select2x">
+                                                                                        <option value="0">Pilih Pelanggan</option>
+                                                                                        <?php foreach($customers as $x )  {
+                                                                                            ?>
+                                                                                        <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
+                                                                                        <?php } ?>
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="col">
-                                                                            <label>End Date</label>
-                                                                            <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') ?>" name="date2">
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <label>Pelanggan</label>
-                                                                            <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('reprint_tipe_penjualan') ?>"> -->
-                                                                            <select id="" class="reprint_customers select2x">
-                                                                                    <option value="0">Pilih Pelanggan</option>
-                                                                                    <?php foreach($customers as $x )  {
-                                                                                        ?>
-                                                                                    <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
-                                                                                    <?php } ?>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                <!-- </form> -->
-                                                                    <div class="row justify-content-md-center">
-                                                                        <div class="col-xl-12">
-                                                                        <div class="table-responsive">
-                                                                          <table id="load-transaksi" class="display table">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                <th width="70"></th>
-                                                                                <th width="400" scope="col">No Struk</th>
-                                                                                <th width="80" scope="col">Pelanggan</th>
-                                                                                <th width="180" scope="col">Total Item</th>
-                                                                                <th width="180" scope="col">Total Transaksi</th>
-                                                                                <th width="180" scope="col"></th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                            </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                    <!-- </form> -->
+                                                                        <div class="row justify-content-md-center">
+                                                                            <div class="col-xl-12">
+                                                                            <div class="table-responsive">
+                                                                            <table id="load-transaksi" class="display table">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                    <th width="70"></th>
+                                                                                    <th width="400" scope="col">No Struk</th>
+                                                                                    <th width="80" scope="col">Pelanggan</th>
+                                                                                    <th width="180" scope="col">Total Item</th>
+                                                                                    <th width="180" scope="col">Total Transaksi</th>
+                                                                                    <th width="180" scope="col"></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                </tbody>
+                                                                                </table>
+                                                                            </div>
 
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                     </div>
-                            </div>
+                                                        </div>
+                                </div>
                         </div>
                     </div>
           <div class="container-fluid">
@@ -2110,6 +2110,7 @@
                                         $(".select2x").select2({
                                             dropdownParent: $("#modal_penjualan")
                                         });
+                                        $.fn.modal.Constructor.prototype._enforceFocus = function() {};
                                         $('#modal_penjualan').modal('show');
                                         for (let i = 0; i < data.length; i++) {
                                             <?php if ($this->session->userdata('level') == '1') { ?>
@@ -2120,6 +2121,7 @@
                                             $('#load-transaksi tbody').append(
                                             '<tr style="background-color: white;">'+
                                                     '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi '+invs_level+' badge badge-danger">Cencel</a></td>'+
+                                                    '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="edit_transaksi_kasir badge badge-success">Edit</a></td>'+
                                                     '<td class="order">'+data[i].no_struk+'</td>'+
                                                     '<td>'+data[i].nama_toko+'</td>'+
                                                     '<td>'+data[i].jumlah_item+'</td>'+
@@ -2515,6 +2517,56 @@
                                 })
                             }
                     });
+                })
+                $(document).on('click', '.edit_transaksi_kasir', function (e) {//edit transksai di ketika data sudah di cetak / submit
+                    e.preventDefault();
+                    var pid = this.id.split(',')[0];
+                    var struk = this.id.split(',')[1];
+                    $('#modal_penjualan').on('shown.bs.modal', function() {
+                        $(document).off('focusin.modal');
+                    });
+                    swal({
+                        title: "Verifikasi Admin?",
+                        text: "Silahkan masukan password admin..!",
+                        icon: "warning",
+                        buttons: true,
+                        content: {
+                            element: "input",
+                            attributes: {
+                                placeholder: "Type your password",
+                                type: "password",
+                            },
+                        },
+                        dangerMode: true,
+                    }).then((value) => {
+                        if (value) {
+                                $.ajax({
+                                     url : "<?= site_url('user/check_admin');?>",
+                                     method : "POST",
+                                     data : {id: pid,password : value},
+                                     async : true,
+                                     dataType : 'json',
+                                     success: function(data){
+                                        if (data == 'berhasil') {
+                                            swal('Data admin terverifikasi..!', {
+                                             icon: "success",
+                                            }).then((d) => {
+                                                if (d) {
+                                                    window.location = '<?= base_url() ?>pos/index/'+pid+'/edit_transaksi';
+                                                }
+                                            });
+                                        }else{
+                                            swal('Password salah..!', {
+                                             icon: "error",
+                                            });
+                                        }
+
+                                     }
+                                })
+
+                        }
+                    });
+                    // $('#modal_edit_transaksi_kasir').modal('show')
                 })
                 $('.date_print').on('change', function() {
                     // alert( this.value );
