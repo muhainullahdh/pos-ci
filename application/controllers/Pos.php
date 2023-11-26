@@ -247,6 +247,7 @@ class Pos extends CI_Controller {
                                 "harga_satuan" => $x['harga_satuan'],
                                 "diskon_item" => $x['diskon_item'],
                                 "jumlah" => $x['jumlah'],
+                                "trash" => 0
                             ];
                             $this->db->insert('transaksi_item',$insert_hold);
                         }
@@ -302,6 +303,7 @@ class Pos extends CI_Controller {
         // $start=intval($this->input->get("start"));
         // $length=intval($this->input->get("length"));
         $this->db->where('id_transaksi',$id);
+        $this->db->where('a.trash !=',1);
         $this->db->from('transaksi_item as a');
         $this->db->join('barang as b','a.kd_barang=b.id');
         $this->db->join('transaksi as c','c.id=a.id_transaksi');
@@ -322,6 +324,19 @@ class Pos extends CI_Controller {
         $this->db->where('a.tahan',1);
         $this->db->where('a.kasir',$this->session->userdata('id_user'));
         $this->db->group_by('a.no_struk');
+        $load = $this->db->get()->result();
+        echo json_encode($load);
+    }
+    function load_trash_item()
+    {
+        $this->db->select('*');
+        $this->db->from('transaksi as a');
+        $this->db->join('customers as b','a.pelanggan=b.id_customer');
+        $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
+        $this->db->where('c.trash',1);
+        $this->db->where('c.id_transaksi',3);
+        $this->db->where('a.kasir',$this->session->userdata('id_user'));
+        // $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
         echo json_encode($load);
     }
@@ -352,7 +367,9 @@ class Pos extends CI_Controller {
     {
         $id = $this->input->post('id');//id_transaksi_item
         $this->db->where('id_transaksi_item',$id);
-        $this->db->delete('transaksi_item');
+        $this->db->set('trash',1);
+        $this->db->set('trash_by',$this->session->userdata('id_user'));
+        $this->db->update('transaksi_item');
         echo json_encode('berhasil');
 
     }

@@ -419,8 +419,12 @@
                                                     <button data-bs-toggle="modal" data-original-title="test" data-bs-target="#modaload" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
                                                 </div> -->
                                                 <div class="col">
-                                                    <button id="bayar333" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
+                                                    <button class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
                                                 </div>
+                                                <!-- <div class="col">
+                                                    <button class="btn btn-square btn-outline-danger col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal_trash" style="font-size:20px;">TRASH</button>
+                                                </div> -->
+
                                                 <!-- <div class="col">
                                                     <button class="btn btn-square btn-outline-primary col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modaload" style="font-size:20px;">LOAD</button>
                                                 </div> -->
@@ -820,64 +824,64 @@
                     </div>
 
 
-                                                    <div class="modal fade bd-example-modal-lg" id="modaload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal fade bd-example-modal-lg" id="modaload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Load Data POS</h5>
+                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="modal-toggle-wrapper">
+                                        <div class="row justify-content-md-center">
+                                            <div class="col-xl-12">
+                                            <div class="table-responsive">
+                                              <table id="load-hold" class="display table">
+                                                <thead>
+                                                    <tr>
+                                                    <th width="70"></th>
+                                                    <th width="400" scope="col">No Struk</th>
+                                                    <th width="80" scope="col">Pelanggan</th>
+                                                    <th width="180" scope="col">Total Item</th>
+                                                    <th width="180" scope="col">Total Transaksi</th>
+                                                    <th width="180" scope="col">Load</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- <?php foreach($load as $x) { ?>
+                                                    <tr style="background-color: white;">
+                                                            <td>
+                                                                <a type="button" id="<?= $x->id.','.$x->no_struk ?>" class="delete_transaksi badge badge-danger"><i data-feather="trash-2"></i></a>
+                                                            </td>
+                                                            <td class="order">
+                                                            <?= $x->no_struk ?>
+                                                                    </td>
+                                                            <td>
+                                                                <?= $x->nama_toko ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= $x->jumlah_item ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= number_format($x->total_transaksi,0,".",".") ?>
+                                                            </td>
+                                                            <td><a class="badge badge-primary" href="<?= base_url('pos/index/'.$x->id) ?>" ><i data-feather="edit-3"></i></a></td>
+                                                    </tr>
+                                                    <?php } ?> -->
 
-                                                            <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLongTitle">Load Data POS</h5>
-                                                                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="modal-toggle-wrapper">
-                                                                    <div class="row justify-content-md-center">
-                                                                        <div class="col-xl-12">
-                                                                        <div class="table-responsive">
-                                                                          <table id="load-hold" class="display table">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                <th width="70"></th>
-                                                                                <th width="400" scope="col">No Struk</th>
-                                                                                <th width="80" scope="col">Pelanggan</th>
-                                                                                <th width="180" scope="col">Total Item</th>
-                                                                                <th width="180" scope="col">Total Transaksi</th>
-                                                                                <th width="180" scope="col">Load</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <!-- <?php foreach($load as $x) { ?>
-                                                                                <tr style="background-color: white;">
-                                                                                        <td>
-                                                                                            <a type="button" id="<?= $x->id.','.$x->no_struk ?>" class="delete_transaksi badge badge-danger"><i data-feather="trash-2"></i></a>
-                                                                                        </td>
-                                                                                        <td class="order">
-                                                                                        <?= $x->no_struk ?>
-                                                                                                </td>
-                                                                                        <td>
-                                                                                            <?= $x->nama_toko ?>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <?= $x->jumlah_item ?>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <?= number_format($x->total_transaksi,0,".",".") ?>
-                                                                                        </td>
-                                                                                        <td><a class="badge badge-primary" href="<?= base_url('pos/index/'.$x->id) ?>" ><i data-feather="edit-3"></i></a></td>
-                                                                                </tr>
-                                                                                <?php } ?> -->
+                                                </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <span style="font-size:20px" class="bayar_show"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                    </div>
 
-                                                                            </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                        <div class="col-xl-3">
-                                                                            <span style="font-size:20px" class="bayar_show"></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
 
     <!-- latest jquery-->
