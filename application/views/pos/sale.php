@@ -1865,7 +1865,7 @@
                                                     icon: "warning",
                                             })
                                     }else{
-                                        if (value_ac == 'bayar') {
+                                        if ($('.edit_transaksi').val() != 'edit_transaksi') {
                                             $('.value_ac').val(value_ac);
                                             if (value_ac == 'TAHAN') {
                                                 $('.submit').attr('id','TAHAN');
