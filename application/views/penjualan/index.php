@@ -75,7 +75,7 @@
                                                     <?= $x->nama_kasir ?>
                                                 </td>
                                                 <td>
-                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-primary btn-square penjualan_v"><i class="fa fa-eye"></i></button>
+                                                    <a href="<?= base_url('pos/index/'). $x->id_transaksi .'/edit_transaksi' ?>" class="btn btn-primary btn-square"><i class="fa fa-edit"></i></a>
                                                     <!-- <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_penjualan"><i class="fa fa-trash-o"></i></button> -->
                                                 </td>
                                             </tr>

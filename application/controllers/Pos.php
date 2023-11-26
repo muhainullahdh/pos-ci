@@ -138,6 +138,7 @@ class Pos extends CI_Controller {
         $cek = $this->input->post('cek');
         $update = $this->input->post('update');
         $id_transaksi = $this->input->post('id_transaksi');
+        $edit_transaksi = $this->input->post('edit_transaksi');
         $urutan = substr($this->input->post('no_struk'),8);
         $data = [
             "no_struk" => $this->input->post('no_struk'),
@@ -160,6 +161,9 @@ class Pos extends CI_Controller {
         ];
             if ($update == 'update') {
                 $this->db->where('id',$id_transaksi); //update data hold
+                $this->db->update('transaksi',$data);
+            }else if ($edit_transaksi == 'edit_transaksi') {
+                $this->db->where('id',$id_transaksi); //update data transaksi
                 $this->db->update('transaksi',$data);
             }else{
                 $this->db->insert('transaksi',$data); //submit
@@ -203,7 +207,7 @@ class Pos extends CI_Controller {
                         //jika ada penambahan row di transaksi hold
                         if ($cek_item == false) {
                             $insert_hold = [
-                                "id_transaksi" => $get_transkasi['id_transaksi'],
+                                "id_transaksi" => $id_transaksi,
                                 "kd_barang" => $x['kd_barang'],
                                 "barang" => $x['barang'],
                                 "qty" => $x['qty'],
@@ -217,7 +221,7 @@ class Pos extends CI_Controller {
                         }
                     }
                 }else{//tahan
-                    if ($update == 'update') {
+                    if ($update == 'update') {//update hold dan update transaksi
                         $cek_item = $this->db->get_where('transaksi_item',['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
                         if ($cek_item == true) {
                             $this->db->set('kd_barang', $x['kd_barang']);
@@ -234,7 +238,7 @@ class Pos extends CI_Controller {
                         //jika ada penambahan row di transaksi hold
                         if ($cek_item == false) {
                             $insert_hold = [
-                                "id_transaksi" => $get_transkasi['id_transaksi'],
+                                "id_transaksi" => $id_transaksi,
                                 "kd_barang" => $x['kd_barang'],
                                 "barang" => $x['barang'],
                                 "qty" => $x['qty'],
@@ -249,26 +253,17 @@ class Pos extends CI_Controller {
                     }
                 }
             }
-            if ($update != 'update') {
+            if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
                 $this->db->insert_batch('transaksi_item',$output); //submit
             }
             $data_ec = [
                 "id_transaksi" => $get_transkasi['id_transaksi'],
                 'no_struk' => $this->input->post('no_struk'),
                 'tahan' => $this->input->post('tahan'),
+                'edit_transaksi' => $edit_transaksi,
                 "status" => 200
             ];
             echo json_encode($data_ec);
-        // }else{
-        // }
-        //     // $this->db->where('id',$id_barang);
-        //     // $this->db->update('barang',$data);
-        //     // $data_ec = [
-        //     //     "nama" => $this->input->post('nama_barang'),
-        //     //     "status" => 200
-        //     // ];
-        //     // echo json_encode($data_ec);
-        // }
     }
     function check_tgl_pos()
     {
