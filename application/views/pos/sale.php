@@ -1937,7 +1937,7 @@
                                                                 jumlah_item : $('.total_item').val(),
                                                                 keterangan : $('.keterangan').val(),
                                                                 pengiriman : $('.pengiriman').val(),
-                                                                tahan : value_ac == "TAHAN" ? 1 : 0,
+                                                                tahan : 0,
                                                                 pembayaran : $('.pembayaran:checked').val(),
                                                                 info_pembayaran : info_pembayaran.toString(),
                                                                 // piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,

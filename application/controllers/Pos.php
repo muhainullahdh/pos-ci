@@ -369,9 +369,9 @@ class Pos extends CI_Controller {
         $this->db->from('transaksi as a');
         $this->db->join('customers as b','a.pelanggan=b.id_customer');
         $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
-        $this->db->where('a.trash !=',1);
-        $this->db->where('a.tahan !=',1);
-        $this->db->where('a.cencel !=',1);
+        $this->db->where('a.trash',0);
+        // $this->db->where('a.tahan',0);
+        $this->db->where('a.cencel',0);
         $this->db->where('a.kasir',$this->session->userdata('id_user'));
         if ($first_date == true && $second_date == true) {
             $this->db->where('a.tgl_transaksi >=',$first_date);
