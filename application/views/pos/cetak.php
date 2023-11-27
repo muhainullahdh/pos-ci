@@ -103,6 +103,14 @@ body{
         </td>
         <td style="text-align:right"><?= number_format($transkasi['total_bayar'],0,',',',') ?></td>
     </tr>
+    <?php if ($transkasi['tunai'] == true) {?>
+    <tr>
+        <td>
+            <div style="float:left;width:50%;"> Tunai</div>
+        </td>
+        <td style="text-align:right"><?= number_format($transkasi['tunai'],0,',',',') ?></td>
+    </tr>
+    <?php } ?>
     <?php if ($transkasi['pembayaran'] == 'VOCHER') { ?>
     <tr>
         <td>
