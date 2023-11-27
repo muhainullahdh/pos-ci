@@ -181,7 +181,7 @@
                                                         <div class="row">
                                                             <div class="col-xl-6">
                                                                 <label>Nama customers / Toko</label>
-                                                                <input required type="text" name="nama" class="form-control">
+                                                                <input required type="text" name="nama" value="<?= $x->id_customer ?>" class="form-control">
                                                                 <input required type="hidden" name="kd_pelanggan" value="<?= $kode_pelanggan ?>" class="form-control">
                                                                 <input required type="hidden" name="id" value="<?= $x->id_customer ?>" class="form-control">
                                                                 <input required type="hidden" name="action" value="edit" class="form-control">
@@ -190,51 +190,51 @@
                                                                 <label>Tipe Penjualan</label>
                                                                 <select required name="tipe_penjualan" class="form-control" id="">
                                                                     <option value="">Pilih tipe penjualan</option>
-                                                                    <option value="retail">retail</option>
-                                                                    <option value="grosir">grosir</option>
-                                                                    <option value="partai">partai</option>
-                                                                    <option value="promo">promo</option>
+                                                                    <option <?= strtolower($x->tipe_penjualan) == 'retail' ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan)?>" value="retail">retail</option>
+                                                                    <option <?= strtolower($x->tipe_penjualan) == 'grosir' ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan)?>" value="grosir">grosir</option>
+                                                                    <option <?= strtolower($x->tipe_penjualan) == 'partai' ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan)?>" value="partai">partai</option>
+                                                                    <option <?= strtolower($x->tipe_penjualan) == 'promo' ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan)?>" value="promo">promo</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-xl-6">
                                                                 <label>No telp</label>
-                                                                <input required type="text" name="telp" class="form-control">
+                                                                <input required type="text" value="<?= $x->no_telp ?>" name="telp" class="form-control">
                                                             </div>
                                                             <div class="col-xl-6">
                                                                 <label>PIC Toko</label>
-                                                                <input required type="text" name="pic" class="form-control">
+                                                                <input required type="text" value="<?= $x->pic_toko ?>" name="pic" class="form-control">
                                                             </div>
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-xl-6">
                                                                 <label>Alamat</label>
-                                                                <input type="text" name="alamat" class="form-control">
+                                                                <input type="text" value="<?= $x->alamat ?>" name="alamat" class="form-control">
                                                             </div>
                                                             <div class="col-xl-6">
                                                                 <label>Kota</label>
-                                                                <input type="text" name="kota" class="form-control">
+                                                                <input type="text" value="<?= $x->kota ?>"  name="kota" class="form-control">
                                                             </div>
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-xl-6">
                                                                 <label>Email</label>
-                                                                <input type="text" name="email" class="form-control">
+                                                                <input type="text" value="<?= $x->email ?>" name="email" class="form-control">
                                                             </div>
                                                             <div class="col-xl-6">
                                                                 <label>jadwal kirim</label>
-                                                                <input type="text" name="jadwal_kirim" class="form-control">
+                                                                <input type="text" value="<?= $x->jadwal_kirim ?>" name="jadwal_kirim" class="form-control">
                                                             </div>
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-xl-6">
                                                                 <label>Tipe Pembayaran</label>
-                                                                <input type="text" name="tipe_pembayaran" class="form-control">
+                                                                <input type="text" value="<?= $x->tipe_pembayaran ?>" name="tipe_pembayaran" class="form-control">
                                                             </div>
                                                             <div class="col-xl-6">
                                                                 <label>Sales</label>
-                                                                <input type="text" name="sales" class="form-control">
+                                                                <input type="text" value="<?= $x->salesman ?>" name="sales" class="form-control">
                                                             </div>
                                                         </div>
                                                             <div class="row mt-3">
