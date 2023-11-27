@@ -279,7 +279,7 @@ class Pos extends CI_Controller {
                 $this->db->insert_batch('transaksi_item',$output); //submit
             }
             $data_ec = [
-                "id_transaksi" => $get_transkasi['id_transaksi'],
+                "id_transaksi" => $id_transaksi,
                 'no_struk' => $this->input->post('no_struk'),
                 'tahan' => $this->input->post('tahan'),
                 'edit_transaksi' => $edit_transaksi,
