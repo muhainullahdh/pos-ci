@@ -278,11 +278,16 @@ class Pos extends CI_Controller {
             if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
                 $this->db->insert_batch('transaksi_item',$output); //submit
             }
+            if ($edit_transaksi == 'edit_transaksi') {
+                $cek_id = $edit_transaksi;
+            }else{
+                $cek_id = $get_transkasi['id_transaksi'];
+            }
             $data_ec = [
-                "id_transaksi" => $id_transaksi,
+                "id_transaksi" => $cek_id,
                 'no_struk' => $this->input->post('no_struk'),
                 'tahan' => $this->input->post('tahan'),
-                'edit_transaksi' => $edit_transaksi,
+                'edit_transaksi' => $cek_id,
                 "status" => 200
             ];
             echo json_encode($data_ec);
