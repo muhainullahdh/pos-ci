@@ -1878,7 +1878,7 @@
                                             }
                                             // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
                                             $('.transaksi_show').val($('.total_pos').html())
-                                            // $('.total_bayar').val($('.total_pos').html().slice(3))
+                                            $('.total_bayar').val($('.total_pos').html().slice(3))
                                             // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
                                             $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                                             $(".total_bayar").focus();
