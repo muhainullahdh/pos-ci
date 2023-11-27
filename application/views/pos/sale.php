@@ -1868,7 +1868,7 @@
                                                     icon: "warning",
                                             })
                                     }else{
-                                        if ($('.edit_transaksi').val() != 'edit_transaksi') {
+                                        if ($('.edit_transaksi').val() == 'edit_transaksi') {
                                             $('.value_ac').val(value_ac);
                                             if (value_ac == 'TAHAN') {
                                                 $('.submit').attr('id','TAHAN');
@@ -1889,95 +1889,96 @@
                                             $('#payment').on('shown.bs.modal', function () {
                                                 $('.total_bayar').focus();
                                             })
-                                        }else if ($('.edit_transaksi').val() == 'edit_transaksi') {// edit transkasi yang sudah di cetak struk
-                                            swal({
-                                                    title: "Opss..!",
-                                                    text: "Simpan",
-                                                    icon: "info",
-                                                    // buttons: true,
-                                                    buttons: {
-                                                        text: "Simpan",
-                                                        cancel : 'Cancel'
-                                                    },
-                                                    dangerMode: true,
-                                                }).then((r) => {
-                                                    if (r) {
-                                                        var value_ac = "TAHAN"
-                                                        var barang = ''
-                                                        var xx = []
-                                                        if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                                                            var info_pembayaran = '{"bank" : "'+$('.bank').val()+'" ,"tujuan" : "'+$('.tujuan').val()+'"}';
-                                                        }else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
-                                                            var info_pembayaran = '{"bank" : "'+$('.bank_edc').val()+'" ,"no_kartu" : "'+$('.tujuan').val()+'","nama" : "'+$('.nama_edc').val()+'"}';
-                                                        } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO'){
-                                                            var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'","Nomor" : "'+$('.no_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
-                                                        }else{
-                                                            var info_pembayaran = '';//cash
-                                                        }
-                                                        for (let i = 1; i <= counter; i++) {
-                                                            xx.push ({
-                                                                id_transaksi_item : $('.id_item'+i+'').val(),
-                                                                kd_barang : $('.id_barang'+i+'').val(),
-                                                                barang : $('.barang'+i+'').val(),
-                                                                qty : $('.qty'+i+'').val(),
-                                                                satuan : $('.satuan'+i+'').val(),
-                                                                harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                                                diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                                                jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                                            })
-                                                        }
-                                                        var datax = {
-                                                                cek : value_ac,
-                                                                no_struk : $('.no_struk').val(),
-                                                                tgl_transaksi : $('.tgl_transaksi').val(),
-                                                                tipe : $('select[name="tipe"]').val(),
-                                                                member : $('.member').val(),
-                                                                diskon_all : $('.diskon_all').val(),
-                                                                total_netto : $('.total_netto').val(),
-                                                                total_bayar : $('.total_bayar').val(),
-                                                                tunai : $('.tunaii').val(),
-                                                                kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
-                                                                jumlah_item : $('.total_item').val(),
-                                                                keterangan : $('.keterangan').val(),
-                                                                pengiriman : $('.pengiriman').val(),
-                                                                tahan : 0,
-                                                                pembayaran : $('.pembayaran:checked').val(),
-                                                                info_pembayaran : info_pembayaran.toString(),
-                                                                // piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
-                                                                piutang : 0 ,
-                                                                update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
-                                                                id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
-                                                                edit_transaksi : "edit_transaksi",
-                                                                item : xx
-                                                            }
-                                                                $.ajax({
-                                                                        url : "<?= site_url('pos/submit');?>",
-                                                                        method : "POST",
-                                                                        data : datax,
-                                                                        async : true,
-                                                                        dataType : 'json',
-                                                                        success: function(data){
-                                                                            if (data.edit_transaksi == 'edit_transaksi') {
-                                                                                swal({
-                                                                                        title: "Berhasil..!",
-                                                                                        text: "Transaksi "+data.no_struk+"  berhasil diupdate",
-                                                                                        icon: "success",
-                                                                                        })
-                                                                                        .then((willDelete) => {
-                                                                                            if (willDelete) {
-                                                                                            // window.location = '<?= base_url() ?>pos/';
-                                                                                                location.reload();
-                                                                                            }
-                                                                                        });
-                                                                            }
-                                                                        },
-                                                                        error: function(data){
-                                                                            console.log(data)
-                                                                        }
-                                                                })
-                                                    }
-                                            });
                                         }
+                                        // else if ($('.edit_transaksi').val() == 'edit_transaksi') {// edit transkasi yang sudah di cetak struk
+                                        //     swal({
+                                        //             title: "Opss..!",
+                                        //             text: "Simpan",
+                                        //             icon: "info",
+                                        //             // buttons: true,
+                                        //             buttons: {
+                                        //                 text: "Simpan",
+                                        //                 cancel : 'Cancel'
+                                        //             },
+                                        //             dangerMode: true,
+                                        //         }).then((r) => {
+                                        //             if (r) {
+                                        //                 var value_ac = "TAHAN"
+                                        //                 var barang = ''
+                                        //                 var xx = []
+                                        //                 if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                                        //                     var info_pembayaran = '{"bank" : "'+$('.bank').val()+'" ,"tujuan" : "'+$('.tujuan').val()+'"}';
+                                        //                 }else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
+                                        //                     var info_pembayaran = '{"bank" : "'+$('.bank_edc').val()+'" ,"no_kartu" : "'+$('.tujuan').val()+'","nama" : "'+$('.nama_edc').val()+'"}';
+                                        //                 } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO'){
+                                        //                     var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'","Nomor" : "'+$('.no_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
+                                        //                 }else{
+                                        //                     var info_pembayaran = '';//cash
+                                        //                 }
+                                        //                 for (let i = 1; i <= counter; i++) {
+                                        //                     xx.push ({
+                                        //                         id_transaksi_item : $('.id_item'+i+'').val(),
+                                        //                         kd_barang : $('.id_barang'+i+'').val(),
+                                        //                         barang : $('.barang'+i+'').val(),
+                                        //                         qty : $('.qty'+i+'').val(),
+                                        //                         satuan : $('.satuan'+i+'').val(),
+                                        //                         harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                        //                         diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                        //                         jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                        //                     })
+                                        //                 }
+                                        //                 var datax = {
+                                        //                         cek : value_ac,
+                                        //                         no_struk : $('.no_struk').val(),
+                                        //                         tgl_transaksi : $('.tgl_transaksi').val(),
+                                        //                         tipe : $('select[name="tipe"]').val(),
+                                        //                         member : $('.member').val(),
+                                        //                         diskon_all : $('.diskon_all').val(),
+                                        //                         total_netto : $('.total_netto').val(),
+                                        //                         total_bayar : $('.total_bayar').val(),
+                                        //                         tunai : $('.tunaii').val(),
+                                        //                         kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
+                                        //                         jumlah_item : $('.total_item').val(),
+                                        //                         keterangan : $('.keterangan').val(),
+                                        //                         pengiriman : $('.pengiriman').val(),
+                                        //                         tahan : 0,
+                                        //                         pembayaran : $('.pembayaran:checked').val(),
+                                        //                         info_pembayaran : info_pembayaran.toString(),
+                                        //                         // piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
+                                        //                         piutang : 0 ,
+                                        //                         update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
+                                        //                         id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
+                                        //                         edit_transaksi : "edit_transaksi",
+                                        //                         item : xx
+                                        //                     }
+                                        //                         $.ajax({
+                                        //                                 url : "<?= site_url('pos/submit');?>",
+                                        //                                 method : "POST",
+                                        //                                 data : datax,
+                                        //                                 async : true,
+                                        //                                 dataType : 'json',
+                                        //                                 success: function(data){
+                                        //                                     if (data.edit_transaksi == 'edit_transaksi') {
+                                        //                                         swal({
+                                        //                                                 title: "Berhasil..!",
+                                        //                                                 text: "Transaksi "+data.no_struk+"  berhasil diupdate",
+                                        //                                                 icon: "success",
+                                        //                                                 })
+                                        //                                                 .then((willDelete) => {
+                                        //                                                     if (willDelete) {
+                                        //                                                     // window.location = '<?= base_url() ?>pos/';
+                                        //                                                         location.reload();
+                                        //                                                     }
+                                        //                                                 });
+                                        //                                     }
+                                        //                                 },
+                                        //                                 error: function(data){
+                                        //                                     console.log(data)
+                                        //                                 }
+                                        //                         })
+                                        //             }
+                                        //     });
+                                        // }
 
 
                                     }
