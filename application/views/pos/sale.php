@@ -421,6 +421,9 @@
                                                 <div class="col">
                                                     <button class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
                                                 </div>
+                                                <div class="col">
+                                                    <a href="<?= base_url('pos/closing') ?>" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">CLOSING</a>
+                                                </div>
                                                 <!-- <div class="col">
                                                     <button class="btn btn-square btn-outline-danger col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal_trash" style="font-size:20px;">TRASH</button>
                                                 </div> -->

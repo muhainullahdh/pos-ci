@@ -138,15 +138,7 @@ class Penjualan extends CI_Controller {
         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
         $first_date = $this->session->userdata('date_penjualan');
         $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('date_penjualan2'))));
-        // $this->db->where('DATE(d.tgl_transaksi)>=',$first_date);
-        // $this->db->where('DATE(d.tgl_transaksi) <=',$second_date);
-        // $this->db->from('customers as a');
-        // $this->db->join('transaksi as b','a.id_customer=b.pelanggan');
-        // $this->db->join('users as c','c.id=b.kasir');
-        // $this->db->join('transaksi_item as d','d.id_transaksi_item=b.id');
-        // $this->db->join('barang as f','f.id=d.kd_barang');
-        // $this->db->join('kategori as g','g.id=f.kategori_id');
-        // $penjualan = $this->db->get()->result();
+
         $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
         left join customers as c on(a.pelanggan=c.id_customer)
         left join users d on (a.kasir=d.id)
