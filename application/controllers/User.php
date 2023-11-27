@@ -24,16 +24,27 @@ class User extends CI_Controller {
         $action = $this->input->post('action');
         $id = $this->input->post('id');
         if ($nama == true && $no_telp == true && $action != 'edit') {
-            $cek = $this->db->query("SELECT * FROM customers where nama='$nama' ")->num_rows();
+            $cek = $this->db->query("SELECT * FROM customers where nama_toko='$nama' ")->num_rows();
             if ($cek == true) {
                 $this->session->set_flashdata('msg','double_satuan');
                 $this->session->set_flashdata('msg_val',$nama);
                 redirect('user/customer');
             }else{
                 $datax = [
+                    "kode_pelanggan" => $this->input->post('kd_pelanggan'),
                     "nama_toko" => $nama,
                     "no_telp" => $no_telp,
-                    "tipe_penjualan" => $tipe_penjualan
+                    "pic_toko" => $this->input->post('pic'),
+                    "alamat" => $this->input->post('alamat'),
+                    "kota" => $this->input->post('kota'),
+                    "email" => $this->input->post('email'),
+                    "jadwal_kirim" => $this->input->post('jadwal_kirim'),
+                    "tipe_penjualan" => $tipe_penjualan,
+                    "tipe_pembayaran" => $this->input->post('tipe_pembayaran'),
+                    "salesman" => $this->input->post('sales'),
+                    "tanggal_member" => date('Y-m-d'),
+                    "status" => 1,
+
                 ];
                 $this->db->insert('customers',$datax);
                 redirect('user/customer');
@@ -42,9 +53,20 @@ class User extends CI_Controller {
         if ($action == 'edit') {
 
             $datax = [
+                "kode_pelanggan" => $this->input->post('kd_pelanggan'),
                 "nama_toko" => $nama,
                 "no_telp" => $no_telp,
-                "tipe_penjualan" => $tipe_penjualan
+                "pic_toko" => $this->input->post('pic'),
+                "alamat" => $this->input->post('alamat'),
+                "kota" => $this->input->post('kota'),
+                "email" => $this->input->post('email'),
+                "jadwal_kirim" => $this->input->post('jadwal_kirim'),
+                "tipe_penjualan" => $tipe_penjualan,
+                "tipe_pembayaran" => $this->input->post('tipe_pembayaran'),
+                "salesman" => $this->input->post('sales'),
+                "tanggal_member" => date('Y-m-d'),
+                "status" => 1,
+
             ];
             $this->db->where('id_customer',$id);
             $this->db->update('customers',$datax);
@@ -54,9 +76,16 @@ class User extends CI_Controller {
         if ($this->session->userdata('filter_penjualan') == true) {
             $this->db->where('tipe_penjualan',$this->session->userdata('filter_penjualan'));
         }
+        $data_b = $this->db->query('SELECT max(kode_pelanggan) as kode_pelanggan FROM customers')->row_array();
+        $kodecustomer = $data_b['kode_pelanggan'];
+        $urutan = (int) substr($kodecustomer, 3, 6);
+        $urutan++;
+        $huruf = "PL";
+        $kode_pelanggan = $huruf . sprintf("%05s", $urutan);
         $cust = $this->db->get('customers')->result();
         $data = [
-            "customers" => $cust
+            "customers" => $cust,
+            "kode_pelanggan" => $kode_pelanggan
         ];
             // $this->session->set_flashdata('msg','Data tidak boleh kosong');
             // redirect('barang/satuan');

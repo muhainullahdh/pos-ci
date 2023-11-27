@@ -46,13 +46,14 @@
                             <div class="modal-toggle-wrapper">
                                 <?= $this->session->flashdata('msg') ?>
                                 <form action="<?= base_url('user/customer') ?>" method="post">
-                                    <div class="row">
+                                        <div class="row">
                                             <div class="col-xl-6">
-                                                <h6>Nama customers</h6>
-                                                <input required type="text" placeholder="Bungkus" name="nama" class="form-control">
+                                                <label>Nama customers / Toko</label>
+                                                <input required type="text" name="nama" class="form-control">
+                                                <input required type="hidden" name="kd_pelanggan" value="<?= $kode_pelanggan ?>" class="form-control">
                                             </div>
                                             <div class="col-xl-6">
-                                                <h6>Tipe Penjualan</h6>
+                                                <label>Tipe Penjualan</label>
                                                 <select required name="tipe_penjualan" class="form-control" id="">
                                                     <option value="">Pilih tipe penjualan</option>
                                                     <option value="retail">retail</option>
@@ -61,11 +62,47 @@
                                                     <option value="promo">promo</option>
                                                 </select>
                                             </div>
-                                            <div class="col-xl-6 mt-2">
-                                                <h6>No telp</h6>
-                                                <input required type="text" placeholder="1" name="telp" class="form-control">
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-xl-6">
+                                                <label>No telp</label>
+                                                <input required type="text" name="telp" class="form-control">
                                             </div>
-                                    </div>
+                                            <div class="col-xl-6">
+                                                <label>PIC Toko</label>
+                                                <input required type="text" name="pic" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-xl-6">
+                                                <label>Alamat</label>
+                                                <input type="text" name="alamat" class="form-control">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label>Kota</label>
+                                                <input type="text" name="kota" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-xl-6">
+                                                <label>Email</label>
+                                                <input type="text" name="email" class="form-control">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label>jadwal kirim</label>
+                                                <input type="text" name="jadwal_kirim" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-xl-6">
+                                                <label>Tipe Pembayaran</label>
+                                                <input type="text" name="tipe_pembayaran" class="form-control">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label>Sales</label>
+                                                <input type="text" name="sales" class="form-control">
+                                            </div>
+                                        </div>
                                     <div class="row mt-3">
                                         <div class="col-xl-8"></div>
                                         <div class="col-xl-2">
@@ -142,27 +179,64 @@
                                                         <?= $this->session->flashdata('msg') ?>
                                                         <form action="<?= base_url('user/customer') ?>" method="post">
                                                         <div class="row">
-                                                                    <div class="col-xl-6">
-                                                                        <h6>Nama customers</h6>
-                                                                        <input type="hidden" value="<?= $x->id_customer ?>" name="id" class="form-control">
-                                                                        <input type="hidden" value="edit" name="action" class="form-control">
-                                                                        <input required type="text" placeholder="Bungkus" value="<?= $x->nama_toko ?>" name="nama" class="form-control">
-                                                                    </div>
-                                                                    <div class="col-xl-6">
-                                                                        <h6>Tipe Penjualan</h6>
-                                                                        <select required name="tipe_penjualan" class="form-control" id="">
-                                                                            <!-- <option value="">Pilih tipe penjualan</option> -->
-                                                                            <option <?= $x->tipe_penjualan == 'retail' ? 'selected' : '' ?> value="retail">retail</option>
-                                                                            <option <?= $x->tipe_penjualan == 'grosir' ? 'selected' : '' ?> value="grosir">grosir</option>
-                                                                            <option <?= $x->tipe_penjualan == 'partai' ? 'selected' : '' ?> value="partai">partai</option>
-                                                                            <option <?= $x->tipe_penjualan == 'promo' ? 'selected' : '' ?> value="promo">promo</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-xl-6 mt-2">
-                                                                        <h6>No telp</h6>
-                                                                        <input required type="text" value="<?= $x->no_telp ?>"  placeholder="1" name="telp" class="form-control">
-                                                                    </div>
+                                                            <div class="col-xl-6">
+                                                                <label>Nama customers / Toko</label>
+                                                                <input required type="text" name="nama" class="form-control">
+                                                                <input required type="hidden" name="kd_pelanggan" value="<?= $kode_pelanggan ?>" class="form-control">
+                                                                <input required type="hidden" name="id" value="<?= $x->id_customer ?>" class="form-control">
+                                                                <input required type="hidden" name="action" value="edit" class="form-control">
                                                             </div>
+                                                            <div class="col-xl-6">
+                                                                <label>Tipe Penjualan</label>
+                                                                <select required name="tipe_penjualan" class="form-control" id="">
+                                                                    <option value="">Pilih tipe penjualan</option>
+                                                                    <option value="retail">retail</option>
+                                                                    <option value="grosir">grosir</option>
+                                                                    <option value="partai">partai</option>
+                                                                    <option value="promo">promo</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xl-6">
+                                                                <label>No telp</label>
+                                                                <input required type="text" name="telp" class="form-control">
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <label>PIC Toko</label>
+                                                                <input required type="text" name="pic" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xl-6">
+                                                                <label>Alamat</label>
+                                                                <input type="text" name="alamat" class="form-control">
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <label>Kota</label>
+                                                                <input type="text" name="kota" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xl-6">
+                                                                <label>Email</label>
+                                                                <input type="text" name="email" class="form-control">
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <label>jadwal kirim</label>
+                                                                <input type="text" name="jadwal_kirim" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xl-6">
+                                                                <label>Tipe Pembayaran</label>
+                                                                <input type="text" name="tipe_pembayaran" class="form-control">
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <label>Sales</label>
+                                                                <input type="text" name="sales" class="form-control">
+                                                            </div>
+                                                        </div>
                                                             <div class="row mt-3">
                                                                 <div class="col-xl-8"></div>
                                                                 <div class="col-xl-2">
