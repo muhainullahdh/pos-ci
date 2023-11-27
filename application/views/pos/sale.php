@@ -1868,7 +1868,7 @@
                                                     icon: "warning",
                                             })
                                     }else{
-                                        if ($('.edit_transaksi').val() == 'edit_transaksi') {
+                                        // if ($('.edit_transaksi').val() == 'edit_transaksi') {
                                             $('.value_ac').val(value_ac);
                                             if (value_ac == 'TAHAN') {
                                                 $('.submit').attr('id','TAHAN');
@@ -1889,7 +1889,7 @@
                                             $('#payment').on('shown.bs.modal', function () {
                                                 $('.total_bayar').focus();
                                             })
-                                        }
+                                        // }
                                         // else if ($('.edit_transaksi').val() == 'edit_transaksi') {// edit transkasi yang sudah di cetak struk
                                         //     swal({
                                         //             title: "Opss..!",
