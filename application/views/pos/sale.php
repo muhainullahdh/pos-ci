@@ -2206,7 +2206,7 @@
                   var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if (diskon_al) {
-                        var total_xxx = parseInt(total_transaksi - bayar_val - tunai_vall) + parseInt(diskon_al)
+                        var total_xxx = parseInt(total_transaksi - bayar_val - tunai_vall) - parseInt(diskon_al)
                     }else{
                         var total_xxx = total_transaksi - bayar_val - tunai_vall
                     }
