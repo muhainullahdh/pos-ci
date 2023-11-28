@@ -53,7 +53,7 @@ body{
     <tr>
         <td>Ksr : <?=  $this->db->get_where('users',['id' => $transkasi['kasir']])->row_array()['nama']; ?></td>
         <!-- <td style="text-align:right"><?=  $this->db->get_where('ekspedisi',['id' => $transkasi['pengiriman']])->row_array()['kurir'] == "Internal" ? "Ambil ditoko" : "Ekspedisi"; ?></td> -->
-        <td style="text-align:center"><?=  $this->db->get_where('ekspedisi',['id' => $transkasi['pengiriman']])->row_array()['kurir'] == "Internal" ? "Ambil ditoko" : "Ekspedisi"; ?></td>
+        <td style="font-size:10px;"><?=  $this->db->get_where('ekspedisi',['id' => $transkasi['pengiriman']])->row_array()['kurir'] == "Internal" ? "Ambil ditoko" : "Ekspedisi"; ?></td>
     </tr>
     <!-- <tr>
         <td>Pengirim </td>
