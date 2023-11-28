@@ -516,20 +516,23 @@ class Pos extends CI_Controller {
         $first_date = $this->session->userdata('date_penjualan');
         $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('date_penjualan2'))));
         $today = date('Y-m-d');
-        $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
+        $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
         left join customers as c on(a.pelanggan=c.id_customer)
         left join users d on (a.kasir=d.id)
         left join barang as e on(b.kd_barang=e.id)
-        left join kategori as f on(e.kategori_id=f.id) WHERE a.tahan=0 and DATE(a.tgl_transaksi)='".$today."' and a.kasir='".$this->session->userdata('id_user')."' ")->result();
+        left join kategori as f on(e.kategori_id=f.id)
+        left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and DATE(a.tgl_transaksi)='".$today."' and a.kasir='".$this->session->userdata('id_user')."' ")->result();
 
         $no = 1; // Untuk penomoran tabel, di awal set dengan 1
         $numrow = 2; // Set baris pertama untuk isi tabel adalah baris ke 4
+        $jumlah_cash = 0;
         foreach($penjualan as $data){
             if ($data->pembayaran == 'GIRO' && isset(json_decode($data->info_pembayaran)->tempo) == true) {
                 $tempo = json_decode($data->info_pembayaran)->tempo;
             }else{
                 $tempo = "";
             }
+            $jumlah_cash += $data->jumlah;
             $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $data->tgl_transaksi);
             $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $data->no_struk);
             $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->kode_barang);
@@ -548,7 +551,7 @@ class Pos extends CI_Controller {
             $excel->setActiveSheetIndex(0)->setCellValue('P'.$numrow, $data->nama_kategori);
             $excel->setActiveSheetIndex(0)->setCellValue('Q'.$numrow, $data->salesman);
             $excel->setActiveSheetIndex(0)->setCellValue('R'.$numrow, $data->nama_kasir);
-            $excel->setActiveSheetIndex(0)->setCellValue('S'.$numrow, $data->pengiriman);
+            $excel->setActiveSheetIndex(0)->setCellValue('S'.$numrow, $data->nama_pengirim);
             $excel->setActiveSheetIndex(0)->setCellValue('T'.$numrow, "ok");//blm tau status ini apa
 
             // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
@@ -577,6 +580,9 @@ class Pos extends CI_Controller {
             $no++; // Tambah 1 setiap kali looping
             $numrow++; // Tambah 1 setiap kali looping
         }
+        $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, 'CASH');
+        $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $jumlah_cash);
+
 
         // Set width kolom
         // $excel->getActiveSheet()->getColumnDimension('A')->setWidth(5); // Set width kolom A
