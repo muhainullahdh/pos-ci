@@ -2299,27 +2299,30 @@
                                                     dataType : 'json',
                                                     success: function(data){
                                                         if (data.tahan == '1') {
-                                                            swal({
-                                                                    title: "Berhasil..!",
-                                                                    text: "Transaksi "+data.no_struk+"  berhasil ditahan",
-                                                                    icon: "success",
-                                                                    })
-                                                                    .then((willDelete) => {
-                                                                        if (willDelete) {
+                                                            // swal({
+                                                            //         title: "Berhasil..!",
+                                                            //         text: "Transaksi "+data.no_struk+"  berhasil ditahan",
+                                                            //         icon: "success",
+                                                            //         })
+                                                            //         .then((willDelete) => {
+                                                            //             if (willDelete) {
                                                                         window.location = '<?= base_url() ?>pos/';
-                                                                        }
-                                                                    });
+                                                                    //     }
+                                                                    // });
                                                         }else{
-                                                            swal({
-                                                                title: "Berhasil..!",
-                                                                text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
-                                                                icon: "success",
-                                                                }).then((willDelete) => {
-                                                                if (willDelete) {
-                                                                window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi,'_blank');
-                                                                window.location = '<?= base_url() ?>pos'
-                                                                }
-                                                            });
+                                                            // swal({
+                                                            //     title: "Berhasil..!",
+                                                            //     text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
+                                                            //     icon: "success",
+                                                            //     }).then((willDelete) => {
+                                                            //     if (willDelete) {
+                                                                setTimeout(() => {
+                                                                    window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi,'_blank');
+                                                                    window.location = '<?= base_url() ?>pos'
+                                                                }, 500);
+
+                                                            //     }
+                                                            // });
                                                         }
                                                     },
                                                     error: function(data){
