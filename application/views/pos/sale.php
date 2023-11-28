@@ -1884,10 +1884,10 @@
                                             $('.total_bayar').val($('.total_pos').html().slice(3))
                                             // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
                                             $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                            $(".total_bayar").focus();
                                             $('#payment').modal('show');
                                             $('#payment').on('shown.bs.modal', function () {
-                                                $('.total_bayar').focus();
+                                                // $('.total_bayar').focus();
+                                                 $("#BAYAR").focus();
                                             })
                                         // }
                                         // else if ($('.edit_transaksi').val() == 'edit_transaksi') {// edit transkasi yang sudah di cetak struk
