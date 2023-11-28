@@ -210,8 +210,8 @@ class User extends CI_Controller {
     {
         $id = $this->input->post('id_user');
         $pass = $this->input->post('password');
-        $user = $this->db->get_where('users', ['id' => 1])->row_array();
-        if (password_verify($pass, $user['password'])) {
+        $user = $this->db->get_where('users', ['password_verif_admin' => $pass])->num_rows();
+        if ($user == true) {
             echo json_encode("berhasil");
         }else{
             echo json_encode("error");
