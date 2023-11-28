@@ -239,6 +239,76 @@
                                 </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="modal_closing" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Closing</h5>
+
+                                        <button class="btn-close py-0 clear_penjualan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                                                    <div class="modal-toggle-wrapper">
+                                                                    <!-- <form action="<?= base_url('pos/reprint_date') ?>" method="POST"> -->
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <label>Pembayaran</label>
+                                                                                <select name="pembayaran" id="" class="form-control">
+                                                                                    <option value="">Pilih pembayaran</option>
+                                                                                    <option value="CASH">CASH CASH</option>
+                                                                                    <option value="TRANSFER">TRANSFER</option>
+                                                                                    <option value="VOCHER">VOCHER</option>
+                                                                                    <option value="EDC">EDC</option>
+                                                                                    <option value="GIRO">GIRO</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <label>Start Date</label>
+                                                                                <input type="date" class="form-control date_print_closing" value="<?= $this->session->userdata('closing_date_penjualan') ?>" name="date2">
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <label>End Date</label>
+                                                                                <input type="date" class="form-control date_print_closing2" value="<?= $this->session->userdata('closing_date_penjualan2') ?>" name="date2">
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <label>Pelanggan</label>
+                                                                                <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('closing_tipe_penjualan') ?>"> -->
+                                                                                <select id="" class="closing_customers select2x">
+                                                                                        <option value="0">Pilih Pelanggan</option>
+                                                                                        <?php foreach($customers as $x )  {
+                                                                                            ?>
+                                                                                        <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
+                                                                                        <?php } ?>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    <!-- </form> -->
+                                                                        <div class="row justify-content-md-center">
+                                                                            <div class="col-xl-12">
+                                                                            <div class="table-responsive">
+                                                                            <table id="load-transaksi" class="display table">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                    <th width="70"></th>
+                                                                                    <th width="400" scope="col">No Struk</th>
+                                                                                    <th width="80" scope="col">Pelanggan</th>
+                                                                                    <th width="180" scope="col">Total Item</th>
+                                                                                    <th width="180" scope="col">Total Transaksi</th>
+                                                                                    <th width="180" scope="col"></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                </tbody>
+                                                                                </table>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                </div>
+                        </div>
+                    </div>
           <div class="container-fluid">
             <div class="row mt-1">
               <div class="col-xxl-12 box-col-12">
@@ -422,7 +492,9 @@
                                                     <button class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
                                                 </div>
                                                 <div class="col">
-                                                    <a href="<?= base_url('pos/closing') ?>" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">CLOSING</a>
+                                                    <!-- <a href="<?= base_url('pos/closing') ?>" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">CLOSING</a> -->
+                                                    <button class="btn btn-square btn-outline-primary col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal_closing" style="font-size:20px;">CLOSING</button>
+
                                                 </div>
                                                 <!-- <div class="col">
                                                     <button class="btn btn-square btn-outline-danger col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal_trash" style="font-size:20px;">TRASH</button>
