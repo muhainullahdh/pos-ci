@@ -279,7 +279,7 @@ class Pos extends CI_Controller {
                 $this->db->insert_batch('transaksi_item',$output); //submit
             }
             if ($edit_transaksi == 'edit_transaksi') {
-                $cek_id = $edit_transaksi;
+                $cek_id = $id_transaksi;
             }else{
                 $cek_id = $get_transkasi['id_transaksi'];
             }
