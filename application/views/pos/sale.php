@@ -239,7 +239,7 @@
                                 </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="modal_closing" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+                    <div class="modal fade" id="modal_closing" style="overflow:hidden;" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdrop" aria-hidden="true">
                         <div class="modal-dialog modal-fullscreen">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -249,13 +249,13 @@
                                     </div>
                                     <div class="modal-body">
                                                                     <div class="modal-toggle-wrapper">
-                                                                    <!-- <form action="<?= base_url('pos/reprint_date') ?>" method="POST"> -->
+                                                                    <form action="<?= base_url('pos/closing') ?>" method="POST">
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 <label>Pembayaran</label>
-                                                                                <select name="pembayaran" id="" class="form-control">
+                                                                                <select name="pembayaran_closing" id="" class="form-control">
                                                                                     <option value="">Pilih pembayaran</option>
-                                                                                    <option value="CASH">CASH CASH</option>
+                                                                                    <option value="CASH">CASH</option>
                                                                                     <option value="TRANSFER">TRANSFER</option>
                                                                                     <option value="VOCHER">VOCHER</option>
                                                                                     <option value="EDC">EDC</option>
@@ -264,16 +264,16 @@
                                                                             </div>
                                                                             <div class="col">
                                                                                 <label>Start Date</label>
-                                                                                <input type="date" class="form-control date_print_closing" value="<?= $this->session->userdata('closing_date_penjualan') ?>" name="date2">
+                                                                                <input type="date" class="form-control date_print_closing" name="date_print_closing">
                                                                             </div>
                                                                             <div class="col">
                                                                                 <label>End Date</label>
-                                                                                <input type="date" class="form-control date_print_closing2" value="<?= $this->session->userdata('closing_date_penjualan2') ?>" name="date2">
+                                                                                <input type="date" class="form-control date_print_closing2"  name="date_print_closing2">
                                                                             </div>
                                                                             <div class="col">
                                                                                 <label>Pelanggan</label>
                                                                                 <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('closing_tipe_penjualan') ?>"> -->
-                                                                                <select id="" class="closing_customers select2x">
+                                                                                <select id="" name="closing_customers" class=" select2x">
                                                                                         <option value="0">Pilih Pelanggan</option>
                                                                                         <?php foreach($customers as $x )  {
                                                                                             ?>
@@ -282,8 +282,15 @@
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-                                                                    <!-- </form> -->
-                                                                        <div class="row justify-content-md-center">
+
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <button type="submit" class="btn btn-primary btn-square">Export</button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </form>
+                                                                        <!-- <div class="row justify-content-md-center">
                                                                             <div class="col-xl-12">
                                                                             <div class="table-responsive">
                                                                             <table id="load-transaksi" class="display table">
@@ -302,7 +309,7 @@
                                                                                 </table>
                                                                             </div>
 
-                                                                        </div>
+                                                                        </div> -->
                                                                     </div>
                                                                 </div>
                                                         </div>
@@ -492,7 +499,6 @@
                                                     <button class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
                                                 </div>
                                                 <div class="col">
-                                                    <!-- <a href="<?= base_url('pos/closing') ?>" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">CLOSING</a> -->
                                                     <button class="btn btn-square btn-outline-primary col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal_closing" style="font-size:20px;">CLOSING</button>
 
                                                 </div>
