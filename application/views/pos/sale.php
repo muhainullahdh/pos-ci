@@ -240,7 +240,7 @@
                         </div>
                     </div>
                     <div class="modal fade" id="modal_closing" style="overflow:hidden;" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdrop" aria-hidden="true">
-                        <div class="modal-dialog modal-fullscreen">
+                        <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLongTitle">Closing</h5>

@@ -420,7 +420,7 @@ class Pos extends CI_Controller {
         $this->db->update('transaksi');
         echo json_encode('berhasil');
     }
-    function closing()
+    function closing2()
     {
         require_once(APPPATH.'libraries/PHPExcel/IOFactory.php');
         // require_once 'PHPExcel/PHPExcel.php';
@@ -474,21 +474,12 @@ class Pos extends CI_Controller {
         $excel->setActiveSheetIndex(0)->setCellValue('C1', "Kode Barang");
         $excel->setActiveSheetIndex(0)->setCellValue('D1', "Nama Barang");
         $excel->setActiveSheetIndex(0)->setCellValue('E1', "Nama Pelanggan");
-        $excel->setActiveSheetIndex(0)->setCellValue('F1', "alamat");
-        $excel->setActiveSheetIndex(0)->setCellValue('G1', "kontak person");
-        $excel->setActiveSheetIndex(0)->setCellValue('H1', "No.kontak");
-        $excel->setActiveSheetIndex(0)->setCellValue('I1', "Tipe pelanggan");
-        $excel->setActiveSheetIndex(0)->setCellValue('J1', "Jenis pembayaran");
-        $excel->setActiveSheetIndex(0)->setCellValue('K1', "Jatuh tempo");
-        $excel->setActiveSheetIndex(0)->setCellValue('L1', "Satuan"); // satuan terkecil
-        $excel->setActiveSheetIndex(0)->setCellValue('M1', "Qty");//qty terkecil
-        $excel->setActiveSheetIndex(0)->setCellValue('N1', "Harga satuan");
-        $excel->setActiveSheetIndex(0)->setCellValue('O1', "Jumlah(Rp)");
-        $excel->setActiveSheetIndex(0)->setCellValue('P1', "Kategori");
-        $excel->setActiveSheetIndex(0)->setCellValue('Q1', "Sales");
-        $excel->setActiveSheetIndex(0)->setCellValue('R1', "Kasir");
-        $excel->setActiveSheetIndex(0)->setCellValue('S1', "Pengiriman");
-        $excel->setActiveSheetIndex(0)->setCellValue('T1', "Status");
+        $excel->setActiveSheetIndex(0)->setCellValue('F1', "Jenis pembayaran");
+        $excel->setActiveSheetIndex(0)->setCellValue('G1', "Total Belanja");
+        $excel->setActiveSheetIndex(0)->setCellValue('H1', "Total Bayar");
+        $excel->setActiveSheetIndex(0)->setCellValue('I1', "Retur Jual");
+        $excel->setActiveSheetIndex(0)->setCellValue('J1', "Kurang Bayar");
+        $excel->setActiveSheetIndex(0)->setCellValue('K1', "Bayar BON");
 
         // Apply style header yang telah kita buat tadi ke masing-masing kolom header
         $excel->getActiveSheet()->getStyle('A1')->applyFromArray($style_col);
@@ -502,15 +493,6 @@ class Pos extends CI_Controller {
         $excel->getActiveSheet()->getStyle('I1')->applyFromArray($style_col);
         $excel->getActiveSheet()->getStyle('J1')->applyFromArray($style_col);
         $excel->getActiveSheet()->getStyle('K1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('L1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('M1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('N1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('O1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('P1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('Q1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('R1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('S1')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('T1')->applyFromArray($style_col);
 
         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
         $pembayaran = $this->input->post('pembayaran_closing');
@@ -533,34 +515,35 @@ class Pos extends CI_Controller {
 
         $no = 1; // Untuk penomoran tabel, di awal set dengan 1
         $numrow = 2; // Set baris pertama untuk isi tabel adalah baris ke 4
-        $jumlah_cash = 0;
+        $jumlah_row = 0;
         foreach($penjualan as $data){
             if ($data->pembayaran == 'GIRO' && isset(json_decode($data->info_pembayaran)->tempo) == true) {
                 $tempo = json_decode($data->info_pembayaran)->tempo;
             }else{
                 $tempo = "";
             }
-            $jumlah_cash += $data->jumlah;
+            $excel->setActiveSheetIndex(0)->setCellValue('D1', "Nama Barang");
+            $excel->setActiveSheetIndex(0)->setCellValue('E1', "Nama Pelanggan");
+            $excel->setActiveSheetIndex(0)->setCellValue('F1', "Jenis pembayaran");
+            $excel->setActiveSheetIndex(0)->setCellValue('G1', "Total Belanja");
+            $excel->setActiveSheetIndex(0)->setCellValue('H1', "Total Bayar");
+            $excel->setActiveSheetIndex(0)->setCellValue('I1', "Retur Jual");
+            $excel->setActiveSheetIndex(0)->setCellValue('J1', "Kurang Bayar");
+            $excel->setActiveSheetIndex(0)->setCellValue('K1', "Bayar BON");
+
+
+            $jumlah_row += $data->jumlah;
             $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $data->tgl_transaksi);
             $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $data->no_struk);
             $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->kode_barang);
             $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->barang);
             $excel->setActiveSheetIndex(0)->setCellValue('E'.$numrow, $data->nama_toko);
-            $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $data->alamat);
-            $excel->setActiveSheetIndex(0)->setCellValue('G'.$numrow, $data->pic_toko);
-            $excel->setActiveSheetIndex(0)->setCellValue('H'.$numrow, $data->no_telp);
-            $excel->setActiveSheetIndex(0)->setCellValue('I'.$numrow, $data->tipe_penjualan);
-            $excel->setActiveSheetIndex(0)->setCellValue('J'.$numrow, $data->pembayaran);
-            $excel->setActiveSheetIndex(0)->setCellValue('K'.$numrow, $tempo);
-            $excel->setActiveSheetIndex(0)->setCellValue('L'.$numrow, $data->satuan);
-            $excel->setActiveSheetIndex(0)->setCellValue('M'.$numrow, $data->qty);
-            $excel->setActiveSheetIndex(0)->setCellValue('N'.$numrow, $data->harga_satuan);
-            $excel->setActiveSheetIndex(0)->setCellValue('O'.$numrow, $data->jumlah);
-            $excel->setActiveSheetIndex(0)->setCellValue('P'.$numrow, $data->nama_kategori);
-            $excel->setActiveSheetIndex(0)->setCellValue('Q'.$numrow, $data->salesman);
-            $excel->setActiveSheetIndex(0)->setCellValue('R'.$numrow, $data->nama_kasir);
-            $excel->setActiveSheetIndex(0)->setCellValue('S'.$numrow, $data->nama_pengirim);
-            $excel->setActiveSheetIndex(0)->setCellValue('T'.$numrow, "ok");//blm tau status ini apa
+            $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $data->pembayaran);
+            $excel->setActiveSheetIndex(0)->setCellValue('G'.$numrow, $data->jumlah);
+            $excel->setActiveSheetIndex(0)->setCellValue('H'.$numrow, $data->total_bayar);
+            $excel->setActiveSheetIndex(0)->setCellValue('I'.$numrow, 0);
+            $excel->setActiveSheetIndex(0)->setCellValue('J'.$numrow, 0);
+            $excel->setActiveSheetIndex(0)->setCellValue('K'.$numrow, 0);
 
             // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
             $excel->getActiveSheet()->getStyle('A'.$numrow)->applyFromArray($style_row);
@@ -574,22 +557,13 @@ class Pos extends CI_Controller {
             $excel->getActiveSheet()->getStyle('I'.$numrow)->applyFromArray($style_row);
             $excel->getActiveSheet()->getStyle('J'.$numrow)->applyFromArray($style_row);
             $excel->getActiveSheet()->getStyle('K'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('L'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('M'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('N'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('O'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('P'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('Q'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('R'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('S'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('T'.$numrow)->applyFromArray($style_row);
 
 
             $no++; // Tambah 1 setiap kali looping
             $numrow++; // Tambah 1 setiap kali looping
         }
         $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, 'CASH');
-        $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $jumlah_cash);
+        $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $jumlah_row);
 
 
         // Set width kolom
@@ -629,6 +603,53 @@ class Pos extends CI_Controller {
         $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
         $objWriter->save('php://output');
         exit;
+    }
+    function closing()
+    {
+         $mpdf = new \Mpdf\Mpdf([
+            'tempDir' => '/tmp',
+            'mode' => '',
+            'format' => 'A4',
+            'default_font_size' => 0,
+            'default_font' => '',
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 5,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10,
+            'orientation' => 'L',
+        ]);
+
+         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
+         $pembayaran = $this->input->post('pembayaran_closing');
+         $start_date = $this->input->post('date_print_closing');
+         $end_date = date('Y-m-d', strtotime('+1 days', strtotime($this->input->post('date_print_closing2'))));
+         $pelanggan = $this->input->post('closing_customers');
+
+         if ($pelanggan == true) {
+             $pelangganx = "and a.pelanggan='".$pelanggan."'";
+         }else{
+             $pelangganx = "";
+         }
+         $today = date('Y-m-d');
+         $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
+         left join customers as c on(a.pelanggan=c.id_customer)
+         left join users d on (a.kasir=d.id)
+         left join barang as e on(b.kd_barang=e.id)
+         left join kategori as f on(e.kategori_id=f.id)
+         left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='".$this->session->userdata('id_user')."' and a.pembayaran='".$pembayaran."' and a.tgl_transaksi BETWEEN '".$start_date."' and '".$end_date."' ".$pelangganx." ")->result();
+
+        $data = [
+            "penjualan" => $penjualan,
+            "tgl_closing" => $start_date .'-'. $end_date
+        ];
+        $html = $this->load->view('pos/closing', $data,true);
+        $mpdf->defaultfooterline=0;
+        // $mpdf->setFooter('<div style="text-align: left;">F.7.1.1</div>');
+        $mpdf->WriteHTML($html);
+        // $mpdf->Output();
+        $mpdf->Output('closing'.$start_date.'-' . $end_date.' .pdf', 'D');
     }
     function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
