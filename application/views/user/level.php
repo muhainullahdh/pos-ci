@@ -4,7 +4,7 @@
                 <br><br>
               <div class="row">
                 <div class="col-6">
-                  <h4>pengguna</h4>
+                  <h4>level</h4>
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
@@ -20,7 +20,7 @@
             </div>
           </div>
           <?php
-          if ($this->session->flashdata('msg') == 'double_pengguna') { ?>
+          if ($this->session->flashdata('msg') == 'double_level') { ?>
           <script>
             $(document).ready(function() {
                 swal({
@@ -37,7 +37,7 @@
               <div class="col-sm-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>List pengguna</h4><br>
+                    <h4>List level</h4><br>
                     <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">Add</button>
                     <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                       <div class="modal-dialog modal-lg" role="document">
@@ -45,29 +45,11 @@
                           <div class="modal-body">
                             <div class="modal-toggle-wrapper">
                                 <?= $this->session->flashdata('msg') ?>
-                                <form action="<?= base_url('user/pengguna') ?>" method="post">
+                                <form action="<?= base_url('user/level') ?>" method="post">
                                     <div class="row">
                                             <div class="col-xl-4">
                                                 <label>Nama</label>
                                                 <input required type="text" name="nama" class="form-control">
-                                            </div>
-                                            <div class="col-xl-4">
-                                                <label>username</label>
-                                                <input required type="text" name="username" class="form-control">
-                                            </div>
-                                            <div class="col-xl-4">
-                                                <label>Password</label>
-                                                <input required type="text" name="password" class="form-control">
-                                            </div>
-                                            <div class="col-xl-4 mt-2">
-                                                <label>Level</label>
-                                                <select name="level" id="" class="form-control">
-                                                    <option value="">Pilih Level</option>
-                                                    <?php $level = $this->db->get('level')->result();
-                                                    foreach ($level as $k) { ?>
-                                                        <option value="<?= $k->id_level ?>"><?= $k->nama ?></option>
-                                                    <?php } ?>
-                                                </select>
                                             </div>
                                     </div>
                                     <div class="row mt-3">
@@ -106,67 +88,38 @@
                             <table class="display" id="t_barang">
                                 <thead>
                                             <tr>
-                                            <th width="400" scope="col">Username</th>
                                             <th width="400" scope="col">Nama</th>
-                                            <th width="80" scope="col">Level</th>
-                                            <th width="80" scope="col">Status</th>
                                             <th width="80" scope="col">Action</th>
                                             </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($pengguna as $x) {  ?>
+                                    <?php foreach ($level as $x) {  ?>
                                             <tr>
-                                                <td>
-                                                    <?= $x->username ?>
-                                                </td>
                                                 <td>
                                                     <?= $x->nama ?>
                                                 </td>
                                                 <td>
-                                                    <?= $x->level ?>
-                                                </td>
-                                                <td>
-                                                    <?= $x->status ?>
-                                                </td>
-                                                <td>
-                                                 <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#satua_edit<?= $x->id ?>"><i class="fa fa-edit"></i></button>
-                                                    <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_pengguna"><i class="fa fa-trash-o"></i></button>
+                                                 <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#satua_edit<?= $x->id_level ?>"><i class="fa fa-edit"></i></button>
+                                                    <!-- <button type="button" id="<?= $x->id_level ?>" class="btn btn-danger btn-square delete_level"><i class="fa fa-trash-o"></i></button> -->
                                                 </td>
 
                                             </tr>
-                                            <div class="modal fade bd-example-modal-lg" id="satua_edit<?= $x->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                                            <div class="modal fade bd-example-modal-lg" id="satua_edit<?= $x->id_level ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                                               <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
                                                   <div class="modal-header">
-                                                    <h5>Edit pengguna</h5>
+                                                    <h5>Edit level</h5>
                                                   </div>
                                                   <div class="modal-body">
                                                     <div class="modal-toggle-wrapper">
                                                         <?= $this->session->flashdata('msg') ?>
-                                                        <form action="<?= base_url('user/pengguna') ?>" method="post">
+                                                        <form action="<?= base_url('user/level') ?>" method="post">
                                                         <div class="row">
                                                                     <div class="col-xl-4">
                                                                         <label>Nama</label>
-                                                                        <input type="hidden" value="<?= $x->id ?>" name="id" class="form-control">
+                                                                        <input type="hidden" value="<?= $x->id_level ?>" name="id" class="form-control">
                                                                         <input type="hidden" value="edit" name="action" class="form-control">
                                                                         <input value="<?= $x->nama ?>" required type="text" name="nama" class="form-control">
-                                                                    </div>
-                                                                    <div class="col-xl-4">
-                                                                        <label>username</label>
-                                                                        <input required type="text" value="<?= $x->username ?>" name="username" class="form-control">
-                                                                    </div>
-                                                                    <div class="col-xl-4">
-                                                                        <label>Password</label>
-                                                                        <input required type="text" name="password" class="form-control">
-                                                                    </div>
-                                                                    <div class="col-xl-4 mt-2">
-                                                                        <label>Level</label>
-                                                                    <select name="level" id="" class="form-control">
-                                                                        <?php $level = $this->db->get('level')->result();
-                                                                        foreach ($level as $k) { ?>
-                                                                            <option <?= $x->level == $k->id_level ? 'selected' : '' ?> value="<?= $k->id_level ?>"><?= $k->nama ?></option>
-                                                                        <?php } ?>
-                                                                    </select>
                                                                     </div>
                                                             </div>
                                                             <div class="row mt-3">
@@ -216,19 +169,19 @@
         <!-- footer start-->
 
 <script>
-                    $(document).on('click', '.delete_pengguna', function (e) {
+                    $(document).on('click', '.delete_level', function (e) {
                     e.preventDefault();
                     var pid = this.id;
                     swal({
                         title: "Delete",
-                        text: "Apakah anda yakin ingin delete pengguna?",
+                        text: "Apakah anda yakin ingin delete level?",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
                     }).then((willDelete) => {
                         if (willDelete) {
                                 $.ajax({
-                                url : "<?= site_url('user/delete_pengguna');?>",
+                                url : "<?= site_url('user/delete_level');?>",
                                 method : "POST",
                                 data : {id: pid},
                                 async : true,
@@ -236,7 +189,7 @@
                                     success: function(data){
                                         swal({
                                                                 title: "Berhasil..!",
-                                                                text: "pengguna berhasil didelete",
+                                                                text: "level berhasil didelete",
                                                                 icon: "success",
                                                                 }).then((willDelete) => {
                                                                 if (willDelete) {

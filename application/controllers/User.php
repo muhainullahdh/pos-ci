@@ -100,7 +100,7 @@ class User extends CI_Controller {
         $action = $this->input->post('action');
         $id = $this->input->post('id');
         if ($nama == true && $action != 'edit') {
-            $cek = $this->db->query("SELECT * FROM users where username='$username' ")->num_rows();
+            $cek = $this->db->query("SELECT * FROM users where username='".$this->input->post('username')."' ")->num_rows();
             if ($cek == true) {
                 $this->session->set_flashdata('msg','double_satuan');
                 $this->session->set_flashdata('msg_val',$nama);
@@ -142,6 +142,45 @@ class User extends CI_Controller {
             // redirect('barang/satuan');
             $this->load->view('body/header');
             $this->load->view('user/pengguna',$data);
+            $this->load->view('body/footer');
+    }
+    function level()
+    {
+        $nama = $this->input->post('nama');
+        $action = $this->input->post('action');
+        $id = $this->input->post('id');
+        if ($nama == true && $action != 'edit') {
+            $cek = $this->db->query("SELECT * FROM level where nama='$nama' ")->num_rows();
+            if ($cek == true) {
+                $this->session->set_flashdata('msg','double_satuan');
+                $this->session->set_flashdata('msg_val',$nama);
+                redirect('user/level');
+            }else{
+                $datax = [
+                    "nama" => $nama,
+                ];
+                $this->db->insert('level',$datax);
+                redirect('user/level');
+            }
+        }
+        if ($action == 'edit') {
+
+            $datax = [
+                "nama" => $nama,
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('level',$datax);
+            redirect('user/level');
+
+        }
+        $cust = $this->db->get('level')->result();
+        $data = [
+            "level" => $cust
+        ];
+            // $this->session->set_flashdata('msg','Data tidak boleh kosong');
+            // redirect('barang/satuan');
+            $this->load->view('body/header');
+            $this->load->view('user/level',$data);
             $this->load->view('body/footer');
     }
     function supplier()

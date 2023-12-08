@@ -41,6 +41,7 @@
                       <span> Kelola User</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="<?= base_url('user/pengguna') ?>">Pengguna</a></li>
+                      <li><a href="<?= base_url('user/level') ?>">Level</a></li>
                     </ul>
                   </li>
                     <!---- Kontak--->
