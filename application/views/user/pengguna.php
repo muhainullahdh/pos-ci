@@ -45,23 +45,26 @@
                           <div class="modal-body">
                             <div class="modal-toggle-wrapper">
                                 <?= $this->session->flashdata('msg') ?>
-                                <form action="<?= base_url('user/customer') ?>" method="post">
+                                <form action="<?= base_url('user/pengguna') ?>" method="post">
                                     <div class="row">
                                             <div class="col-xl-4">
-                                                <h6>Nama</h6>
+                                                <label>Nama</label>
                                                 <input required type="text" name="nama" class="form-control">
                                             </div>
                                             <div class="col-xl-4">
-                                                <h6>username</h6>
+                                                <label>username</label>
                                                 <input required type="text" name="username" class="form-control">
                                             </div>
                                             <div class="col-xl-4">
-                                                <h6>Password</h6>
+                                                <label>Password</label>
                                                 <input required type="text" name="password" class="form-control">
                                             </div>
                                             <div class="col-xl-4 mt-2">
-                                                <h6>No telp</h6>
-                                                <input required type="text" placeholder="1" name="telp" class="form-control">
+                                                <label>Level</label>
+                                               <select name="level" id="" class="form-control">
+                                                    <option value="1">admin</option>
+                                                    <option value="2">kasir</option>
+                                               </select>
                                             </div>
                                     </div>
                                     <div class="row mt-3">
@@ -137,27 +140,28 @@
                                                   <div class="modal-body">
                                                     <div class="modal-toggle-wrapper">
                                                         <?= $this->session->flashdata('msg') ?>
-                                                        <form action="<?= base_url('user/customer') ?>" method="post">
+                                                        <form action="<?= base_url('user/pengguna') ?>" method="post">
                                                         <div class="row">
-                                                                    <div class="col-xl-6">
-                                                                        <h6>Nama pengguna</h6>
+                                                                    <div class="col-xl-4">
+                                                                        <label>Nama</label>
                                                                         <input type="hidden" value="<?= $x->id ?>" name="id" class="form-control">
                                                                         <input type="hidden" value="edit" name="action" class="form-control">
-                                                                        <input required type="text" placeholder="Bungkus" value="<?= $x->nama ?>" name="nama" class="form-control">
+                                                                        <input value="<?= $x->nama ?>" required type="text" name="nama" class="form-control">
                                                                     </div>
-                                                                    <div class="col-xl-6">
-                                                                        <h6>Tipe Penjualan</h6>
-                                                                        <select required name="tipe_penjualan" class="form-control" id="">
-                                                                            <!-- <option value="">Pilih tipe penjualan</option> -->
-                                                                            <option <?= $x->tipe_penjualan == 'retail' ? 'selected' : '' ?> value="retail">retail</option>
-                                                                            <option <?= $x->tipe_penjualan == 'grosir' ? 'selected' : '' ?> value="grosir">grosir</option>
-                                                                            <option <?= $x->tipe_penjualan == 'partai' ? 'selected' : '' ?> value="partai">partai</option>
-                                                                            <option <?= $x->tipe_penjualan == 'promo' ? 'selected' : '' ?> value="promo">promo</option>
-                                                                        </select>
+                                                                    <div class="col-xl-4">
+                                                                        <label>username</label>
+                                                                        <input required type="text" value="<?= $x->username ?>" name="username" class="form-control">
                                                                     </div>
-                                                                    <div class="col-xl-6 mt-2">
-                                                                        <h6>No telp</h6>
-                                                                        <input required type="text" value="<?= $x->no_telp ?>"  placeholder="1" name="telp" class="form-control">
+                                                                    <div class="col-xl-4">
+                                                                        <label>Password</label>
+                                                                        <input required type="text" name="password" class="form-control">
+                                                                    </div>
+                                                                    <div class="col-xl-4 mt-2">
+                                                                        <label>Level</label>
+                                                                    <select name="level" id="" class="form-control">
+                                                                            <option <?= $x->level == '1' ? 'selected' : '' ?> value="1">admin</option>
+                                                                            <option <?= $x->level == '2' ? 'selected' : '' ?>  value="2">kasir</option>
+                                                                    </select>
                                                                     </div>
                                                             </div>
                                                             <div class="row mt-3">
@@ -219,7 +223,7 @@
                     }).then((willDelete) => {
                         if (willDelete) {
                                 $.ajax({
-                                url : "<?= site_url('user/delete_customer');?>",
+                                url : "<?= site_url('user/delete_pengguna');?>",
                                 method : "POST",
                                 data : {id: pid},
                                 async : true,

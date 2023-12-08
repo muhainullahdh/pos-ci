@@ -107,9 +107,11 @@ class User extends CI_Controller {
                 redirect('user/pengguna');
             }else{
                 $datax = [
-                    "nama_toko" => $nama,
-                    "no_telp" => $no_telp,
-                    "tipe_penjualan" => $tipe_penjualan
+                    "nama" => $nama,
+                    "username" => $this->input->post('username'),
+                    "password" => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
+                    "level" => $this->input->post('level'),
+                    "status" => 1,
                 ];
                 $this->db->insert('users',$datax);
                 redirect('user/pengguna');
@@ -118,9 +120,11 @@ class User extends CI_Controller {
         if ($action == 'edit') {
 
             $datax = [
-                "nama_toko" => $nama,
-                "no_telp" => $no_telp,
-                "tipe_penjualan" => $tipe_penjualan
+                "nama" => $nama,
+                "username" => $this->input->post('username'),
+                "password" => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
+                "level" => $this->input->post('level'),
+                "status" => 1,
             ];
             $this->db->where('id',$id);
             $this->db->update('users',$datax);
@@ -281,6 +285,13 @@ class User extends CI_Controller {
         $id = $this->input->post('id');
         $this->db->where('id',$id);
         $this->db->delete('ekspedisi');
+        echo json_encode('berhasil');
+    }
+    function delete_pengguna()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id',$id);
+        $this->db->delete('users');
         echo json_encode('berhasil');
     }
     function import()

@@ -127,7 +127,7 @@
                                 </div>
                             </div>
                        </div>
-                       <div class="row">
+                       <div class="row mt-3">
                             <div class="col-xl-1">
                                 <label>No Srt Jln</label>
                             </div>
