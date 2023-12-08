@@ -150,7 +150,7 @@ class User extends CI_Controller {
         $action = $this->input->post('action');
         $id = $this->input->post('id');
         if ($nama == true && $action != 'edit') {
-            $cek = $this->db->query("SELECT * FROM level where nama='$nama' ")->num_rows();
+            $cek = $this->db->query("SELECT * FROM `level` where nama='$nama' ")->num_rows();
             if ($cek == true) {
                 $this->session->set_flashdata('msg','double_satuan');
                 $this->session->set_flashdata('msg_val',$nama);
@@ -168,7 +168,7 @@ class User extends CI_Controller {
             $datax = [
                 "nama" => $nama,
             ];
-            $this->db->where('id',$id);
+            $this->db->where('id_level',$id);
             $this->db->update('level',$datax);
             redirect('user/level');
 
