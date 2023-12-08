@@ -99,8 +99,8 @@ class User extends CI_Controller {
         $no_telp = $this->input->post('telp');
         $action = $this->input->post('action');
         $id = $this->input->post('id');
-        if ($nama == true && $no_telp == true && $action != 'edit') {
-            $cek = $this->db->query("SELECT * FROM users where username='$nama' ")->num_rows();
+        if ($nama == true && $action != 'edit') {
+            $cek = $this->db->query("SELECT * FROM users where username='$username' ")->num_rows();
             if ($cek == true) {
                 $this->session->set_flashdata('msg','double_satuan');
                 $this->session->set_flashdata('msg_val',$nama);
