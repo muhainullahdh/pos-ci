@@ -69,6 +69,17 @@
                       <!-- <li><a href="dashboard-04.html">Role</a></li> -->
                     </ul>
                   </li>
+                  <li class="sidebar-list">
+                    <a class="sidebar-link sidebar-title" href="#">
+                    <i data-feather="package"></i>
+                      <span>Inventory</span></a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="<?= base_url('barang') ?>">Sisa Stock</a></li>
+                      <li><a href="<?= base_url('barang') ?>">Stock Opname</a></li>
+                      <li><a href="<?= base_url('barang') ?>">Koreksi barang</a></li>
+                      <li><a href="<?= base_url('barang') ?>">Mutasi barang antar gudang</a></li>
+                    </ul>
+                  </li>
                   <!---- Pembelian--->
                   <li class="sidebar-list">
                     <a class="sidebar-link sidebar-title" href="#">
