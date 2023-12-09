@@ -17,13 +17,15 @@
                   </li>
                   <li class="sidebar-list">
                     <!-- <i class="fa fa-thumb-tack"></i> -->
-                    <label class="badge badge-light-primary">8</label><a class="sidebar-link sidebar-title" href="#">
+                    <!-- <label class="badge badge-light-primary">8</label>
+                    <a class="sidebar-link sidebar-title" href="#">
                       <svg class="stroke-icon">
                         <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#stroke-home"></use>
                       </svg>
                       <svg class="fill-icon">
                         <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#fill-home"></use>
-                      </svg><span class="lan-3">Dashboard          </span></a>
+                      </svg><span class="lan-3">Dashboard
+                      </span></a>
                     <ul class="sidebar-submenu">
                       <li><a class="lan-4" href="index.html">Default</a></li>
                       <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li>
@@ -34,7 +36,7 @@
                       <li> <a href="dashboard-07.html">School management</a></li>
                       <li> <a href="dashboard-08.html">POS</a></li>
                     </ul>
-                  </li>
+                  </li> -->
                   <li class="sidebar-list">
                     <a class="sidebar-link sidebar-title" href="#">
                     <i data-feather="users"></i>
