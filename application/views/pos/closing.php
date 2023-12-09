@@ -93,7 +93,8 @@ small {font-size: 8pt;}
 <body>
 <div id="container">
     <div id="body">
-        <p><br>Tanggal : <?= $tgl_closing ?></p>
+        <h4>Closing</h4>
+        <p>Tanggal : <?= $tgl_closing ?></p>
         <table class="tb-bor mt10 ft9">
             <tr>
                 <th class="bor-lf" width="6%">No</th>

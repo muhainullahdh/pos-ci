@@ -622,10 +622,10 @@ class Pos extends CI_Controller {
         ]);
 
          // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
-         $pembayaran = $this->input->post('pembayaran_closing');
-         $start_date = $this->input->post('date_print_closing');
-         $end_date = date('Y-m-d', strtotime('+1 days', strtotime($this->input->post('date_print_closing2'))));
-         $pelanggan = $this->input->post('closing_customers');
+         $pembayaran = $this->input->get('pembayaran_closing');
+         $start_date = $this->input->get('date_print_closing');
+         $end_date = date('Y-m-d', strtotime('+1 days', strtotime($this->input->get('date_print_closing2'))));
+         $pelanggan = $this->input->get('closing_customers');
 
          if ($pelanggan == true) {
              $pelangganx = "and a.pelanggan='".$pelanggan."'";
@@ -638,7 +638,7 @@ class Pos extends CI_Controller {
          left join users d on (a.kasir=d.id)
          left join barang as e on(b.kd_barang=e.id)
          left join kategori as f on(e.kategori_id=f.id)
-         left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='".$this->session->userdata('id_user')."' and a.pembayaran='".$pembayaran."' and a.tgl_transaksi BETWEEN '".$start_date."' and '".$end_date."' ".$pelangganx." ")->result();
+         left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='".$this->session->userdata('id_user')."' and a.pembayaran='".$pembayaran."' and a.tgl_transaksi BETWEEN '".$start_date."' and '".$end_date."' ".$pelangganx." GROUP BY a.no_struk ")->result();
 
         $data = [
             "penjualan" => $penjualan,
@@ -648,8 +648,8 @@ class Pos extends CI_Controller {
         $mpdf->defaultfooterline=0;
         // $mpdf->setFooter('<div style="text-align: left;">F.7.1.1</div>');
         $mpdf->WriteHTML($html);
-        // $mpdf->Output();
-        $mpdf->Output('closing'.$start_date.'-' . $end_date.' .pdf', 'D');
+        $mpdf->Output();
+        // $mpdf->Output('closing'.$start_date.'-' . $end_date.' .pdf', 'D');
     }
     function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.

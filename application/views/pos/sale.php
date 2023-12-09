@@ -249,7 +249,7 @@
                                     </div>
                                     <div class="modal-body">
                                                                     <div class="modal-toggle-wrapper">
-                                                                    <form action="<?= base_url('pos/closing') ?>" method="POST">
+                                                                    <form action="<?= base_url('pos/closing') ?>" method="GET">
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 <label>Pembayaran</label>
