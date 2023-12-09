@@ -273,7 +273,7 @@
                                                                             <div class="col">
                                                                                 <label>Pelanggan</label>
                                                                                 <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('closing_tipe_penjualan') ?>"> -->
-                                                                                <select id="" name="closing_customers" class=" select2x">
+                                                                                <select id="" name="closing_customers" class="select2x">
                                                                                         <option value="0">Pilih Pelanggan</option>
                                                                                         <?php foreach($customers as $x )  {
                                                                                             ?>
@@ -567,7 +567,7 @@
                                         </div>
                                         <div class="col-xl-8">
                                         <form action="<?= base_url('pos') ?>" method="POST">
-                                            <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2x">
+                                            <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2p">
                                                     <!-- <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="">UMUM</option> -->
                                                     <?php foreach($customers as $x )  {
                                                         ?>
@@ -631,7 +631,7 @@
                                             <p>Pengiriman</p>
                                         </div>
                                         <div class="col-xl-8">
-                                            <select name="" id="" class="form-control select2x pengiriman">
+                                            <select name="" id="" class="form-control select2kurir pengiriman">
                                                 <option value="">Pilih Pengiriman</option>
                                                <?php foreach($ekspedisi as $x) { ?>
                                                 <option <?= $x->nama == "Ambil di toko" ? 'selected' : '' ?> value="<?= $x->id ?>"><?= $x->nama ?></option>
@@ -1009,6 +1009,8 @@
 
         $( document ).ready(function() {
                         $('.select2x').select2();
+                        $('.select2p').select2();
+                        $('.select2kurir').select2();
                         $('.stock1').attr('disabled',true)
                         $('.stock-c1').attr('disabled',true)
                         var counter = 0;
@@ -2218,6 +2220,12 @@
                                         console.log(e)
                                     }
                             });
+                    }else if (e.which == 188) { // open pelanggan
+                        $('.select2p').select2();
+                        $('.select2p').select2('open');
+                    }else if (e.which == 190) { // open pengiriman
+                        $('.select2kurir').select2();
+                        $('.select2kurir').select2('open');
                     }
                     // else if (e.which == 82) {
                     //     // window.location = '<?= base_url() ?>pos/';
