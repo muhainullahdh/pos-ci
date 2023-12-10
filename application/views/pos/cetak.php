@@ -91,7 +91,7 @@ body{
     </tr>
     <tr>
         <td>Sisa Bon Yang lalu</td>
-        <td style="text-align:right"><?= number_format(0,0,',',',') ?></td>
+        <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar_piutang'],0,',',',') ?></td>
     </tr>
     <tr>
         <td>

@@ -117,8 +117,10 @@ class Pos extends CI_Controller {
         //     'orientation' => 'P',
         //     'showImageErrors' => true
         // ]);
-        $this->db->where('id',$id_transaksi);
-        $get_transaksi = $this->db->get("transaksi")->row_array();
+        $this->db->where('a.id',$id_transaksi);
+        $this->db->join('piutang as b','a.id=b.id_transaksi');
+        $get_transaksi = $this->db->get("transaksi as a")->row_array();
+
         $this->db->where('id_transaksi',$id_transaksi);
         $get_transaksi_item = $this->db->get("transaksi_item")->result();
         $data = [
