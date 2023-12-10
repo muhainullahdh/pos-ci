@@ -1122,7 +1122,7 @@
                                                             //     // console.log($('.stock-c'+co+'').val())
                                                             // }else{
                                                                 $('.stock'+counter+'').val(stok);
-                                                                $('.stock-c'+counter+'').val(stok - qty);
+                                                                $('.stock-c'+counter+'').val(stok - (qty));
                                                             // }
                                                         // console.log(data.nama)
                                                             $('.total_item').val(counter)
