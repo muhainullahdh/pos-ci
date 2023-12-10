@@ -2220,10 +2220,10 @@
                                         console.log(e)
                                     }
                             });
-                    }else if (e.which == 188) { // open pelanggan
+                    }else if (e.which == 188) { // open pelanggan <
                         $('.select2p').select2();
                         $('.select2p').select2('open');
-                    }else if (e.which == 190) { // open pengiriman
+                    }else if (e.which == 190) { // open pengiriman >
                         $('.select2kurir').select2();
                         $('.select2kurir').select2('open');
                     }

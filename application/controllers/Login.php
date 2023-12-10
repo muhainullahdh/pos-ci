@@ -34,7 +34,7 @@ class Login extends CI_Controller {
                         'username' => $user['username'],
                         'level' => $user['level'],
                         'status' => $user['status'],
-                        'email' => $user['email'],
+                        // 'email' => $user['email'],
                     ];
                     $this->session->set_userdata($data);
                     $this->session->set_userdata('tipe_penjualan','umum,1,1');
