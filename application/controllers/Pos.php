@@ -20,13 +20,13 @@ class Pos extends CI_Controller {
         $tipe = $this->input->post('tipe');
         if ($tipe == true) {
             $this->session->set_userdata('tipe_penjualan',$tipe);
-            $id_plg = explode(',',$this->input->post('tipe_penjualan'))[1];
+            $id_plg = explode(',',$this->session->userdata('tipe_penjualan'))[1];
             $this->db->where('pelanggan_piutang',$id_plg);
             $this->db->where('status',1);
             $cek_piutang_user = $this->db->get('piutang');
             if ($cek_piutang_user->num_rows()) {
                 $this->session->set_flashdata('msg','piutang');
-                redirect('pos/load_piutang/'.$cek_piutang_user->row_array()['id_transaksi']);
+                redirect('pos/index/'.$cek_piutang_user->row_array()['id_transaksi'] . '/piutang');
             }
         }else{
             $this->session->set_userdata('tipe_penjualan','umum,273,1');
@@ -417,7 +417,20 @@ class Pos extends CI_Controller {
     }
     function load_piutang()
     {
-        echo 1;
+        $id = $this->input->post('id');
+        // $draw=intval($this->input->get("draw"));
+        // $start=intval($this->input->get("start"));
+        // $length=intval($this->input->get("length"));
+        $this->db->where('id_transaksi', $id);
+        $this->db->where('a.trash !=', 1);
+        $this->db->from('transaksi_item as a');
+        $this->db->join('barang as b', 'a.kd_barang=b.id');
+        $this->db->join('transaksi as c', 'c.id=a.id_transaksi');
+        $this->db->join('customers as d', 'c.pelanggan=d.id_customer');
+        $this->db->join('ekspedisi as e', 'c.pengiriman=e.id');
+        $query = $this->db->get()->result();
+        echo json_encode($query);
+        exit();
     }
     function del_row_hold()
     {

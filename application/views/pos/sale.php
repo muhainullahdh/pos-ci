@@ -295,68 +295,50 @@
                         <div class="card">
                             <div class="card-body pt-0">
                                 <div class="row mt-3">
-                                    <?php if($this->uri->segment(3) == true) { ?>
+                                    <?php if($this->uri->segment(2) == 'index' && $this->uri->segment(4) != 'piutang') { ?> <!-- pos load hold -->
                                         <div class="col">
-                                        <div  class="table-responsive" style="min-height:650px; max-height: 650px;">
-                                            <table id="load-list">
-                                            <thead>
-                                                <tr>
-                                                <th></th>
-                                                <th width="400" scope="col">Nama Barang</th>
-                                                <th width="80" scope="col">Qty</th>
-                                                <th width="180" scope="col">Satuan</th>
-                                                <th width="180" scope="col">Harga Satuan</th>
-                                                <th width="180" scope="col">Diskon</th>
-                                                <th width="280" scope="col">Jumlah</th>
-                                                <th width="280" scope="col">Stock</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="sampel-wrapper">
-                                                <!-- <?php foreach($transaksi_item as $x){ ?>
-                                                <tr style="background-color: white;">
-                                                    <td>
-                                                        <button type="button" class="btn btn-danger delete_satuan"><i class="icon-trash"></i></button>
-                                                    </td>
-                                                        <td class="order">
-                                                        <input class="form-control barang1" value="<?= $x->barang ?>">
-                                                        <input type="hidden" value="<?= $x->kd_barang ?>" class="form-control id_barang1">
-                                                                </td>
-                                                        <td>
-                                                            <input id="idq1" type="number" <?= $x->qty ?> style="text-align:center;" value="1" class="form-control qty1">
-                                                        </td>
-                                                        <td>
-                                                            <select id="ids1" class="form-control satuan1" style="cursor: text;">
-                                                                <option value="">Pilih satuan</option>
-                                                            </select>
-                                                            <input type="hidden" class="qty_isi1">
-                                                        </td>
-                                                        <td>
-                                                            <input readonly type="text" value="<?= number_format($x->harga_satuan,0,'.','.') ?>" id="idh1" class="form-control harga1">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" id="idd1" placeholder="0" style="text-align:center;" class="form-control diskon_item1">
-                                                        </td>
-                                                        <td>
-                                                        <input readonly type="text" value="<?= number_format($x->jumlah,0,'.','.') ?>" class="form-control jumlah1">
-                                                        </td>
-                                                        <td>
-                                                            <div class="row">
-                                                                    <div class="col-xl-6">
-                                                                        <input type="text" class="form-control stock1">
-                                                                    </div>
-                                                                    <div class="col-xl-6">
-                                                                        <input type="text" class="form-control stock-c1">
-                                                                    </div>
-                                                            </div>
-                                                        </td>
-                                                </tr>
-                                                <?php } ?> -->
-                                            </tbody>
-                                            </table>
+                                            <div  class="table-responsive" style="min-height:650px; max-height: 650px;">
+                                                <table id="load-list">
+                                                <thead>
+                                                    <tr>
+                                                    <th></th>
+                                                    <th width="400" scope="col">Nama Barang</th>
+                                                    <th width="80" scope="col">Qty</th>
+                                                    <th width="180" scope="col">Satuan</th>
+                                                    <th width="180" scope="col">Harga Satuan</th>
+                                                    <th width="180" scope="col">Diskon</th>
+                                                    <th width="280" scope="col">Jumlah</th>
+                                                    <th width="280" scope="col">Stock</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="sampel-wrapper">
+                                                </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
+                                    <?php }else if($this->uri->segment(4) == 'piutang'){ ?>
+                                        <div class="col">
+                                            <div  class="table-responsive" style="min-height:650px; max-height: 650px;">
+                                                <table id="load-piutang-user">
+                                                <thead>
+                                                    <tr>
+                                                    <th></th>
+                                                    <th width="400" scope="col">Nama Barang</th>
+                                                    <th width="80" scope="col">Qty</th>
+                                                    <th width="180" scope="col">Satuan</th>
+                                                    <th width="180" scope="col">Harga Satuan</th>
+                                                    <th width="180" scope="col">Diskon</th>
+                                                    <th width="280" scope="col">Jumlah</th>
+                                                    <th width="280" scope="col">Stock</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="sampel-wrapper">
+                                                </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     <?php }else{ ?>
-                                    <div class="col">
+                                    <div class="col"> <!-- pos transaksi -->
                                         <div class="table-responsive" style="min-height:650px; max-height: 650px;">
                                             <table>
                                             <thead>
@@ -1267,7 +1249,7 @@
                             var rupiah = document.getElementById('idd'+counter+'');
                         }
                         // var counter = <?= $this->uri->segment(3) == true ? 1 : 0 ?>;
-                        <?php if($this->uri->segment(3) == true){ ?> //submit hold atau edit transaksi
+                        <?php if($this->uri->segment(2) == 'index' && $this->uri->segment('4') != 'piutang'){ ?> //submit hold atau edit transaksi
                             $.ajax({
                                     url : "<?= site_url('pos/load');?>",
                                     method : "POST",
@@ -1323,6 +1305,415 @@
                                             $('.pengiriman').html('<option value='+data[i].pengiriman+' selected>'+data[i].nama+'</option>');
                                             total_pos += parseInt(data[i].jumlah)
                                             $('#load-list tbody').append(
+                                            '<tr class="cb" id=r'+counter+'>'+
+                                            '<td>'+
+                                            '<button id='+counter+' value="'+data[i].id_transaksi_item+'" type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>'+
+                                            '</td>'+
+                                            '<td>'+
+                                            '<input class="form-control barang'+counter+'" value="'+data[i].barang+'">'+
+                                            '<input type="hidden" value="'+data[i].kd_barang+'" class="form-control id_barang'+counter+'">'+
+                                            '<input type="hidden" value="'+data[i].id_transaksi_item+'" class="form-control id_item'+counter+'">'+
+                                            '</td>'+
+                                            '<td>'+
+                                            '<input id="idq'+counter+'" value="'+data[i].qty+'" type="number" style="text-align:center;" value="1" class="form-control qty'+counter+'">'+
+                                            '</td>'+
+                                            '<td>'+
+                                            '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
+                                                // '<option value="">Pilih satuan</option>'+
+                                                satuan_option+
+                                            '</select>'+
+                                            '</td>'+
+                                            '<td>'+
+                                            '<input readonly type="text" value="'+data[i].harga_satuan.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")+'" class="form-control harga'+counter+'">'+
+                                            '</td>'+
+                                            '<td>'+
+                                            '<input type="text" id="idd'+counter+'" value="'+data[i].diskon_item.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")+'" placeholder="0" style="text-align:center;" class="form-control diskon_item'+counter+'">'+
+                                            '</td>'+
+                                            '<td>'+
+                                            '<input readonly type="text" value="'+data[i].jumlah.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")+'" class="form-control jumlah'+counter+'">'+
+                                            '</td>'+
+                                            '<td>'+
+                                            '<div class="row">'+
+                                                    '<div class="col-xl-6">'+
+                                                        '<input readonly type="text" value="'+data[i].stok+'" class="form-control stock'+counter+'">'+
+                                                    '</div>'+
+                                                    '<div class="col-xl-6">'+
+                                                        '<input readonly type="text" value='+ qty_kurangi+' class="form-control stock-c'+counter+'">'+
+                                                    ' </div>'+
+                                            '</div>'+
+                                            '</td>'+
+                                            '</tr>');
+                                            // '</tr>');
+                                            // check_pos()
+                                        }
+
+                                        $('.total_pos').html('Rp.'+total_pos.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('.total_item').val(data.length);
+                                        for (let xx = 0; xx <= counter; xx++) {
+                                            var data = "<?= base_url('pos/get_barang') ?>";
+                                            $(".barang"+xx+"").autocomplete({
+                                                source: data,
+                                                select: function (event, ui) {
+                                                    $('.barang'+xx+'').val(ui.item.label);
+                                                    $('.id_barang'+xx+'').val(ui.item.description);
+                                                    var i,j;
+                                                                $.ajax({
+                                                                    url : "<?= site_url('pos/search_barang');?>",
+                                                                    method : "POST",
+                                                                    data : {id: ui.item.description},
+                                                                    async : true,
+                                                                    dataType : 'json',
+                                                                    success: function(data){
+                                                                        var satuann = ''
+                                                                        if (data.id_satuan_besar != "") {
+                                                                            satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
+                                                                        }
+                                                                        if (data.id_satuan_kecil != "") {
+                                                                            satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
+                                                                        }
+                                                                        if (data.id_satuan_kecil_konv != "") {
+                                                                            satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
+                                                                        }
+                                                                        <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                                                            var harga1 = formatRupiah(data.hargajualb_retail)
+                                                                            if (data.id_satuan_besar != "") {
+                                                                                var qtyyy = data.qty_besar
+                                                                            }
+                                                                            var jumlah = data.hargajualb_retail * qtyyy
+                                                                        <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                                                            var harga1 = formatRupiah(data.hargajualb_retail)
+                                                                                if (data.id_satuan_besar != "") {
+                                                                                    var qtyyy = data.qty_besar
+                                                                                }
+                                                                            var jumlah = data.hargajualb_retail * qtyyy
+                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
+                                                                            var harga1 = formatRupiah(data.hargajualb_grosir)
+                                                                            if (data.id_satuan_kecil != "") {
+                                                                                    var qtyyy = data.qty_kecil
+                                                                                }
+                                                                            var jumlah = data.hargajualk_grosir * qtyyy
+                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
+                                                                            var harga1 = formatRupiah(data.hargajualb_partai)
+                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
+                                                                            var harga1 = formatRupiah(data.hargajualb_promo)
+                                                                        <?php }?>
+                                                                            var stok = data.stok
+                                                                            var min_stok = data.min_stok
+                                                                        if (stok < min_stok) {
+                                                                                swal({
+                                                                                title: "Opss..!",
+                                                                                text: "Barang "+ data.nama+" sisa "+data.stok,
+                                                                                icon: "warning",
+                                                                                dangerMode: true,
+                                                                                }).then((r) => {
+                                                                                    if (r) {
+                                                                                    // location.reload();
+                                                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                                                    // swal({
+                                                                                    //   text : "oke"
+                                                                                    // })
+                                                                                    }
+                                                                                });
+                                                                        }else{
+                                                                            $("#diskon_item").prop('disabled', false);
+                                                                            $('.satuan'+xx+'').html(satuann);
+                                                                            $('.harga'+xx+'').val(harga1);
+                                                                            $('.qty_isi'+xx+'').val(qtyyy);
+                                                                            $('.jumlah'+xx+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                            var total_pos_fix = 0;
+                                                                            for (let t = 1; t <=xx; t++) {
+                                                                            total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                                            }
+                                                                            $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                            $('.stock'+xx+'').val(stok);
+                                                                            var qty_isi = $(".satuan"+xx+"")[0].value //qty isi satuan
+                                                                            var qty = $("input[id='idq"+xx+"']")[0].value * qty_isi.split(',')[0]
+                                                                            $('.stock-c'+xx+'').val(stok - qty);
+                                                                        // console.log(data.nama)
+                                                                            $('.total_item').val(counter)
+
+                                                                        }
+
+                                                                    }
+                                                                });
+                                                                return false;
+                                                            // });
+                                                }
+                                            });
+                                            var qty = $(".qty"+xx+"")
+                                            var diskon_item = $(".diskon_item"+xx+"")
+                                            var satuan_x = $(".satuan"+xx+"")
+                                            qty.keyup(function() {
+                                                var id=$(this).val();
+                                                i = this.id.slice(3);
+                                                j = this.value;
+                                                var qty_isi = satuan_x[0].value //isi satuan
+                                                var diskon_item = $("input[id='idd"+i+"']")[0].value
+                                                var stock_c = $('.stock-c'+i+'').val()
+                                                                    if (stock_c == 0) {
+                                                                        swal({
+                                                                            title: "Opss..!",
+                                                                            text: "Stock sisa 10",
+                                                                            icon: "warning",
+                                                                            dangerMode: true,
+                                                                        }).then((r) => {
+                                                                            if (r) {
+                                                                            location.reload();
+                                                                            }
+                                                                        });
+
+                                                                    }else{
+                                                                        // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                                            $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                            $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi.split(',')[0]);
+                                                                            var total_pos_fix = 0;
+                                                                            for (let t = 1; t <=counter; t++) {
+                                                                            total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                                            }
+                                                                            $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+
+
+                                                                }
+
+                                            });
+
+                                        diskon_item.keyup(function() {
+                                                i = this.id.slice(3);
+                                                j = this.value;
+                                                var qty = $("input[id='idq"+i+"']")[0].value
+                                                var qty_isi_satuan = satuan_x[0].value //qty satuan
+
+                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty - j.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                        $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan.split(',')[0]);
+                                                        var total_pos_fix = 0;
+                                                        for (let t = 1; t <=counter; t++) {
+                                                        total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                        }
+                                                        $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        })
+                                        satuan_x.change(function(){
+                                                    var id=$(this).val();
+                                                    i = this.id.slice(3);
+                                                    j = this.value; //isi satuan
+                                                    var qty = $("input[id='idq"+i+"']")[0].value
+                                                    var diskon_item = $("input[id='idd"+i+"']")[0].value
+                                                    var id_barangg = $('.id_barang'+counter+'').val();
+                                                                $.ajax({
+                                                                    url : "<?= site_url('pos/search_barang');?>",
+                                                                    method : "POST",
+                                                                    data : {id: id_barangg},
+                                                                    async : true,
+                                                                    dataType : 'json',
+                                                                    success: function(data2){
+                                                                        <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                                                                if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_besar;
+                                                                                    var satuan_p = data2.hargajualb_retail;
+                                                                                }
+                                                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                                                    var qtyyyx = data2.qty_kecil;
+                                                                                    var satuan_p = data2.hargajualk_retail;
+
+                                                                                }
+                                                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_konv;
+                                                                                    var satuan_p = data2.hargajual_konv_retail
+                                                                                }
+                                                                        <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                                                                if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_besar;
+                                                                                    var satuan_p = data2.hargajualb_retail;
+                                                                                }
+                                                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                                                    var qtyyyx = data2.qty_kecil;
+                                                                                    var satuan_p = data2.hargajualk_retail;
+
+                                                                                }
+                                                                                if (data2.id_satuan_kecil_konv == j.split(',')[1] ) {
+                                                                                    var qtyyyx = data2.qty_konv;
+                                                                                    var satuan_p = data2.hargajual_konv_retail
+                                                                                }
+                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
+                                                                            if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_besar;
+                                                                                    var satuan_p = data2.hargajualb_grosir;
+                                                                                }
+                                                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                                                    var qtyyyx = data2.qty_kecil;
+                                                                                    var satuan_p = data2.hargajualk_grosir;
+
+                                                                                }
+                                                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_konv;
+                                                                                    var satuan_p = data2.hargajual_konv_grosir
+                                                                                }
+                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
+                                                                                if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_besar;
+                                                                                    var satuan_p = data2.hargajualb_partai;
+                                                                                }
+                                                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                                                    var qtyyyx = data2.qty_kecil;
+                                                                                    var satuan_p = data2.hargajualk_partai;
+
+                                                                                }
+                                                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_konv;
+                                                                                    var satuan_p = data2.hargajual_konv_partai
+                                                                                }
+                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
+                                                                            if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_besar;
+                                                                                    var satuan_p = data2.hargajualb_promo
+                                                                                }
+                                                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                                                    var qtyyyx = data2.qty_kecil;
+                                                                                    var satuan_p = data2.hargajualk_promo;
+
+                                                                                }
+                                                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                                                    var qtyyyx = data2.qty_konv;
+                                                                                    var satuan_p = data2.hargajual_konv_promo
+                                                                                }
+                                                                        <?php }?>
+
+                                                                        var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                                                        $('.harga'+i+'').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                        $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                        $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * j.split(',')[0]);
+                                                                        var total_pos_fix = 0;
+                                                                        for (let t = 1; t <=counter; t++) {
+                                                                            total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                                        }
+                                                                        $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                                    }
+                                                                })
+                                                    // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty / j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+
+
+                                        })
+                                        }
+                                        $('.delete_item').click(function(){
+                                            // e.preventDefault();
+
+                                            var child = $(this).closest('tr').nextAll();
+
+                                            child.each(function () {
+
+                                                // Getting <tr> id.
+                                                var id = $(this).attr('id');
+                                                // Getting the <p> inside the .row-index class.
+                                                var idx = $(this).children('.row-index').children('p');
+
+                                                // Gets the row number from <tr> id.
+                                                var dig = parseInt(id.substring(1));
+
+                                                // Modifying row index.
+                                                idx.html(`Row ${dig - 1}`);
+
+                                                // Modifying row id.
+                                                $(this).attr('id', `r${dig - 1}`);
+                                                $('.barang'+counter+'').removeClass('barang'+counter+'').addClass('barang'+parseInt(dig-1)+'');
+                                                $('.id_barang'+counter+'').removeClass('id_barang'+counter+'').addClass('id_barang'+parseInt(dig-1)+'');
+                                                $('.qty'+counter+'').removeClass('qty'+counter+'').addClass('qty'+parseInt(dig-1)+'');
+                                                $('.satuan'+counter+'').removeClass('satuan'+counter+'').addClass('satuan'+parseInt(dig-1)+'');
+                                                $('.diskon_item'+counter+'').removeClass('diskon_item'+counter+'').addClass('diskon_item'+parseInt(dig-1)+'');
+                                                $('.harga'+counter+'').removeClass('harga'+counter+'').addClass('harga'+parseInt(dig-1)+'');
+                                                $('.jumlah'+counter+'').removeClass('jumlah'+counter+'').addClass('jumlah'+parseInt(dig-1)+'');
+                                                $('.stock'+counter+'').removeClass('stock'+counter+'').addClass('stock'+parseInt(dig-1)+'');
+                                                $('.stock-c'+counter+'').removeClass('stock-c'+counter+'').addClass('stock-c'+parseInt(dig-1)+'');
+                                                $('#idq'+counter+'').attr("id", "idq"+parseInt(dig-1)+"");
+                                                $('#ids'+counter+'').attr("id", "ids"+parseInt(dig-1)+"");
+                                                $('#idd'+counter+'').attr("id", "idd"+parseInt(dig-1)+"");
+                                                $('button[id='+counter+']').attr("id", ""+parseInt(dig-1)+"");
+                                            });
+                                            var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah"+this.id+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                            $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+
+                                            $(this).closest('tr').remove();
+                                            <?php if ($this->uri->segment(3) == true) { ?>
+                                                $.ajax({
+                                                    url : "<?= site_url('pos/del_row_hold');?>",
+                                                    method : "POST",
+                                                    data : {id : this.value},
+                                                    async : true,
+                                                    dataType : 'json',
+                                                    success: function(data){
+                                                        console.log(data)
+                                                    }
+                                                })
+                                            <?php } ?>
+                                            // Decreasing total number of rows by 1.
+                                            counter--;
+                                            $('.total_item').val(counter)
+
+                                            // });
+                                        });
+
+                                    },
+                                    error: function(e){
+                                        console.log(e)
+                                    }
+                            });
+                        <?php } ?>
+                        <?php if($this->uri->segment('4') == 'piutang'){ ?> //submit hold atau edit transaksi
+                            $.ajax({
+                                    url : "<?= site_url('pos/load_piutang');?>",
+                                    method : "POST",
+                                    data : {id : <?= $this->uri->segment(3) ?>},
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(data){
+                                        var row_data = '';
+                                        var total_pos = 0;
+                                        for (let i = 0; i < data.length; i++) {
+                                            // barang += '';
+                                            counter++;
+                                            var satuan_option = '';
+                                            if (data[i].id_satuan_besar == data[i].satuan) { //satuan besar
+                                                    var kd_satuan = data[i].id_satuan_besar
+                                                    var qty_satuan = data[i].qty_besar + "," + data[i].id_satuan_besar
+                                                    satuan_option += '<option selected value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }else if(data[i].id_satuan_besar != data[i].satuan && !data[i].id_satuan_besar == ""){
+                                                var kd_satuan = data[i].id_satuan_besar
+                                                var qty_satuan = data[i].qty_besar + "," + data[i].id_satuan_besar
+                                                satuan_option += '<option value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }
+
+                                            if (data[i].id_satuan_kecil == data[i].satuan) { // satuan kecil
+                                                    var kd_satuan = data[i].id_satuan_kecil
+                                                    var qty_satuan = data[i].qty_kecil + "," + data[i].id_satuan_kecil
+                                                    satuan_option += '<option selected value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }else if(data[i].id_satuan_kecil != data[i].satuan && !data[i].id_satuan_kecil == ""){
+                                                var kd_satuan = data[i].id_satuan_kecil
+                                                var qty_satuan = data[i].qty_kecil + "," + data[i].id_satuan_kecil
+                                                satuan_option += '<option value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }
+
+                                            if (data[i].id_satuan_kecil_konv == data[i].satuan){ // satuan kecil kov
+                                                    var kd_satuan = data[i].id_satuan_kecil_konv
+                                                    var qty_satuan = data[i].qty_konv + "," + data[i].id_satuan_kecil_konv
+                                                    satuan_option += '<option selected value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }else if (data[i].id_satuan_kecil_konv != data[i].satuan && !data[i].id_satuan_kecil_konv == ""){
+                                                var kd_satuan = data[i].id_satuan_kecil_konv
+                                                var qty_satuan = data[i].qty_konv + "," + data[i].id_satuan_kecil_konv
+                                                satuan_option += '<option value="'+qty_satuan+'">'+kd_satuan+'</option>'
+                                            }
+                                            var qty_kurangi = data[i].stok - parseInt(qty_satuan)
+
+                                            // var tipe_cust = "<?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) ?>"
+                                            // var id_cust = "<?= explode(',',$this->session->userdata('tipe_penjualan'))[1] ?>"
+                                            // if (tipe_cust == data[i].tipe_penjualan.toLowerCase() && data[i].id_customer) {
+                                            //     var action_tipe = 'selected'
+                                            // }
+                                            $('select[name="tipe"]').html('<option selected value='+ data[i].tipe_penjualan.toLowerCase() + ","+data[i].id_customer + "," + data[i].nama_toko+'>'+data[i].nama_toko+'</option');
+                                            $('.no_struk').val(data[i].no_struk);
+                                            $('.tgl_transaksi').val(data[i].tgl_transaksi);
+                                            $('.pengiriman').html('<option value='+data[i].pengiriman+' selected>'+data[i].nama+'</option>');
+                                            total_pos += parseInt(data[i].jumlah)
+                                            $('#load-piutang-user tbody').append(
                                             '<tr class="cb" id=r'+counter+'>'+
                                             '<td>'+
                                             '<button id='+counter+' value="'+data[i].id_transaksi_item+'" type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>'+
@@ -2228,7 +2619,7 @@
                         }else{
                             var xxx_total = Math.abs(total_xxx)
                         }
-                        if (bayar_val >= total_transaksi) {
+                        if (parseInt(bayar_val) >= parseInt(total_transaksi)) {
                             $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.utang').html("Rp.0")
                         }else{
@@ -2258,7 +2649,7 @@
                             var xxx_total = Math.abs(total_xxx)
                         }
                         var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
-                        if (bayar_val >= total_transaksi) {
+                        if (parseInt(bayar_val) >= parseInt(total_transaksi)) {
                             $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.utang').html("Rp.0")
                         }else{
@@ -2290,7 +2681,7 @@
                         }
                         var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
 
-                        if (bayar_val >= total_transaksi) {
+                        if (parseInt(bayar_val) >= parseInt(total_transaksi)) {
                             $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.utang').html("Rp.0")
                         }else{
