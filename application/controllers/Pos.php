@@ -1,10 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pos extends CI_Controller {
-	// private $param;
+class Pos extends CI_Controller
+{
+    // private $param;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->library('session');
         if ($this->session->userdata('username', 'nama')  != true) {
@@ -13,37 +15,37 @@ class Pos extends CI_Controller {
         }
         date_default_timezone_set('Asia/Jakarta');
     }
-	public function index()
-	{
-		// $this->load->view('body/header');
+    public function index()
+    {
+        // $this->load->view('body/header');
         $tipe = $this->input->post('tipe');
         if ($tipe == true) {
-            $this->session->set_userdata('tipe_penjualan',$tipe);
-        }else{
-            $this->session->set_userdata('tipe_penjualan','umum,273,1');
+            $this->session->set_userdata('tipe_penjualan', $tipe);
+        } else {
+            $this->session->set_userdata('tipe_penjualan', 'umum,273,1');
         }
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
-        $this->db->join('customers as b','a.pelanggan=b.id_customer');
-        $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
-        $this->db->where('a.trash',0);
-        $this->db->where('a.tahan',1);
+        $this->db->join('customers as b', 'a.pelanggan=b.id_customer');
+        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi');
+        $this->db->where('a.trash', 0);
+        $this->db->where('a.tahan', 1);
         $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
         $id = $this->uri->segment(3);
         if ($id == true) {
-            $transkasi = $this->db->get_where('transaksi',['id' => $id])->row_array();
-            $transkasi_item = $this->db->get_where('transaksi_item',['id_transaksi' => $id])->result();
-        }else{
+            $transkasi = $this->db->get_where('transaksi', ['id' => $id])->row_array();
+            $transkasi_item = $this->db->get_where('transaksi_item', ['id_transaksi' => $id])->result();
+        } else {
             $transkasi = '';
             $transkasi_item = '';
         }
-        $date = date('d').date('m').date('Y');
-        $tgl_urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%".$date."%'")->row_array();
+        $date = date('d') . date('m') . date('Y');
+        $tgl_urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%" . $date . "%'")->row_array();
         $data = [
             "product" => $this->db->get('barang')->result(),
             "satuan" => $this->db->get('satuan')->result(),
-            "customers" => $this->db->get_where('customers',['tipe_penjualan !=' => null])->result(),
+            "customers" => $this->db->get_where('customers', ['tipe_penjualan !=' => null])->result(),
             "ekspedisi" => $this->db->get('ekspedisi')->result(),
             "transaksi" => $transkasi,
             "transaksi_item" => $transkasi_item,
@@ -51,17 +53,17 @@ class Pos extends CI_Controller {
             "tgl_urutan" => $tgl_urutan
         ];
         // $this->session->unset_userdata('tipe_penjualan');
-		$this->load->view('pos/sale',$data);
-		// $this->load->view('body/foot/er');
-	}
+        $this->load->view('pos/sale', $data);
+        // $this->load->view('body/foot/er');
+    }
     function search_barang()
     {
         $id = $this->input->post('id');
 
         $this->db->where('a.id', $id);
         $this->db->from('barang as a');
-        $this->db->join('satuan as b','a.id=b.barang_id','LEFT');
-        $this->db->order_by('a.id','ASC');
+        $this->db->join('satuan as b', 'a.id=b.barang_id', 'LEFT');
+        $this->db->order_by('a.id', 'ASC');
         $data = $this->db->get();
 
         echo json_encode($data->row_array());
@@ -70,7 +72,7 @@ class Pos extends CI_Controller {
     {
         $title = $_GET['term'];
         // $this->db->where('status', 'Aktif');
-        $this->db->like('a.nama', $title , 'both');
+        $this->db->like('a.nama', $title, 'both');
         $this->db->order_by('a.nama', 'asc');
         $this->db->limit(10);
         $this->db->from('barang as a');
@@ -88,13 +90,13 @@ class Pos extends CI_Controller {
     function get_satuan()
     {
         $id = $this->input->post('id');
-        $data = $this->db->get_where('satuan',['id_satuan' => $id])->row_array();
+        $data = $this->db->get_where('satuan', ['id_satuan' => $id])->row_array();
         echo json_encode($data);
     }
     function change_customer()
     {
         $tipe = $this->input->post('tipe');
-        $xx = $this->session->set_userdata('tipe_penjualan',$tipe);
+        $xx = $this->session->set_userdata('tipe_penjualan', $tipe);
         if ($xx == true) {
             redirect('pos/sale');
         }
@@ -117,11 +119,11 @@ class Pos extends CI_Controller {
         //     'orientation' => 'P',
         //     'showImageErrors' => true
         // ]);
-        $this->db->where('a.id',$id_transaksi);
-        $this->db->join('piutang as b','a.id=b.id_transaksi');
+        $this->db->where('a.id', $id_transaksi);
+        $this->db->join('piutang as b', 'a.id=b.id_transaksi');
         $get_transaksi = $this->db->get("transaksi as a")->row_array();
 
-        $this->db->where('id_transaksi',$id_transaksi);
+        $this->db->where('id_transaksi', $id_transaksi);
         $get_transaksi_item = $this->db->get("transaksi_item")->result();
         $data = [
             "transkasi" => $get_transaksi,
@@ -141,13 +143,13 @@ class Pos extends CI_Controller {
         $update = $this->input->post('update');
         $id_transaksi = $this->input->post('id_transaksi');
         $edit_transaksi = $this->input->post('edit_transaksi');
-        $urutan = substr($this->input->post('no_struk'),8);
+        $urutan = substr($this->input->post('no_struk'), 8);
         if ($edit_transaksi == 'edit_transaksi') {
             $data = [
                 "no_struk" => $this->input->post('no_struk'),
                 "tgl_transaksi" => $this->input->post('tgl_transaksi'),
                 "urutan" => $urutan,
-                "pelanggan" => explode(',',$this->input->post('tipe'))[1],
+                "pelanggan" => explode(',', $this->input->post('tipe'))[1],
                 "diskon" => $this->clean($this->input->post('diskon_all')),
                 "total_netto" => $this->clean($this->input->post('total_netto')),
                 "total_bayar" => $this->clean($this->input->post('total_bayar')),
@@ -161,12 +163,12 @@ class Pos extends CI_Controller {
                 "info_pembayaran" => $this->input->post('info_pembayaran'),
                 "piutang" => $this->input->post('piutang')
             ];
-        }else{
+        } else {
             $data = [
                 "no_struk" => $this->input->post('no_struk'),
                 "tgl_transaksi" => $this->input->post('tgl_transaksi'),
                 "urutan" => $urutan,
-                "pelanggan" => explode(',',$this->input->post('tipe'))[1],
+                "pelanggan" => explode(',', $this->input->post('tipe'))[1],
                 "diskon" => $this->clean($this->input->post('diskon_all')),
                 "total_netto" => $this->clean($this->input->post('total_netto')),
                 "total_bayar" => $this->clean($this->input->post('total_bayar')),
@@ -182,150 +184,151 @@ class Pos extends CI_Controller {
                 "piutang" => $this->input->post('piutang')
             ];
         }
-            if ($update == 'update') {
-                $this->db->where('id',$id_transaksi); //update data hold
-                $this->db->update('transaksi',$data);
-            }else if ($edit_transaksi == 'edit_transaksi') {
-                $this->db->where('id',$id_transaksi); //update data transaksi
-                $this->db->update('transaksi',$data);
-            }else{
-                $this->db->insert('transaksi',$data); //submit
-            }
-            $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
-            $total_transaksii = 0;
-            foreach ($this->input->post('item') as $x) {
-                $ex_satuan = explode(',',$x['satuan']);
-                $total_transaksii += $x['jumlah'];
-                $output[] = array(
-                    "id_transaksi" => $get_transkasi['id_transaksi'],
-                    "kd_barang" => $x['kd_barang'],
-                    "barang" => $x['barang'],
-                    "qty" => $x['qty'],
-                    "qty_satuan" => $ex_satuan[0],
-                    "satuan" => $ex_satuan[1],
-                    "harga_satuan" => $x['harga_satuan'],
-                    "diskon_item" => $x['diskon_item'],
-                    "jumlah" => $x['jumlah'],
-                );
-                if ($cek == 'BAYAR') {
-                    $barang = $this->db->get_where('barang',['id' => $x['kd_barang']])->row_array();
-                    $total_qty_pcs = $barang['stok'] - (intval($x['qty']) *  intval($ex_satuan[0]));
-                    $this->db->set('stok', $total_qty_pcs);
-                    $this->db->where('id', $x['kd_barang']);
-                    $this->db->update('barang');
+        if ($update == 'update') {
+            $this->db->where('id', $id_transaksi); //update data hold
+            $this->db->update('transaksi', $data);
+        } else if ($edit_transaksi == 'edit_transaksi') {
+            $this->db->where('id', $id_transaksi); //update data transaksi
+            $this->db->update('transaksi', $data);
+        } else {
+            $this->db->insert('transaksi', $data); //submit
+        }
+        $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
+        $total_transaksii = 0;
+        foreach ($this->input->post('item') as $x) {
+            $ex_satuan = explode(',', $x['satuan']);
+            $total_transaksii += $x['jumlah'];
+            $output[] = array(
+                "id_transaksi" => $get_transkasi['id_transaksi'],
+                "kd_barang" => $x['kd_barang'],
+                "barang" => $x['barang'],
+                "qty" => $x['qty'],
+                "qty_satuan" => $ex_satuan[0],
+                "satuan" => $ex_satuan[1],
+                "harga_satuan" => $x['harga_satuan'],
+                "diskon_item" => $x['diskon_item'],
+                "jumlah" => $x['jumlah'],
+            );
+            if ($cek == 'BAYAR') {
+                $barang = $this->db->get_where('barang', ['id' => $x['kd_barang']])->row_array();
+                $total_qty_pcs = $barang['stok'] - (intval($x['qty']) *  intval($ex_satuan[0]));
+                $this->db->set('stok', $total_qty_pcs);
+                $this->db->where('id', $x['kd_barang']);
+                $this->db->update('barang');
 
-                    //update transaksi item
-                    if ($update == 'update') {
-                        $cek_item = $this->db->get_where('transaksi_item',['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
-                        if ($cek_item == true) {
-                            $this->db->set('kd_barang', $x['kd_barang']);
-                            $this->db->set('barang', $x['barang']);
-                            $this->db->set('qty', $x['qty']);
-                            $this->db->set('qty_satuan', $ex_satuan[0]);
-                            $this->db->set('satuan', $ex_satuan[1]);
-                            $this->db->set('harga_satuan', $x['harga_satuan']);
-                            $this->db->set('diskon_item', $x['diskon_item']);
-                            $this->db->set('jumlah', $x['jumlah']);
-                            $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
-                            $this->db->update('transaksi_item');
-                        }
-                        //jika ada penambahan row di transaksi hold
-                        if ($cek_item == false) {
-                            $insert_hold = [
-                                "id_transaksi" => $id_transaksi,
-                                "kd_barang" => $x['kd_barang'],
-                                "barang" => $x['barang'],
-                                "qty" => $x['qty'],
-                                "qty_satuan" => $ex_satuan[0],
-                                "satuan" => $ex_satuan[1],
-                                "harga_satuan" => $x['harga_satuan'],
-                                "diskon_item" => $x['diskon_item'],
-                                "jumlah" => $x['jumlah'],
-                            ];
-                            $this->db->insert('transaksi_item',$insert_hold);
-                        }
+                //update transaksi item
+                if ($update == 'update') {
+                    $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
+                    if ($cek_item == true) {
+                        $this->db->set('kd_barang', $x['kd_barang']);
+                        $this->db->set('barang', $x['barang']);
+                        $this->db->set('qty', $x['qty']);
+                        $this->db->set('qty_satuan', $ex_satuan[0]);
+                        $this->db->set('satuan', $ex_satuan[1]);
+                        $this->db->set('harga_satuan', $x['harga_satuan']);
+                        $this->db->set('diskon_item', $x['diskon_item']);
+                        $this->db->set('jumlah', $x['jumlah']);
+                        $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
+                        $this->db->update('transaksi_item');
                     }
-                }else{//tahan
-                    if ($update == 'update') {//update hold dan update transaksi
-                        $cek_item = $this->db->get_where('transaksi_item',['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
-                        if ($cek_item == true) {
-                            $this->db->set('kd_barang', $x['kd_barang']);
-                            $this->db->set('barang', $x['barang']);
-                            $this->db->set('qty', $x['qty']);
-                            $this->db->set('qty_satuan', $ex_satuan[0]);
-                            $this->db->set('satuan', $ex_satuan[1]);
-                            $this->db->set('harga_satuan', $x['harga_satuan']);
-                            $this->db->set('diskon_item', $x['diskon_item']);
-                            $this->db->set('jumlah', $x['jumlah']);
-                            $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
-                            $this->db->update('transaksi_item');
-                        }
-                        //jika ada penambahan row di transaksi hold
-                        if ($cek_item == false) {
-                            $insert_hold = [
-                                "id_transaksi" => $id_transaksi,
-                                "kd_barang" => $x['kd_barang'],
-                                "barang" => $x['barang'],
-                                "qty" => $x['qty'],
-                                "qty_satuan" => $ex_satuan[0],
-                                "satuan" => $ex_satuan[1],
-                                "harga_satuan" => $x['harga_satuan'],
-                                "diskon_item" => $x['diskon_item'],
-                                "jumlah" => $x['jumlah'],
-                                "trash" => 0
-                            ];
-                            $this->db->insert('transaksi_item',$insert_hold);
-                        }
+                    //jika ada penambahan row di transaksi hold
+                    if ($cek_item == false) {
+                        $insert_hold = [
+                            "id_transaksi" => $id_transaksi,
+                            "kd_barang" => $x['kd_barang'],
+                            "barang" => $x['barang'],
+                            "qty" => $x['qty'],
+                            "qty_satuan" => $ex_satuan[0],
+                            "satuan" => $ex_satuan[1],
+                            "harga_satuan" => $x['harga_satuan'],
+                            "diskon_item" => $x['diskon_item'],
+                            "jumlah" => $x['jumlah'],
+                        ];
+                        $this->db->insert('transaksi_item', $insert_hold);
+                    }
+                }
+            } else { //tahan
+                if ($update == 'update') { //update hold dan update transaksi
+                    $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
+                    if ($cek_item == true) {
+                        $this->db->set('kd_barang', $x['kd_barang']);
+                        $this->db->set('barang', $x['barang']);
+                        $this->db->set('qty', $x['qty']);
+                        $this->db->set('qty_satuan', $ex_satuan[0]);
+                        $this->db->set('satuan', $ex_satuan[1]);
+                        $this->db->set('harga_satuan', $x['harga_satuan']);
+                        $this->db->set('diskon_item', $x['diskon_item']);
+                        $this->db->set('jumlah', $x['jumlah']);
+                        $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
+                        $this->db->update('transaksi_item');
+                    }
+                    //jika ada penambahan row di transaksi hold
+                    if ($cek_item == false) {
+                        $insert_hold = [
+                            "id_transaksi" => $id_transaksi,
+                            "kd_barang" => $x['kd_barang'],
+                            "barang" => $x['barang'],
+                            "qty" => $x['qty'],
+                            "qty_satuan" => $ex_satuan[0],
+                            "satuan" => $ex_satuan[1],
+                            "harga_satuan" => $x['harga_satuan'],
+                            "diskon_item" => $x['diskon_item'],
+                            "jumlah" => $x['jumlah'],
+                            "trash" => 0
+                        ];
+                        $this->db->insert('transaksi_item', $insert_hold);
                     }
                 }
             }
-            if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
-                $this->db->insert_batch('transaksi_item',$output); //submit
-                if ($this->clean($this->input->post('total_bayar')) < $total_transaksii) {
-                    $this->db->where('id',$get_transkasi['id_transaksi']); //update data transaksi
-                    $this->db->set('piutang',1);
-                    $this->db->update('transaksi');
-                    $piutang = [
-                        "id_transaksi" => $get_transkasi['id_transaksi'],
-                        "total_bayar_piutang" => $this->clean($this->input->post('total_bayar')),
-                        "total_transkasi" => $total_transaksii,
-                        "status" => 1
-                    ];
-                    $this->db->insert('piutang',$piutang);
-                }
+        }
+        if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
+            $this->db->insert_batch('transaksi_item', $output); //submit
+            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii) {
+                $this->db->where('id', $get_transkasi['id_transaksi']); //update data transaksi
+                $this->db->set('piutang', 1);
+                $this->db->update('transaksi');
+                $piutang = [
+                    "id_transaksi" => $get_transkasi['id_transaksi'],
+                    "total_bayar_piutang" => $this->clean($this->input->post('total_bayar')),
+                    "total_transkasi" => $total_transaksii,
+                    "status" => 1
+                ];
+                $this->db->insert('piutang', $piutang);
             }
-            if ($edit_transaksi == 'edit_transaksi') {
-                $cek_id = $id_transaksi;
-            }else{
-                $cek_id = $get_transkasi['id_transaksi'];
-            }
-            $data_ec = [
-                "id_transaksi" => $cek_id,
-                'no_struk' => $this->input->post('no_struk'),
-                'tahan' => $this->input->post('tahan'),
-                'edit_transaksi' => $cek_id,
-                "status" => 200
-            ];
-            echo json_encode($data_ec);
+        }
+        if ($edit_transaksi == 'edit_transaksi') {
+            $cek_id = $id_transaksi;
+        } else {
+            $cek_id = $get_transkasi['id_transaksi'];
+        }
+        $data_ec = [
+            "id_transaksi" => $cek_id,
+            'no_struk' => $this->input->post('no_struk'),
+            'tahan' => $this->input->post('tahan'),
+            'edit_transaksi' => $cek_id,
+            "status" => 200
+        ];
+        echo json_encode($data_ec);
     }
     function check_tgl_pos()
     {
-        $date = date('d').date('m').date('Y');
-        $d = date('d',strtotime($this->input->post('tgl')));
-        $m = date('m',strtotime($this->input->post('tgl')));
-        $y = date('Y',strtotime($this->input->post('tgl')));
+        $date = date('d') . date('m') . date('Y');
+        $d = date('d', strtotime($this->input->post('tgl')));
+        $m = date('m', strtotime($this->input->post('tgl')));
+        $y = date('Y', strtotime($this->input->post('tgl')));
         $date = $d . $m . $y;
-        $tgl_urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%".$date."%'")->row_array();
+        $tgl_urutan = $this->db->query("SELECT max(urutan) as t FROM transaksi where no_struk like '%" . $date . "%'")->row_array();
         if ($tgl_urutan['t'] == null) {
-            echo json_encode($d . $m . $y .sprintf('%04d',$tgl_urutan['t']+1));
-        }else{
-            echo json_encode($d . $m . $y . $tgl_urutan['t']+1);
+            echo json_encode($d . $m . $y . sprintf('%04d', $tgl_urutan['t'] + 1));
+        } else {
+            // echo json_encode($d . $m . $y . $tgl_urutan['t'] + 1);
+            echo json_encode($d . $m . $y . ($tgl_urutan['t'] + 1));
         }
     }
     function tes()
     {
         //contoh get array dalam kolom
-        $xx = $this->db->get_where('transaksi',['id' => 385])->row_array();
+        $xx = $this->db->get_where('transaksi', ['id' => 385])->row_array();
         echo json_decode($xx['info_pembayaran'])->tujuan;
     }
     function reprint_date()
@@ -333,38 +336,38 @@ class Pos extends CI_Controller {
         $date = $this->input->post('date_print');
         $date2 = $this->input->post('date_print2');
         $pelanggan = $this->input->post('pelanggan');
-        $this->session->set_userdata('reprint_date_penjualan',$date);
-        $this->session->set_userdata('reprint_date_penjualan2',$date2);
-        $this->session->set_userdata('reprint_tipe_penjualan',$pelanggan);
+        $this->session->set_userdata('reprint_date_penjualan', $date);
+        $this->session->set_userdata('reprint_date_penjualan2', $date2);
+        $this->session->set_userdata('reprint_tipe_penjualan', $pelanggan);
         echo json_encode($date);
         // redirect('pos/index/');
     }
-    function load() {
+    function load()
+    {
         $id = $this->input->post('id');
         // $draw=intval($this->input->get("draw"));
         // $start=intval($this->input->get("start"));
         // $length=intval($this->input->get("length"));
-        $this->db->where('id_transaksi',$id);
-        $this->db->where('a.trash !=',1);
+        $this->db->where('id_transaksi', $id);
+        $this->db->where('a.trash !=', 1);
         $this->db->from('transaksi_item as a');
-        $this->db->join('barang as b','a.kd_barang=b.id');
-        $this->db->join('transaksi as c','c.id=a.id_transaksi');
-        $this->db->join('customers as d','c.pelanggan=d.id_customer');
-        $this->db->join('ekspedisi as e','c.pengiriman=e.id');
-        $query=$this->db->get()->result();
+        $this->db->join('barang as b', 'a.kd_barang=b.id');
+        $this->db->join('transaksi as c', 'c.id=a.id_transaksi');
+        $this->db->join('customers as d', 'c.pelanggan=d.id_customer');
+        $this->db->join('ekspedisi as e', 'c.pengiriman=e.id');
+        $query = $this->db->get()->result();
         echo json_encode($query);
         exit();
-
     }
     function load_hold()
     {
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
-        $this->db->join('customers as b','a.pelanggan=b.id_customer');
-        $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
-        $this->db->where('a.trash',0);
-        $this->db->where('a.tahan',1);
-        $this->db->where('a.kasir',$this->session->userdata('id_user'));
+        $this->db->join('customers as b', 'a.pelanggan=b.id_customer');
+        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi');
+        $this->db->where('a.trash', 0);
+        $this->db->where('a.tahan', 1);
+        $this->db->where('a.kasir', $this->session->userdata('id_user'));
         $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
         echo json_encode($load);
@@ -373,11 +376,11 @@ class Pos extends CI_Controller {
     {
         $this->db->select('*');
         $this->db->from('transaksi as a');
-        $this->db->join('customers as b','a.pelanggan=b.id_customer');
-        $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
-        $this->db->where('c.trash',1);
-        $this->db->where('c.id_transaksi',3);
-        $this->db->where('a.kasir',$this->session->userdata('id_user'));
+        $this->db->join('customers as b', 'a.pelanggan=b.id_customer');
+        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi');
+        $this->db->where('c.trash', 1);
+        $this->db->where('c.id_transaksi', 3);
+        $this->db->where('a.kasir', $this->session->userdata('id_user'));
         // $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
         echo json_encode($load);
@@ -388,18 +391,18 @@ class Pos extends CI_Controller {
         $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('reprint_date_penjualan2'))));
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
-        $this->db->join('customers as b','a.pelanggan=b.id_customer');
-        $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
-        $this->db->where('a.trash',0);
+        $this->db->join('customers as b', 'a.pelanggan=b.id_customer');
+        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi');
+        $this->db->where('a.trash', 0);
         // $this->db->where('a.tahan',0);
-        $this->db->where('a.cencel',0);
-        $this->db->where('a.kasir',$this->session->userdata('id_user'));
+        $this->db->where('a.cencel', 0);
+        $this->db->where('a.kasir', $this->session->userdata('id_user'));
         if ($first_date == true && $second_date == true) {
-            $this->db->where('a.tgl_transaksi >=',$first_date);
-            $this->db->where('a.tgl_transaksi <=',$second_date);
+            $this->db->where('a.tgl_transaksi >=', $first_date);
+            $this->db->where('a.tgl_transaksi <=', $second_date);
         }
         if ($this->session->userdata('reprint_tipe_penjualan') != 0) {
-            $this->db->where('b.id_customer',$this->session->userdata('reprint_tipe_penjualan'));
+            $this->db->where('b.id_customer', $this->session->userdata('reprint_tipe_penjualan'));
         }
         $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
@@ -407,75 +410,74 @@ class Pos extends CI_Controller {
     }
     function del_row_hold()
     {
-        $id = $this->input->post('id');//id_transaksi_item
-        $this->db->where('id_transaksi_item',$id);
-        $this->db->set('trash',1);
-        $this->db->set('trash_by',$this->session->userdata('id_user'));
+        $id = $this->input->post('id'); //id_transaksi_item
+        $this->db->where('id_transaksi_item', $id);
+        $this->db->set('trash', 1);
+        $this->db->set('trash_by', $this->session->userdata('id_user'));
         $this->db->update('transaksi_item');
         echo json_encode('berhasil');
-
     }
     function delete_transaksi()
     {
         $id = $this->input->post('id');
-        $this->db->where('id',$id);
-        $this->db->set('trash',1);
-        $this->db->set('trash_by',$this->session->userdata('id_user'));
+        $this->db->where('id', $id);
+        $this->db->set('trash', 1);
+        $this->db->set('trash_by', $this->session->userdata('id_user'));
         $this->db->update('transaksi');
 
-        $this->db->where('id_transaksi',$id);
-        $this->db->set('trash',1);
+        $this->db->where('id_transaksi', $id);
+        $this->db->set('trash', 1);
         $this->db->update('transaksi_item');
         echo json_encode('berhasil');
     }
     function cancel_transaksi()
     {
         $id = $this->input->post('id');
-        $this->db->where('id',$id);
-        $this->db->set('cencel',1);
+        $this->db->where('id', $id);
+        $this->db->set('cencel', 1);
         $this->db->update('transaksi');
         echo json_encode('berhasil');
     }
     function closing2()
     {
-        require_once(APPPATH.'libraries/PHPExcel/IOFactory.php');
+        require_once(APPPATH . 'libraries/PHPExcel/IOFactory.php');
         // require_once 'PHPExcel/PHPExcel.php';
-         // Panggil class PHPExcel nya
+        // Panggil class PHPExcel nya
         $excel = new PHPExcel();
         // Settingan awal fil excel
         $excel->getProperties()->setCreator('My Notes Code')
-                    ->setLastModifiedBy('My Notes Code')
-                    ->setTitle("Data Siswa")
-                    ->setSubject("Siswa")
-                    ->setDescription("Laporan Semua Data Siswa")
-                    ->setKeywords("Data Siswa");
+            ->setLastModifiedBy('My Notes Code')
+            ->setTitle("Data Siswa")
+            ->setSubject("Siswa")
+            ->setDescription("Laporan Semua Data Siswa")
+            ->setKeywords("Data Siswa");
 
         // Buat sebuah variabel untuk menampung pengaturan style dari header tabel
         $style_col = array(
-        'font' => array('bold' => true), // Set font nya jadi bold
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
-            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
-        ),
-        'borders' => array(
-            'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
-            'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
-            'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
-            'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
-        )
+            'font' => array('bold' => true), // Set font nya jadi bold
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+            ),
+            'borders' => array(
+                'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
+                'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
+                'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
+                'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
+            )
         );
 
         // Buat sebuah variabel untuk menampung pengaturan style dari isi tabel
         $style_row = array(
-        'alignment' => array(
-            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
-        ),
-        'borders' => array(
-            'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
-            'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
-            'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
-            'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
-        )
+            'alignment' => array(
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+            ),
+            'borders' => array(
+                'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
+                'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
+                'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
+                'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
+            )
         );
 
         // $excel->setActiveSheetIndex(0)->setCellValue('A1', "DATA SISWA"); // Set kolom A1 dengan tulisan "DATA SISWA"
@@ -517,8 +519,8 @@ class Pos extends CI_Controller {
         $pelanggan = $this->input->post('closing_customers');
 
         if ($pelanggan == true) {
-            $pelangganx = "and a.pelanggan='".$pelanggan."'";
-        }else{
+            $pelangganx = "and a.pelanggan='" . $pelanggan . "'";
+        } else {
             $pelangganx = "";
         }
         $today = date('Y-m-d');
@@ -527,15 +529,15 @@ class Pos extends CI_Controller {
         left join users d on (a.kasir=d.id)
         left join barang as e on(b.kd_barang=e.id)
         left join kategori as f on(e.kategori_id=f.id)
-        left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='".$this->session->userdata('id_user')."' and a.pembayaran='".$pembayaran."' and a.tgl_transaksi BETWEEN '".$start_date."' and '".$end_date."' ".$pelangganx." ")->result();
+        left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' and a.pembayaran='" . $pembayaran . "' and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " ")->result();
 
         $no = 1; // Untuk penomoran tabel, di awal set dengan 1
         $numrow = 2; // Set baris pertama untuk isi tabel adalah baris ke 4
         $jumlah_row = 0;
-        foreach($penjualan as $data){
+        foreach ($penjualan as $data) {
             if ($data->pembayaran == 'GIRO' && isset(json_decode($data->info_pembayaran)->tempo) == true) {
                 $tempo = json_decode($data->info_pembayaran)->tempo;
-            }else{
+            } else {
                 $tempo = "";
             }
             $excel->setActiveSheetIndex(0)->setCellValue('D1', "Nama Barang");
@@ -549,37 +551,37 @@ class Pos extends CI_Controller {
 
 
             $jumlah_row += $data->jumlah;
-            $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $data->tgl_transaksi);
-            $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $data->no_struk);
-            $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->kode_barang);
-            $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->barang);
-            $excel->setActiveSheetIndex(0)->setCellValue('E'.$numrow, $data->nama_toko);
-            $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $data->pembayaran);
-            $excel->setActiveSheetIndex(0)->setCellValue('G'.$numrow, $data->jumlah);
-            $excel->setActiveSheetIndex(0)->setCellValue('H'.$numrow, $data->total_bayar);
-            $excel->setActiveSheetIndex(0)->setCellValue('I'.$numrow, 0);
-            $excel->setActiveSheetIndex(0)->setCellValue('J'.$numrow, 0);
-            $excel->setActiveSheetIndex(0)->setCellValue('K'.$numrow, 0);
+            $excel->setActiveSheetIndex(0)->setCellValue('A' . $numrow, $data->tgl_transaksi);
+            $excel->setActiveSheetIndex(0)->setCellValue('B' . $numrow, $data->no_struk);
+            $excel->setActiveSheetIndex(0)->setCellValue('C' . $numrow, $data->kode_barang);
+            $excel->setActiveSheetIndex(0)->setCellValue('D' . $numrow, $data->barang);
+            $excel->setActiveSheetIndex(0)->setCellValue('E' . $numrow, $data->nama_toko);
+            $excel->setActiveSheetIndex(0)->setCellValue('F' . $numrow, $data->pembayaran);
+            $excel->setActiveSheetIndex(0)->setCellValue('G' . $numrow, $data->jumlah);
+            $excel->setActiveSheetIndex(0)->setCellValue('H' . $numrow, $data->total_bayar);
+            $excel->setActiveSheetIndex(0)->setCellValue('I' . $numrow, 0);
+            $excel->setActiveSheetIndex(0)->setCellValue('J' . $numrow, 0);
+            $excel->setActiveSheetIndex(0)->setCellValue('K' . $numrow, 0);
 
             // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
-            $excel->getActiveSheet()->getStyle('A'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('B'.$numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-            $excel->getActiveSheet()->getStyle('C'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('D'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('E'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('F'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('G'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('H'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('I'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('J'.$numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('K'.$numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('A' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('B' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            $excel->getActiveSheet()->getStyle('C' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('D' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('E' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('F' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('G' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('H' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('I' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('J' . $numrow)->applyFromArray($style_row);
+            $excel->getActiveSheet()->getStyle('K' . $numrow)->applyFromArray($style_row);
 
 
             $no++; // Tambah 1 setiap kali looping
             $numrow++; // Tambah 1 setiap kali looping
         }
-        $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, 'CASH');
-        $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $jumlah_row);
+        $excel->setActiveSheetIndex(0)->setCellValue('A' . $numrow, 'CASH');
+        $excel->setActiveSheetIndex(0)->setCellValue('B' . $numrow, $jumlah_row);
 
 
         // Set width kolom
@@ -596,7 +598,7 @@ class Pos extends CI_Controller {
         $excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
 
         // Rename worksheet
-        $excel->getActiveSheet()->setTitle('closing'.date('Y-m-d').'');
+        $excel->getActiveSheet()->setTitle('closing' . date('Y-m-d') . '');
 
 
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
@@ -605,16 +607,16 @@ class Pos extends CI_Controller {
 
         // Redirect output to a client’s web browser (Excel5)
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="closing'.date('Y-m-d').'.xls"');
+        header('Content-Disposition: attachment;filename="closing' . date('Y-m-d') . '.xls"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
 
         // If you're serving to IE over SSL, then the following may be needed
-        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header ('Pragma: public'); // HTTP/1.0
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
 
         $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
         $objWriter->save('php://output');
@@ -622,7 +624,7 @@ class Pos extends CI_Controller {
     }
     function closing()
     {
-         $mpdf = new \Mpdf\Mpdf([
+        $mpdf = new \Mpdf\Mpdf([
             'tempDir' => '/tmp',
             'mode' => '',
             'format' => 'A4',
@@ -637,41 +639,42 @@ class Pos extends CI_Controller {
             'orientation' => 'L',
         ]);
 
-         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
-         $pembayaran = $this->input->get('pembayaran_closing');
-         $start_date = $this->input->get('date_print_closing');
-         $end_date = date('Y-m-d', strtotime('+1 days', strtotime($this->input->get('date_print_closing2'))));
-         $pelanggan = $this->input->get('closing_customers');
+        // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
+        $pembayaran = $this->input->get('pembayaran_closing');
+        $start_date = $this->input->get('date_print_closing');
+        $end_date = date('Y-m-d', strtotime('+1 days', strtotime($this->input->get('date_print_closing2'))));
+        $pelanggan = $this->input->get('closing_customers');
 
-         if ($pelanggan == true) {
-             $pelangganx = "and a.pelanggan='".$pelanggan."'";
-         }else{
-             $pelangganx = "";
-         }
-         $today = date('Y-m-d');
-         $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
+        if ($pelanggan == true) {
+            $pelangganx = "and a.pelanggan='" . $pelanggan . "'";
+        } else {
+            $pelangganx = "";
+        }
+        $today = date('Y-m-d');
+        $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
          left join customers as c on(a.pelanggan=c.id_customer)
          left join users d on (a.kasir=d.id)
          left join barang as e on(b.kd_barang=e.id)
          left join kategori as f on(e.kategori_id=f.id)
-         left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='".$this->session->userdata('id_user')."' and a.pembayaran='".$pembayaran."' and a.tgl_transaksi BETWEEN '".$start_date."' and '".$end_date."' ".$pelangganx." GROUP BY a.no_struk ")->result();
+         left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' and a.pembayaran='" . $pembayaran . "' and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
 
         $data = [
             "penjualan" => $penjualan,
-            "tgl_closing" => $start_date .'-'. $end_date
+            "tgl_closing" => $start_date . '-' . $end_date
         ];
-        $html = $this->load->view('pos/closing', $data,true);
-        $mpdf->defaultfooterline=0;
+        $html = $this->load->view('pos/closing', $data, true);
+        $mpdf->defaultfooterline = 0;
         // $mpdf->setFooter('<div style="text-align: left;">F.7.1.1</div>');
         $mpdf->WriteHTML($html);
         $mpdf->Output();
         // $mpdf->Output('closing'.$start_date.'-' . $end_date.' .pdf', 'D');
     }
-    function clean($string) {
+    function clean($string)
+    {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 
         return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
-     }
+    }
     //  function remove_session_customer() {
     //     $this->session->unset_userdata('tipe_penjualan');
     //  }
