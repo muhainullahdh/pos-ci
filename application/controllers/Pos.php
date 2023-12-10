@@ -20,9 +20,17 @@ class Pos extends CI_Controller
         // $this->load->view('body/header');
         $tipe = $this->input->post('tipe');
         if ($tipe == true) {
-            $this->session->set_userdata('tipe_penjualan', $tipe);
-        } else {
-            $this->session->set_userdata('tipe_penjualan', 'umum,273,1');
+            $this->session->set_userdata('tipe_penjualan',$tipe);
+            $id_plg = explode(',',$this->input->post('tipe_penjualan'))[1];
+            $this->db->where('pelanggan_piutang',$id_plg);
+            $this->db->where('status',1);
+            $cek_piutang_user = $this->db->get('piutang');
+            if ($cek_piutang_user->num_rows()) {
+                $this->session->set_flashdata('msg','piutang');
+                redirect('pos/load_piutang/'.$cek_piutang_user->row_array()['id_transaksi']);
+            }
+        }else{
+            $this->session->set_userdata('tipe_penjualan','umum,273,1');
         }
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
@@ -246,69 +254,68 @@ class Pos extends CI_Controller
                         ];
                         $this->db->insert('transaksi_item', $insert_hold);
                     }
-                }
-            } else { //tahan
-                if ($update == 'update') { //update hold dan update transaksi
-                    $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
-                    if ($cek_item == true) {
-                        $this->db->set('kd_barang', $x['kd_barang']);
-                        $this->db->set('barang', $x['barang']);
-                        $this->db->set('qty', $x['qty']);
-                        $this->db->set('qty_satuan', $ex_satuan[0]);
-                        $this->db->set('satuan', $ex_satuan[1]);
-                        $this->db->set('harga_satuan', $x['harga_satuan']);
-                        $this->db->set('diskon_item', $x['diskon_item']);
-                        $this->db->set('jumlah', $x['jumlah']);
-                        $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
-                        $this->db->update('transaksi_item');
-                    }
-                    //jika ada penambahan row di transaksi hold
-                    if ($cek_item == false) {
-                        $insert_hold = [
-                            "id_transaksi" => $id_transaksi,
-                            "kd_barang" => $x['kd_barang'],
-                            "barang" => $x['barang'],
-                            "qty" => $x['qty'],
-                            "qty_satuan" => $ex_satuan[0],
-                            "satuan" => $ex_satuan[1],
-                            "harga_satuan" => $x['harga_satuan'],
-                            "diskon_item" => $x['diskon_item'],
-                            "jumlah" => $x['jumlah'],
-                            "trash" => 0
-                        ];
-                        $this->db->insert('transaksi_item', $insert_hold);
+                }else{//tahan
+                    if ($update == 'update') {//update hold dan update transaksi
+                        $cek_item = $this->db->get_where('transaksi_item',['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
+                        if ($cek_item == true) {
+                            $this->db->set('kd_barang', $x['kd_barang']);
+                            $this->db->set('barang', $x['barang']);
+                            $this->db->set('qty', $x['qty']);
+                            $this->db->set('qty_satuan', $ex_satuan[0]);
+                            $this->db->set('satuan', $ex_satuan[1]);
+                            $this->db->set('harga_satuan', $x['harga_satuan']);
+                            $this->db->set('diskon_item', $x['diskon_item']);
+                            $this->db->set('jumlah', $x['jumlah']);
+                            $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
+                            $this->db->update('transaksi_item');
+                        }
+                        //jika ada penambahan row di transaksi hold
+                        if ($cek_item == false) {
+                            $insert_hold = [
+                                "id_transaksi" => $id_transaksi,
+                                "kd_barang" => $x['kd_barang'],
+                                "barang" => $x['barang'],
+                                "qty" => $x['qty'],
+                                "qty_satuan" => $ex_satuan[0],
+                                "satuan" => $ex_satuan[1],
+                                "harga_satuan" => $x['harga_satuan'],
+                                "diskon_item" => $x['diskon_item'],
+                                "jumlah" => $x['jumlah'],
+                                "trash" => 0
+                            ];
+                            $this->db->insert('transaksi_item',$insert_hold);
+                        }
                     }
                 }
             }
-        }
-        if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
-            $this->db->insert_batch('transaksi_item', $output); //submit
-            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii) {
-                $this->db->where('id', $get_transkasi['id_transaksi']); //update data transaksi
-                $this->db->set('piutang', 1);
-                $this->db->update('transaksi');
-                $piutang = [
-                    "id_transaksi" => $get_transkasi['id_transaksi'],
-                    "total_bayar_piutang" => $this->clean($this->input->post('total_bayar')),
-                    "total_transkasi" => $total_transaksii,
-                    "status" => 1
-                ];
-                $this->db->insert('piutang', $piutang);
+            if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
+                $this->db->insert_batch('transaksi_item',$output); //submit
+                if ($this->clean($this->input->post('total_bayar')) < $total_transaksii) {
+                    $this->db->where('id',$get_transkasi['id_transaksi']); //update data transaksi
+                    $this->db->set('piutang',1);
+                    $this->db->update('transaksi');
+                    $piutang = [
+                        "id_transaksi" => $get_transkasi['id_transaksi'],
+                        "total_bayar_piutang" => $this->clean($this->input->post('total_bayar')),
+                        "total_transkasi" => $total_transaksii,
+                        "status" => 1
+                    ];
+                    $this->db->insert('piutang',$piutang);
+                }
             }
-        }
-        if ($edit_transaksi == 'edit_transaksi') {
-            $cek_id = $id_transaksi;
-        } else {
-            $cek_id = $get_transkasi['id_transaksi'];
-        }
-        $data_ec = [
-            "id_transaksi" => $cek_id,
-            'no_struk' => $this->input->post('no_struk'),
-            'tahan' => $this->input->post('tahan'),
-            'edit_transaksi' => $cek_id,
-            "status" => 200
-        ];
-        echo json_encode($data_ec);
+            if ($edit_transaksi == 'edit_transaksi') {
+                $cek_id = $id_transaksi;
+            }else{
+                $cek_id = $get_transkasi['id_transaksi'];
+            }
+            $data_ec = [
+                "id_transaksi" => $cek_id,
+                'no_struk' => $this->input->post('no_struk'),
+                'tahan' => $this->input->post('tahan'),
+                'edit_transaksi' => $cek_id,
+                "status" => 200
+            ];
+            echo json_encode($data_ec);
     }
     function check_tgl_pos()
     {
@@ -407,6 +414,10 @@ class Pos extends CI_Controller
         $this->db->group_by('a.no_struk');
         $load = $this->db->get()->result();
         echo json_encode($load);
+    }
+    function load_piutang()
+    {
+        echo 1;
     }
     function del_row_hold()
     {
@@ -678,4 +689,5 @@ class Pos extends CI_Controller
     //  function remove_session_customer() {
     //     $this->session->unset_userdata('tipe_penjualan');
     //  }
+    }
 }

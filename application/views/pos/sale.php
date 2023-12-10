@@ -148,37 +148,8 @@
       <!-- Page Body Start-->
       <div class="page-body-wrapper">
         <!-- Page Sidebar Start-->
-        <!-- <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
-          <div>
-            <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light" src="<?= base_url() ?>assets/images/logo/logo.png" alt=""><img class="img-fluid for-dark" src="<?= base_url() ?>assets/images/logo/logo_dark.png" alt=""></a>
-              <div class="back-btn"><i class="fa fa-angle-left"></i></div>
-              <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
-            </div>
-            <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid" src="<?= base_url() ?>assets/images/logo/logo-icon.png" alt=""></a></div>
-            <?php // $this->load->view('body/sidebar') ?>
-          </div>
-        </div> -->
         <!-- Page Sidebar Ends-->
         <div class="page-body">
-          <!-- <div class="container-fluid">
-            <div class="page-title">
-              <div class="row">
-                <div class="col-6">
-                  <h4>School Management</h4>
-                </div>
-                <div class="col-6">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">
-                        <svg class="stroke-icon">
-                          <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#stroke-home"></use>
-                        </svg></a></li>
-                    <li class="breadcrumb-item">Dashboard</li>
-                    <li class="breadcrumb-item active">School Manage</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div> -->
           <!-- Container-fluid starts-->
                     <div class="modal fade" id="modal_penjualan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -1786,7 +1757,7 @@
                 document.onkeyup = function(e) {
                     if (e.which == 18) {
                         window.location = '<?= base_url() ?>pos/';
-                    }else if (e.which == 16) {
+                    }else if (e.which == 16) { // add item di transaksi = shift
 
                         var max_fields = 100;
                         var wrapper = $("#sampel-wrapper");
@@ -1930,7 +1901,7 @@
                                 //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
                                 // }
                         }
-                    }else if (e.which == 113 || e.which == 119) { // bayar dan tahan
+                    }else if (e.which == 113 || e.which == 119) { // bayar dan tahan f2 dan f8
                             if (e.which == 113) {
                                 var value_ac = "BAYAR"
                                 if (counter < 1) {
@@ -2154,7 +2125,7 @@
 
 
                         // })
-                    }else if (e.which == 115) { //load transaksi
+                    }else if (e.which == 115) { //load transaksi //f4
                         $('#t-load').DataTable({order:[[0,"desc"]]})
                         $.ajax({
                                     url : "<?= site_url('pos/load_hold');?>",
@@ -2182,7 +2153,7 @@
                                         console.log(e)
                                     }
                             });
-                    }else if(e.which == 192){//load penjualan print
+                    }else if(e.which == 192){//load penjualan print = `
                             $.ajax({
                                     url : "<?= site_url('pos/load_transaksi');?>",
                                     method : "GET",
@@ -2220,10 +2191,10 @@
                                         console.log(e)
                                     }
                             });
-                    }else if (e.which == 188) { // open pelanggan <
+                    }else if (e.which == 188) { // open pelanggan = <
                         $('.select2p').select2();
                         $('.select2p').select2('open');
-                    }else if (e.which == 190) { // open pengiriman >
+                    }else if (e.which == 190) { // open pengiriman = >
                         $('.select2kurir').select2();
                         $('.select2kurir').select2('open');
                     }
