@@ -190,8 +190,10 @@ class Pos extends CI_Controller {
                 $this->db->insert('transaksi',$data); //submit
             }
             $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
+            $total_transaksii = 0;
             foreach ($this->input->post('item') as $x) {
                 $ex_satuan = explode(',',$x['satuan']);
+                $total_transaksii += $x['jumlah'];
                 $output[] = array(
                     "id_transaksi" => $get_transkasi['id_transaksi'],
                     "kd_barang" => $x['kd_barang'],
@@ -277,6 +279,18 @@ class Pos extends CI_Controller {
             }
             if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
                 $this->db->insert_batch('transaksi_item',$output); //submit
+                if ($this->clean($this->input->post('total_bayar')) < $total_transaksii) {
+                    $this->db->where('id',$get_transkasi['id_transaksi']); //update data transaksi
+                    $this->db->set('piutang',1);
+                    $this->db->update('transaksi');
+                    $piutang = [
+                        "id_transaksi" => $get_transkasi['id_transaksi'],
+                        "total_bayar_piutang" => $this->clean($this->input->post('total_bayar')),
+                        "total_transkasi" => $total_transaksii,
+                        "status" => 1
+                    ];
+                    $this->db->insert('piutang',$piutang);
+                }
             }
             if ($edit_transaksi == 'edit_transaksi') {
                 $cek_id = $id_transaksi;

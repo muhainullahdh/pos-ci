@@ -2257,7 +2257,14 @@
                         }else{
                             var xxx_total = Math.abs(total_xxx)
                         }
-                        $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        if (bayar_val >= total_xxx) {
+                            $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                            $('.utang').html("Rp.0")
+                        }else{
+                            var piutang_cek = total_xxx - bayar_val
+                            $('.utang').html("Rp."+piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                            $('.kembali').html("Rp.0")
+                        }
                     // }else{
                     //     $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     // }
