@@ -1966,8 +1966,8 @@
                                             $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                                             $('#payment').modal('show');
                                             $('#payment').on('shown.bs.modal', function () {
-                                                // $('.total_bayar').focus();
-                                                 $("#BAYAR").focus();
+                                                $('.total_bayar').focus();
+                                                //  $("#BAYAR").focus();
                                             })
                                         // }
                                         // else if ($('.edit_transaksi').val() == 'edit_transaksi') {// edit transkasi yang sudah di cetak struk
@@ -2257,11 +2257,11 @@
                         }else{
                             var xxx_total = Math.abs(total_xxx)
                         }
-                        if (bayar_val >= total_xxx) {
+                        if (bayar_val >= total_transaksi) {
                             $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.utang').html("Rp.0")
                         }else{
-                            var piutang_cek = total_xxx - bayar_val
+                            var piutang_cek = total_transaksi - bayar_val
                             $('.utang').html("Rp."+piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kembali').html("Rp.0")
                         }
@@ -2287,11 +2287,11 @@
                             var xxx_total = Math.abs(total_xxx)
                         }
                         var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
-                        if (bayar_val >= total_xxx) {
+                        if (bayar_val >= total_transaksi) {
                             $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.utang').html("Rp.0")
                         }else{
-                            var piutang_cek = total_xxx - bayar_val
+                            var piutang_cek = total_transaksi - bayar_val
                             $('.utang').html("Rp."+piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kembali').html("Rp.0")
                         }
@@ -2319,11 +2319,11 @@
                         }
                         var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
 
-                        if (bayar_val >= total_xxx) {
+                        if (bayar_val >= total_transaksi) {
                             $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.utang').html("Rp.0")
                         }else{
-                            var piutang_cek = total_xxx - bayar_val
+                            var piutang_cek = total_transaksi - bayar_val
                             $('.utang').html("Rp."+piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kembali').html("Rp.0")
                         }
