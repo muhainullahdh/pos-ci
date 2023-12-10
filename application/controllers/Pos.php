@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pos extends CI_Controller
-{
+class Pos extends CI_Controller {
     // private $param;
 
     public function __construct()
@@ -301,6 +300,7 @@ class Pos extends CI_Controller
                         "status" => 1
                     ];
                     $this->db->insert('piutang',$piutang);
+                }
                 }
             }
             if ($edit_transaksi == 'edit_transaksi') {
@@ -689,5 +689,6 @@ class Pos extends CI_Controller
     //  function remove_session_customer() {
     //     $this->session->unset_userdata('tipe_penjualan');
     //  }
-    }
+    // }
+    // }
 }
