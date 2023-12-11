@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pos extends CI_Controller {
+class Pos extends CI_Controller
+{
     // private $param;
 
     public function __construct()
@@ -19,18 +20,17 @@ class Pos extends CI_Controller {
         // $this->load->view('body/header');
         $tipe = $this->input->post('tipe');
         if ($tipe == true) {
-            $this->session->set_userdata('tipe_penjualan',$tipe);
-            // $id_plg = explode(',',$this->session->userdata('tipe_penjualan'))[1];
-            $id_plg = explode(',',$tipe)[1];
-            $this->db->where('pelanggan_piutang',$id_plg);
-            $this->db->where('status',1);
+            $this->session->set_userdata('tipe_penjualan', $tipe);
+            $id_plg = explode(',', $this->input->post('tipe_penjualan'))[1];
+            $this->db->where('pelanggan_piutang', $id_plg);
+            $this->db->where('status', 1);
             $cek_piutang_user = $this->db->get('piutang');
             if ($cek_piutang_user->num_rows()) {
-                $this->session->set_flashdata('msg','piutang');
-                redirect('pos/index/'.$cek_piutang_user->row_array()['id_transaksi'] . '/piutang');
+                $this->session->set_flashdata('msg', 'piutang');
+                redirect('pos/load_piutang/' . $cek_piutang_user->row_array()['id_transaksi']);
             }
-        }else{
-            $this->session->set_userdata('tipe_penjualan','umum,273,1');
+        } else {
+            $this->session->set_userdata('tipe_penjualan', 'umum,273,1');
         }
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
@@ -254,9 +254,9 @@ class Pos extends CI_Controller {
                         ];
                         $this->db->insert('transaksi_item', $insert_hold);
                     }
-                }else{//tahan
-                    if ($update == 'update') {//update hold dan update transaksi
-                        $cek_item = $this->db->get_where('transaksi_item',['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
+                } else { //tahan
+                    if ($update == 'update') { //update hold dan update transaksi
+                        $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
                         if ($cek_item == true) {
                             $this->db->set('kd_barang', $x['kd_barang']);
                             $this->db->set('barang', $x['barang']);
@@ -283,16 +283,16 @@ class Pos extends CI_Controller {
                                 "jumlah" => $x['jumlah'],
                                 "trash" => 0
                             ];
-                            $this->db->insert('transaksi_item',$insert_hold);
+                            $this->db->insert('transaksi_item', $insert_hold);
                         }
                     }
                 }
             }
             if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
-                $this->db->insert_batch('transaksi_item',$output); //submit
+                $this->db->insert_batch('transaksi_item', $output); //submit
                 if ($this->clean($this->input->post('total_bayar')) < $total_transaksii) {
-                    $this->db->where('id',$get_transkasi['id_transaksi']); //update data transaksi
-                    $this->db->set('piutang',1);
+                    $this->db->where('id', $get_transkasi['id_transaksi']); //update data transaksi
+                    $this->db->set('piutang', 1);
                     $this->db->update('transaksi');
                     $piutang = [
                         "id_transaksi" => $get_transkasi['id_transaksi'],
@@ -300,23 +300,23 @@ class Pos extends CI_Controller {
                         "total_transkasi" => $total_transaksii,
                         "status" => 1
                     ];
-                    $this->db->insert('piutang',$piutang);
-                }
+                    $this->db->insert('piutang', $piutang);
                 }
             }
-            if ($edit_transaksi == 'edit_transaksi') {
-                $cek_id = $id_transaksi;
-            }else{
-                $cek_id = $get_transkasi['id_transaksi'];
-            }
-            $data_ec = [
-                "id_transaksi" => $cek_id,
-                'no_struk' => $this->input->post('no_struk'),
-                'tahan' => $this->input->post('tahan'),
-                'edit_transaksi' => $cek_id,
-                "status" => 200
-            ];
-            echo json_encode($data_ec);
+        }
+        if ($edit_transaksi == 'edit_transaksi') {
+            $cek_id = $id_transaksi;
+        } else {
+            $cek_id = $get_transkasi['id_transaksi'];
+        }
+        $data_ec = [
+            "id_transaksi" => $cek_id,
+            'no_struk' => $this->input->post('no_struk'),
+            'tahan' => $this->input->post('tahan'),
+            'edit_transaksi' => $cek_id,
+            "status" => 200
+        ];
+        echo json_encode($data_ec);
     }
     function check_tgl_pos()
     {
@@ -651,7 +651,7 @@ class Pos extends CI_Controller {
     function closing()
     {
         $mpdf = new \Mpdf\Mpdf([
-            'tempDir' => '/tmp',
+            'tempDir' => 'assets/pdf',
             'mode' => '',
             'format' => 'A4',
             'default_font_size' => 0,
@@ -682,7 +682,14 @@ class Pos extends CI_Controller {
          left join users d on (a.kasir=d.id)
          left join barang as e on(b.kd_barang=e.id)
          left join kategori as f on(e.kategori_id=f.id)
-         left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' and a.pembayaran='" . $pembayaran . "' and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
+         left join ekspedisi as g on(a.pengiriman = g.id)
+         left join piutang as h on(a.id=h.id_transaksi)
+          WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' and a.pembayaran='" . $pembayaran . "' and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
+
+        // echo '<pre>';
+        // print_r($penjualan);
+        // echo '</pre>';
+        // exit;
 
         $data = [
             "penjualan" => $penjualan,
