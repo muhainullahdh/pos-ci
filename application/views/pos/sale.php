@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,11 +45,11 @@
 
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css"> -->
     <link href="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
-  </head>
+</head>
 
-  <body style="background-color: #eee;">
+<body style="background-color: #eee;">
 
-  <!-- loader starts-->
+    <!-- loader starts-->
     <!-- <div class="loader-wrapper">
       <div class="loader-index"> <span></span></div>
       <svg>
@@ -66,8 +67,8 @@
     <!-- page-wrapper Start-->
     <!-- <div  class="page-wrapper horizontal-wrapper" id="pageWrapper"> -->
     <div id="pageWrapper">
-      <!-- Page Header Start-->
-      <!-- <div class="page-header">
+        <!-- Page Header Start-->
+        <!-- <div class="page-header">
         <div class="header-wrapper row m-0">
           <form class="form-inline search-full col" action="#" method="get">
             <div class="form-group w-100">
@@ -144,124 +145,154 @@
           <script class="empty-template" type="text/x-handlebars-template"><div class="EmptyMessage">Your search turned up 0 results. This most likely means the backend is down, yikes!</div></script>
         </div>
       </div> -->
-      <!-- Page Header Ends                              -->
-      <!-- Page Body Start-->
-      <div class="page-body-wrapper">
-        <!-- Page Sidebar Start-->
-        <!-- Page Sidebar Ends-->
-        <div class="page-body">
-          <!-- Container-fluid starts-->
-                    <div class="modal fade" id="modal_penjualan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Penjualan</h5>
+        <!-- Page Header Ends                              -->
+        <!-- Page Body Start-->
+        <div class="page-body-wrapper">
+            <!-- Page Sidebar Start-->
+            <!-- <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
+          <div>
+            <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light" src="<?= base_url() ?>assets/images/logo/logo.png" alt=""><img class="img-fluid for-dark" src="<?= base_url() ?>assets/images/logo/logo_dark.png" alt=""></a>
+              <div class="back-btn"><i class="fa fa-angle-left"></i></div>
+              <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
+            </div>
+            <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid" src="<?= base_url() ?>assets/images/logo/logo-icon.png" alt=""></a></div>
+            <?php // $this->load->view('body/sidebar') 
+            ?>
+          </div>
+        </div> -->
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <!-- <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-6">
+                  <h4>School Management</h4>
+                </div>
+                <div class="col-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">
+                        <svg class="stroke-icon">
+                          <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#stroke-home"></use>
+                        </svg></a></li>
+                    <li class="breadcrumb-item">Dashboard</li>
+                    <li class="breadcrumb-item active">School Manage</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div> -->
+                <!-- Container-fluid starts-->
+                <div class="modal fade" id="modal_penjualan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Penjualan</h5>
 
-                                        <button class="btn-close py-0 clear_penjualan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button class="btn-close py-0 clear_penjualan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-toggle-wrapper">
+                                    <!-- <form action="<?= base_url('pos/reprint_date') ?>" method="POST"> -->
+                                    <div class="row">
+                                        <div class="col">
+                                            <label>Start Date</label>
+                                            <input type="date" class="form-control date_print" value="<?= $this->session->userdata('reprint_date_penjualan') ?>" name="date">
+                                        </div>
+                                        <div class="col">
+                                            <label>End Date</label>
+                                            <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') ?>" name="date2">
+                                        </div>
+                                        <div class="col">
+                                            <label>Pelanggan</label>
+                                            <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('reprint_tipe_penjualan') ?>"> -->
+                                            <select id="" class="reprint_customers select2x">
+                                                <option value="0">Pilih Pelanggan</option>
+                                                <?php foreach ($customers as $x) {
+                                                ?>
+                                                    <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="modal-body">
-                                                                    <div class="modal-toggle-wrapper">
-                                                                    <!-- <form action="<?= base_url('pos/reprint_date') ?>" method="POST"> -->
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <label>Start Date</label>
-                                                                                <input type="date" class="form-control date_print" value="<?= $this->session->userdata('reprint_date_penjualan') ?>" name="date">
-                                                                            </div>
-                                                                            <div class="col">
-                                                                                <label>End Date</label>
-                                                                                <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') ?>" name="date2">
-                                                                            </div>
-                                                                            <div class="col">
-                                                                                <label>Pelanggan</label>
-                                                                                <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('reprint_tipe_penjualan') ?>"> -->
-                                                                                <select id="" class="reprint_customers select2x">
-                                                                                        <option value="0">Pilih Pelanggan</option>
-                                                                                        <?php foreach($customers as $x )  {
-                                                                                            ?>
-                                                                                        <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
-                                                                                        <?php } ?>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    <!-- </form> -->
-                                                                        <div class="row justify-content-md-center">
-                                                                            <div class="col-xl-12">
-                                                                            <div class="table-responsive">
-                                                                            <table id="load-transaksi" class="display table">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                    <th width="70"></th>
-                                                                                    <th width="400" scope="col">No Struk</th>
-                                                                                    <th width="80" scope="col">Pelanggan</th>
-                                                                                    <th width="180" scope="col">Total Item</th>
-                                                                                    <th width="180" scope="col">Total Transaksi</th>
-                                                                                    <th width="180" scope="col"></th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                </tbody>
-                                                                                </table>
-                                                                            </div>
+                                    <!-- </form> -->
+                                    <div class="row justify-content-md-center">
+                                        <div class="col-xl-12">
+                                            <div class="table-responsive">
+                                                <table id="load-transaksi" class="display table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="70"></th>
+                                                            <th width="400" scope="col">No Struk</th>
+                                                            <th width="80" scope="col">Pelanggan</th>
+                                                            <th width="180" scope="col">Total Item</th>
+                                                            <th width="180" scope="col">Total Transaksi</th>
+                                                            <th width="180" scope="col"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                        </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="modal_closing" style="overflow:hidden;" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdrop" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Closing</h5>
+                </div>
+                <div class="modal fade" id="modal_closing" style="overflow:hidden;" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdrop" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Closing</h5>
 
-                                        <button class="btn-close py-0 clear_penjualan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                                                    <div class="modal-toggle-wrapper">
-                                                                    <form action="<?= base_url('pos/closing') ?>" method="GET">
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <label>Pembayaran</label>
-                                                                                <select name="pembayaran_closing" id="" class="form-control">
-                                                                                    <option value="">Pilih pembayaran</option>
-                                                                                    <option value="CASH">CASH</option>
-                                                                                    <option value="TRANSFER">TRANSFER</option>
-                                                                                    <option value="VOCHER">VOCHER</option>
-                                                                                    <option value="EDC">EDC</option>
-                                                                                    <option value="GIRO">GIRO</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="col">
-                                                                                <label>Start Date</label>
-                                                                                <input type="date" class="form-control date_print_closing" name="date_print_closing">
-                                                                            </div>
-                                                                            <div class="col">
-                                                                                <label>End Date</label>
-                                                                                <input type="date" class="form-control date_print_closing2"  name="date_print_closing2">
-                                                                            </div>
-                                                                            <div class="col">
-                                                                                <label>Pelanggan</label>
-                                                                                <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('closing_tipe_penjualan') ?>"> -->
-                                                                                <select id="" name="closing_customers" class="select2x">
-                                                                                        <option value="0">Pilih Pelanggan</option>
-                                                                                        <?php foreach($customers as $x )  {
-                                                                                            ?>
-                                                                                        <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
-                                                                                        <?php } ?>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
+                                <button class="btn-close py-0 clear_penjualan" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-toggle-wrapper">
+                                    <form action="<?= base_url('pos/closing') ?>" method="GET">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label>Pembayaran</label>
+                                                <select name="pembayaran_closing" id="" class="form-control">
+                                                    <option value="">Pilih pembayaran</option>
+                                                    <option value="CASH">CASH</option>
+                                                    <option value="TRANSFER">TRANSFER</option>
+                                                    <option value="VOCHER">VOCHER</option>
+                                                    <option value="EDC">EDC</option>
+                                                    <option value="GIRO">GIRO</option>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label>Start Date</label>
+                                                <input type="date" class="form-control date_print_closing" name="date_print_closing">
+                                            </div>
+                                            <div class="col">
+                                                <label>End Date</label>
+                                                <input type="date" class="form-control date_print_closing2" name="date_print_closing2">
+                                            </div>
+                                            <div class="col">
+                                                <label>Pelanggan</label>
+                                                <!-- <input type="text" class="form-control reprint_customers" value="<?= $this->session->userdata('closing_tipe_penjualan') ?>"> -->
+                                                <select id="" name="closing_customers" class="form-control select2x">
+                                                    <option value="0">Pilih Pelanggan</option>
+                                                    <?php foreach ($customers as $x) {
+                                                    ?>
+                                                        <option value="<?= $x->id_customer ?>"><?= $x->nama_toko ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                                                                        <div class="row">
-                                                                            <div class="col">
-                                                                                <button type="submit" class="btn btn-primary btn-square">Export</button>
-                                                                            </div>
-                                                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-primary btn-square">Export</button>
+                                            </div>
+                                        </div>
 
-                                                                    </form>
-                                                                        <!-- <div class="row justify-content-md-center">
+                                    </form>
+                                    <!-- <div class="row justify-content-md-center">
                                                                             <div class="col-xl-12">
                                                                             <div class="table-responsive">
                                                                             <table id="load-transaksi" class="display table">
@@ -281,12 +312,11 @@
                                                                             </div>
 
                                                                         </div> -->
-                                                                    </div>
-                                                                </div>
-                                                        </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
+<<<<<<< HEAD
           <div class="container-fluid">
             <div class="row mt-1">
               <div class="col-xxl-12 box-col-12">
@@ -361,6 +391,96 @@
                                             </thead>
                                             <tbody id="sampel-wrapper">
                                                 <!-- <tr style="background-color: white;">
+=======
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row mt-1">
+                    <div class="col-xxl-12 box-col-12">
+                        <div class="row">
+                            <div class="col-xxl-9 col-md-7">
+                                <div class="card">
+                                    <div class="card-body pt-0">
+                                        <div class="row mt-3">
+                                            <?php if ($this->uri->segment(3) == true) { ?>
+                                                <div class="col">
+                                                    <div class="table-responsive" style="min-height:650px; max-height: 650px;">
+                                                        <table id="load-list">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th width="400" scope="col">Nama Barang</th>
+                                                                    <th width="80" scope="col">Qty</th>
+                                                                    <th width="180" scope="col">Satuan</th>
+                                                                    <th width="180" scope="col">Harga Satuan</th>
+                                                                    <th width="180" scope="col">Diskon</th>
+                                                                    <th width="280" scope="col">Jumlah</th>
+                                                                    <th width="280" scope="col">Stock</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="sampel-wrapper">
+                                                                <!-- <?php foreach ($transaksi_item as $x) { ?>
+                                                <tr style="background-color: white;">
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger delete_satuan"><i class="icon-trash"></i></button>
+                                                    </td>
+                                                        <td class="order">
+                                                        <input class="form-control barang1" value="<?= $x->barang ?>">
+                                                        <input type="hidden" value="<?= $x->kd_barang ?>" class="form-control id_barang1">
+                                                                </td>
+                                                        <td>
+                                                            <input id="idq1" type="number" <?= $x->qty ?> style="text-align:center;" value="1" class="form-control qty1">
+                                                        </td>
+                                                        <td>
+                                                            <select id="ids1" class="form-control satuan1" style="cursor: text;">
+                                                                <option value="">Pilih satuan</option>
+                                                            </select>
+                                                            <input type="hidden" class="qty_isi1">
+                                                        </td>
+                                                        <td>
+                                                            <input readonly type="text" value="<?= number_format($x->harga_satuan, 0, '.', '.') ?>" id="idh1" class="form-control harga1">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="idd1" placeholder="0" style="text-align:center;" class="form-control diskon_item1">
+                                                        </td>
+                                                        <td>
+                                                        <input readonly type="text" value="<?= number_format($x->jumlah, 0, '.', '.') ?>" class="form-control jumlah1">
+                                                        </td>
+                                                        <td>
+                                                            <div class="row">
+                                                                    <div class="col-xl-6">
+                                                                        <input type="text" class="form-control stock1">
+                                                                    </div>
+                                                                    <div class="col-xl-6">
+                                                                        <input type="text" class="form-control stock-c1">
+                                                                    </div>
+                                                            </div>
+                                                        </td>
+                                                </tr>
+                                                <?php } ?> -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            <?php } else { ?>
+                                                <div class="col">
+                                                    <div class="table-responsive" style="min-height:650px; max-height: 650px;">
+                                                        <table>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th width="400" scope="col">Nama Barang</th>
+                                                                    <th width="80" scope="col">Qty</th>
+                                                                    <th width="180" scope="col">Satuan</th>
+                                                                    <th width="180" scope="col">Harga Satuan</th>
+                                                                    <th width="180" scope="col">Diskon</th>
+                                                                    <th width="280" scope="col">Jumlah</th>
+                                                                    <th width="280" scope="col">Stock</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="sampel-wrapper">
+                                                                <!-- <tr style="background-color: white;">
+>>>>>>> b664d8d (closing)
                                                     <td>
                                                         <button type="button" class="btn btn-danger btn-square delete_satuan"><i class="icon-trash"></i></button>
                                                     </td>
@@ -397,154 +517,155 @@
                                                         </div>
                                                     </td>
                                                 </tr> -->
-                                            </tbody>
-                                            </table>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
                                         </div>
                                     </div>
-                                    <?php } ?>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                    <div class="card widget-hover overflow-hidden">
-                                        <div class="card-header card-no-border pb-2">
-                                            <!-- <h5>Menu</h5> -->
-                                        </div>
-                                        <div class="card-body pt-0 count-student">
-                                            <div class="row">
-                                                <div class="col-xl-2">
-                                                    <div class="row">
-                                                        CETAK
-                                                        <!-- <div class="col"> -->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card widget-hover overflow-hidden">
+                                            <div class="card-header card-no-border pb-2">
+                                                <!-- <h5>Menu</h5> -->
+                                            </div>
+                                            <div class="card-body pt-0 count-student">
+                                                <div class="row">
+                                                    <div class="col-xl-2">
+                                                        <div class="row">
+                                                            CETAK
+                                                            <!-- <div class="col"> -->
                                                             <div class="form-check radio radio-primary">
                                                                 <input class="form-check-input" id="radio111" type="radio" name="radio3" value="option1" checked="">
                                                                 <label class="form-check-label" for="radio111">Struk</label>
                                                             </div>
-                                                        <!-- </div> -->
-                                                        <!-- <div class="col"> -->
+                                                            <!-- </div> -->
+                                                            <!-- <div class="col"> -->
                                                             <div class="form-check radio radio-primary">
                                                                 <input class="form-check-input" id="radio112" type="radio" name="radio3" value="option1">
                                                                 <label class="form-check-label" for="radio112">Kwitansi</label>
                                                             </div>
-                                                        <!-- </div>  -->
+                                                            <!-- </div>  -->
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xl-2">
-                                                    <div class="row">
-                                                        <!-- SHORTCUT <br> -->
-                                                        <!-- <div class="col"> -->
+                                                    <div class="col-xl-2">
+                                                        <div class="row">
+                                                            <!-- SHORTCUT <br> -->
+                                                            <!-- <div class="col"> -->
                                                             [TAB] = Selanjutnya<br>
                                                             [SHIFT + TAB] = Sebelumnya <br>
                                                             F2 = BAYAR
-                                                        <!-- </div> -->
-                                                        <!-- <div class="col"> -->
+                                                            <!-- </div> -->
+                                                            <!-- <div class="col"> -->
                                                             <!-- <div class="form-check radio radio-primary">
                                                                 <input class="form-check-input" id="radio112" type="radio" name="radio3" value="option1">
                                                                 <label class="form-check-label" for="radio112">Kwitansi</label>
                                                             </div> -->
-                                                        <!-- </div>  -->
+                                                            <!-- </div>  -->
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xl-2">
-                                                    [+] : Tambah Transaksi<br>
-                                                    [CTRL + R] : Batal Transaksi <br>
-                                                    F8 = TAHAN
-                                                </div>
-                                                <!-- <div class="col">
+                                                    <div class="col-xl-2">
+                                                        [+] : Tambah Transaksi<br>
+                                                        [CTRL + R] : Batal Transaksi <br>
+                                                        F8 = TAHAN
+                                                    </div>
+                                                    <!-- <div class="col">
                                                     <button data-bs-toggle="modal" data-original-title="test" data-bs-target="#modaload" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PENJUALAN</button>
                                                 </div> -->
-                                                <div class="col">
-                                                    <button class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
-                                                </div>
-                                                <div class="col">
-                                                    <button class="btn btn-square btn-outline-primary col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal_closing" style="font-size:20px;">CLOSING</button>
+                                                    <div class="col">
+                                                        <button class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">PELUNASAN</button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button class="btn btn-square btn-outline-primary col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal_closing" style="font-size:20px;">CLOSING</button>
 
-                                                </div>
-                                                <!-- <div class="col">
+                                                    </div>
+                                                    <!-- <div class="col">
                                                     <button class="btn btn-square btn-outline-danger col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal_trash" style="font-size:20px;">TRASH</button>
                                                 </div> -->
 
-                                                <!-- <div class="col">
+                                                    <!-- <div class="col">
                                                     <button class="btn btn-square btn-outline-primary col-xl-12" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modaload" style="font-size:20px;">LOAD</button>
                                                 </div> -->
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="card widget-1">
-                                        <div class="card-body">
-                                            <div class="widget-content">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card widget-1">
+                                    <div class="card-body">
+                                        <div class="widget-content">
                                             <div class="widget-round secondary">
                                                 <div class="bg-round">
-                                                <svg class="svg-fill">
-                                                    <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#cart"> </use>
-                                                </svg>
-                                                <svg class="half-circle svg-fill">
-                                                    <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#halfcircle"></use>
-                                                </svg>
+                                                    <svg class="svg-fill">
+                                                        <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#cart"> </use>
+                                                    </svg>
+                                                    <svg class="half-circle svg-fill">
+                                                        <use href="<?= base_url() ?>assets/svg/icon-sprite.svg#halfcircle"></use>
+                                                    </svg>
                                                 </div>
                                             </div>
                                             <div>
                                                 <h2 class="total_pos">Rp.0</h2>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-6">
+                                    <div class="card">
+                                        <div class="card-header card-no-border pb-2">
+                                            <h5>Informasi</h5>
+                                            <span>Toko Ling Ling</span>
+                                            <b><?= $this->session->userdata('nama') ?></b>
+                                        </div>
+                                        <br><br>
+                                        <hr>
+                                        <div class="card-body pt-0 count-student">
+                                            <div class="row">
+                                                <div class="col-xl-4">
+                                                    <p>No Struk</p>
+                                                </div>
+                                                <div class="col-xl-8">
+                                                    <input type="text" readonly class="form-control no_struk" value="<?= date('d') . date('m') . date('Y') . sprintf('%04d', $tgl_urutan['t'] + 1); ?>">
+                                                    <input type="hidden" readonly class="form-control edit_transaksi" value="<?= $this->uri->segment(4) ?>">
+                                                </div>
                                             </div>
-                                        </div>
-                        </div>
-                        <div class="col-md-12 col-sm-6" >
-                            <div class="card">
-                                    <div class="card-header card-no-border pb-2">
-                                        <h5>Informasi</h5>
-                                        <span>Toko Ling Ling</span>
-                                        <b><?= $this->session->userdata('nama') ?></b>
-                                    </div>
-                                <br><br><hr>
-                                <div class="card-body pt-0 count-student">
-                                    <div class="row">
-                                        <div class="col-xl-4">
-                                            <p>No Struk</p>
-                                        </div>
-                                        <div class="col-xl-8">
-                                            <input type="text" readonly class="form-control no_struk" value="<?= date('d') . date('m') . date('Y') .sprintf('%04d',$tgl_urutan['t']+1); ?>">
-                                            <input type="hidden" readonly class="form-control edit_transaksi" value="<?= $this->uri->segment(4) ?>">
-                                          </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-xl-4">
-                                            <p>Tanggal</p>
-                                        </div>
-                                        <div class="col-xl-8">
-                                            <input type="date" class="form-control tgl_transaksi" value="<?= date('Y-m-d')?>">
-                                          </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-xl-4">
-                                            <p>Pelanggan <?= explode(',',$this->session->userdata('tipe_penjualan'))[0] ?></p>
-                                        </div>
-                                        <div class="col-xl-8">
-                                        <form action="<?= base_url('pos') ?>" method="POST">
-                                            <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2p">
-                                                    <!-- <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="">UMUM</option> -->
-                                                    <?php foreach($customers as $x )  {
-                                                        ?>
-                                                    <option <?= strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',',$this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan).",".$x->id_customer.",".$x->nama_toko ?>"><?= $x->nama_toko ?></option>
-                                                    <?php } ?>
-                                            </select>
-                                        </form>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-xl-4">
-                                            <p>Member</p>
-                                        </div>
-                                        <div class="col-xl-8">
-                                            <input type="text" class="form-control member" value="">
-                                        </div>
-                                    </div>
-                                    <!-- <div class="row mt-3">
+                                            <div class="row mt-3">
+                                                <div class="col-xl-4">
+                                                    <p>Tanggal</p>
+                                                </div>
+                                                <div class="col-xl-8">
+                                                    <input type="date" class="form-control tgl_transaksi" value="<?= date('Y-m-d') ?>">
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-xl-4">
+                                                    <p>Pelanggan <?= explode(',', $this->session->userdata('tipe_penjualan'))[0] ?></p>
+                                                </div>
+                                                <div class="col-xl-8">
+                                                    <form action="<?= base_url('pos') ?>" method="POST">
+                                                        <select onchange="this.form.submit()" name="tipe" id="" class="form-control select2p">
+                                                            <!-- <option <?= $this->session->userdata('tipe_penjualan') == 'umum' ? 'selected' : '' ?> value="">UMUM</option> -->
+                                                            <?php foreach ($customers as $x) {
+                                                            ?>
+                                                                <option <?= strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == strtolower($x->tipe_penjualan) && explode(',', $this->session->userdata('tipe_penjualan'))[1]  == $x->id_customer ? 'selected' : '' ?> value="<?= strtolower($x->tipe_penjualan) . "," . $x->id_customer . "," . $x->nama_toko ?>"><?= $x->nama_toko ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-xl-4">
+                                                    <p>Member</p>
+                                                </div>
+                                                <div class="col-xl-8">
+                                                    <input type="text" class="form-control member" value="">
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row mt-3">
                                         <div class="col-xl-4">
                                             <p>Diskon</p>
                                         </div>
@@ -553,15 +674,15 @@
                                         </div>
                                     </div> -->
 
-                                    <div class="row mt-3">
-                                        <div class="col-xl-4">
-                                            <p>Total Netto</p>
-                                        </div>
-                                        <div class="col-xl-8">
-                                            <input type="text" class="form-control total_netto">
-                                        </div>
-                                    </div>
-                                    <!-- <div class="row mt-3">
+                                            <div class="row mt-3">
+                                                <div class="col-xl-4">
+                                                    <p>Total Netto</p>
+                                                </div>
+                                                <div class="col-xl-8">
+                                                    <input type="text" class="form-control total_netto">
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row mt-3">
                                         <div class="col-xl-4">
                                             <p>Total Bayar</p>
                                         </div>
@@ -569,41 +690,41 @@
                                             <input type="text" id="total_bayar" class="form-control total_bayar">
                                         </div>
                                     </div> -->
-                                    <div class="row mt-3">
-                                        <div class="col-xl-4">
-                                            <p>Jumlah Item</p>
-                                        </div>
-                                        <div class="col-xl-8">
-                                            <input type="text" class="form-control total_item" value="0">
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-xl-4">
-                                            <p>Keterangan</p>
-                                        </div>
-                                        <div class="col-xl-8">
-                                            <input type="text" class="form-control keterangan">
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-xl-4">
-                                            <p>Pengiriman</p>
-                                        </div>
-                                        <div class="col-xl-8">
-                                            <select name="" id="" class="form-control select2kurir pengiriman">
-                                                <option value="">Pilih Pengiriman</option>
-                                               <?php foreach($ekspedisi as $x) { ?>
-                                                <option <?= $x->nama == "Ambil di toko" ? 'selected' : '' ?> value="<?= $x->id ?>"><?= $x->nama ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-4">
-                                            <p>Status PPN</p>
-                                        </div>
-                                        <div class="col-xl">
-                                            <!-- <div class="form-check radio radio-primary">
+                                            <div class="row mt-3">
+                                                <div class="col-xl-4">
+                                                    <p>Jumlah Item</p>
+                                                </div>
+                                                <div class="col-xl-8">
+                                                    <input type="text" class="form-control total_item" value="0">
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-xl-4">
+                                                    <p>Keterangan</p>
+                                                </div>
+                                                <div class="col-xl-8">
+                                                    <input type="text" class="form-control keterangan">
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-xl-4">
+                                                    <p>Pengiriman</p>
+                                                </div>
+                                                <div class="col-xl-8">
+                                                    <select name="" id="" class="form-control select2kurir pengiriman">
+                                                        <option value="">Pilih Pengiriman</option>
+                                                        <?php foreach ($ekspedisi as $x) { ?>
+                                                            <option <?= $x->nama == "Ambil di toko" ? 'selected' : '' ?> value="<?= $x->id ?>"><?= $x->nama ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-4">
+                                                    <p>Status PPN</p>
+                                                </div>
+                                                <div class="col-xl">
+                                                    <!-- <div class="form-check radio radio-primary">
                                                 <input class="form-check-input" id="radio111" type="radio" name="radio3" value="option1" checked="">
                                                 <label class="form-check-label" for="radio111">NonPPN</label>
                                             </div>
@@ -615,10 +736,10 @@
                                                 <input class="form-check-input" id="radio113" type="radio" name="radio3" value="option1">
                                                 <label class="form-check-label" for="radio113">Exclude PPN</label>
                                             </div> -->
-                                            Non PPN
-                                        </div>
-                                    </div>
-                                    <!-- <div class="row mt-3">
+                                                    Non PPN
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row mt-3">
                                         <div class="col">
                                             <input id="BAYAR" class="btn btn-square btn-primary col-xl-12 submit" value="BAYAR" style="font-size:20px;">
                                         </div>
@@ -626,7 +747,7 @@
                                             <input id="TAHAN" class="btn btn-square btn-danger col-xl-12 submit" style="font-size:20px;" value="TAHAN">
                                         </div>
                                     </div> -->
-                                    <!-- <hr>
+                                            <!-- <hr>
                                     <div class="row mt-3">
                                         <div class="col">
                                             <button id="bayar3332312" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Cek POIN</button>
@@ -635,7 +756,7 @@
                                             <button id="tahan" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">POIN CUST</button>
                                         </div>
                                     </div> -->
-                                    <!-- <div class="row mt-3">
+                                            <!-- <div class="row mt-3">
                                         <div class="col">
                                             <button id="bayar" class="btn btn-square btn-outline-primary col-xl-12" style="font-size:20px;">Barang</button>
                                         </div>
@@ -652,26 +773,26 @@
                                         </div>
                                     </div> -->
 
-                                    <!-- <div class="row mt-2">
+                                            <!-- <div class="row mt-2">
                                     <button class="btn btn-square btn-warning" style="font-size:14px;">Stok Barang</button>
                                     </div>
                                     <div class="row mt-2">
                                     <button class="btn btn-square btn-primary" style="font-size:14px;">Data Penjualan</button>
                                     </div> -->
+                                        </div>
+                                    </div>
                                 </div>
+
+                            </div>
                         </div>
                     </div>
-
-                  </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <!-- Container-fluid Ends-->
         </div>
-        <!-- footer start-->
-        <!-- <footer class="footer">
+        <!-- Container-fluid Ends-->
+    </div>
+    <!-- footer start-->
+    <!-- <footer class="footer">
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12 footer-copyright text-center">
@@ -680,218 +801,218 @@
             </div>
           </div>
         </footer> -->
-      </div>
+    </div>
     </div>
 
-                    <div class="modal fade" id="payment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Pembayaran</h5>
-                            <!-- <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button> -->
-                          </div>
-                          <div class="modal-body mdl-payment">
-                            <div class="modal-toggle-wrapper">
-                                <!-- <?= $this->session->flashdata('msg') ?> -->
-                                <!-- <div class="row justify-content-md-center">
+    <div class="modal fade" id="payment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Pembayaran</h5>
+                    <!-- <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body mdl-payment">
+                    <div class="modal-toggle-wrapper">
+                        <!-- <?= $this->session->flashdata('msg') ?> -->
+                        <!-- <div class="row justify-content-md-center">
                                     <div class="col-xl-4">
                                        <h6> Informasi POS </h6>
                                     </div>
                                 </div> -->
-                                <div class="row justify-content-md-center">
-                                    <div class="col-xl-4">
-                                        <h6 class="total_bayar_text"> Total Bayar </h6>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <input type="text" class="form-control total_bayar" id="total_bayar">
-                                        <!-- <span style="font-size:20px" class="bayar_show"></span> -->
-                                    </div>
-                                </div>
-                                <div class="row justify-content-md-center mt-3 tunai_vis">
-                                    <div class="col-xl-4">
-                                       <h6>Tunai </h6>
-                                    </div>
-                                    <div class="col-xl-6">
-                                      <input type="text" class="form-control tunaii" id="tunaii">
-                                      <!-- <i>Bayar sisa transfer dengan tunai</i> -->
-                                        <!-- <span style="font-size:20px" class="diskon_show"></span> -->
-                                    </div>
-                                </div>
-                                <div class="row justify-content-md-center mt-2">
-                                    <div class="col-xl-4">
-                                        <h6> Total Transaksi </h6>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <input type="text" class="form-control transaksi_show" readonly>
-                                        <!-- <span style="font-size:20px" class="transaksi_show"></span> -->
-                                    </div>
-                                </div>
-                                <div class="row justify-content-md-center mt-2">
-                                    <div class="col-xl-4">
-                                       <h6>Diskon </h6>
-                                    </div>
-                                    <div class="col-xl-6">
-                                      <input type="text" class="form-control diskon_all" id="diskon_all">
-                                        <!-- <span style="font-size:20px" class="diskon_show"></span> -->
-                                    </div>
-                                </div>
+                        <div class="row justify-content-md-center">
+                            <div class="col-xl-4">
+                                <h6 class="total_bayar_text"> Total Bayar </h6>
+                            </div>
+                            <div class="col-xl-6">
+                                <input type="text" class="form-control total_bayar" id="total_bayar">
+                                <!-- <span style="font-size:20px" class="bayar_show"></span> -->
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center mt-3 tunai_vis">
+                            <div class="col-xl-4">
+                                <h6>Tunai </h6>
+                            </div>
+                            <div class="col-xl-6">
+                                <input type="text" class="form-control tunaii" id="tunaii">
+                                <!-- <i>Bayar sisa transfer dengan tunai</i> -->
+                                <!-- <span style="font-size:20px" class="diskon_show"></span> -->
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center mt-2">
+                            <div class="col-xl-4">
+                                <h6> Total Transaksi </h6>
+                            </div>
+                            <div class="col-xl-6">
+                                <input type="text" class="form-control transaksi_show" readonly>
+                                <!-- <span style="font-size:20px" class="transaksi_show"></span> -->
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center mt-2">
+                            <div class="col-xl-4">
+                                <h6>Diskon </h6>
+                            </div>
+                            <div class="col-xl-6">
+                                <input type="text" class="form-control diskon_all" id="diskon_all">
+                                <!-- <span style="font-size:20px" class="diskon_show"></span> -->
+                            </div>
+                        </div>
 
-                                <div class="row justify-content-md-center">
-                                    <div class="col-xl-4">
-                                       <h6> Sisa Utang </h6>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <span style="font-size:20px" class="utang">Rp.0</span>
-                                    </div>
+                        <div class="row justify-content-md-center">
+                            <div class="col-xl-4">
+                                <h6> Sisa Utang </h6>
+                            </div>
+                            <div class="col-xl-6">
+                                <span style="font-size:20px" class="utang">Rp.0</span>
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center">
+                            <div class="col-xl-4">
+                                <h6> Kembali </h6>
+                            </div>
+                            <div class="col-xl-6">
+                                <span style="font-size:20px" class="kembali">Rp.0</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row justify-content-md-center mt-3">
+                            <div class="col-xl-6">
+                                <span style="font-size:20px;text-align:center;">Metode Pembayaran</span>
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center mt-3">
+                            <div class="col">
+                                <div class="form-check radio radio-secondary">
+                                    <input class="form-check-input pembayaran" id="radio21" type="radio" name="radio_pembayaran" value="TRANSFER">
+                                    <label class="form-check-label" for="radio21">TRANSFER </label>
                                 </div>
-                                <div class="row justify-content-md-center">
-                                    <div class="col-xl-4">
-                                       <h6> Kembali </h6>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <span style="font-size:20px" class="kembali">Rp.0</span>
-                                    </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check radio radio-secondary">
+                                    <input class="form-check-input pembayaran" id="radio22" type="radio" checked name="radio_pembayaran" value="CASH">
+                                    <label class="form-check-label" for="radio22">CASH </label>
                                 </div>
-                                <hr>
-                                <div class="row justify-content-md-center mt-3">
-                                        <div class="col-xl-6">
-                                            <span style="font-size:20px;text-align:center;">Metode Pembayaran</span>
-                                        </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check radio radio-secondary">
+                                    <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio_pembayaran" value="GIRO">
+                                    <label class="form-check-label" for="radio24">GIRO </label>
                                 </div>
-                                    <div class="row justify-content-md-center mt-3">
-                                        <div class="col">
-                                            <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio21" type="radio" name="radio_pembayaran" value="TRANSFER">
-                                                <label class="form-check-label" for="radio21">TRANSFER </label>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio22" type="radio" checked name="radio_pembayaran" value="CASH">
-                                                <label class="form-check-label" for="radio22">CASH </label>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio24" type="radio" name="radio_pembayaran" value="GIRO">
-                                                <label class="form-check-label" for="radio24">GIRO </label>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio25" type="radio" name="radio_pembayaran" value="EDC">
-                                                <label class="form-check-label" for="radio25">EDC </label>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input pembayaran" id="radio26" type="radio" name="radio_pembayaran" value="VOCHER">
-                                                <label class="form-check-label" for="radio26">VOCHER </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-md-center mt-3 transfer_vis">
-                                        <div class="col-xl-6">
-                                            <label for="">Dari Bank</label>
-                                            <input type="text" class="form-control bank">
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <label for="">No Tujuan Rek</label>
-                                            <input type="text" class="form-control tujuan">
-                                        </div>
-                                        <!-- <div class="col-xl-4">
+                            </div>
+                            <div class="col">
+                                <div class="form-check radio radio-secondary">
+                                    <input class="form-check-input pembayaran" id="radio25" type="radio" name="radio_pembayaran" value="EDC">
+                                    <label class="form-check-label" for="radio25">EDC </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check radio radio-secondary">
+                                    <input class="form-check-input pembayaran" id="radio26" type="radio" name="radio_pembayaran" value="VOCHER">
+                                    <label class="form-check-label" for="radio26">VOCHER </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center mt-3 transfer_vis">
+                            <div class="col-xl-6">
+                                <label for="">Dari Bank</label>
+                                <input type="text" class="form-control bank">
+                            </div>
+                            <div class="col-xl-6">
+                                <label for="">No Tujuan Rek</label>
+                                <input type="text" class="form-control tujuan">
+                            </div>
+                            <!-- <div class="col-xl-4">
                                             <label for="">Nomor</label>
                                             <input type="text" class="form-control no_giro">
                                         </div> -->
-                                    </div>
-                                     <div class="row justify-content-md-center mt-3 giro_vis">
-                                        <div class="col-xl-2">
-                                            <label for="">Dari Bank</label>
-                                            <input type="text" class="form-control bank">
-                                        </div>
-                                        <div class="col-xl-4">
-                                            <label for="">Nomor</label>
-                                            <input type="text" class="form-control nomor">
-                                        </div>
-                                        <div class="col-xl-3">
-                                            <label for="">Rekening Pencairan</label>
-                                            <input type="text" class="form-control rekening_giro">
-                                        </div>
-                                        <div class="col-xl-3">
-                                            <label for="">Jatoh Tempo</label>
-                                            <input type="date" class="form-control tempo">
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-md-center mt-3 edc_vis">
-                                        <div class="col-xl-3">
-                                            <label for="">Bank Kartu</label>
-                                            <input type="text" class="form-control bank_edc">
-                                        </div>
-                                        <div class="col-xl-5">
-                                            <label for="">No Kartu</label>
-                                            <input type="text" class="form-control rekening_edc">
-                                        </div>
-                                        <div class="col-xl-4">
-                                            <label for="">Nama</label>
-                                            <input type="text" class="form-control nama_edc">
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-md-center mt-3 vocher_vis">
-                                        <div class="col-xl-6">
-                                            <label for="">No Vocher</label>
-                                            <input type="text" class="form-control vocher">
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <label for="">Rupiah</label>
-                                            <input type="text" class="form-control rekening_edc">
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-xl-8"></div>
-                                        <div class="col-xl-2">
-                                            <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
-                                            <button id="BAYAR" class="btn bg-primary d-flex align-items-center gap-2 text-light ms-auto submit" type="button">BAYAR</button>
-                                        </div>
-                                        <div class="col-xl-2">
-                                            <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
-                                            <button class="btn bg-secondary d-flex align-items-center gap-2 text-light ms-auto" type="button" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                            </div>
-                          </div>
                         </div>
-                      </div>
+                        <div class="row justify-content-md-center mt-3 giro_vis">
+                            <div class="col-xl-2">
+                                <label for="">Dari Bank</label>
+                                <input type="text" class="form-control bank">
+                            </div>
+                            <div class="col-xl-4">
+                                <label for="">Nomor</label>
+                                <input type="text" class="form-control nomor">
+                            </div>
+                            <div class="col-xl-3">
+                                <label for="">Rekening Pencairan</label>
+                                <input type="text" class="form-control rekening_giro">
+                            </div>
+                            <div class="col-xl-3">
+                                <label for="">Jatoh Tempo</label>
+                                <input type="date" class="form-control tempo">
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center mt-3 edc_vis">
+                            <div class="col-xl-3">
+                                <label for="">Bank Kartu</label>
+                                <input type="text" class="form-control bank_edc">
+                            </div>
+                            <div class="col-xl-5">
+                                <label for="">No Kartu</label>
+                                <input type="text" class="form-control rekening_edc">
+                            </div>
+                            <div class="col-xl-4">
+                                <label for="">Nama</label>
+                                <input type="text" class="form-control nama_edc">
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center mt-3 vocher_vis">
+                            <div class="col-xl-6">
+                                <label for="">No Vocher</label>
+                                <input type="text" class="form-control vocher">
+                            </div>
+                            <div class="col-xl-6">
+                                <label for="">Rupiah</label>
+                                <input type="text" class="form-control rekening_edc">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-xl-8"></div>
+                            <div class="col-xl-2">
+                                <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
+                                <button id="BAYAR" class="btn bg-primary d-flex align-items-center gap-2 text-light ms-auto submit" type="button">BAYAR</button>
+                            </div>
+                            <div class="col-xl-2">
+                                <!-- <input class="btn btn-square btn-primary submit" value="BAYAR"> -->
+                                <button class="btn bg-secondary d-flex align-items-center gap-2 text-light ms-auto" type="button" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-                    <div class="modal fade bd-example-modal-lg" id="modaload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Load Data POS</h5>
-                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="modal-toggle-wrapper">
-                                        <div class="row justify-content-md-center">
-                                            <div class="col-xl-12">
-                                            <div class="table-responsive">
-                                              <table id="load-hold" class="display table">
-                                                <thead>
-                                                    <tr>
-                                                    <th width="70"></th>
-                                                    <th width="400" scope="col">No Struk</th>
-                                                    <th width="80" scope="col">Pelanggan</th>
-                                                    <th width="180" scope="col">Total Item</th>
-                                                    <th width="180" scope="col">Total Transaksi</th>
-                                                    <th width="180" scope="col">Load</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- <?php foreach($load as $x) { ?>
+    <div class="modal fade bd-example-modal-lg" id="modaload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Load Data POS</h5>
+                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-toggle-wrapper">
+                        <div class="row justify-content-md-center">
+                            <div class="col-xl-12">
+                                <div class="table-responsive">
+                                    <table id="load-hold" class="display table">
+                                        <thead>
+                                            <tr>
+                                                <th width="70"></th>
+                                                <th width="400" scope="col">No Struk</th>
+                                                <th width="80" scope="col">Pelanggan</th>
+                                                <th width="180" scope="col">Total Item</th>
+                                                <th width="180" scope="col">Total Transaksi</th>
+                                                <th width="180" scope="col">Load</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- <?php foreach ($load as $x) { ?>
                                                     <tr style="background-color: white;">
                                                             <td>
-                                                                <a type="button" id="<?= $x->id.','.$x->no_struk ?>" class="delete_transaksi badge badge-danger"><i data-feather="trash-2"></i></a>
+                                                                <a type="button" id="<?= $x->id . ',' . $x->no_struk ?>" class="delete_transaksi badge badge-danger"><i data-feather="trash-2"></i></a>
                                                             </td>
                                                             <td class="order">
                                                             <?= $x->no_struk ?>
@@ -903,253 +1024,576 @@
                                                                 <?= $x->jumlah_item ?>
                                                             </td>
                                                             <td>
-                                                                <?= number_format($x->total_transaksi,0,".",".") ?>
+                                                                <?= number_format($x->total_transaksi, 0, ".", ".") ?>
                                                             </td>
-                                                            <td><a class="badge badge-primary" href="<?= base_url('pos/index/'.$x->id) ?>" ><i data-feather="edit-3"></i></a></td>
+                                                            <td><a class="badge badge-primary" href="<?= base_url('pos/index/' . $x->id) ?>" ><i data-feather="edit-3"></i></a></td>
                                                     </tr>
                                                     <?php } ?> -->
 
-                                                </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="col-xl-3">
-                                                <span style="font-size:20px" class="bayar_show"></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
+                                <div class="col-xl-3">
+                                    <span style="font-size:20px" class="bayar_show"></span>
                                 </div>
                             </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
 
 
 
-    <!-- latest jquery-->
-    <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+        <!-- latest jquery-->
+        <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 
-<script type="text/javascript" src="https://repo.rachmat.id/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.js"></script>
+        <script type="text/javascript" src="https://repo.rachmat.id/jquery-1.12.4.js"></script>
+        <script type="text/javascript" src="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-    <!-- Bootstrap js-->
-    <script src="<?= base_url() ?>assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- feather icon js-->
-    <script src="<?= base_url() ?>assets/js/icons/feather-icon/feather.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/icons/feather-icon/feather-icon.js"></script>
-    <!-- scrollbar js-->
-    <script src="<?= base_url() ?>assets/js/scrollbar/simplebar.js"></script>
-    <script src="<?= base_url() ?>assets/js/scrollbar/custom.js"></script>
-    <!-- Sidebar jquery-->
-    <script src="<?= base_url() ?>assets/js/config.js"></script>
-    <!-- Plugins JS start-->
-    <script src="<?= base_url() ?>assets/js/sidebar-menu.js"></script>
-    <script src="<?= base_url() ?>assets/js/slick/slick.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/slick/slick.js"></script>
-    <script src="<?= base_url() ?>assets/js/header-slick.js"></script>
-    <!-- <script src="<?= base_url() ?>assets/js/chart/apex-chart/apex-chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+        <!-- Bootstrap js-->
+        <script src="<?= base_url() ?>assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+        <!-- feather icon js-->
+        <script src="<?= base_url() ?>assets/js/icons/feather-icon/feather.min.js"></script>
+        <script src="<?= base_url() ?>assets/js/icons/feather-icon/feather-icon.js"></script>
+        <!-- scrollbar js-->
+        <script src="<?= base_url() ?>assets/js/scrollbar/simplebar.js"></script>
+        <script src="<?= base_url() ?>assets/js/scrollbar/custom.js"></script>
+        <!-- Sidebar jquery-->
+        <script src="<?= base_url() ?>assets/js/config.js"></script>
+        <!-- Plugins JS start-->
+        <script src="<?= base_url() ?>assets/js/sidebar-menu.js"></script>
+        <script src="<?= base_url() ?>assets/js/slick/slick.min.js"></script>
+        <script src="<?= base_url() ?>assets/js/slick/slick.js"></script>
+        <script src="<?= base_url() ?>assets/js/header-slick.js"></script>
+        <!-- <script src="<?= base_url() ?>assets/js/chart/apex-chart/apex-chart.js"></script>
     <script src="<?= base_url() ?>assets/js/chart/apex-chart/stock-prices.js"></script> -->
-    <script src="<?= base_url() ?>assets/js/sweet-alert/sweetalert.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.js"></script>
-    <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.en.js"></script>
-    <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.custom.js"></script>
-    <script src="<?= base_url() ?>assets/js/dashboard/dashboard_7.js"></script>
-    <script src="<?= base_url() ?>assets/js/height-equal.js"></script>
-    <script src="<?= base_url() ?>assets/js/datatable/datatables/jquery.dataTables.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/datatable/datatables/datatable.custom.js"></script>
-    <!-- Plugins JS Ends-->
-    <!-- Theme js-->
-    <script src="<?= base_url() ?>assets/js/script.js"></script>
-    <!-- <script src="<?= base_url() ?>assets/js/theme-customizer/customizer.js"></script> -->
-    <!-- Plugin used-->
-    <script>
+        <script src="<?= base_url() ?>assets/js/sweet-alert/sweetalert.min.js"></script>
+        <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.js"></script>
+        <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.en.js"></script>
+        <script src="<?= base_url() ?>assets/js/datepicker/date-picker/datepicker.custom.js"></script>
+        <script src="<?= base_url() ?>assets/js/dashboard/dashboard_7.js"></script>
+        <script src="<?= base_url() ?>assets/js/height-equal.js"></script>
+        <script src="<?= base_url() ?>assets/js/datatable/datatables/jquery.dataTables.min.js"></script>
+        <script src="<?= base_url() ?>assets/js/datatable/datatables/datatable.custom.js"></script>
+        <!-- Plugins JS Ends-->
+        <!-- Theme js-->
+        <script src="<?= base_url() ?>assets/js/script.js"></script>
+        <!-- <script src="<?= base_url() ?>assets/js/theme-customizer/customizer.js"></script> -->
+        <!-- Plugin used-->
+        <script>
+            $(document).ready(function() {
+                $('.select2x').select2();
+                $('.select2p').select2();
+                $('.select2kurir').select2();
+                $('.stock1').attr('disabled', true)
+                $('.stock-c1').attr('disabled', true)
+                var counter = 0;
 
-        $( document ).ready(function() {
-                        $('.select2x').select2();
-                        $('.select2p').select2();
-                        $('.select2kurir').select2();
-                        $('.stock1').attr('disabled',true)
-                        $('.stock-c1').attr('disabled',true)
-                        var counter = 0;
+                function check_pos() {
+                    $(".barang" + counter + "").focus();
+                    var data = "<?= base_url('pos/get_barang') ?>";
+                    $(".barang" + counter + "").autocomplete({
+                        source: data,
+                        select: function(event, ui) {
+                            $('.barang' + counter + '').val(ui.item.label);
+                            $('.id_barang' + counter + '').val(ui.item.description);
+                            var i, j;
+                            $.ajax({
+                                url: "<?= site_url('pos/search_barang'); ?>",
+                                method: "POST",
+                                data: {
+                                    id: ui.item.description
+                                },
+                                async: true,
+                                dataType: 'json',
+                                success: function(data) {
+                                    var satuann = ''
+                                    if (!data.id_satuan_besar == "") {
+                                        satuann += '<option value=' + data.qty_besar + "," + data.id_satuan_besar + '>' + data.id_satuan_besar + ' </option>';
+                                    }
+                                    if (!data.id_satuan_kecil == "") {
+                                        satuann += '<option value=' + data.qty_kecil + "," + data.id_satuan_kecil + '>' + data.id_satuan_kecil + ' </option>';
+                                    }
+                                    if (!data.id_satuan_kecil_konv == "") {
+                                        satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + '>' + data.id_satuan_kecil_konv + ' </option>';
+                                    }
+                                    <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                        if (!data.hargajualb_retail == "") {
+                                            var satuan_pp = data.hargajualb_retail;
+                                        } else if (!data.hargajualk_retail == "") {
+                                            var satuan_pp = data.hargajualb_retail;
+                                        } else if (!data.hargajual_konv_retail == "") {
+                                            var satuan_pp = data.hargajual_konv_retail;
+                                        }
+                                    <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                        if (!data.hargajualb_grosir == "") {
+                                            var satuan_pp = data.hargajualb_retail;
+                                        } else if (!data.hargajualk_retail == "") {
+                                            var satuan_pp = data.hargajualb_retail;
+                                        } else if (!data.hargajual_konv_retail == "") {
+                                            var satuan_pp = data.hargajual_konv_retail;
+                                        }
+                                    <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'grosir') { ?>
+                                        if (!data.hargajualb_grosir == "") {
+                                            var satuan_pp = data.hargajualb_grosir;
+                                        } else if (!data.hargajualk_grosir == "") {
+                                            var satuan_pp = data.hargajualb_grosir;
+                                        } else if (!data.hargajual_konv_grosir == "") {
+                                            var satuan_pp = data.hargajual_konv_grosir;
+                                        }
+                                    <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'partai') { ?>
+                                        if (!data.hargajualb_partai == "") {
+                                            var satuan_pp = data.hargajualb_partai;
+                                        } else if (!data.hargajualk_partai == "") {
+                                            var satuan_pp = data.hargajualb_partai;
+                                        } else if (!data.hargajual_konv_partai == "") {
+                                            var satuan_pp = data.hargajual_konv_partai;
+                                        }
+                                    <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'promo') { ?>
+                                        if (!data.hargajualb_promo == "") {
+                                            var satuan_pp = data.hargajualb_promo;
+                                        } else if (!data.hargajualk_promo == "") {
+                                            var satuan_pp = data.hargajualb_promo;
+                                        } else if (!data.hargajual_konv_promo == "") {
+                                            var satuan_pp = data.hargajual_konv_promo;
+                                        }
 
-                        function check_pos()
-                        {
-                            $(".barang"+counter+"").focus();
-                            var data = "<?= base_url('pos/get_barang') ?>";
-                            $(".barang"+counter+"").autocomplete({
-                                source: data,
-                                select: function (event, ui) {
-                                    $('.barang'+counter+'').val(ui.item.label);
-                                    $('.id_barang'+counter+'').val(ui.item.description);
-                                    var i,j;
-                                                $.ajax({
-                                                    url : "<?= site_url('pos/search_barang');?>",
-                                                    method : "POST",
-                                                    data : {id: ui.item.description},
-                                                    async : true,
-                                                    dataType : 'json',
-                                                    success: function(data){
-                                                        var satuann = ''
-                                                        if (!data.id_satuan_besar == "") {
-                                                            satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
-                                                        }
-                                                        if (!data.id_satuan_kecil == "") {
-                                                            satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
-                                                        }
-                                                        if (!data.id_satuan_kecil_konv == "") {
-                                                            satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
-                                                        }
-                                                                        <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
-                                                                            if (!data.hargajualb_retail == "") {
-                                                                                var satuan_pp = data.hargajualb_retail;
-                                                                            }else if (!data.hargajualk_retail == "") {
-                                                                                var satuan_pp = data.hargajualb_retail;
-                                                                            }else if (!data.hargajual_konv_retail == "") {
-                                                                                var satuan_pp = data.hargajual_konv_retail;
-                                                                            }
-                                                                        <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
-                                                                            if (!data.hargajualb_grosir == "") {
-                                                                                var satuan_pp = data.hargajualb_retail;
-                                                                            }else if (!data.hargajualk_retail == "") {
-                                                                                var satuan_pp = data.hargajualb_retail;
-                                                                            }else if (!data.hargajual_konv_retail == "") {
-                                                                                var satuan_pp = data.hargajual_konv_retail;
-                                                                            }
-                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
-                                                                            if (!data.hargajualb_grosir == "") {
-                                                                                var satuan_pp = data.hargajualb_grosir;
-                                                                            }else if (!data.hargajualk_grosir == "") {
-                                                                                var satuan_pp = data.hargajualb_grosir;
-                                                                            }else if (!data.hargajual_konv_grosir == "") {
-                                                                                var satuan_pp = data.hargajual_konv_grosir;
-                                                                            }
-                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
-                                                                            if (!data.hargajualb_partai == "") {
-                                                                                var satuan_pp = data.hargajualb_partai;
-                                                                            }else if (!data.hargajualk_partai == "") {
-                                                                                var satuan_pp = data.hargajualb_partai;
-                                                                            }else if (!data.hargajual_konv_partai == "") {
-                                                                                var satuan_pp = data.hargajual_konv_partai;
-                                                                            }
-                                                                        <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
-                                                                            if (!data.hargajualb_promo == "") {
-                                                                                var satuan_pp = data.hargajualb_promo;
-                                                                            }else if (!data.hargajualk_promo == "") {
-                                                                                var satuan_pp = data.hargajualb_promo;
-                                                                            }else if (!data.hargajual_konv_promo == "") {
-                                                                                var satuan_pp = data.hargajual_konv_promo;
-                                                                            }
+                                    <?php } ?>
+                                    var stok = data.stok
+                                    var min_stok = data.min_stok
+                                    if (stok < min_stok) {
+                                        swal({
+                                            title: "Opss..!",
+                                            text: "Barang " + data.nama + " sisa " + data.stok, //sisa
+                                            icon: "warning",
+                                            dangerMode: true,
+                                        }).then((r) => {
+                                            if (r) {
+                                                // location.reload();
+                                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                                // swal({
+                                                //   text : "oke"
+                                                // })
+                                                $(".barang" + counter + "").focus();
+                                            }
+                                        });
+                                    } else {
+                                        $("#diskon_item").prop('disabled', false);
+                                        $('.satuan' + counter + '').html(satuann);
+                                        $('.harga' + counter + '').val(satuan_pp.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        // $('.qty_isi'+counter+'').val(qtyyyx);
+                                        $('.jumlah' + counter + '').val(satuan_pp.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        var total_pos_fix = 0;
+                                        for (let t = 1; t <= counter; t++) {
+                                            total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                        }
+                                        $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        var qty_isi = $(".satuan" + counter + "")[0].value //qty isi satuan
+                                        var qty = $("input[id='idq" + counter + "']")[0].value * qty_isi.split(',')[0]
+                                        // if (counter > 1) {
+                                        //     var co = counter - 1;
+                                        //     $('.stock-c'+counter+'').val(stok - qty);
+                                        //     $('.stock'+counter+'').val($('.stock-c'+co+'').val());
+                                        //     // console.log($('.stock-c'+co+'').val())
+                                        // }else{
+                                        $('.stock' + counter + '').val(stok);
+                                        $('.stock-c' + counter + '').val(stok - (qty));
+                                        // }
+                                        // console.log(data.nama)
+                                        $('.total_item').val(counter)
 
-                                                                        <?php }?>
-                                                            var stok = data.stok
-                                                            var min_stok = data.min_stok
-                                                        if (stok < min_stok) {
-                                                                swal({
-                                                                title: "Opss..!",
-                                                                text: "Barang "+ data.nama+" sisa "+data.stok,//sisa
-                                                                icon: "warning",
-                                                                dangerMode: true,
-                                                                }).then((r) => {
-                                                                    if (r) {
-                                                                    // location.reload();
-                                                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                                                    // swal({
-                                                                    //   text : "oke"
-                                                                    // })
-                                                                    $(".barang"+counter+"").focus();
-                                                                    }
-                                                                });
-                                                        }else{
-                                                            $("#diskon_item").prop('disabled', false);
-                                                            $('.satuan'+counter+'').html(satuann);
-                                                            $('.harga'+counter+'').val(satuan_pp.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                            // $('.qty_isi'+counter+'').val(qtyyyx);
-                                                            $('.jumlah'+counter+'').val(satuan_pp.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                            var total_pos_fix = 0;
-                                                            for (let t = 1; t <=counter; t++) {
-                                                            total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
-                                                            }
-                                                            $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                            var qty_isi = $(".satuan"+counter+"")[0].value //qty isi satuan
-                                                            var qty = $("input[id='idq"+counter+"']")[0].value * qty_isi.split(',')[0]
-                                                            // if (counter > 1) {
-                                                            //     var co = counter - 1;
-                                                            //     $('.stock-c'+counter+'').val(stok - qty);
-                                                            //     $('.stock'+counter+'').val($('.stock-c'+co+'').val());
-                                                            //     // console.log($('.stock-c'+co+'').val())
-                                                            // }else{
-                                                                $('.stock'+counter+'').val(stok);
-                                                                $('.stock-c'+counter+'').val(stok - (qty));
-                                                            // }
-                                                        // console.log(data.nama)
-                                                            $('.total_item').val(counter)
+                                    }
 
-                                                        }
+                                }
+                            });
+                            return false;
+                            // });
+                        }
+                    });
 
-                                                    }
-                                                });
-                                                return false;
-                                            // });
+                    var qty = $(".qty" + counter + "")
+                    var diskon_item = $(".diskon_item" + counter + "")
+                    var satuan_x = $(".satuan" + counter + "")
+                    qty.keyup(function() {
+                        var id = $(this).val();
+                        i = this.id.slice(3);
+                        j = this.value;
+                        var qty_isi = satuan_x[0].value //isi satuan
+                        var diskon_item = $("input[id='idd" + i + "']")[0].value
+                        var stock_c = $('.stock-c' + i + '').val()
+                        if (stock_c == 0) {
+                            swal({
+                                title: "Opss..!",
+                                text: "Stock sisa 10",
+                                icon: "warning",
+                                dangerMode: true,
+                            }).then((r) => {
+                                if (r) {
+                                    location.reload();
+                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                    // swal({
+                                    //   text : "oke"
+                                    // })
                                 }
                             });
 
-                            var qty = $(".qty"+counter+"")
-                            var diskon_item = $(".diskon_item"+counter+"")
-                            var satuan_x = $(".satuan"+counter+"")
-                            qty.keyup(function() {
-                                var id=$(this).val();
-                                i = this.id.slice(3);
-                                j = this.value;
-                                var qty_isi = satuan_x[0].value //isi satuan
-                                var diskon_item = $("input[id='idd"+i+"']")[0].value
-                                var stock_c = $('.stock-c'+i+'').val()
-                                                    if (stock_c == 0) {
-                                                        swal({
-                                                            title: "Opss..!",
-                                                            text: "Stock sisa 10",
-                                                            icon: "warning",
-                                                            dangerMode: true,
-                                                        }).then((r) => {
-                                                            if (r) {
-                                                            location.reload();
-                                                        //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                        } else {
+                            // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                            var jumlah = $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                            $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                            $('.stock-c' + i + '').val($('.stock' + i + '').val() - j * qty_isi.split(',')[0]);
+                            var total_pos_fix = 0;
+                            for (let t = 1; t <= counter; t++) {
+                                total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                            }
+                            $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+
+
+                        }
+
+                    });
+
+                    diskon_item.keyup(function() {
+                        i = this.id.slice(3);
+                        j = this.value;
+                        var qty = $("input[id='idq" + i + "']")[0].value
+                        var qty_isi_satuan = satuan_x[0].value //qty satuan
+
+                        var jumlah = $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty - j.replace(/[^a-zA-Z0-9 ]/g, '')
+                        $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                        $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * qty_isi_satuan.split(',')[0]);
+                        var total_pos_fix = 0;
+                        for (let t = 1; t <= counter; t++) {
+                            total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                        }
+                        $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                    })
+                    satuan_x.change(function() {
+                        var id = $(this).val();
+                        i = this.id.slice(3);
+                        j = this.value; //isi satuan
+                        var qty = $("input[id='idq" + i + "']")[0].value
+                        var diskon_item = $("input[id='idd" + i + "']")[0].value
+                        var id_barangg = $('.id_barang' + counter + '').val();
+                        $.ajax({
+                            url: "<?= site_url('pos/search_barang'); ?>",
+                            method: "POST",
+                            data: {
+                                id: id_barangg
+                            },
+                            async: true,
+                            dataType: 'json',
+                            success: function(data2) {
+                                <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                    if (data2.id_satuan_besar == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_besar;
+                                        var satuan_p = data2.hargajualb_retail;
+                                    }
+                                    if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                        var qtyyyx = data2.qty_kecil;
+                                        var satuan_p = data2.hargajualk_retail;
+
+                                    }
+                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_konv;
+                                        var satuan_p = data2.hargajual_konv_retail
+                                    }
+                                <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                    if (data2.id_satuan_besar == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_besar;
+                                        var satuan_p = data2.hargajualb_retail;
+                                    }
+                                    if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                        var qtyyyx = data2.qty_kecil;
+                                        var satuan_p = data2.hargajualk_retail;
+
+                                    }
+                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_konv;
+                                        var satuan_p = data2.hargajual_konv_retail
+                                    }
+                                <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'grosir') { ?>
+                                    if (data2.id_satuan_besar == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_besar;
+                                        var satuan_p = data2.hargajualb_grosir;
+                                    }
+                                    if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                        var qtyyyx = data2.qty_kecil;
+                                        var satuan_p = data2.hargajualk_grosir;
+
+                                    }
+                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_konv;
+                                        var satuan_p = data2.hargajual_konv_grosir
+                                    }
+                                <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'partai') { ?>
+                                    if (data2.id_satuan_besar == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_besar;
+                                        var satuan_p = data2.hargajualb_partai;
+                                    }
+                                    if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                        var qtyyyx = data2.qty_kecil;
+                                        var satuan_p = data2.hargajualk_partai;
+
+                                    }
+                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_konv;
+                                        var satuan_p = data2.hargajual_konv_partai
+                                    }
+                                <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'promo') { ?>
+                                    if (data2.id_satuan_besar == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_besar;
+                                        var satuan_p = data2.hargajualb_promo
+                                    }
+                                    if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                        var qtyyyx = data2.qty_kecil;
+                                        var satuan_p = data2.hargajualk_promo;
+
+                                    }
+                                    if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                        var qtyyyx = data2.qty_konv;
+                                        var satuan_p = data2.hargajual_konv_promo
+                                    }
+                                <?php } ?>
+                                var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                $('.harga' + i + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * j.split(',')[0]);
+                                var total_pos_fix = 0;
+                                for (let t = 1; t <= counter; t++) {
+                                    total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                }
+                                $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                            }
+                        })
+                        // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty / j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+
+
+                    })
+                    var rupiah = document.getElementById('idd' + counter + '');
+                }
+                // var counter = <?= $this->uri->segment(3) == true ? 1 : 0 ?>;
+                <?php if ($this->uri->segment(3) == true) { ?> //submit hold atau edit transaksi
+                    $.ajax({
+                        url: "<?= site_url('pos/load'); ?>",
+                        method: "POST",
+                        data: {
+                            id: <?= $this->uri->segment(3) ?>
+                        },
+                        async: true,
+                        dataType: 'json',
+                        success: function(data) {
+                            var row_data = '';
+                            var total_pos = 0;
+                            for (let i = 0; i < data.length; i++) {
+                                // barang += '';
+                                counter++;
+                                var satuan_option = '';
+                                if (data[i].id_satuan_besar == data[i].satuan) { //satuan besar
+                                    var kd_satuan = data[i].id_satuan_besar
+                                    var qty_satuan = data[i].qty_besar + "," + data[i].id_satuan_besar
+                                    satuan_option += '<option selected value="' + qty_satuan + '">' + kd_satuan + '</option>'
+                                } else if (data[i].id_satuan_besar != data[i].satuan && !data[i].id_satuan_besar == "") {
+                                    var kd_satuan = data[i].id_satuan_besar
+                                    var qty_satuan = data[i].qty_besar + "," + data[i].id_satuan_besar
+                                    satuan_option += '<option value="' + qty_satuan + '">' + kd_satuan + '</option>'
+                                }
+
+                                if (data[i].id_satuan_kecil == data[i].satuan) { // satuan kecil
+                                    var kd_satuan = data[i].id_satuan_kecil
+                                    var qty_satuan = data[i].qty_kecil + "," + data[i].id_satuan_kecil
+                                    satuan_option += '<option selected value="' + qty_satuan + '">' + kd_satuan + '</option>'
+                                } else if (data[i].id_satuan_kecil != data[i].satuan && !data[i].id_satuan_kecil == "") {
+                                    var kd_satuan = data[i].id_satuan_kecil
+                                    var qty_satuan = data[i].qty_kecil + "," + data[i].id_satuan_kecil
+                                    satuan_option += '<option value="' + qty_satuan + '">' + kd_satuan + '</option>'
+                                }
+
+                                if (data[i].id_satuan_kecil_konv == data[i].satuan) { // satuan kecil kov
+                                    var kd_satuan = data[i].id_satuan_kecil_konv
+                                    var qty_satuan = data[i].qty_konv + "," + data[i].id_satuan_kecil_konv
+                                    satuan_option += '<option selected value="' + qty_satuan + '">' + kd_satuan + '</option>'
+                                } else if (data[i].id_satuan_kecil_konv != data[i].satuan && !data[i].id_satuan_kecil_konv == "") {
+                                    var kd_satuan = data[i].id_satuan_kecil_konv
+                                    var qty_satuan = data[i].qty_konv + "," + data[i].id_satuan_kecil_konv
+                                    satuan_option += '<option value="' + qty_satuan + '">' + kd_satuan + '</option>'
+                                }
+                                var qty_kurangi = data[i].stok - parseInt(qty_satuan)
+
+                                // var tipe_cust = "<?= strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) ?>"
+                                // var id_cust = "<?= explode(',', $this->session->userdata('tipe_penjualan'))[1] ?>"
+                                // if (tipe_cust == data[i].tipe_penjualan.toLowerCase() && data[i].id_customer) {
+                                //     var action_tipe = 'selected'
+                                // }
+                                $('select[name="tipe"]').html('<option selected value=' + data[i].tipe_penjualan.toLowerCase() + "," + data[i].id_customer + "," + data[i].nama_toko + '>' + data[i].nama_toko + '</option');
+                                $('.no_struk').val(data[i].no_struk);
+                                $('.tgl_transaksi').val(data[i].tgl_transaksi);
+                                $('.pengiriman').html('<option value=' + data[i].pengiriman + ' selected>' + data[i].nama + '</option>');
+                                total_pos += parseInt(data[i].jumlah)
+                                $('#load-list tbody').append(
+                                    '<tr class="cb" id=r' + counter + '>' +
+                                    '<td>' +
+                                    '<button id=' + counter + ' value="' + data[i].id_transaksi_item + '" type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input class="form-control barang' + counter + '" value="' + data[i].barang + '">' +
+                                    '<input type="hidden" value="' + data[i].kd_barang + '" class="form-control id_barang' + counter + '">' +
+                                    '<input type="hidden" value="' + data[i].id_transaksi_item + '" class="form-control id_item' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input id="idq' + counter + '" value="' + data[i].qty + '" type="number" style="text-align:center;" value="1" class="form-control qty' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<select id="ids' + counter + '" class="form-control satuan' + counter + '" style="cursor: text;">' +
+                                    // '<option value="">Pilih satuan</option>'+
+                                    satuan_option +
+                                    '</select>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input readonly type="text" value="' + data[i].harga_satuan.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '" class="form-control harga' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input type="text" id="idd' + counter + '" value="' + data[i].diskon_item.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '" placeholder="0" style="text-align:center;" class="form-control diskon_item' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input readonly type="text" value="' + data[i].jumlah.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '" class="form-control jumlah' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<div class="row">' +
+                                    '<div class="col-xl-6">' +
+                                    '<input readonly type="text" value="' + data[i].stok + '" class="form-control stock' + counter + '">' +
+                                    '</div>' +
+                                    '<div class="col-xl-6">' +
+                                    '<input readonly type="text" value=' + qty_kurangi + ' class="form-control stock-c' + counter + '">' +
+                                    ' </div>' +
+                                    '</div>' +
+                                    '</td>' +
+                                    '</tr>');
+                                // '</tr>');
+                                // check_pos()
+                            }
+
+                            $('.total_pos').html('Rp.' + total_pos.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                            $('.total_item').val(data.length);
+                            for (let xx = 0; xx <= counter; xx++) {
+                                var data = "<?= base_url('pos/get_barang') ?>";
+                                $(".barang" + xx + "").autocomplete({
+                                    source: data,
+                                    select: function(event, ui) {
+                                        $('.barang' + xx + '').val(ui.item.label);
+                                        $('.id_barang' + xx + '').val(ui.item.description);
+                                        var i, j;
+                                        $.ajax({
+                                            url: "<?= site_url('pos/search_barang'); ?>",
+                                            method: "POST",
+                                            data: {
+                                                id: ui.item.description
+                                            },
+                                            async: true,
+                                            dataType: 'json',
+                                            success: function(data) {
+                                                var satuann = ''
+                                                if (data.id_satuan_besar != "") {
+                                                    satuann += '<option value=' + data.qty_besar + "," + data.id_satuan_besar + '>' + data.id_satuan_besar + ' </option>';
+                                                }
+                                                if (data.id_satuan_kecil != "") {
+                                                    satuann += '<option value=' + data.qty_kecil + "," + data.id_satuan_kecil + '>' + data.id_satuan_kecil + ' </option>';
+                                                }
+                                                if (data.id_satuan_kecil_konv != "") {
+                                                    satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + '>' + data.id_satuan_kecil_konv + ' </option>';
+                                                }
+                                                <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                                    var harga1 = formatRupiah(data.hargajualb_retail)
+                                                    if (data.id_satuan_besar != "") {
+                                                        var qtyyy = data.qty_besar
+                                                    }
+                                                    var jumlah = data.hargajualb_retail * qtyyy
+                                                <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                                    var harga1 = formatRupiah(data.hargajualb_retail)
+                                                    if (data.id_satuan_besar != "") {
+                                                        var qtyyy = data.qty_besar
+                                                    }
+                                                    var jumlah = data.hargajualb_retail * qtyyy
+                                                <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'grosir') { ?>
+                                                    var harga1 = formatRupiah(data.hargajualb_grosir)
+                                                    if (data.id_satuan_kecil != "") {
+                                                        var qtyyy = data.qty_kecil
+                                                    }
+                                                    var jumlah = data.hargajualk_grosir * qtyyy
+                                                <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'partai') { ?>
+                                                    var harga1 = formatRupiah(data.hargajualb_partai)
+                                                <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'promo') { ?>
+                                                    var harga1 = formatRupiah(data.hargajualb_promo)
+                                                <?php } ?>
+                                                var stok = data.stok
+                                                var min_stok = data.min_stok
+                                                if (stok < min_stok) {
+                                                    swal({
+                                                        title: "Opss..!",
+                                                        text: "Barang " + data.nama + " sisa " + data.stok,
+                                                        icon: "warning",
+                                                        dangerMode: true,
+                                                    }).then((r) => {
+                                                        if (r) {
+                                                            // location.reload();
+                                                            //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
                                                             // swal({
                                                             //   text : "oke"
-                                                        // })
-                                                            }
-                                                        });
-
-                                                    }else{
-                                                        // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
-                                                        var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
-                                                            $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                                            $('.stock-c'+i+'').val($('.stock'+i+'').val() - j * qty_isi.split(',')[0]);
-                                                            var total_pos_fix = 0;
-                                                            for (let t = 1; t <=counter; t++) {
-                                                            total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
-                                                            }
-                                                            $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-
+                                                            // })
+                                                        }
+                                                    });
+                                                } else {
+                                                    $("#diskon_item").prop('disabled', false);
+                                                    $('.satuan' + xx + '').html(satuann);
+                                                    $('.harga' + xx + '').val(harga1);
+                                                    $('.qty_isi' + xx + '').val(qtyyy);
+                                                    $('.jumlah' + xx + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                    var total_pos_fix = 0;
+                                                    for (let t = 1; t <= xx; t++) {
+                                                        total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                    }
+                                                    $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                    $('.stock' + xx + '').val(stok);
+                                                    var qty_isi = $(".satuan" + xx + "")[0].value //qty isi satuan
+                                                    var qty = $("input[id='idq" + xx + "']")[0].value * qty_isi.split(',')[0]
+                                                    $('.stock-c' + xx + '').val(stok - qty);
+                                                    // console.log(data.nama)
+                                                    $('.total_item').val(counter)
 
                                                 }
 
-                            });
-
-                            diskon_item.keyup(function() {
+                                            }
+                                        });
+                                        return false;
+                                        // });
+                                    }
+                                });
+                                var qty = $(".qty" + xx + "")
+                                var diskon_item = $(".diskon_item" + xx + "")
+                                var satuan_x = $(".satuan" + xx + "")
+                                qty.keyup(function() {
+                                    var id = $(this).val();
                                     i = this.id.slice(3);
                                     j = this.value;
-                                    var qty = $("input[id='idq"+i+"']")[0].value
-                                    var qty_isi_satuan = satuan_x[0].value //qty satuan
-
-                                            var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty - j.replace(/[^a-zA-Z0-9 ]/g, '')
-                                            $('.jumlah'+i+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                            $('.stock-c'+i+'').val($('.stock'+i+'').val() - qty * qty_isi_satuan.split(',')[0]);
-                                            var total_pos_fix = 0;
-                                            for (let t = 1; t <=counter; t++) {
-                                            total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                    var qty_isi = satuan_x[0].value //isi satuan
+                                    var diskon_item = $("input[id='idd" + i + "']")[0].value
+                                    var stock_c = $('.stock-c' + i + '').val()
+                                    if (stock_c == 0) {
+                                        swal({
+                                            title: "Opss..!",
+                                            text: "Stock sisa 10",
+                                            icon: "warning",
+                                            dangerMode: true,
+                                        }).then((r) => {
+                                            if (r) {
+                                                location.reload();
                                             }
+<<<<<<< HEAD
                                             $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                             })
                             satuan_x.change(function(){
@@ -1656,12 +2100,24 @@
                                             $('.total_item').val(counter)
 
                                             // });
+=======
+>>>>>>> b664d8d (closing)
                                         });
 
-                                    },
-                                    error: function(e){
-                                        console.log(e)
+                                    } else {
+                                        // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                        var jumlah = $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                        $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        $('.stock-c' + i + '').val($('.stock' + i + '').val() - j * qty_isi.split(',')[0]);
+                                        var total_pos_fix = 0;
+                                        for (let t = 1; t <= counter; t++) {
+                                            total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                        }
+                                        $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+
+
                                     }
+<<<<<<< HEAD
                             });
                         <?php } ?>
                         <?php if($this->uri->segment('4') == 'piutang'){ ?> //submit hold atau edit transaksi
@@ -2075,175 +2531,136 @@
                                     }
                             });
                         <?php } ?>
+=======
+>>>>>>> b664d8d (closing)
 
+                                });
 
-                                // var rupiah3 = document.getElementById('diskon_all');
-                                // // var rupiah = document.getElementsByClassName('diskon_all');
-                                // rupiah3.addEventListener('keyup', function(e){
-                                //     rupiah3.value = formatRupiah(this.value, '');
-                                // });
-                                // function formatRupiah(angka, prefix){
-                                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                //     split   		= number_string.split(','),
-                                //     sisa     		= split[0].length % 3,
-                                //     rupiah     		= split[0].substr(0, sisa),
-                                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+                                diskon_item.keyup(function() {
+                                    i = this.id.slice(3);
+                                    j = this.value;
+                                    var qty = $("input[id='idq" + i + "']")[0].value
+                                    var qty_isi_satuan = satuan_x[0].value //qty satuan
 
-                                //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                //     if(ribuan){
-                                //     separator = sisa ? '.' : '';
-                                //     rupiah += separator + ribuan.join('.');
-                                //     }
-
-                                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
-                                // }
-
-                                // var rupiah4 = document.getElementById('total_bayar');
-                                // rupiah4.addEventListener('keyup', function(e){
-                                //     rupiah4.value = formatRupiah(this.value, '');
-                                // });
-                                // function formatRupiah(angka, prefix){
-                                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                //     split   		= number_string.split(','),
-                                //     sisa     		= split[0].length % 3,
-                                //     rupiah     		= split[0].substr(0, sisa),
-                                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
-
-                                //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                //     if(ribuan){
-                                //     separator = sisa ? '.' : '';
-                                //     rupiah += separator + ribuan.join('.');
-                                //     }
-
-                                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
-                                // }
-                                // var rupiah5 = document.getElementById('tunaii');
-                                // rupiah5.addEventListener('keyup', function(e){
-                                //     rupiah5.value = formatRupiah(this.value, '');
-                                // });
-
-                            $(".diskon_all").keyup(function(e){
-                                $(this).val(format($(this).val()));
-                            });
-                            $(".total_bayar").keyup(function(e){
-                                $(this).val(format($(this).val()));
-                            });
-                            $(".tunaii").keyup(function(e){
-                                $(this).val(format($(this).val()));
-                            });
-                            var format = function(num){
-                                var str = num.toString().replace("", ""), parts = false, output = [], i = 1, formatted = null;
-                                if(str.indexOf(",") > 0) {
-                                    parts = str.split(".");
-                                    str = parts[0];
-                                }
-                                str = str.split("").reverse();
-                                for(var j = 0, len = str.length; j < len; j++) {
-                                    if(str[j] != ".") {
-                                    output.push(str[j]);
-                                    if(i%3 == 0 && j < (len - 1)) {
-                                        output.push(".");
+                                    var jumlah = $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty - j.replace(/[^a-zA-Z0-9 ]/g, '')
+                                    $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                    $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * qty_isi_satuan.split(',')[0]);
+                                    var total_pos_fix = 0;
+                                    for (let t = 1; t <= counter; t++) {
+                                        total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
                                     }
-                                    i++;
-                                    }
-                                }
-                                formatted = output.reverse().join("");
-                                return("" + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
-                            };
+                                    $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                })
+                                satuan_x.change(function() {
+                                    var id = $(this).val();
+                                    i = this.id.slice(3);
+                                    j = this.value; //isi satuan
+                                    var qty = $("input[id='idq" + i + "']")[0].value
+                                    var diskon_item = $("input[id='idd" + i + "']")[0].value
+                                    var id_barangg = $('.id_barang' + counter + '').val();
+                                    $.ajax({
+                                        url: "<?= site_url('pos/search_barang'); ?>",
+                                        method: "POST",
+                                        data: {
+                                            id: id_barangg
+                                        },
+                                        async: true,
+                                        dataType: 'json',
+                                        success: function(data2) {
+                                            <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                                if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_besar;
+                                                    var satuan_p = data2.hargajualb_retail;
+                                                }
+                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                    var qtyyyx = data2.qty_kecil;
+                                                    var satuan_p = data2.hargajualk_retail;
 
-                document.onkeyup = function(e) {
-                    if (e.which == 18) {
-                        window.location = '<?= base_url() ?>pos/';
-                    }else if (e.which == 16) { // add item di transaksi = shift
+                                                }
+                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_konv;
+                                                    var satuan_p = data2.hargajual_konv_retail
+                                                }
+                                            <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                                if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_besar;
+                                                    var satuan_p = data2.hargajualb_retail;
+                                                }
+                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                    var qtyyyx = data2.qty_kecil;
+                                                    var satuan_p = data2.hargajualk_retail;
 
-                        var max_fields = 100;
-                        var wrapper = $("#sampel-wrapper");
-                        // var add_kom = $("#add-sampel");
+                                                }
+                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_konv;
+                                                    var satuan_p = data2.hargajual_konv_retail
+                                                }
+                                            <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'grosir') { ?>
+                                                if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_besar;
+                                                    var satuan_p = data2.hargajualb_grosir;
+                                                }
+                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                    var qtyyyx = data2.qty_kecil;
+                                                    var satuan_p = data2.hargajualk_grosir;
 
-                        if ($(".barang"+counter+"").val() == "") {
-                            swal({
-                                title: "Opss..!",
-                                text: "Barang sebelumnya harus di isi",
-                                icon: "warning",
-                                dangerMode: true,
-                            }).then((r) => {
-                                if (r) {
-                                // location.reload();
-                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                // swal({
-                                //   text : "oke"
-                                // })
-                                $(".barang"+counter+"").focus();
-                                }
-                            });
-                        }else if ($(".harga"+counter+"").val() == "") {
-                            swal({
-                                title: "Opss..!",
-                                text: "stock barang "+$(".barang"+counter+"").val()+" kurang dari batas minimum",
-                                icon: "warning",
-                                dangerMode: true,
-                            }).then((r) => {
-                                if (r) {
-                                // location.reload();
-                                //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                                // swal({
-                                //   text : "oke"
-                                // })
-                                $(".barang"+counter+"").focus();
-                                }
-                            });
-                        }else{
-                            if (counter < max_fields) {
-                                counter++;
-                                $(wrapper).append(
-                                    '<tr class="cb" id=r'+counter+'>'+
-                                    '<td>'+
-                                   '<button id='+counter+' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>'+
-                                    '<td>'+
-                                    '<input class="form-control barang'+counter+'">'+
-                                    '<input type="hidden" class="form-control id_barang'+counter+'">'+
-                                    '</td>'+
-                                    '<td>'+
-                                    '<input id="idq'+counter+'" type="number" style="text-align:center;" value="1" class="form-control qty'+counter+'">'+
-                                    '</td>'+
-                                    '<td>'+
-                                    '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
-                                        '<option value="">Pilih satuan</option>'+
-                                    '</select>'+
-                                    '</td>'+
-                                    '<td>'+
-                                    '<input readonly type="text" class="form-control harga'+counter+'">'+
-                                    '</td>'+
-                                    '<td>'+
-                                    '<input type="text" id="idd'+counter+'" placeholder="0" style="text-align:center;" class="form-control diskon_item'+counter+'">'+
-                                    '</td>'+
-                                    '<td>'+
-                                    '<input readonly type="text" class="form-control jumlah'+counter+'">'+
-                                    '</td>'+
-                                    '<td>'+
-                                    '<div class="row">'+
-                                            '<div class="col-xl-6">'+
-                                                '<input readonly type="text" class="form-control stock'+counter+'">'+
-                                            '</div>'+
-                                            '<div class="col-xl-6">'+
-                                                '<input readonly type="text" class="form-control stock-c'+counter+'">'+
-                                            ' </div>'+
-                                    '</div>'+
-                                    '</td>'+
-                                    '</tr>'
-                              );
-                              $('.select2x').select2();
+                                                }
+                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_konv;
+                                                    var satuan_p = data2.hargajual_konv_grosir
+                                                }
+                                            <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'partai') { ?>
+                                                if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_besar;
+                                                    var satuan_p = data2.hargajualb_partai;
+                                                }
+                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                    var qtyyyx = data2.qty_kecil;
+                                                    var satuan_p = data2.hargajualk_partai;
+
+                                                }
+                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_konv;
+                                                    var satuan_p = data2.hargajual_konv_partai
+                                                }
+                                            <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'promo') { ?>
+                                                if (data2.id_satuan_besar == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_besar;
+                                                    var satuan_p = data2.hargajualb_promo
+                                                }
+                                                if (j.split(',')[1] == data2.id_satuan_kecil) {
+                                                    var qtyyyx = data2.qty_kecil;
+                                                    var satuan_p = data2.hargajualk_promo;
+
+                                                }
+                                                if (data2.id_satuan_kecil_konv == j.split(',')[1]) {
+                                                    var qtyyyx = data2.qty_konv;
+                                                    var satuan_p = data2.hargajual_konv_promo
+                                                }
+                                            <?php } ?>
+
+                                            var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+                                            $('.harga' + i + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                            $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                            $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * j.split(',')[0]);
+                                            var total_pos_fix = 0;
+                                            for (let t = 1; t <= counter; t++) {
+                                                total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                            }
+                                            $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        }
+                                    })
+                                    // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * qty / j.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
+
+
+                                })
                             }
-                            $('.delete_item').click(function(){
-                                e.preventDefault();
-                                var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah"+this.id+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
-                                $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                            $('.delete_item').click(function() {
+                                // e.preventDefault();
 
                                 var child = $(this).closest('tr').nextAll();
 
-                                child.each(function () {
+                                child.each(function() {
 
                                     // Getting <tr> id.
                                     var id = $(this).attr('id');
@@ -2258,19 +2675,251 @@
 
                                     // Modifying row id.
                                     $(this).attr('id', `r${dig - 1}`);
-                                    $('.barang'+counter+'').removeClass('barang'+counter+'').addClass('barang'+parseInt(dig-1)+'');
-                                    $('.id_barang'+counter+'').removeClass('id_barang'+counter+'').addClass('id_barang'+parseInt(dig-1)+'');
-                                    $('.qty'+counter+'').removeClass('qty'+counter+'').addClass('qty'+parseInt(dig-1)+'');
-                                    $('.satuan'+counter+'').removeClass('satuan'+counter+'').addClass('satuan'+parseInt(dig-1)+'');
-                                    $('.diskon_item'+counter+'').removeClass('diskon_item'+counter+'').addClass('diskon_item'+parseInt(dig-1)+'');
-                                    $('.harga'+counter+'').removeClass('harga'+counter+'').addClass('harga'+parseInt(dig-1)+'');
-                                    $('.jumlah'+counter+'').removeClass('jumlah'+counter+'').addClass('jumlah'+parseInt(dig-1)+'');
-                                    $('.stock'+counter+'').removeClass('stock'+counter+'').addClass('stock'+parseInt(dig-1)+'');
-                                    $('.stock-c'+counter+'').removeClass('stock-c'+counter+'').addClass('stock-c'+parseInt(dig-1)+'');
-                                    $('#idq'+counter+'').attr("id", "idq"+parseInt(dig-1)+"");
-                                    $('#ids'+counter+'').attr("id", "ids"+parseInt(dig-1)+"");
-                                    $('#idd'+counter+'').attr("id", "idd"+parseInt(dig-1)+"");
-                                    $('button[id='+counter+']').attr("id", ""+parseInt(dig-1)+"");
+                                    $('.barang' + counter + '').removeClass('barang' + counter + '').addClass('barang' + parseInt(dig - 1) + '');
+                                    $('.id_barang' + counter + '').removeClass('id_barang' + counter + '').addClass('id_barang' + parseInt(dig - 1) + '');
+                                    $('.qty' + counter + '').removeClass('qty' + counter + '').addClass('qty' + parseInt(dig - 1) + '');
+                                    $('.satuan' + counter + '').removeClass('satuan' + counter + '').addClass('satuan' + parseInt(dig - 1) + '');
+                                    $('.diskon_item' + counter + '').removeClass('diskon_item' + counter + '').addClass('diskon_item' + parseInt(dig - 1) + '');
+                                    $('.harga' + counter + '').removeClass('harga' + counter + '').addClass('harga' + parseInt(dig - 1) + '');
+                                    $('.jumlah' + counter + '').removeClass('jumlah' + counter + '').addClass('jumlah' + parseInt(dig - 1) + '');
+                                    $('.stock' + counter + '').removeClass('stock' + counter + '').addClass('stock' + parseInt(dig - 1) + '');
+                                    $('.stock-c' + counter + '').removeClass('stock-c' + counter + '').addClass('stock-c' + parseInt(dig - 1) + '');
+                                    $('#idq' + counter + '').attr("id", "idq" + parseInt(dig - 1) + "");
+                                    $('#ids' + counter + '').attr("id", "ids" + parseInt(dig - 1) + "");
+                                    $('#idd' + counter + '').attr("id", "idd" + parseInt(dig - 1) + "");
+                                    $('button[id=' + counter + ']').attr("id", "" + parseInt(dig - 1) + "");
+                                });
+                                var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah" + this.id + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+
+                                $(this).closest('tr').remove();
+                                <?php if ($this->uri->segment(3) == true) { ?>
+                                    $.ajax({
+                                        url: "<?= site_url('pos/del_row_hold'); ?>",
+                                        method: "POST",
+                                        data: {
+                                            id: this.value
+                                        },
+                                        async: true,
+                                        dataType: 'json',
+                                        success: function(data) {
+                                            console.log(data)
+                                        }
+                                    })
+                                <?php } ?>
+                                // Decreasing total number of rows by 1.
+                                counter--;
+                                $('.total_item').val(counter)
+
+                                // });
+                            });
+
+                        },
+                        error: function(e) {
+                            console.log(e)
+                        }
+                    });
+                <?php } ?>
+
+
+                // var rupiah3 = document.getElementById('diskon_all');
+                // // var rupiah = document.getElementsByClassName('diskon_all');
+                // rupiah3.addEventListener('keyup', function(e){
+                //     rupiah3.value = formatRupiah(this.value, '');
+                // });
+                // function formatRupiah(angka, prefix){
+                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                //     split   		= number_string.split(','),
+                //     sisa     		= split[0].length % 3,
+                //     rupiah     		= split[0].substr(0, sisa),
+                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+                //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                //     if(ribuan){
+                //     separator = sisa ? '.' : '';
+                //     rupiah += separator + ribuan.join('.');
+                //     }
+
+                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                // }
+
+                // var rupiah4 = document.getElementById('total_bayar');
+                // rupiah4.addEventListener('keyup', function(e){
+                //     rupiah4.value = formatRupiah(this.value, '');
+                // });
+                // function formatRupiah(angka, prefix){
+                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                //     split   		= number_string.split(','),
+                //     sisa     		= split[0].length % 3,
+                //     rupiah     		= split[0].substr(0, sisa),
+                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+                //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                //     if(ribuan){
+                //     separator = sisa ? '.' : '';
+                //     rupiah += separator + ribuan.join('.');
+                //     }
+
+                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                // }
+                // var rupiah5 = document.getElementById('tunaii');
+                // rupiah5.addEventListener('keyup', function(e){
+                //     rupiah5.value = formatRupiah(this.value, '');
+                // });
+
+                $(".diskon_all").keyup(function(e) {
+                    $(this).val(format($(this).val()));
+                });
+                $(".total_bayar").keyup(function(e) {
+                    $(this).val(format($(this).val()));
+                });
+                $(".tunaii").keyup(function(e) {
+                    $(this).val(format($(this).val()));
+                });
+                var format = function(num) {
+                    var str = num.toString().replace("", ""),
+                        parts = false,
+                        output = [],
+                        i = 1,
+                        formatted = null;
+                    if (str.indexOf(",") > 0) {
+                        parts = str.split(".");
+                        str = parts[0];
+                    }
+                    str = str.split("").reverse();
+                    for (var j = 0, len = str.length; j < len; j++) {
+                        if (str[j] != ".") {
+                            output.push(str[j]);
+                            if (i % 3 == 0 && j < (len - 1)) {
+                                output.push(".");
+                            }
+                            i++;
+                        }
+                    }
+                    formatted = output.reverse().join("");
+                    return ("" + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
+                };
+
+                document.onkeyup = function(e) {
+                    if (e.which == 18) {
+                        window.location = '<?= base_url() ?>pos/';
+                    } else if (e.which == 16) {
+
+                        var max_fields = 100;
+                        var wrapper = $("#sampel-wrapper");
+                        // var add_kom = $("#add-sampel");
+
+                        if ($(".barang" + counter + "").val() == "") {
+                            swal({
+                                title: "Opss..!",
+                                text: "Barang sebelumnya harus di isi",
+                                icon: "warning",
+                                dangerMode: true,
+                            }).then((r) => {
+                                if (r) {
+                                    // location.reload();
+                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                    // swal({
+                                    //   text : "oke"
+                                    // })
+                                    $(".barang" + counter + "").focus();
+                                }
+                            });
+                        } else if ($(".harga" + counter + "").val() == "") {
+                            swal({
+                                title: "Opss..!",
+                                text: "stock barang " + $(".barang" + counter + "").val() + " kurang dari batas minimum",
+                                icon: "warning",
+                                dangerMode: true,
+                            }).then((r) => {
+                                if (r) {
+                                    // location.reload();
+                                    //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
+                                    // swal({
+                                    //   text : "oke"
+                                    // })
+                                    $(".barang" + counter + "").focus();
+                                }
+                            });
+                        } else {
+                            if (counter < max_fields) {
+                                counter++;
+                                $(wrapper).append(
+                                    '<tr class="cb" id=r' + counter + '>' +
+                                    '<td>' +
+                                    '<button id=' + counter + ' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>' +
+                                    '<td>' +
+                                    '<input class="form-control barang' + counter + '">' +
+                                    '<input type="hidden" class="form-control id_barang' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input id="idq' + counter + '" type="number" style="text-align:center;" value="1" class="form-control qty' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<select id="ids' + counter + '" class="form-control satuan' + counter + '" style="cursor: text;">' +
+                                    '<option value="">Pilih satuan</option>' +
+                                    '</select>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input readonly type="text" class="form-control harga' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input type="text" id="idd' + counter + '" placeholder="0" style="text-align:center;" class="form-control diskon_item' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<input readonly type="text" class="form-control jumlah' + counter + '">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<div class="row">' +
+                                    '<div class="col-xl-6">' +
+                                    '<input readonly type="text" class="form-control stock' + counter + '">' +
+                                    '</div>' +
+                                    '<div class="col-xl-6">' +
+                                    '<input readonly type="text" class="form-control stock-c' + counter + '">' +
+                                    ' </div>' +
+                                    '</div>' +
+                                    '</td>' +
+                                    '</tr>'
+                                );
+                                $('.select2x').select2();
+                            }
+                            $('.delete_item').click(function() {
+                                e.preventDefault();
+                                var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah" + this.id + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+
+                                var child = $(this).closest('tr').nextAll();
+
+                                child.each(function() {
+
+                                    // Getting <tr> id.
+                                    var id = $(this).attr('id');
+                                    // Getting the <p> inside the .row-index class.
+                                    var idx = $(this).children('.row-index').children('p');
+
+                                    // Gets the row number from <tr> id.
+                                    var dig = parseInt(id.substring(1));
+
+                                    // Modifying row index.
+                                    idx.html(`Row ${dig - 1}`);
+
+                                    // Modifying row id.
+                                    $(this).attr('id', `r${dig - 1}`);
+                                    $('.barang' + counter + '').removeClass('barang' + counter + '').addClass('barang' + parseInt(dig - 1) + '');
+                                    $('.id_barang' + counter + '').removeClass('id_barang' + counter + '').addClass('id_barang' + parseInt(dig - 1) + '');
+                                    $('.qty' + counter + '').removeClass('qty' + counter + '').addClass('qty' + parseInt(dig - 1) + '');
+                                    $('.satuan' + counter + '').removeClass('satuan' + counter + '').addClass('satuan' + parseInt(dig - 1) + '');
+                                    $('.diskon_item' + counter + '').removeClass('diskon_item' + counter + '').addClass('diskon_item' + parseInt(dig - 1) + '');
+                                    $('.harga' + counter + '').removeClass('harga' + counter + '').addClass('harga' + parseInt(dig - 1) + '');
+                                    $('.jumlah' + counter + '').removeClass('jumlah' + counter + '').addClass('jumlah' + parseInt(dig - 1) + '');
+                                    $('.stock' + counter + '').removeClass('stock' + counter + '').addClass('stock' + parseInt(dig - 1) + '');
+                                    $('.stock-c' + counter + '').removeClass('stock-c' + counter + '').addClass('stock-c' + parseInt(dig - 1) + '');
+                                    $('#idq' + counter + '').attr("id", "idq" + parseInt(dig - 1) + "");
+                                    $('#ids' + counter + '').attr("id", "ids" + parseInt(dig - 1) + "");
+                                    $('#idd' + counter + '').attr("id", "idd" + parseInt(dig - 1) + "");
+                                    $('button[id=' + counter + ']').attr("id", "" + parseInt(dig - 1) + "");
                                 });
                                 $(this).closest('tr').remove();
                                 // Decreasing total number of rows by 1.
@@ -2280,320 +2929,324 @@
 
                             });
                             check_pos()
-                                // rupiah.addEventListener('keyup', function(e){
-                                //     rupiah.value = formatRupiah(this.value, '');
-                                // });
-                                // function formatRupiah(angka, prefix){
-                                //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                                //     split   		= number_string.split(','),
-                                //     sisa     		= split[0].length % 3,
-                                //     rupiah     		= split[0].substr(0, sisa),
-                                //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+                            // rupiah.addEventListener('keyup', function(e){
+                            //     rupiah.value = formatRupiah(this.value, '');
+                            // });
+                            // function formatRupiah(angka, prefix){
+                            //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                            //     split   		= number_string.split(','),
+                            //     sisa     		= split[0].length % 3,
+                            //     rupiah     		= split[0].substr(0, sisa),
+                            //     ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
 
-                                //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                //     if(ribuan){
-                                //     separator = sisa ? '.' : '';
-                                //     rupiah += separator + ribuan.join('.');
-                                //     }
+                            //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                            //     if(ribuan){
+                            //     separator = sisa ? '.' : '';
+                            //     rupiah += separator + ribuan.join('.');
+                            //     }
 
-                                //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-                                //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
-                                // }
+                            //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                            //     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                            // }
                         }
-                    }else if (e.which == 113 || e.which == 119) { // bayar dan tahan f2 dan f8
-                            if (e.which == 113) {
-                                var value_ac = "BAYAR"
-                                if (counter < 1) {
+                    } else if (e.which == 113 || e.which == 119) { // bayar dan tahan
+                        if (e.which == 113) {
+                            var value_ac = "BAYAR"
+                            if (counter < 1) {
+                                swal({
+                                    title: "Opss..!",
+                                    text: "Data transaksi kosong",
+                                    icon: "warning",
+                                    dangerMode: true,
+                                })
+                            } else {
+                                if ($(".id_barang" + counter + "").val() == "") {
                                     swal({
                                         title: "Opss..!",
-                                        text: "Data transaksi kosong",
+                                        text: "Barang tidak boleh kosong",
                                         icon: "warning",
-                                        dangerMode: true,
                                     })
-                                }else{
-                                    if ($(".id_barang"+counter+"").val() == "") {
-                                        swal({
-                                                title: "Opss..!",
-                                                    text: "Barang tidak boleh kosong",
-                                                    icon: "warning",
-                                            })
-                                    }else{
-                                        // if ($('.edit_transaksi').val() == 'edit_transaksi') {
-                                            $('.value_ac').val(value_ac);
-                                            if (value_ac == 'TAHAN') {
-                                                $('.submit').attr('id','TAHAN');
-                                                $('.submit').html('TAHAN');
-                                                $('.submit').attr('class','btn btn-warning submit');
-                                            }else if(value_ac == 'BAYAR'){
-                                                $('.submit').attr('id','BAYAR');
-                                                $('.submit').html('BAYAR');
-                                                $('.submit').attr('class','btn btn-primary');
-                                            }
-                                            // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
-                                            $('.transaksi_show').val($('.total_pos').html())
-                                            $('.total_bayar').val($('.total_pos').html().slice(3))
-                                            // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
-                                            $('.bayar_show').html("Rp."+$('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                                            $('#payment').modal('show');
-                                            $('#payment').on('shown.bs.modal', function () {
-                                                $('.total_bayar').focus();
-                                                //  $("#BAYAR").focus();
-                                            })
-                                        // }
-                                        // else if ($('.edit_transaksi').val() == 'edit_transaksi') {// edit transkasi yang sudah di cetak struk
-                                        //     swal({
-                                        //             title: "Opss..!",
-                                        //             text: "Simpan",
-                                        //             icon: "info",
-                                        //             // buttons: true,
-                                        //             buttons: {
-                                        //                 text: "Simpan",
-                                        //                 cancel : 'Cancel'
-                                        //             },
-                                        //             dangerMode: true,
-                                        //         }).then((r) => {
-                                        //             if (r) {
-                                        //                 var value_ac = "TAHAN"
-                                        //                 var barang = ''
-                                        //                 var xx = []
-                                        //                 if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                                        //                     var info_pembayaran = '{"bank" : "'+$('.bank').val()+'" ,"tujuan" : "'+$('.tujuan').val()+'"}';
-                                        //                 }else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
-                                        //                     var info_pembayaran = '{"bank" : "'+$('.bank_edc').val()+'" ,"no_kartu" : "'+$('.tujuan').val()+'","nama" : "'+$('.nama_edc').val()+'"}';
-                                        //                 } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO'){
-                                        //                     var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'","Nomor" : "'+$('.no_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
-                                        //                 }else{
-                                        //                     var info_pembayaran = '';//cash
-                                        //                 }
-                                        //                 for (let i = 1; i <= counter; i++) {
-                                        //                     xx.push ({
-                                        //                         id_transaksi_item : $('.id_item'+i+'').val(),
-                                        //                         kd_barang : $('.id_barang'+i+'').val(),
-                                        //                         barang : $('.barang'+i+'').val(),
-                                        //                         qty : $('.qty'+i+'').val(),
-                                        //                         satuan : $('.satuan'+i+'').val(),
-                                        //                         harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                        //                         diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                        //                         jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                        //                     })
-                                        //                 }
-                                        //                 var datax = {
-                                        //                         cek : value_ac,
-                                        //                         no_struk : $('.no_struk').val(),
-                                        //                         tgl_transaksi : $('.tgl_transaksi').val(),
-                                        //                         tipe : $('select[name="tipe"]').val(),
-                                        //                         member : $('.member').val(),
-                                        //                         diskon_all : $('.diskon_all').val(),
-                                        //                         total_netto : $('.total_netto').val(),
-                                        //                         total_bayar : $('.total_bayar').val(),
-                                        //                         tunai : $('.tunaii').val(),
-                                        //                         kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
-                                        //                         jumlah_item : $('.total_item').val(),
-                                        //                         keterangan : $('.keterangan').val(),
-                                        //                         pengiriman : $('.pengiriman').val(),
-                                        //                         tahan : 0,
-                                        //                         pembayaran : $('.pembayaran:checked').val(),
-                                        //                         info_pembayaran : info_pembayaran.toString(),
-                                        //                         // piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
-                                        //                         piutang : 0 ,
-                                        //                         update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
-                                        //                         id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
-                                        //                         edit_transaksi : "edit_transaksi",
-                                        //                         item : xx
-                                        //                     }
-                                        //                         $.ajax({
-                                        //                                 url : "<?= site_url('pos/submit');?>",
-                                        //                                 method : "POST",
-                                        //                                 data : datax,
-                                        //                                 async : true,
-                                        //                                 dataType : 'json',
-                                        //                                 success: function(data){
-                                        //                                     if (data.edit_transaksi == 'edit_transaksi') {
-                                        //                                         swal({
-                                        //                                                 title: "Berhasil..!",
-                                        //                                                 text: "Transaksi "+data.no_struk+"  berhasil diupdate",
-                                        //                                                 icon: "success",
-                                        //                                                 })
-                                        //                                                 .then((willDelete) => {
-                                        //                                                     if (willDelete) {
-                                        //                                                     // window.location = '<?= base_url() ?>pos/';
-                                        //                                                         location.reload();
-                                        //                                                     }
-                                        //                                                 });
-                                        //                                     }
-                                        //                                 },
-                                        //                                 error: function(data){
-                                        //                                     console.log(data)
-                                        //                                 }
-                                        //                         })
-                                        //             }
-                                        //     });
-                                        // }
-
-
+                                } else {
+                                    // if ($('.edit_transaksi').val() == 'edit_transaksi') {
+                                    $('.value_ac').val(value_ac);
+                                    if (value_ac == 'TAHAN') {
+                                        $('.submit').attr('id', 'TAHAN');
+                                        $('.submit').html('TAHAN');
+                                        $('.submit').attr('class', 'btn btn-warning submit');
+                                    } else if (value_ac == 'BAYAR') {
+                                        $('.submit').attr('id', 'BAYAR');
+                                        $('.submit').html('BAYAR');
+                                        $('.submit').attr('class', 'btn btn-primary');
                                     }
-                                }
-                            }else if (e.which == 119) { //tahan
-                                if (counter < 1) {
-                                    swal({
-                                        title: "Opss..!",
-                                        text: "Data transaksi kosong",
-                                        icon: "warning",
-                                        dangerMode: true,
+                                    // var total_final = $('.total_bayar').val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + parseInt($('.diskon_all').val() == "" ? 0 : $('.diskon_all').val().replace(/[^a-zA-Z0-9 ]/g, ''))
+                                    $('.transaksi_show').val($('.total_pos').html())
+                                    $('.total_bayar').val($('.total_pos').html().slice(3))
+                                    // $('.diskon_all').val($('.diskon_all').val() == "" ? 0 : "Rp."+$('.diskon_all').val())
+                                    $('.bayar_show').html("Rp." + $('.total_bayar').val().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                                    $('#payment').modal('show');
+                                    $('#payment').on('shown.bs.modal', function() {
+                                        $('.total_bayar').focus();
+                                        //  $("#BAYAR").focus();
                                     })
-                                }else if ($('.pengiriman').val() == "") {
-                                    swal({
+                                    // }
+                                    // else if ($('.edit_transaksi').val() == 'edit_transaksi') {// edit transkasi yang sudah di cetak struk
+                                    //     swal({
+                                    //             title: "Opss..!",
+                                    //             text: "Simpan",
+                                    //             icon: "info",
+                                    //             // buttons: true,
+                                    //             buttons: {
+                                    //                 text: "Simpan",
+                                    //                 cancel : 'Cancel'
+                                    //             },
+                                    //             dangerMode: true,
+                                    //         }).then((r) => {
+                                    //             if (r) {
+                                    //                 var value_ac = "TAHAN"
+                                    //                 var barang = ''
+                                    //                 var xx = []
+                                    //                 if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                                    //                     var info_pembayaran = '{"bank" : "'+$('.bank').val()+'" ,"tujuan" : "'+$('.tujuan').val()+'"}';
+                                    //                 }else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
+                                    //                     var info_pembayaran = '{"bank" : "'+$('.bank_edc').val()+'" ,"no_kartu" : "'+$('.tujuan').val()+'","nama" : "'+$('.nama_edc').val()+'"}';
+                                    //                 } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO'){
+                                    //                     var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'","Nomor" : "'+$('.no_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
+                                    //                 }else{
+                                    //                     var info_pembayaran = '';//cash
+                                    //                 }
+                                    //                 for (let i = 1; i <= counter; i++) {
+                                    //                     xx.push ({
+                                    //                         id_transaksi_item : $('.id_item'+i+'').val(),
+                                    //                         kd_barang : $('.id_barang'+i+'').val(),
+                                    //                         barang : $('.barang'+i+'').val(),
+                                    //                         qty : $('.qty'+i+'').val(),
+                                    //                         satuan : $('.satuan'+i+'').val(),
+                                    //                         harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    //                         diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    //                         jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    //                     })
+                                    //                 }
+                                    //                 var datax = {
+                                    //                         cek : value_ac,
+                                    //                         no_struk : $('.no_struk').val(),
+                                    //                         tgl_transaksi : $('.tgl_transaksi').val(),
+                                    //                         tipe : $('select[name="tipe"]').val(),
+                                    //                         member : $('.member').val(),
+                                    //                         diskon_all : $('.diskon_all').val(),
+                                    //                         total_netto : $('.total_netto').val(),
+                                    //                         total_bayar : $('.total_bayar').val(),
+                                    //                         tunai : $('.tunaii').val(),
+                                    //                         kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    //                         jumlah_item : $('.total_item').val(),
+                                    //                         keterangan : $('.keterangan').val(),
+                                    //                         pengiriman : $('.pengiriman').val(),
+                                    //                         tahan : 0,
+                                    //                         pembayaran : $('.pembayaran:checked').val(),
+                                    //                         info_pembayaran : info_pembayaran.toString(),
+                                    //                         // piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
+                                    //                         piutang : 0 ,
+                                    //                         update : <?= $this->uri->segment(3) == true  ? 1 : 0 ?> == 1 ? "update" : "",
+                                    //                         id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
+                                    //                         edit_transaksi : "edit_transaksi",
+                                    //                         item : xx
+                                    //                     }
+                                    //                         $.ajax({
+                                    //                                 url : "<?= site_url('pos/submit'); ?>",
+                                    //                                 method : "POST",
+                                    //                                 data : datax,
+                                    //                                 async : true,
+                                    //                                 dataType : 'json',
+                                    //                                 success: function(data){
+                                    //                                     if (data.edit_transaksi == 'edit_transaksi') {
+                                    //                                         swal({
+                                    //                                                 title: "Berhasil..!",
+                                    //                                                 text: "Transaksi "+data.no_struk+"  berhasil diupdate",
+                                    //                                                 icon: "success",
+                                    //                                                 })
+                                    //                                                 .then((willDelete) => {
+                                    //                                                     if (willDelete) {
+                                    //                                                     // window.location = '<?= base_url() ?>pos/';
+                                    //                                                         location.reload();
+                                    //                                                     }
+                                    //                                                 });
+                                    //                                     }
+                                    //                                 },
+                                    //                                 error: function(data){
+                                    //                                     console.log(data)
+                                    //                                 }
+                                    //                         })
+                                    //             }
+                                    //     });
+                                    // }
+
+
+                                }
+                            }
+                        } else if (e.which == 119) { //tahan
+                            if (counter < 1) {
+                                swal({
+                                    title: "Opss..!",
+                                    text: "Data transaksi kosong",
+                                    icon: "warning",
+                                    dangerMode: true,
+                                })
+                            } else if ($('.pengiriman').val() == "") {
+                                swal({
                                     title: "Opss..!",
                                     text: "Pengiriman harus di pilih",
                                     icon: "warning",
                                     dangerMode: true,
+                                })
+                            } else {
+                                var value_ac = "TAHAN"
+                                var barang = ''
+                                var xx = []
+                                for (let i = 1; i <= counter; i++) { //tahan
+                                    xx.push({
+                                        id_transaksi_item: $('.id_item' + i + '').val(),
+                                        kd_barang: $('.id_barang' + i + '').val(),
+                                        barang: $('.barang' + i + '').val(),
+                                        qty: $('.qty' + i + '').val(),
+                                        satuan: $('.satuan' + i + '').val(),
+                                        harga_satuan: $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                        diskon_item: $('.diskon_item' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                        jumlah: $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
                                     })
-                                }else{
-                                    var value_ac = "TAHAN"
-                                    var barang = ''
-                                    var xx = []
-                                    for (let i = 1; i <= counter; i++) {//tahan
-                                        xx.push ({
-                                            id_transaksi_item : $('.id_item'+i+'').val(),
-                                            kd_barang : $('.id_barang'+i+'').val(),
-                                            barang : $('.barang'+i+'').val(),
-                                            qty : $('.qty'+i+'').val(),
-                                            satuan : $('.satuan'+i+'').val(),
-                                            harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                        })
-                                    }
-                                    var datax = {
-                                            id_transaksi : <?= $this->uri->segment(3) == true ? $this->uri->segment(3) : 0?>,
-                                            cek : "TAHAN",
-                                            no_struk : $('.no_struk').val(),
-                                            tipe : $('select[name="tipe"]').val(),
-                                            member : $('.member').val(),
-                                            diskon_all : $('.diskon_all').val(),
-                                            total_netto : $('.total_netto').val(),
-                                            total_bayar : $('.total_bayar').val(),
-                                            tunai : $('.tunaii').val(),
-                                            kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            jumlah_item : $('.total_item').val(),
-                                            keterangan : $('.keterangan').val(),
-                                            pengiriman : $('.pengiriman').val(),
-                                            tahan : value_ac == "TAHAN" ? 1 : 0,
-                                            pembayaran : $('.pembayaran:checked').val(),
-                                            piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
-                                            update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
-                                            item : xx
-                                        }
-                                            $.ajax({
-                                                    url : "<?= site_url('pos/submit');?>",
-                                                    method : "POST",
-                                                    data : datax,
-                                                    async : true,
-                                                    dataType : 'json',
-                                                    success: function(data){
-                                                        if (data.tahan == '1') {
-                                                            swal({
-                                                                    title: "Berhasil..!",
-                                                                    text: "Transaksi "+data.no_struk+"  berhasil ditahan",
-                                                                    icon: "success",
-                                                                    })
-                                                                    .then((willDelete) => {
-                                                                        if (willDelete) {
-                                                                        window.location = '<?= base_url() ?>pos/';
-                                                                        }
-                                                                    });
-                                                        }else{
-                                                            swal({
-                                                                title: "Berhasil..!",
-                                                                text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
-                                                                icon: "success",
-                                                                }).then((willDelete) => {
-                                                                if (willDelete) {
-                                                                window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi,'_blank');
-                                                                window.location = '<?= base_url() ?>pos'
-                                                                }
-                                                            });
-                                                        }
-                                                    },
-                                                    error: function(data){
-                                                        console.log(data)
-                                                    }
-                                            })
                                 }
+                                var datax = {
+                                    id_transaksi: <?= $this->uri->segment(3) == true ? $this->uri->segment(3) : 0 ?>,
+                                    cek: "TAHAN",
+                                    no_struk: $('.no_struk').val(),
+                                    tipe: $('select[name="tipe"]').val(),
+                                    member: $('.member').val(),
+                                    diskon_all: $('.diskon_all').val(),
+                                    total_netto: $('.total_netto').val(),
+                                    total_bayar: $('.total_bayar').val(),
+                                    tunai: $('.tunaii').val(),
+                                    kembali: $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    jumlah_item: $('.total_item').val(),
+                                    keterangan: $('.keterangan').val(),
+                                    pengiriman: $('.pengiriman').val(),
+                                    tahan: value_ac == "TAHAN" ? 1 : 0,
+                                    pembayaran: $('.pembayaran:checked').val(),
+                                    piutang: $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0,
+                                    update: <?= $this->uri->segment(3) == true  ? 1 : 0 ?> == 1 ? "update" : "",
+                                    item: xx
+                                }
+                                $.ajax({
+                                    url: "<?= site_url('pos/submit'); ?>",
+                                    method: "POST",
+                                    data: datax,
+                                    async: true,
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        if (data.tahan == '1') {
+                                            swal({
+                                                    title: "Berhasil..!",
+                                                    text: "Transaksi " + data.no_struk + "  berhasil ditahan",
+                                                    icon: "success",
+                                                })
+                                                .then((willDelete) => {
+                                                    if (willDelete) {
+                                                        window.location = '<?= base_url() ?>pos/';
+                                                    }
+                                                });
+                                        } else {
+                                            swal({
+                                                title: "Berhasil..!",
+                                                text: "Transaksi " + data.no_struk + data.tahan + "  berhasil disimpan",
+                                                icon: "success",
+                                            }).then((willDelete) => {
+                                                if (willDelete) {
+                                                    window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi, '_blank');
+                                                    window.location = '<?= base_url() ?>pos'
+                                                }
+                                            });
+                                        }
+                                    },
+                                    error: function(data) {
+                                        console.log(data)
+                                    }
+                                })
                             }
+                        }
 
 
                         // })
-                    }else if (e.which == 115) { //load transaksi //f4
-                        $('#t-load').DataTable({order:[[0,"desc"]]})
+                    } else if (e.which == 115) { //load transaksi
+                        $('#t-load').DataTable({
+                            order: [
+                                [0, "desc"]
+                            ]
+                        })
                         $.ajax({
-                                    url : "<?= site_url('pos/load_hold');?>",
-                                    method : "GET",
-                                    async : true,
-                                    dataType : 'json',
-                                    success: function(data){
-                                        var row_data = '';
-                                        var total_pos = 0;
-                                        $('#modaload').modal('show');
-                                        for (let i = 0; i < data.length; i++) {
-                                            $('#load-hold tbody').append(
-                                            '<tr style="background-color: white;">'+
-                                                    '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="delete_transaksi badge badge-danger">Delete</a></td>'+
-                                                    '<td class="order">'+data[i].no_struk+'</td>'+
-                                                    '<td>'+data[i].nama_toko+'</td>'+
-                                                    '<td>'+data[i].jumlah_item+'</td>'+
-                                                    '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
-                                                    '<td><a class="badge badge-primary" href="<?= base_url('pos/index/') ?>'+data[i].id+'" >Edit</a></td>'+
-                                            '</tr>');
-                                            // check_pos()
-                                        }
-                                    },
-                                    error: function(e){
-                                        console.log(e)
-                                    }
-                            });
-                    }else if(e.which == 192){//load penjualan print = `
-                            $.ajax({
-                                    url : "<?= site_url('pos/load_transaksi');?>",
-                                    method : "GET",
-                                    async : true,
-                                    dataType : 'json',
-                                    success: function(data){
-                                        var row_data = '';
-                                        var total_pos = 0;
-                                        $(".select2x").select2({
-                                            dropdownParent: $("#modal_penjualan")
-                                        });
-                                        $.fn.modal.Constructor.prototype._enforceFocus = function() {};
-                                        $('#modal_penjualan').modal('show');
-                                        for (let i = 0; i < data.length; i++) {
-                                            <?php if ($this->session->userdata('level') == '1') { ?>
-                                                var invs_level = ''
-                                            <?php }else{ ?>
-                                                var invs_level = 'invisible'
-                                                <?php } ?>
-                                            $('#load-transaksi tbody').append(
-                                            '<tr style="background-color: white;">'+
-                                                    '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi '+invs_level+' badge badge-danger">Cencel</a></td>'+
-                                                    '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="edit_transaksi_kasir badge badge-success">Edit</a></td>'+
-                                                    '<td class="order">'+data[i].no_struk+'</td>'+
-                                                    '<td>'+data[i].nama_toko+'</td>'+
-                                                    '<td>'+data[i].jumlah_item+'</td>'+
-                                                    '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
-                                                    '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
-                                            '</tr>');
-                                            // check_pos()
-                                        }
-                                        console.log(data)
-                                    },
-                                    error: function(e){
-                                        console.log(e)
-                                    }
-                            });
-                    }else if (e.which == 188) { // open pelanggan = <
+                            url: "<?= site_url('pos/load_hold'); ?>",
+                            method: "GET",
+                            async: true,
+                            dataType: 'json',
+                            success: function(data) {
+                                var row_data = '';
+                                var total_pos = 0;
+                                $('#modaload').modal('show');
+                                for (let i = 0; i < data.length; i++) {
+                                    $('#load-hold tbody').append(
+                                        '<tr style="background-color: white;">' +
+                                        '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="delete_transaksi badge badge-danger">Delete</a></td>' +
+                                        '<td class="order">' + data[i].no_struk + '</td>' +
+                                        '<td>' + data[i].nama_toko + '</td>' +
+                                        '<td>' + data[i].jumlah_item + '</td>' +
+                                        '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                        '<td><a class="badge badge-primary" href="<?= base_url('pos/index/') ?>' + data[i].id + '" >Edit</a></td>' +
+                                        '</tr>');
+                                    // check_pos()
+                                }
+                            },
+                            error: function(e) {
+                                console.log(e)
+                            }
+                        });
+                    } else if (e.which == 192) { //load penjualan print
+                        $.ajax({
+                            url: "<?= site_url('pos/load_transaksi'); ?>",
+                            method: "GET",
+                            async: true,
+                            dataType: 'json',
+                            success: function(data) {
+                                var row_data = '';
+                                var total_pos = 0;
+                                $(".select2x").select2({
+                                    dropdownParent: $("#modal_penjualan")
+                                });
+                                $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+                                $('#modal_penjualan').modal('show');
+                                for (let i = 0; i < data.length; i++) {
+                                    <?php if ($this->session->userdata('level') == '1') { ?>
+                                        var invs_level = ''
+                                    <?php } else { ?>
+                                        var invs_level = 'invisible'
+                                    <?php } ?>
+                                    $('#load-transaksi tbody').append(
+                                        '<tr style="background-color: white;">' +
+                                        '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
+                                        '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="edit_transaksi_kasir badge badge-success">Edit</a></td>' +
+                                        '<td class="order">' + data[i].no_struk + '</td>' +
+                                        '<td>' + data[i].nama_toko + '</td>' +
+                                        '<td>' + data[i].jumlah_item + '</td>' +
+                                        '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                        '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
+                                        '</tr>');
+                                    // check_pos()
+                                }
+                                console.log(data)
+                            },
+                            error: function(e) {
+                                console.log(e)
+                            }
+                        });
+                    } else if (e.which == 188) { // open pelanggan <
                         $('.select2p').select2();
                         $('.select2p').select2('open');
-                    }else if (e.which == 190) { // open pengiriman = >
+                    } else if (e.which == 190) { // open pengiriman >
                         $('.select2kurir').select2();
                         $('.select2kurir').select2('open');
                     }
@@ -2601,7 +3254,8 @@
                     //     // window.location = '<?= base_url() ?>pos/';
                     // }
                 };
-                function reverseInt(int){
+
+                function reverseInt(int) {
                     const intRev = int.toString().split('').reverse().join('');
                     return parseInt(intRev) * Math.sign(int);
                 }
@@ -2611,17 +3265,18 @@
 
 
                 bayar.keyup(function() {
-                  var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var tunai_vall = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var bayar_val = this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '')
-                  var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                    var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                    var tunai_vall = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                    var bayar_val = this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '')
+                    var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     // var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if (diskon_al) {
                         var total_xxx = parseInt(total_transaksi - bayar_val - tunai_vall) + parseInt(diskon_al)
-                    }else{
+                    } else {
                         var total_xxx = total_transaksi - bayar_val - tunai_vall
                     }
                     // if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+<<<<<<< HEAD
                         if (total_xxx > 0) {
                             var xxx_total = Math.abs(total_xxx)* -1
                         }else{
@@ -2635,60 +3290,81 @@
                             $('.utang').html("Rp."+piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kembali').html("Rp.0")
                         }
+=======
+                    if (total_xxx > 0) {
+                        var xxx_total = Math.abs(total_xxx) * -1
+                    } else {
+                        var xxx_total = Math.abs(total_xxx)
+                    }
+                    if (bayar_val >= total_transaksi) {
+                        $('.kembali').html("Rp." + xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.utang').html("Rp.0")
+                    } else {
+                        var piutang_cek = total_transaksi - bayar_val
+                        $('.utang').html("Rp." + piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.kembali').html("Rp.0")
+                    }
+>>>>>>> b664d8d (closing)
                     // }else{
                     //     $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     // }
                 })
                 tunaiii.keyup(function() {
-                  var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var bayar_val = $(".total_bayar").val().toString().replace(/[^a-zA-Z0-9 ]/g, '')
-                  var tunai_vall = this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '')
-                  var total_transaksi = $('.transaksi_show').val().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                    var diskon_al = diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : diskon_all2[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                    var bayar_val = $(".total_bayar").val().toString().replace(/[^a-zA-Z0-9 ]/g, '')
+                    var tunai_vall = this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.toString().replace(/[^a-zA-Z0-9 ]/g, '')
+                    var total_transaksi = $('.transaksi_show').val().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - bayar.val().replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if (diskon_al) {
                         var total_xxx = parseInt(total_transaksi - bayar_val - tunai_vall) + parseInt(diskon_al)
-                    }else{
+                    } else {
                         var total_xxx = total_transaksi - bayar_val - tunai_vall
                     }
                     if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER' || $('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO' || $('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
                         if (total_xxx > 0) {
-                            var xxx_total = Math.abs(total_xxx)* -1
-                        }else{
+                            var xxx_total = Math.abs(total_xxx) * -1
+                        } else {
                             var xxx_total = Math.abs(total_xxx)
                         }
                         var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
+<<<<<<< HEAD
                         if (parseInt(bayar_val) >= parseInt(total_transaksi)) {
                             $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+=======
+                        if (bayar_val >= total_transaksi) {
+                            $('.kembali').html("Rp." + xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+>>>>>>> b664d8d (closing)
                             $('.utang').html("Rp.0")
-                        }else{
+                        } else {
                             var piutang_cek = total_transaksi - bayar_val
-                            $('.utang').html("Rp."+piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                            $('.utang').html("Rp." + piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kembali').html("Rp.0")
                         }
-                    //    $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
-                    }else{
-                        $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        //    $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                    } else {
+                        $('.kembali').html("Rp." + total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     }
                 })
                 diskon_all2.keyup(function() {
-                  var tunai_vall = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var bayar_val = bayar.val().toString().replace(/[^a-zA-Z0-9 ]/g, '')
-                  var diskon_al = this.value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.replace(/[^a-zA-Z0-9 ]/g, '')
-                  var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
+                    var tunai_vall = tunaiii[0].value.replace(/[^a-zA-Z0-9 ]/g, '')
+                    var bayar_val = bayar.val().toString().replace(/[^a-zA-Z0-9 ]/g, '')
+                    var diskon_al = this.value.replace(/[^a-zA-Z0-9 ]/g, '') == "" ? 0 : this.value.replace(/[^a-zA-Z0-9 ]/g, '')
+                    var total_transaksi = $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '')
                     var value_bayar = this.value.replace(/[^a-zA-Z0-9 ]/g, '') - $('.transaksi_show').val().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') + diskon_al
                     if (diskon_al) {
                         var total_xxx = parseInt(total_transaksi - bayar_val - tunai_vall) - parseInt(diskon_al)
-                    }else{
+                    } else {
                         var total_xxx = total_transaksi - bayar_val - tunai_vall
                     }
                     // if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                        if (total_xxx > 0) {
-                            var xxx_total = Math.abs(total_xxx)* -1
-                        }else{
-                            var xxx_total = Math.abs(total_xxx)
-                        }
-                        var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
+                    if (total_xxx > 0) {
+                        var xxx_total = Math.abs(total_xxx) * -1
+                    } else {
+                        var xxx_total = Math.abs(total_xxx)
+                    }
+                    var cek_tunai = tunai_vall == "" ? bayar_val : xxx_total
 
+<<<<<<< HEAD
                         if (parseInt(bayar_val) >= parseInt(total_transaksi)) {
                             $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.utang').html("Rp.0")
@@ -2697,118 +3373,128 @@
                             $('.utang').html("Rp."+piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                             $('.kembali').html("Rp.0")
                         }
+=======
+                    if (bayar_val >= total_transaksi) {
+                        $('.kembali').html("Rp." + xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.utang').html("Rp.0")
+                    } else {
+                        var piutang_cek = total_transaksi - bayar_val
+                        $('.utang').html("Rp." + piutang_cek.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
+                        $('.kembali').html("Rp.0")
+                    }
+>>>>>>> b664d8d (closing)
                     //    $('.kembali').html("Rp."+xxx_total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     // }else{
                     //     $('.kembali').html("Rp."+total_xxx.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."))
                     // }
                 })
                 var action = $(".submit")
-                action.on('click',function() {
-                        if ($('.pembayaran').val() == false) {
+                action.on('click', function() {
+                    if ($('.pembayaran').val() == false) {
+                        swal({
+                            title: "Opss..!",
+                            text: "Pembayaran harus dipilih..!",
+                            icon: "warning",
+                        })
+                    } else if ($('.total_bayar').val() == "") {
+                        swal({
+                            title: "Opss..!",
+                            text: "Total Pembayaran harus diisi..!",
+                            icon: "warning",
+                        })
+                    } else {
+                        if ($('.total_bayar').val() == 0 && ($('.pembayaran:checked').val() == "TRANSFER" || $('.pembayaran:checked').val() == "UTANG" || $('.pembayaran:checked').val() == "VOCHER")) {
                             swal({
-                                           title: "Opss..!",
-                                            text: "Pembayaran harus dipilih..!",
-                                            icon: "warning",
-                                      })
-                        }else if($('.total_bayar').val() == ""){
-                            swal({
-                                           title: "Opss..!",
-                                            text: "Total Pembayaran harus diisi..!",
-                                            icon: "warning",
-                                      })
-                        }else{
-                            if ($('.total_bayar').val() == 0 &&  ($('.pembayaran:checked').val() == "TRANSFER" || $('.pembayaran:checked').val() == "UTANG" || $('.pembayaran:checked').val() == "VOCHER")) {
-                                    swal({
-                                                title: "Opss..!",
-                                                    text: "Pembayaran 0 hanya boleh cash untuk piutang..!",
-                                                    icon: "warning",
-                                            })
-                            }else{
-                                    var value_ac = this.id
-                                    var barang = ''
-                                    var xx = []
-                                    if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
-                                        var info_pembayaran = '{"bank" : "'+$('.bank').val()+'" ,"tujuan" : "'+$('.tujuan').val()+'"}';
-                                    }else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
-                                        var info_pembayaran = '{"bank" : "'+$('.bank_edc').val()+'" ,"no_kartu" : "'+$('.tujuan').val()+'","nama" : "'+$('.nama_edc').val()+'"}';
-                                    } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO'){
-                                        var info_pembayaran = '{"bank" : "'+$('.bank_giro').val()+'","Nomor" : "'+$('.no_giro').val()+'" ,"tujuan" : "'+$('.rekening_giro').val()+'","tempo" : "'+$('.tempo').val()+'" }';
-                                    }else{
-                                        var info_pembayaran = '';//cash
-                                    }
-                                    for (let i = 1; i <= counter; i++) {
-                                        xx.push ({
-                                            id_transaksi_item : $('.id_item'+i+'').val(),
-                                            kd_barang : $('.id_barang'+i+'').val(),
-                                            barang : $('.barang'+i+'').val(),
-                                            qty : $('.qty'+i+'').val(),
-                                            satuan : $('.satuan'+i+'').val(),
-                                            harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                        })
-                                    }
-                                    var datax = {
-                                            cek : value_ac,
-                                            no_struk : $('.no_struk').val(),
-                                            tgl_transaksi : $('.tgl_transaksi').val(),
-                                            tipe : $('select[name="tipe"]').val(),
-                                            member : $('.member').val(),
-                                            diskon_all : $('.diskon_all').val(),
-                                            total_netto : $('.total_netto').val(),
-                                            total_bayar : $('.total_bayar').val(),
-                                            tunai : $('.tunaii').val(),
-                                            kembali : $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            jumlah_item : $('.total_item').val(),
-                                            keterangan : $('.keterangan').val(),
-                                            pengiriman : $('.pengiriman').val(),
-                                            tahan : value_ac == "TAHAN" ? 1 : 0,
-                                            pembayaran : $('.pembayaran:checked').val(),
-                                            info_pembayaran : info_pembayaran.toString(),
-                                            piutang : $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0 ,
-                                            update : <?= $this->uri->segment(3) == true  ? 1 : 0?> == 1 ? "update" : "",
-                                            id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
-                                            edit_transaksi : <?= $this->uri->segment(4) == true ? 1 : 0 ?> == 1 ? "edit_transaksi" : "",
-                                            item : xx
-                                        }
-                                            $.ajax({
-                                                    url : "<?= site_url('pos/submit');?>",
-                                                    method : "POST",
-                                                    data : datax,
-                                                    async : true,
-                                                    dataType : 'json',
-                                                    success: function(data){
-                                                        if (data.tahan == '1') {
-                                                            // swal({
-                                                            //         title: "Berhasil..!",
-                                                            //         text: "Transaksi "+data.no_struk+"  berhasil ditahan",
-                                                            //         icon: "success",
-                                                            //         })
-                                                            //         .then((willDelete) => {
-                                                            //             if (willDelete) {
-                                                                        window.location = '<?= base_url() ?>pos/';
-                                                                    //     }
-                                                                    // });
-                                                        }else{
-                                                            // swal({
-                                                            //     title: "Berhasil..!",
-                                                            //     text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
-                                                            //     icon: "success",
-                                                            //     }).then((willDelete) => {
-                                                            //     if (willDelete) {
-                                                                setTimeout(() => {
-                                                                    window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi,'_blank');
-                                                                    window.location = '<?= base_url() ?>pos'
-                                                                }, 500);
+                                title: "Opss..!",
+                                text: "Pembayaran 0 hanya boleh cash untuk piutang..!",
+                                icon: "warning",
+                            })
+                        } else {
+                            var value_ac = this.id
+                            var barang = ''
+                            var xx = []
+                            if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
+                                var info_pembayaran = '{"bank" : "' + $('.bank').val() + '" ,"tujuan" : "' + $('.tujuan').val() + '"}';
+                            } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
+                                var info_pembayaran = '{"bank" : "' + $('.bank_edc').val() + '" ,"no_kartu" : "' + $('.tujuan').val() + '","nama" : "' + $('.nama_edc').val() + '"}';
+                            } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'GIRO') {
+                                var info_pembayaran = '{"bank" : "' + $('.bank_giro').val() + '","Nomor" : "' + $('.no_giro').val() + '" ,"tujuan" : "' + $('.rekening_giro').val() + '","tempo" : "' + $('.tempo').val() + '" }';
+                            } else {
+                                var info_pembayaran = ''; //cash
+                            }
+                            for (let i = 1; i <= counter; i++) {
+                                xx.push({
+                                    id_transaksi_item: $('.id_item' + i + '').val(),
+                                    kd_barang: $('.id_barang' + i + '').val(),
+                                    barang: $('.barang' + i + '').val(),
+                                    qty: $('.qty' + i + '').val(),
+                                    satuan: $('.satuan' + i + '').val(),
+                                    harga_satuan: $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    diskon_item: $('.diskon_item' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    jumlah: $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                })
+                            }
+                            var datax = {
+                                cek: value_ac,
+                                no_struk: $('.no_struk').val(),
+                                tgl_transaksi: $('.tgl_transaksi').val(),
+                                tipe: $('select[name="tipe"]').val(),
+                                member: $('.member').val(),
+                                diskon_all: $('.diskon_all').val(),
+                                total_netto: $('.total_netto').val(),
+                                total_bayar: $('.total_bayar').val(),
+                                tunai: $('.tunaii').val(),
+                                kembali: $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
+                                jumlah_item: $('.total_item').val(),
+                                keterangan: $('.keterangan').val(),
+                                pengiriman: $('.pengiriman').val(),
+                                tahan: value_ac == "TAHAN" ? 1 : 0,
+                                pembayaran: $('.pembayaran:checked').val(),
+                                info_pembayaran: info_pembayaran.toString(),
+                                piutang: $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0,
+                                update: <?= $this->uri->segment(3) == true  ? 1 : 0 ?> == 1 ? "update" : "",
+                                id_transaksi: <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
+                                edit_transaksi: <?= $this->uri->segment(4) == true ? 1 : 0 ?> == 1 ? "edit_transaksi" : "",
+                                item: xx
+                            }
+                            $.ajax({
+                                url: "<?= site_url('pos/submit'); ?>",
+                                method: "POST",
+                                data: datax,
+                                async: true,
+                                dataType: 'json',
+                                success: function(data) {
+                                    if (data.tahan == '1') {
+                                        // swal({
+                                        //         title: "Berhasil..!",
+                                        //         text: "Transaksi "+data.no_struk+"  berhasil ditahan",
+                                        //         icon: "success",
+                                        //         })
+                                        //         .then((willDelete) => {
+                                        //             if (willDelete) {
+                                        window.location = '<?= base_url() ?>pos/';
+                                        //     }
+                                        // });
+                                    } else {
+                                        // swal({
+                                        //     title: "Berhasil..!",
+                                        //     text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
+                                        //     icon: "success",
+                                        //     }).then((willDelete) => {
+                                        //     if (willDelete) {
+                                        setTimeout(() => {
+                                            window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi, '_blank');
+                                            window.location = '<?= base_url() ?>pos'
+                                        }, 500);
 
-                                                            //     }
-                                                            // });
-                                                        }
-                                                    },
-                                                    error: function(data){
-                                                        console.log(data)
-                                                    }
-                                            })
+                                        //     }
+                                        // });
+                                    }
+                                },
+                                error: function(data) {
+                                    console.log(data)
+                                }
+                            })
                         }
                     }
                 })
@@ -2832,7 +3518,7 @@
                         $('.vocher_vis').hide()
                         $('.tunai_vis').show()
 
-                    }else if (this.value == 'CASH') {
+                    } else if (this.value == 'CASH') {
                         $('.total_bayar').val($('.transaksi_show').val().slice(3))
                         $('.total_bayar_text').html('Total Bayar');
                         $('.transfer_vis').hide()
@@ -2841,7 +3527,7 @@
                         $('.edc_vis').hide()
                         $('.vocher_vis').hide()
                         $('.tunai_vis').hide()
-                    }else if (this.value == 'GIRO') {
+                    } else if (this.value == 'GIRO') {
                         $('.total_bayar').val($('.transaksi_show').val().slice(3))
                         $('.total_bayar_text').html('Giro / Cek');
                         $('.total_bayar').val(0)
@@ -2851,7 +3537,7 @@
                         $('.edc_vis').hide()
                         $('.vocher_vis').hide()
                         $('.tunai_vis').show()
-                    }else if (this.value == 'EDC') {
+                    } else if (this.value == 'EDC') {
                         $('.total_bayar_text').html('EDC');
                         $('.total_bayar').val(0)
                         $('.giro_vis').hide()
@@ -2860,7 +3546,7 @@
                         $('.edc_vis').show()
                         $('.vocher_vis').hide()
                         $('.tunai_vis').show()
-                    }else if (this.value == 'VOCHER') {
+                    } else if (this.value == 'VOCHER') {
                         $('.total_bayar_text').html('Total bayar');
                         $('.giro_vis').hide()
                         $('.cash_vis').hide()
@@ -2873,320 +3559,336 @@
 
 
 
-            // console.log(localStorage.getItem("page-wrapper"))
-            // if (localStorage.getItem("page-wrapper") === null) {
+                // console.log(localStorage.getItem("page-wrapper"))
+                // if (localStorage.getItem("page-wrapper") === null) {
                 $(".page-wrapper").attr(
-                "class",
-                "page-wrapper horizontal-wrapper "
+                    "class",
+                    "page-wrapper horizontal-wrapper "
                 );
                 $(".logo-wrapper")
-                .find("img")
-                .attr("src", "<?= base_url() ?>assets/images/logo/logo.png");
+                    .find("img")
+                    .attr("src", "<?= base_url() ?>assets/images/logo/logo.png");
                 localStorage.setItem("page-wrapper", "horizontal-wrapper");
-            // }
+                // }
             });
-                $(document).on('click', '.delete_transaksi', function (e) { //delete transksai di hold
-                    e.preventDefault();
-                    var pid = this.id.split(',')[0];
-                    var struk = this.id.split(',')[1];
-                    swal({
-                        title: "Struk "+struk+"",
-                        text: "Apakah anda yakin ingin delete hold transaksi?",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    }).then((willDelete) => {
-                        if (willDelete) {
-                                $.ajax({
-                                url : "<?= site_url('pos/delete_transaksi');?>",
-                                method : "POST",
-                                data : {id: pid},
-                                async : true,
-                                dataType : 'json',
-                                    success: function(data2){
-                                        swal({
-                                                                title: "Berhasil..!",
-                                                                text: "transaksi berhasil didelete",
-                                                                icon: "success",
-                                                                }).then((willDelete) => {
-                                                                if (willDelete) {
-                                                                    $.ajax({
-                                                                        url : "<?= site_url('pos/load_hold');?>",
-                                                                        method : "GET",
-                                                                        // data : {id: pid},
-                                                                        async : true,
-                                                                        dataType : 'json',
-                                                                        success: function(data){
-                                                                            // $('#modaload').modal('toggle');
-                                                                            $('#modaload tbody').empty();
-                                                                            setTimeout(() => {
-                                                                                $('#modaload').modal('show');
-                                                                                for (let i = 0; i <= data.length; i++) {
-                                                                                    $('#load-hold tbody').append(
-                                                                                    '<tr style="background-color: white;">'+
-                                                                                            '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="delete_transaksi badge badge-danger">Delete</a></td>'+
-                                                                                            '<td class="order">'+data[i].no_struk+'</td>'+
-                                                                                            '<td>'+data[i].nama_toko+'</td>'+
-                                                                                            '<td>'+data[i].jumlah_item+'</td>'+
-                                                                                            '<td>'+data[i].total_transaksi+'</td>'+
-                                                                                            '<td><a class="badge badge-primary" href="<?= base_url('pos/index/') ?>'+data[i].id+'" >Edit</a></td>'+
-                                                                                    '</tr>');
-                                                                                    // check_pos()
-                                                                                }
-                                                                            }, 500);
-                                                                        }
-                                                                    })
-                                                                }
-                                                            });
-                                    }
-                                })
-                            }
-                    });
-                })
-                $(document).on('click', '.cencel_transaksi', function (e) {//cancel transksai di ketika data sudah di cetak / submit
-                    e.preventDefault();
-                    var pid = this.id.split(',')[0];
-                    var struk = this.id.split(',')[1];
-                    swal({
-                        title: "Struk "+struk+"",
-                        text: "Apakah anda yakin ingin cancel transaksi?",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    }).then((willDelete) => {
-                        if (willDelete) {
-                                $.ajax({
-                                url : "<?= site_url('pos/cancel_transaksi');?>",
-                                method : "POST",
-                                data : {id: pid},
-                                async : true,
-                                dataType : 'json',
-                                    success: function(data2){
-                                        swal({
-                                                                title: "Berhasil..!",
-                                                                text: "transaksi berhasil dicancel",
-                                                                icon: "success",
-                                                                }).then((willDelete) => {
-                                                                if (willDelete) {
-                                                                    $.ajax({
-                                                                        url : "<?= site_url('pos/load_hold');?>",
-                                                                        method : "GET",
-                                                                        // data : {id: pid},
-                                                                        async : true,
-                                                                        dataType : 'json',
-                                                                        success: function(data){
-                                                                            // $('#modaload').modal('toggle');
-                                                                            $('#modal_penjualan tbody').empty();
-                                                                            setTimeout(() => {
-                                                                                $('#modal_penjualan').modal('show');
-                                                                                for (let i = 0; i <= data.length; i++) {
-                                                                                    <?php if ($this->session->userdata('level') == '1') { ?>
-                                                                                    var invs_level = ''
-                                                                                    <?php }else{ ?>
-                                                                                    var invs_level = 'invisible'
-                                                                                    <?php } ?>
-                                                                                        $('#load-transaksi tbody').append(
-                                                                                        '<tr style="background-color: white;">'+
-                                                                                                '<td><a type="button" id="'+ data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi '+invs_level+' badge badge-danger">Cencel</a></td>'+
-                                                                                                '<td class="order">'+data[i].no_struk+'</td>'+
-                                                                                                '<td>'+data[i].nama_toko+'</td>'+
-                                                                                                '<td>'+data[i].jumlah_item+'</td>'+
-                                                                                                '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
-                                                                                                '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
-                                                                                        '</tr>');
-                                                                                }
-                                                                            }, 500);
-                                                                        }
-                                                                    })
-                                                                }
-                                                            });
-                                    }
-                                })
-                            }
-                    });
-                })
-                $(document).on('click', '.edit_transaksi_kasir', function (e) {//edit transksai di ketika data sudah di cetak / submit
-                    e.preventDefault();
-                    var pid = this.id.split(',')[0];
-                    var struk = this.id.split(',')[1];
-                    $('#modal_penjualan').on('shown.bs.modal', function() {
-                        $(document).off('focusin.modal');
-                    });
-                    swal({
-                        title: "Verifikasi Admin?",
-                        text: "Silahkan masukan password admin..!",
-                        icon: "warning",
-                        buttons: true,
-                        content: {
-                            element: "input",
-                            attributes: {
-                                placeholder: "Type your password",
-                                type: "password",
+            $(document).on('click', '.delete_transaksi', function(e) { //delete transksai di hold
+                e.preventDefault();
+                var pid = this.id.split(',')[0];
+                var struk = this.id.split(',')[1];
+                swal({
+                    title: "Struk " + struk + "",
+                    text: "Apakah anda yakin ingin delete hold transaksi?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: "<?= site_url('pos/delete_transaksi'); ?>",
+                            method: "POST",
+                            data: {
+                                id: pid
                             },
-                        },
-                        dangerMode: true,
-                    }).then((value) => {
-                        if (value) {
-                                $.ajax({
-                                     url : "<?= site_url('user/check_admin');?>",
-                                     method : "POST",
-                                     data : {id: pid,password : value},
-                                     async : true,
-                                     dataType : 'json',
-                                     success: function(data){
-                                        if (data == 'berhasil') {
-                                            swal('Data admin terverifikasi..!', {
-                                             icon: "success",
-                                            }).then((d) => {
-                                                if (d) {
-                                                    window.location = '<?= base_url() ?>pos/index/'+pid+'/edit_transaksi';
-                                                }
-                                            });
-                                        }else{
-                                            swal('Password salah..!', {
-                                             icon: "error",
-                                            });
-                                        }
-
-                                     }
-                                })
-
-                        }
-                    });
-                    // $('#modal_edit_transaksi_kasir').modal('show')
-                })
-                $('.date_print').on('change', function() {
-                    // alert( this.value );
-                        $.ajax({
-                            url : "<?= site_url('pos/reprint_date');?>",
-                            method : "POST",
-                            data : {date_print : this.value},
-                            async : true,
-                            dataType : 'json',
-                                success: function(data){
-                                    console.log(data)
-                                }
-
+                            async: true,
+                            dataType: 'json',
+                            success: function(data2) {
+                                swal({
+                                    title: "Berhasil..!",
+                                    text: "transaksi berhasil didelete",
+                                    icon: "success",
+                                }).then((willDelete) => {
+                                    if (willDelete) {
+                                        $.ajax({
+                                            url: "<?= site_url('pos/load_hold'); ?>",
+                                            method: "GET",
+                                            // data : {id: pid},
+                                            async: true,
+                                            dataType: 'json',
+                                            success: function(data) {
+                                                // $('#modaload').modal('toggle');
+                                                $('#modaload tbody').empty();
+                                                setTimeout(() => {
+                                                    $('#modaload').modal('show');
+                                                    for (let i = 0; i <= data.length; i++) {
+                                                        $('#load-hold tbody').append(
+                                                            '<tr style="background-color: white;">' +
+                                                            '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="delete_transaksi badge badge-danger">Delete</a></td>' +
+                                                            '<td class="order">' + data[i].no_struk + '</td>' +
+                                                            '<td>' + data[i].nama_toko + '</td>' +
+                                                            '<td>' + data[i].jumlah_item + '</td>' +
+                                                            '<td>' + data[i].total_transaksi + '</td>' +
+                                                            '<td><a class="badge badge-primary" href="<?= base_url('pos/index/') ?>' + data[i].id + '" >Edit</a></td>' +
+                                                            '</tr>');
+                                                        // check_pos()
+                                                    }
+                                                }, 500);
+                                            }
+                                        })
+                                    }
+                                });
+                            }
                         })
+                    }
                 });
-                $('.date_print2').on('change', function() {
+            })
+            $(document).on('click', '.cencel_transaksi', function(e) { //cancel transksai di ketika data sudah di cetak / submit
+                e.preventDefault();
+                var pid = this.id.split(',')[0];
+                var struk = this.id.split(',')[1];
+                swal({
+                    title: "Struk " + struk + "",
+                    text: "Apakah anda yakin ingin cancel transaksi?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
                         $.ajax({
-                            url : "<?= site_url('pos/reprint_date');?>",
-                            method : "POST",
-                            data : {date_print : $('.date_print').val(),date_print2 : this.value},
-                            async : true,
-                            dataType : 'json',
-                                success: function(data){
-                                    $.ajax({
-                                            url : "<?= site_url('pos/load_transaksi');?>",
-                                            method : "GET",
-                                            async : true,
-                                            dataType : 'json',
-                                            success: function(data){
+                            url: "<?= site_url('pos/cancel_transaksi'); ?>",
+                            method: "POST",
+                            data: {
+                                id: pid
+                            },
+                            async: true,
+                            dataType: 'json',
+                            success: function(data2) {
+                                swal({
+                                    title: "Berhasil..!",
+                                    text: "transaksi berhasil dicancel",
+                                    icon: "success",
+                                }).then((willDelete) => {
+                                    if (willDelete) {
+                                        $.ajax({
+                                            url: "<?= site_url('pos/load_hold'); ?>",
+                                            method: "GET",
+                                            // data : {id: pid},
+                                            async: true,
+                                            dataType: 'json',
+                                            success: function(data) {
+                                                // $('#modaload').modal('toggle');
                                                 $('#modal_penjualan tbody').empty();
                                                 setTimeout(() => {
                                                     $('#modal_penjualan').modal('show');
                                                     for (let i = 0; i <= data.length; i++) {
                                                         <?php if ($this->session->userdata('level') == '1') { ?>
-                                                        var invs_level = ''
-                                                        <?php }else{ ?>
-                                                        var invs_level = 'invisible'
+                                                            var invs_level = ''
+                                                        <?php } else { ?>
+                                                            var invs_level = 'invisible'
                                                         <?php } ?>
                                                         $('#load-transaksi tbody').append(
-                                                        '<tr style="background-color: white;">'+
-                                                                '<td><a type="button" id="'+data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi '+invs_level+' badge badge-danger">Cencel</a></td>'+
-                                                                '<td class="order">'+data[i].no_struk+'</td>'+
-                                                                '<td>'+data[i].nama_toko+'</td>'+
-                                                                '<td>'+data[i].jumlah_item+'</td>'+
-                                                                '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
-                                                                '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
-                                                        '</tr>');
-                                                    }
-                                                },500)
-                                            },
-                                            error: function(e){
-                                                console.log(e)
-                                            }
-                                    });
-                                }
-
-                        })
-                });
-                $('.reprint_customers').on('change', function() {
-                        $.ajax({
-                            url : "<?= site_url('pos/reprint_date');?>",
-                            method : "POST",
-                            data : {date_print : $('.date_print').val(),date_print2 : $('.date_print2').val(),pelanggan : this.value },
-                            async : true,
-                            dataType : 'json',
-                                success: function(data){
-                                    $.ajax({
-                                            url : "<?= site_url('pos/load_transaksi');?>",
-                                            method : "GET",
-                                            async : true,
-                                            dataType : 'json',
-                                            success: function(data){
-                                                $('#modal_penjualan tbody').empty();
-                                                setTimeout(() => {
-                                                    $('#modal_penjualan').modal('show');
-                                                    for (let i = 0; i <= data.length; i++) {
-                                                        <?php if ($this->session->userdata('level') == '1') { ?>
-                                                        var invs_level = ''
-                                                        <?php }else{ ?>
-                                                        var invs_level = 'invisible'
-                                                        <?php } ?>
-                                                        if (data.length == true) {
-                                                            $('#load-transaksi tbody').append(
-                                                            '<tr style="background-color: white;">'+
-                                                                    '<td><a type="button" id="'+ data[i].id +','+ data[i].no_struk+'" class="cencel_transaksi badge '+invs_level+' badge-danger">Cencel</a></td>'+
-                                                                    '<td class="order">'+data[i].no_struk+'</td>'+
-                                                                    '<td>'+data[i].nama_toko+'</td>'+
-                                                                    '<td>'+data[i].jumlah_item+'</td>'+
-                                                                    '<td>'+data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") +'</td>'+
-                                                                    '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>'+data[i].id+'" >Cetak</a></td>'+
+                                                            '<tr style="background-color: white;">' +
+                                                            '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
+                                                            '<td class="order">' + data[i].no_struk + '</td>' +
+                                                            '<td>' + data[i].nama_toko + '</td>' +
+                                                            '<td>' + data[i].jumlah_item + '</td>' +
+                                                            '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                                            '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
                                                             '</tr>');
-                                                        }else{
-                                                            swal({
-                                                                title: "Opss..!",
-                                                                text: "Pelanggan di transaksi tidak ada..!",
-                                                                icon: "warning",
-                                                                dangerMode: true,
-                                                            })
-                                                        }
                                                     }
-                                                },500)
-                                            },
-                                            error: function(e){
-                                                console.log(e)
+                                                }, 500);
                                             }
+                                        })
+                                    }
+                                });
+                            }
+                        })
+                    }
+                });
+            })
+            $(document).on('click', '.edit_transaksi_kasir', function(e) { //edit transksai di ketika data sudah di cetak / submit
+                e.preventDefault();
+                var pid = this.id.split(',')[0];
+                var struk = this.id.split(',')[1];
+                $('#modal_penjualan').on('shown.bs.modal', function() {
+                    $(document).off('focusin.modal');
+                });
+                swal({
+                    title: "Verifikasi Admin?",
+                    text: "Silahkan masukan password admin..!",
+                    icon: "warning",
+                    buttons: true,
+                    content: {
+                        element: "input",
+                        attributes: {
+                            placeholder: "Type your password",
+                            type: "password",
+                        },
+                    },
+                    dangerMode: true,
+                }).then((value) => {
+                    if (value) {
+                        $.ajax({
+                            url: "<?= site_url('user/check_admin'); ?>",
+                            method: "POST",
+                            data: {
+                                id: pid,
+                                password: value
+                            },
+                            async: true,
+                            dataType: 'json',
+                            success: function(data) {
+                                if (data == 'berhasil') {
+                                    swal('Data admin terverifikasi..!', {
+                                        icon: "success",
+                                    }).then((d) => {
+                                        if (d) {
+                                            window.location = '<?= base_url() ?>pos/index/' + pid + '/edit_transaksi';
+                                        }
+                                    });
+                                } else {
+                                    swal('Password salah..!', {
+                                        icon: "error",
                                     });
                                 }
 
+                            }
                         })
+
+                    }
                 });
-                $(document).on('click', '.clear_penjualan', function (e) {
-                    $('#modal_penjualan tbody').empty();
+                // $('#modal_edit_transaksi_kasir').modal('show')
+            })
+            $('.date_print').on('change', function() {
+                // alert( this.value );
+                $.ajax({
+                    url: "<?= site_url('pos/reprint_date'); ?>",
+                    method: "POST",
+                    data: {
+                        date_print: this.value
+                    },
+                    async: true,
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                    }
+
                 })
+            });
+            $('.date_print2').on('change', function() {
+                $.ajax({
+                    url: "<?= site_url('pos/reprint_date'); ?>",
+                    method: "POST",
+                    data: {
+                        date_print: $('.date_print').val(),
+                        date_print2: this.value
+                    },
+                    async: true,
+                    dataType: 'json',
+                    success: function(data) {
+                        $.ajax({
+                            url: "<?= site_url('pos/load_transaksi'); ?>",
+                            method: "GET",
+                            async: true,
+                            dataType: 'json',
+                            success: function(data) {
+                                $('#modal_penjualan tbody').empty();
+                                setTimeout(() => {
+                                    $('#modal_penjualan').modal('show');
+                                    for (let i = 0; i <= data.length; i++) {
+                                        <?php if ($this->session->userdata('level') == '1') { ?>
+                                            var invs_level = ''
+                                        <?php } else { ?>
+                                            var invs_level = 'invisible'
+                                        <?php } ?>
+                                        $('#load-transaksi tbody').append(
+                                            '<tr style="background-color: white;">' +
+                                            '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
+                                            '<td class="order">' + data[i].no_struk + '</td>' +
+                                            '<td>' + data[i].nama_toko + '</td>' +
+                                            '<td>' + data[i].jumlah_item + '</td>' +
+                                            '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                            '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
+                                            '</tr>');
+                                    }
+                                }, 500)
+                            },
+                            error: function(e) {
+                                console.log(e)
+                            }
+                        });
+                    }
 
-
-                $('.tgl_transaksi').change(function(){
-                     var tgl=$(this).val();
-                     $.ajax({
-                            url : "<?= site_url('pos/check_tgl_pos');?>",
-                            method : "POST",
-                            data : {tgl : tgl},
-                            async : true,
-                            dataType : 'json',
-                                success: function(data){
-                                    console.log(data)
-                                    $('.no_struk').val(data)
-                                }
-
-                        })
                 })
+            });
+            $('.reprint_customers').on('change', function() {
+                $.ajax({
+                    url: "<?= site_url('pos/reprint_date'); ?>",
+                    method: "POST",
+                    data: {
+                        date_print: $('.date_print').val(),
+                        date_print2: $('.date_print2').val(),
+                        pelanggan: this.value
+                    },
+                    async: true,
+                    dataType: 'json',
+                    success: function(data) {
+                        $.ajax({
+                            url: "<?= site_url('pos/load_transaksi'); ?>",
+                            method: "GET",
+                            async: true,
+                            dataType: 'json',
+                            success: function(data) {
+                                $('#modal_penjualan tbody').empty();
+                                setTimeout(() => {
+                                    $('#modal_penjualan').modal('show');
+                                    for (let i = 0; i <= data.length; i++) {
+                                        <?php if ($this->session->userdata('level') == '1') { ?>
+                                            var invs_level = ''
+                                        <?php } else { ?>
+                                            var invs_level = 'invisible'
+                                        <?php } ?>
+                                        if (data.length == true) {
+                                            $('#load-transaksi tbody').append(
+                                                '<tr style="background-color: white;">' +
+                                                '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi badge ' + invs_level + ' badge-danger">Cencel</a></td>' +
+                                                '<td class="order">' + data[i].no_struk + '</td>' +
+                                                '<td>' + data[i].nama_toko + '</td>' +
+                                                '<td>' + data[i].jumlah_item + '</td>' +
+                                                '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                                '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
+                                                '</tr>');
+                                        } else {
+                                            swal({
+                                                title: "Opss..!",
+                                                text: "Pelanggan di transaksi tidak ada..!",
+                                                icon: "warning",
+                                                dangerMode: true,
+                                            })
+                                        }
+                                    }
+                                }, 500)
+                            },
+                            error: function(e) {
+                                console.log(e)
+                            }
+                        });
+                    }
+
+                })
+            });
+            $(document).on('click', '.clear_penjualan', function(e) {
+                $('#modal_penjualan tbody').empty();
+            })
 
 
+            $('.tgl_transaksi').change(function() {
+                var tgl = $(this).val();
+                $.ajax({
+                    url: "<?= site_url('pos/check_tgl_pos'); ?>",
+                    method: "POST",
+                    data: {
+                        tgl: tgl
+                    },
+                    async: true,
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        $('.no_struk').val(data)
+                    }
 
-    </script>
-  </body>
+                })
+            })
+        </script>
+</body>
+
 </html>
