@@ -90,7 +90,7 @@ body{
         <td style="text-align:right"><?= number_format($sub_total,0,',',',') ?></td>
     </tr>
     <tr>
-        <td>Sisa bon</td>
+        <td>Sisa bon Yang lalu</td>
         <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar_piutang'],0,',',',') ?></td>
     </tr>
     <tr>
@@ -140,10 +140,10 @@ body{
         <td></td>
         <td><hr></td>
     </tr>
-    <!-- <tr>
+    <tr>
         <td>Sisa Bon</td>
         <td></td>
-    </tr> -->
+    </tr>
 
     <tr>
         <th colspan="2"><hr></th>

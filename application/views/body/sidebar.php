@@ -147,8 +147,8 @@
                                     <h5>Payment</h5>
                                 </div>
                                 <ul class="submenu-content opensubmegamenu">
-                                    <li><a href="error-400.html">Pembayaran Hutang [Faktur]</a></li>
-                                    <li><a href="error-401.html">Pembayaran Hutang [Faktur]</a></li>
+                                    <li><a href="error-400.html">Pembayaran [Faktur]</a></li>
+                                    <li><a href="error-401.html">Kas/Bank Keluar</a></li>
                                 </ul>
                                 </div>
                             </div>
