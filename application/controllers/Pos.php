@@ -676,6 +676,11 @@ class Pos extends CI_Controller
         } else {
             $pelangganx = "";
         }
+        if ($pembayaran == true) {
+            $pembayaranx = "and a.pembayaran='" . $pembayaran . "'";
+        }else{
+            $pembayaranx = "";
+        }
         $today = date('Y-m-d');
         $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
          left join customers as c on(a.pelanggan=c.id_customer)
@@ -684,7 +689,7 @@ class Pos extends CI_Controller
          left join kategori as f on(e.kategori_id=f.id)
          left join ekspedisi as g on(a.pengiriman = g.id)
          left join piutang as h on(a.id=h.id_transaksi)
-          WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' and a.pembayaran='" . $pembayaran . "' and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
+          WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' ".$pembayaranx." and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
 
         // echo '<pre>';
         // print_r($penjualan);
