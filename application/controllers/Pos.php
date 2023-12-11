@@ -21,14 +21,14 @@ class Pos extends CI_Controller
         $tipe = $this->input->post('tipe');
         if ($tipe == true) {
             $this->session->set_userdata('tipe_penjualan', $tipe);
-            $id_plg = explode(',', $this->input->post('tipe_penjualan'))[1];
-            $this->db->where('pelanggan_piutang', $id_plg);
-            $this->db->where('status', 1);
-            $cek_piutang_user = $this->db->get('piutang');
-            if ($cek_piutang_user->num_rows()) {
-                $this->session->set_flashdata('msg', 'piutang');
-                redirect('pos/load_piutang/' . $cek_piutang_user->row_array()['id_transaksi']);
-            }
+            // $id_plg = explode(',', $this->input->post('tipe_penjualan'))[1];
+            // $this->db->where('pelanggan_piutang', $id_plg);
+            // $this->db->where('status', 1);
+            // $cek_piutang_user = $this->db->get('piutang');
+            // if ($cek_piutang_user->num_rows()) {
+            //     $this->session->set_flashdata('msg', 'piutang');
+            //     redirect('pos/load_piutang/' . $cek_piutang_user->row_array()['id_transaksi']);
+            // }
         } else {
             $this->session->set_userdata('tipe_penjualan', 'umum,273,1');
         }
