@@ -266,11 +266,11 @@
                                             </div>
                                             <div class="col">
                                                 <label>Start Date</label>
-                                                <input type="date" class="form-control date_print_closing" name="date_print_closing">
+                                                <input type="date" class="form-control date_print_closing" value="<?= date('Y-m-d') ?>" name="date_print_closing">
                                             </div>
                                             <div class="col">
                                                 <label>End Date</label>
-                                                <input type="date" class="form-control date_print_closing2" name="date_print_closing2">
+                                                <input type="date" class="form-control date_print_closing2" value="<?= date('Y-m-d') ?>" name="date_print_closing2">
                                             </div>
                                             <div class="col">
                                                 <label>Pelanggan</label>
