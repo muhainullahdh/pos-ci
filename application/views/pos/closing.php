@@ -327,7 +327,7 @@
             <p>Tanggal : <?= $tgl_closing ?></p>
             <table class="tb-bor mt10 ft9">
                 <tr>
-                    <th class="bor-lf" width="6%">No</th>
+                    <th class="bor-lf">No</th>
                     <th class="bor-lf">No Struk</th>
                     <th class="bor-lf">Tgl Bukti</th>
                     <th class="bor-lf">Pembayaran</th>
@@ -343,6 +343,7 @@
                 if (isset($penjualan)) {
                     $jumlah_row = 0;
                     $total_bayar_row = 0;
+                    $total_kurang_bayar = 0;
                     foreach ($penjualan as $row) {
                         $jumlah_row += $row->jumlah;
                         $total_bayar_row += $row->total_bayar;
