@@ -297,6 +297,8 @@
                                 <div class="row mt-3">
                                     <?php if($this->uri->segment(2) == 'index' && $this->uri->segment(4) != 'piutang') { ?> <!-- pos load hold -->
                                         <div class="col">
+                                        <h6>Table Hold</h6>
+                                        <hr>
                                             <div  class="table-responsive" style="min-height:650px; max-height: 650px;">
                                                 <table id="load-list">
                                                 <thead>
@@ -318,6 +320,8 @@
                                         </div>
                                     <?php }else if($this->uri->segment(4) == 'piutang'){ ?>
                                         <div class="col">
+                                        <h6 class="table_piutang"></h6>
+                                        <hr>
                                             <div  class="table-responsive" style="min-height:650px; max-height: 650px;">
                                                 <table id="load-piutang-user">
                                                 <thead>
@@ -339,6 +343,8 @@
                                         </div>
                                     <?php }else{ ?>
                                     <div class="col"> <!-- pos transaksi -->
+                                    <h6>Table Transaksi</h6>
+                                        <hr>
                                         <div class="table-responsive" style="min-height:650px; max-height: 650px;">
                                             <table>
                                             <thead>
@@ -1708,8 +1714,10 @@
                                             // if (tipe_cust == data[i].tipe_penjualan.toLowerCase() && data[i].id_customer) {
                                             //     var action_tipe = 'selected'
                                             // }
+                                            var bayar_piutang = data[i].total_bayar_piutang
                                             $('select[name="tipe"]').html('<option selected value='+ data[i].tipe_penjualan.toLowerCase() + ","+data[i].id_customer + "," + data[i].nama_toko+'>'+data[i].nama_toko+'</option');
                                             $('.no_struk').val(data[i].no_struk);
+                                            $('.table_piutang').html('Table Piutang '+data[i].nama_toko)
                                             $('.tgl_transaksi').val(data[i].tgl_transaksi);
                                             $('.pengiriman').html('<option value='+data[i].pengiriman+' selected>'+data[i].nama+'</option>');
                                             total_pos += parseInt(data[i].jumlah)
@@ -1755,8 +1763,8 @@
                                             // '</tr>');
                                             // check_pos()
                                         }
-
-                                        $('.total_pos').html('Rp.'+total_pos.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                        var final_pos = total_pos - bayar_piutang;
+                                        $('.total_pos').html('Rp.'+final_pos.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                         $('.total_item').val(data.length);
                                         for (let xx = 0; xx <= counter; xx++) {
                                             var data = "<?= base_url('pos/get_barang') ?>";
