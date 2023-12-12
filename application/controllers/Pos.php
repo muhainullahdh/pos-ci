@@ -127,8 +127,9 @@ class Pos extends CI_Controller
         //     'orientation' => 'P',
         //     'showImageErrors' => true
         // ]);
+        $this->db->select('*');
         $this->db->where('a.id', $id_transaksi);
-        $this->db->join('piutang as b', 'a.id=b.id_transaksi');
+        $this->db->join('piutang as b', 'a.id=b.id_transaksi','LEFT');
         $get_transaksi = $this->db->get("transaksi as a")->row_array();
 
         $this->db->where('id_transaksi', $id_transaksi);

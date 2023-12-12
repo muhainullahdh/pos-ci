@@ -35,7 +35,7 @@ body{
 <body>
 <table>
     <tr>
-        <td colspan="2" style="text-align: center; vertical-align: middle;"><b style="font-size:28px;">TOKO LINGLING</b><br> JL.RAYA TENGAH NO.1 <br>No.tlp : 081111</td>
+        <td colspan="2" style="text-align: center; vertical-align: middle;"><b style="font-size:28px;">TOKO LINGLING</b><br> JL.RAYA TENGAH NO.1 </td>
     </tr>
     <!-- <tr>
         <td style="text-align:right">JL.RAYA TENGAH NO.1</td>
