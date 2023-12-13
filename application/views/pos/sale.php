@@ -2391,7 +2391,9 @@
                             } else {
                                 var info_pembayaran = ''; //cash
                             }
+                            var total_transaksi_row = 0;
                             for (let i = 1; i <= counter; i++) {
+                                total_transaksi_row += $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '');
                                 xx.push({
                                     id_transaksi_item: $('.id_item' + i + '').val(),
                                     kd_barang: $('.id_barang' + i + '').val(),
@@ -2412,6 +2414,7 @@
                                 diskon_all: $('.diskon_all').val(),
                                 total_netto: $('.total_netto').val(),
                                 total_bayar: $('.total_bayar').val(),
+                                total_transaksi: total_transaksi_row,
                                 tunai: $('.tunaii').val(),
                                 kembali: $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                 jumlah_item: $('.total_item').val(),

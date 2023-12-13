@@ -162,6 +162,7 @@ class Pos extends CI_Controller
                 "diskon" => $this->clean($this->input->post('diskon_all')),
                 "total_netto" => $this->clean($this->input->post('total_netto')),
                 "total_bayar" => $this->clean($this->input->post('total_bayar')),
+                "total_transaksi" => $this->clean($this->input->post('total_transaksi')),
                 "tunai" => $this->clean($this->input->post('tunai')),
                 "kembali" => $this->clean($this->input->post('kembali')),
                 "jumlah_item" => $this->input->post('jumlah_item'),
@@ -181,6 +182,7 @@ class Pos extends CI_Controller
                 "diskon" => $this->clean($this->input->post('diskon_all')),
                 "total_netto" => $this->clean($this->input->post('total_netto')),
                 "total_bayar" => $this->clean($this->input->post('total_bayar')),
+                "total_transaksi" => $this->clean($this->input->post('total_transaksi')),
                 "tunai" => $this->clean($this->input->post('tunai')),
                 "kembali" => $this->clean($this->input->post('kembali')),
                 "jumlah_item" => $this->input->post('jumlah_item'),
@@ -289,6 +291,7 @@ class Pos extends CI_Controller
                     }
                 }
             }
+        }
             if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
                 $this->db->insert_batch('transaksi_item', $output); //submit
                 if ($this->clean($this->input->post('total_bayar')) < $total_transaksii) {
@@ -304,7 +307,6 @@ class Pos extends CI_Controller
                     $this->db->insert('piutang', $piutang);
                 }
             }
-        }
         if ($edit_transaksi == 'edit_transaksi') {
             $cek_id = $id_transaksi;
         } else {
