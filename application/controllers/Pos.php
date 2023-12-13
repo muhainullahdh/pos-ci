@@ -402,6 +402,7 @@ class Pos extends CI_Controller
         $this->db->from('transaksi as a');
         $this->db->join('customers as b', 'a.pelanggan=b.id_customer');
         $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi');
+        $this->db->join('piutang as d','a.id=d.id_transaksi');
         $this->db->where('a.trash', 0);
         // $this->db->where('a.tahan',0);
         $this->db->where('a.cencel', 0);

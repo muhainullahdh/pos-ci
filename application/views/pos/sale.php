@@ -2217,12 +2217,15 @@
                                 });
                                 $.fn.modal.Constructor.prototype._enforceFocus = function() {};
                                 $('#modal_penjualan').modal('show');
+                                var kurang_bayar = 0
                                 for (let i = 0; i < data.length; i++) {
+                                    kurang_bayar += data[i].total_transkasi - data[i].total_bayar_piutang;
                                     <?php if ($this->session->userdata('level') == '1') { ?>
                                         var invs_level = ''
                                     <?php } else { ?>
                                         var invs_level = 'invisible'
                                     <?php } ?>
+                                    var total_fix = data[i].total_transaksi-kurang_bayar;
                                     $('#load-transaksi tbody').append(
                                         '<tr style="background-color: white;">' +
                                         '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
@@ -2230,7 +2233,7 @@
                                         '<td class="order">' + data[i].no_struk + '</td>' +
                                         '<td>' + data[i].nama_toko + '</td>' +
                                         '<td>' + data[i].jumlah_item + '</td>' +
-                                        '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                        '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
                                         '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
                                         '</tr>');
                                     // check_pos()
