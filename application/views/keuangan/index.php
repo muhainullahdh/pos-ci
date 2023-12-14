@@ -81,7 +81,7 @@
                                                         <h5 class="modal-title" id="update_paymentLongTitle">No. Struk <?= $p->no_struk ?></h5>
                                                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <form action="<?= base_url('keuangan/bayar_angsuran/') . $p->id ?>" method="post" class="form theme-form dark-input">
+                                                    <form action="<?= base_url('keuangan/bayar_angsuran/') . $p->id ?>" method="post" class="form theme-form dark-input" id="myForm">
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col">
@@ -200,6 +200,12 @@
 
             var hasilPengurangan = nominalTransaksiValue - nominalBayarValue;
             document.getElementById('sisa<?= $p->no_struk ?>').value = hasilPengurangan.toLocaleString('en-US');
+        });
+
+
+        document.getElementById("myForm").addEventListener("submit", function() {
+            // Formulir disubmit, buka tab baru dengan URL yang diinginkan
+            window.open('<?= base_url('pos/cetak?id=') . $p->id ?>', '_blank');
         });
     </script>
 <?php endforeach; ?>
