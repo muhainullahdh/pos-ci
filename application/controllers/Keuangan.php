@@ -17,12 +17,6 @@ class Keuangan extends CI_Controller
 
     public function index()
     {
-        // $no_struk = $this->input->post('no_struk');
-        // $where = array(
-        //     "no_struk" => trim($no_struk),
-        //     "piutang" => 1,
-        // );
-
         $data = [
             "payment" => $this->db->where('piutang', 1)->order_by('id', 'DESC')->get('transaksi')->result()
         ];
@@ -34,7 +28,7 @@ class Keuangan extends CI_Controller
 
     public function bayar_angsuran($id)
     {
-        $nominal_bayar = $this->input->post('nominal_bayar');
+        $nominal_bayar = str_replace(",", "", $this->input->post('nominal_bayar'));
         $sisa = $this->input->post('sisa');
 
         if ($sisa == 0) {
@@ -45,7 +39,7 @@ class Keuangan extends CI_Controller
 
         $data_histori = [
             "id_transaksi" => $id,
-            "nominal_bayar" => $nominal_bayar,
+            "nominal_bayar" => str_replace(",", "", $nominal_bayar),
             "post_date" => date('Y-m-d H:i:s'),
             "user" => $this->session->userdata('id_user')
         ];
@@ -60,7 +54,8 @@ class Keuangan extends CI_Controller
         ];
 
         // echo '<pre>';
-        // print_r($data_transaksi);
+        // print_r($data_histori);
+        // print_r($nominal_bayar);
         // echo '</pre>';
         // exit;
 

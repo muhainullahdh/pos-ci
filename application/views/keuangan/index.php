@@ -51,7 +51,7 @@
                                         <th>Tgl. Transaksi</th>
                                         <th>Total Transaksi</th>
                                         <th>Total Bayar</th>
-                                        <th>Sisa Sebelumnya</th>
+                                        <th>Belum bayar</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -87,7 +87,7 @@
                                                                 <div class="col">
                                                                     <label for="category" class="form-label">Tagihan</label>
                                                                     <div class="input-group">
-                                                                        <input type="text" class="form-control form-control-sm nominal" value="<?= $sisa_bayar ?>" name="sisa_bayar" id="sisa_bayar<?= $p->no_struk ?>">
+                                                                        <input type="text" class="form-control form-control-sm nominal" value="<?= $sisa_bayar ?>" name="sisa_bayar" id="sisa_bayar<?= $p->no_struk ?>" readonly>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -95,7 +95,7 @@
                                                                 <div class="col">
                                                                     <label for="category" class="form-label">Nominal bayar</label>
                                                                     <div class="input-group">
-                                                                        <input type="number" class="form-control form-control-sm nominal" name="nominal_bayar" id="nominal_bayar<?= $p->no_struk ?>" pattern="\d+">
+                                                                        <input type="text" class="form-control form-control-sm nominal" name="nominal_bayar" id="nominal_bayar<?= $p->no_struk ?>" autofocus>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -103,7 +103,7 @@
                                                                 <div class="col">
                                                                     <label for="category" class="form-label">Sisa bayar</label>
                                                                     <div class="input-group">
-                                                                        <input type="text" class="form-control form-control-sm nominal" name="sisa" id="sisa<?= $p->no_struk ?>">
+                                                                        <input type="text" class="form-control form-control-sm nominal" name="sisa" id="sisa<?= $p->no_struk ?>" readonly>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -172,44 +172,34 @@
                 [0, "DESC"]
             ],
         });
-
-        // function updateSisaBayar() {
-        //     var sisaBayar = parseFloat($("#sisa_bayar<?= $p->no_struk ?>").val()) || 0;
-        //     var nominalBayar = parseFloat($("#nominal_bayar<?= $p->no_struk ?>").val()) || 0;
-
-        //     // Memastikan nilai input tidak lebih besar dari sisa bayar
-        //     if (nominalBayar > sisaBayar) {
-        //         $("#nominal_bayar").val(sisaBayar.toFixed(2));
-        //         nominalBayar = sisaBayar;
-        //     }
-
-
-        //     var sisa = sisaBayar - nominalBayar;
-
-        //     // Menampilkan nilai sisa di input "sisa"
-        //     $("#sisa<?= $p->no_struk ?>").val(sisa.toFixed(2)); // Sesuaikan dengan format yang diinginkan
-        // }
-
-        // // Panggil fungsi updateSisaBayar saat nilai di input "nominal_bayar" berubah
-        // $("#nominal_bayar<?= $p->no_struk ?>").on("input", function() {
-        //     updateSisaBayar();
-        // });
-
     });
 </script>
 <?php foreach ($payment as $p) : ?>
     <script>
         document.getElementById('nominal_bayar<?= $p->no_struk ?>').addEventListener('input', function() {
+            // Menghapus semua karakter selain angka dan koma
+            var sanitizedInput = this.value.replace(/[^\d,]/g, '');
+
+            // Mengganti koma ribuan (,) dengan kosong ('') kecuali yang terakhir
+            sanitizedInput = sanitizedInput.replace(/(,)(?=\d)/g, '');
+
+            // Memastikan nilai numerik valid atau set ke nilai kosong jika NaN
+            var currentInputValue = isNaN(parseFloat(sanitizedInput)) ? '' : parseFloat(sanitizedInput).toLocaleString('en-US');
+
+            // Menetapkan nilai yang telah diformat ke dalam input
+            this.value = currentInputValue;
+
             var nominalTransaksiValue = parseFloat(document.getElementById('sisa_bayar<?= $p->no_struk ?>').value);
-            var nominalBayarValue = parseFloat(document.getElementById('nominal_bayar<?= $p->no_struk ?>').value);
+            var nominalBayarValue = parseFloat(sanitizedInput.replace(/,/g, ''));
 
             if (nominalBayarValue > nominalTransaksiValue) {
-                $("#nominal_bayar<?= $p->no_struk ?>").val(nominalTransaksiValue);
+                // Mengatur nilai input menjadi nilai maksimal yang diperbolehkan
+                this.value = nominalTransaksiValue.toLocaleString('en-US');
                 nominalBayarValue = nominalTransaksiValue;
             }
 
             var hasilPengurangan = nominalTransaksiValue - nominalBayarValue;
-            document.getElementById('sisa<?= $p->no_struk ?>').value = hasilPengurangan;
+            document.getElementById('sisa<?= $p->no_struk ?>').value = hasilPengurangan.toLocaleString('en-US');
         });
     </script>
 <?php endforeach; ?>
