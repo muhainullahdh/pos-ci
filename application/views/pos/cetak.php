@@ -97,7 +97,7 @@
         </tr>
         <tr>
             <td>Sisa bon Yang lalu</td>
-            <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar_piutang'], 0, ',', ',') ?></td>
+            <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar'], 0, ',', ',') ?></td>
         </tr>
         <tr>
             <td>
@@ -138,10 +138,16 @@
             </td>
             <td style="text-align:right"><?= number_format($transkasi['diskon'], 0, ',', ',') ?></td>
         </tr>
-        <tr>
-            <td>Kembali</td>
-            <td style="text-align:right"><?= number_format($transkasi['kembali'], 0, ',', ',') ?></td>
-        </tr>
+        <?php
+        if ($transkasi['total_bayar'] > $transkasi['total_transaksi']) {
+        ?>
+            <tr>
+                <td>Kembali</td>
+                <td style="text-align:right"><?= number_format($transkasi['kembali'], 0, ',', ',') ?></td>
+            </tr>
+        <?php
+        }
+        ?>
         <tr>
             <td></td>
             <td>

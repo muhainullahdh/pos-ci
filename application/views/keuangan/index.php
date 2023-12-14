@@ -1,3 +1,4 @@
+<?= $this->session->flashdata('new_tab') ?>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <style>
@@ -202,10 +203,9 @@
             document.getElementById('sisa<?= $p->no_struk ?>').value = hasilPengurangan.toLocaleString('en-US');
         });
 
-
-        document.getElementById("myForm").addEventListener("submit", function() {
-            // Formulir disubmit, buka tab baru dengan URL yang diinginkan
-            window.open('<?= base_url('pos/cetak?id=') . $p->id ?>', '_blank');
-        });
+        // document.getElementById("myForm").addEventListener("submit", function() {
+        //     // Formulir disubmit, buka tab baru dengan URL yang diinginkan
+        //     window.open('<?= base_url('pos/cetak?id=') . $p->id ?>', '_blank');
+        // });
     </script>
 <?php endforeach; ?>

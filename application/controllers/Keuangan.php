@@ -53,6 +53,12 @@ class Keuangan extends CI_Controller
             "piutang" => $status_piutang
         ];
 
+
+        $newTab = [
+            "url_newtab" => base_url('pos/cetak?id=') . $id
+        ];
+
+
         // echo '<pre>';
         // print_r($data_histori);
         // print_r($nominal_bayar);
@@ -68,6 +74,8 @@ class Keuangan extends CI_Controller
             Data pembayaran ' . $transaksi['no_struk'] . ' berhasil diperbarui.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>');
+
+        $this->session->set_flashdata('new_tab', '<script>window.open("' . base_url('pos/cetak?id=') . $id . '", "_blank");</script>');
         redirect('keuangan');
     }
 }
