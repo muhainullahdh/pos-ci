@@ -345,48 +345,78 @@
                     $total_bayar_row = 0;
                     $total_kurang_bayar = 0;
                     foreach ($penjualan as $row) {
+
                         $jumlah_row += $row->jumlah;
                         $total_bayar_row += $row->total_bayar;
-                        $kurang_bayar = $row->total_transkasi - $row->total_bayar_piutang;
-                ?>
+                        $kurang_bayar =
+                            $row->total_transkasi - $row->total_bayar_piutang;
+                        ?>
                         <tr>
                             <td class="bor-lf"><?= $no ?></td>
                             <td class="bor-lf"><?= $row->no_struk ?></td>
                             <td class="bor-lf"><?= $row->tgl_transaksi ?></td>
                             <td class="bor-lf"><?= $row->pembayaran ?></td>
                             <td class="bor-lf"><?= $row->nama_toko ?></td>
-                            <td class="bor-lf"><?= "Rp." . number_format($row->jumlah, 0, '.', '.') ?></td>
-                            <td class="bor-lf"><?= "Rp." . number_format($row->total_bayar, 0, '.', '.') ?></td>
-                            <td class="bor-lf"><?= "Rp." . number_format(0, 0, '.', '.') ?></td>
-                            <td class="bor-lf"><?= "Rp." . number_format($kurang_bayar, 0, '.', '.') ?></td>
-                            <!-- <td class="bor-lf"><?= "Rp." . number_format(0, 0, '.', '.') ?></td> -->
-                            <td class="bor-lf"><?= "Rp." . number_format(0, 0, '.', '.') ?></td>
+                            <td class="bor-lf"><?= 'Rp.' .
+                                number_format($row->jumlah, 0, '.', '.') ?></td>
+                            <td class="bor-lf"><?= 'Rp.' .
+                                number_format(
+                                    $row->total_bayar - $row->kembali,
+                                    0,
+                                    '.',
+                                    '.'
+                                ) ?></td>
+                            <td class="bor-lf"><?= 'Rp.' .
+                                number_format(0, 0, '.', '.') ?></td>
+                            <td class="bor-lf"><?= 'Rp.' .
+                                number_format(
+                                    $kurang_bayar,
+                                    0,
+                                    '.',
+                                    '.'
+                                ) ?></td>
+                            <!-- <td class="bor-lf"><?= 'Rp.' .
+                                number_format(0, 0, '.', '.') ?></td> -->
+                            <td class="bor-lf"><?= 'Rp.' .
+                                number_format(0, 0, '.', '.') ?></td>
                         </tr>
                 <?php
-                        $no++;
-                        $total_kurang_bayar += $kurang_bayar;
+                $no++;
+                $total_kurang_bayar += $kurang_bayar;
+
                     }
                 }
                 ?>
                 <!-- <tr>
                     <td class="bor-lf" colspan="5">Total Per kasir</td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format($jumlah_row, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format($total_bayar_row, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format(0, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format($total_kurang_bayar, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format(0, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format($jumlah_row, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format($total_bayar_row, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format(0, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format($total_kurang_bayar, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format(0, 0, '.', '.') ?></td>
                 </tr> -->
                 <tr>
                     <td class="bor-lf" colspan="5">Grand Total</td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format($jumlah_row, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format($total_bayar_row, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format(0, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format($total_kurang_bayar, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= "Rp." . number_format(0, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format($jumlah_row, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format($total_bayar_row, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format(0, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format($total_kurang_bayar, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
+                        number_format(0, 0, '.', '.') ?></td>
                 </tr>
                 <tr>
                     <td class="bor-lf" colspan="9" style="text-align:right;"><br><strong>Total penerimaan kasir</strong></td>
-                    <td class="bor-lf" colspan="1"><br><?= "Rp." . number_format($total_bayar_row, 0, '.', '.') ?></td>
+                    <td class="bor-lf" colspan="1"><br><?= 'Rp.' .
+                        number_format($total_bayar_row, 0, '.', '.') ?></td>
                 </tr>
             </table>
             <br>
