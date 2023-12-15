@@ -18,8 +18,13 @@ class Keuangan extends CI_Controller
     public function index()
     {
         $data = [
-            "payment" => $this->db->where('piutang', 1)->order_by('id', 'DESC')->get('transaksi')->result()
+            "payment" => $this->db->where('piutang', 1)->where_not_in('pelanggan', '273')->from('transaksi as a')->join('customers as b', 'a.pelanggan = b.id_customer', 'left')->order_by('a.id', 'DESC')->get()->result(),
         ];
+
+        // echo '<pre>';
+        // print_r($data['payment']);
+        // echo '</pre>';
+        // exit;
 
         $this->load->view('body/header');
         $this->load->view('keuangan/index', $data);

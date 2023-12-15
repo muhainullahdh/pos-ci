@@ -50,6 +50,7 @@
                                         <th style="display: none"></th>
                                         <th>No. Struk</th>
                                         <th>Tgl. Transaksi</th>
+                                        <th>Pelanggan</th>
                                         <th>Total Transaksi</th>
                                         <th>Total Bayar</th>
                                         <th>Belum bayar</th>
@@ -64,6 +65,7 @@
                                             <td style="display: none"><?= $p->id ?></td>
                                             <td><?= $p->no_struk ?></td>
                                             <td><?= ($p->tgl_transaksi) ? format_indo($p->tgl_transaksi) : "" ?></td>
+                                            <td><?= $p->nama_toko ?></td>
                                             <td><?= $p->total_transaksi ?></td>
                                             <td><?= $p->total_bayar ?></td>
                                             <td><?= $sisa_bayar ?></td>
