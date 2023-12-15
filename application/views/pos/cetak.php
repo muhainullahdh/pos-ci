@@ -162,10 +162,13 @@
         </tr>
         <?php
         if ($this->input->get('status') != "not_first") {
+            $pelanggan = $transkasi['pelanggan'];
+
+            $sum = $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar')->where('pelanggan', $pelanggan)->get('transaksi')->row_array();
         ?>
             <tr>
                 <td>Sisa Bon</td>
-                <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar'], 0, ',', ',') ?></td>
+                <td style="text-align:right"><?= number_format($sum['transaksi'] - $sum['bayar'], 0, ',', ',') ?></td>
             </tr>
         <?php
         }
