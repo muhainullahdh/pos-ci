@@ -161,7 +161,7 @@
             </td>
         </tr>
         <?php
-        if ($this->input->get('status') == "first") {
+        if ($this->input->get('status') != "not_first") {
         ?>
             <tr>
                 <td>Sisa Bon</td>
