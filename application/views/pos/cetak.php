@@ -95,10 +95,16 @@
             <td>Sub Total</td>
             <td style="text-align:right"><?= number_format($sub_total, 0, ',', ',') ?></td>
         </tr>
-        <tr>
-            <td>Sisa bon Yang lalu</td>
-            <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar'], 0, ',', ',') ?></td>
-        </tr>
+        <?php
+        if ($this->input->get('status') == "not_first") {
+        ?>
+            <tr>
+                <td>Sisa bon Yang lalu</td>
+                <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar'], 0, ',', ',') ?></td>
+            </tr>
+        <?php
+        }
+        ?>
         <tr>
             <td>
                 <div style="float:left;width:50%;"> Tunai / Transfer</div>
@@ -154,10 +160,16 @@
                 <hr>
             </td>
         </tr>
-        <tr>
-            <td>Sisa Bon</td>
-            <td></td>
-        </tr>
+        <?php
+        if ($this->input->get('status') == "first") {
+        ?>
+            <tr>
+                <td>Sisa Bon</td>
+                <td></td>
+            </tr>
+        <?php
+        }
+        ?>
 
         <tr>
             <th colspan="2">
