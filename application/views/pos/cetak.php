@@ -100,7 +100,7 @@
         ?>
             <tr>
                 <td>Sisa bon Yang lalu</td>
-                <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar'], 0, ',', ',') ?></td>
+                <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar_piutang'], 0, ',', ',') ?></td>
             </tr>
         <?php
         }
@@ -165,7 +165,7 @@
         ?>
             <tr>
                 <td>Sisa Bon</td>
-                <td></td>
+                <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar'], 0, ',', ',') ?></td>
             </tr>
         <?php
         }
