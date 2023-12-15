@@ -61,18 +61,12 @@ class Keuangan extends CI_Controller
 
         // exit;
 
-        $cek = $this->db->where('id_transaksi', $id)->get('histori_transaksi')->row_array();
+        // $cek = $this->db->where('id_transaksi', $id)->get('histori_transaksi')->row_array();
         // echo '<pre>';
         // print_r($cek);
         // echo '</pre>';
 
         // exit;
-
-        if (!$cek) {
-            $status = "first";
-        } else {
-            $status = "not_first";
-        }
 
         $this->db->insert('histori_transaksi', $data_histori);
 
@@ -84,7 +78,7 @@ class Keuangan extends CI_Controller
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>');
 
-        $this->session->set_flashdata('new_tab', '<script>window.open("' . base_url('pos/cetak?id=') . $id . '&status=' . $status . '", "_blank");</script>');
+        $this->session->set_flashdata('new_tab', '<script>window.open("' . base_url('pos/cetak?id=') . $id . '&status=not_first", "_blank");</script>');
         redirect('keuangan');
     }
 }
