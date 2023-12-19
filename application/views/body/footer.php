@@ -37,7 +37,7 @@
     <script src="<?= base_url() ?>assets/js/datatable/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url() ?>assets/js/datatable/datatables/datatable.custom.js"></script>
     <script src="<?= base_url() ?>assets/js/sidebar-menu.js"></script>
-    <script src="<?= base_url() ?>assets/js/clock.js"></script>
+    <!-- <script src="<?= base_url() ?>assets/js/clock.js"></script> -->
     <script src="<?= base_url() ?>assets/js/slick/slick.min.js"></script>
     <script src="<?= base_url() ?>assets/js/slick/slick.js"></script>
     <script src="<?= base_url() ?>assets/js/header-slick.js"></script>
@@ -45,13 +45,13 @@
     <script src="<?= base_url() ?>assets/js/chart/apex-chart/stock-prices.js"></script>
     <script src="<?= base_url() ?>assets/js/chart/apex-chart/moment.min.js"></script> -->
     <script src="<?= base_url() ?>assets/js/notify/bootstrap-notify.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/dashboard/default.js"></script>
+    <!-- <script src="<?= base_url() ?>assets/js/dashboard/default.js"></script> -->
     <!-- <script src="<?= base_url() ?>assets/js/notify/index.js"></script> -->
-    <script src="<?= base_url() ?>assets/js/typeahead/handlebars.js"></script>
+    <!-- <script src="<?= base_url() ?>assets/js/typeahead/handlebars.js"></script>
     <script src="<?= base_url() ?>assets/js/typeahead/typeahead.bundle.js"></script>
     <script src="<?= base_url() ?>assets/js/typeahead/typeahead.custom.js"></script>
     <script src="<?= base_url() ?>assets/js/typeahead-search/handlebars.js"></script>
-    <script src="<?= base_url() ?>assets/js/typeahead-search/typeahead-custom.js"></script>
+    <script src="<?= base_url() ?>assets/js/typeahead-search/typeahead-custom.js"></script> -->
     <script src="<?= base_url() ?>assets/js/height-equal.js"></script>
     <script src="<?= base_url() ?>assets/js/animation/wow/wow.min.js"></script>
 

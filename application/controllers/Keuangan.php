@@ -18,6 +18,7 @@ class Keuangan extends CI_Controller
     public function index()
     {
         $data = [
+            'pelanggan' => $this->db->get('customers')->result(),
             "payment" => $this->db->where('piutang', 1)->where_not_in('pelanggan', '273')->from('transaksi as a')->join('customers as b', 'a.pelanggan = b.id_customer', 'left')->order_by('a.id', 'DESC')->get()->result(),
         ];
 
@@ -30,9 +31,23 @@ class Keuangan extends CI_Controller
         $this->load->view('keuangan/index', $data);
         $this->load->view('body/footer');
     }
-
-    public function bayar_angsuran($id)
+    function get_piutang_customers()
     {
+        $id = $this->input->post('id');
+        $this->db->select('*,CONCAT("P",LPAD(c.id, 6, "0")) as no_faktur,DATE_ADD(a.tgl_transaksi, INTERVAL 10 DAY) as tgl_tempo_faktur,a.total_transaksi - sum(c.nominal_bayar) jumlah_bayar_piutang');
+        $this->db->where('a.pelanggan',$id);
+        $this->db->where('a.piutang',1);
+        $this->db->from('transaksi as a');
+        $this->db->join('customers as b','a.pelanggan=b.id_customer');
+        $this->db->join('histori_transaksi as c','a.id=c.id_transaksi');
+        $this->db->join('piutang as d','a.id=d.id_transaksi');
+        $this->db->group_by('a.no_struk');
+        $db = $this->db->get()->result();
+        echo json_encode($db);
+    }
+    public function bayar_angsuran()
+    {
+        $id = $this->input->post('id');
         $nominal_bayar = str_replace(",", "", $this->input->post('nominal_bayar'));
         $sisa = $this->input->post('sisa');
 
@@ -75,15 +90,15 @@ class Keuangan extends CI_Controller
 
         $this->db->insert('histori_transaksi', $data_histori);
 
-        $this->db->where('id', $id);
-        $this->db->update('transaksi', $data_transaksi);
+        // $this->db->where('id', $id);
+        // $this->db->update('transaksi', $data_transaksi);
+        echo json_encode('berhasil');
+        // $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        //     Data pembayaran ' . $transaksi['no_struk'] . ' berhasil diperbarui.
+        // <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        // </div>');
 
-        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Data pembayaran ' . $transaksi['no_struk'] . ' berhasil diperbarui.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>');
-
-        $this->session->set_flashdata('new_tab', '<script>window.open("' . base_url('pos/cetak?id=') . $id . '&status=not_first", "_blank");</script>');
-        redirect('keuangan');
+        // $this->session->set_flashdata('new_tab', '<script>window.open("' . base_url('pos/cetak?id=') . $id . '&status=not_first", "_blank");</script>');
+        // redirect('keuangan');
     }
 }
