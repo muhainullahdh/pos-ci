@@ -2381,7 +2381,6 @@
                         } else {
                             var value_ac = this.id
                             var barang = ''
-                            var xx = []
                             if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'TRANSFER') {
                                 var info_pembayaran = '{"bank" : "' + $('.bank').val() + '" ,"tujuan" : "' + $('.tujuan').val() + '"}';
                             } else if ($('input[type=radio][name=radio_pembayaran]:checked').val() == 'EDC') {
@@ -2391,6 +2390,7 @@
                             } else {
                                 var info_pembayaran = ''; //cash
                             }
+                            var xx = []
                             var total_transaksi_row = 0;
                             for (let i = 1; i <= counter; i++) {
                                 total_transaksi_row += $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '');

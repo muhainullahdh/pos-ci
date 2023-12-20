@@ -62,21 +62,21 @@ input.nominal {
                                 <div class="row">
                                     <div class="col-xl-4">
                                         <label>No Bukti</label>
-                                        <input type="text" value="PBT-<?= date('y'). date('m') . '-'   ?>" class="form-control">
+                                        <input type="text" value="PBT-<?= date('y'). date('m') . '-'   ?>" class="form-control no_bukti">
                                     </div>
                                     <div class="col-xl-4">
                                         <label>D/K</label>
-                                        <input type="text" class="form-control"> <!--debit atau kredit -->
+                                        <input type="text" class="form-control dk"> <!--debit atau kredit -->
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-xl-4">
                                         <label>Tgl Bukti</label>
-                                        <input type="date" class="form-control">
+                                        <input type="date" class="form-control tgl_bukti">
                                     </div>
                                     <div class="col-xl-4">
                                         <label>Kode Akun</label>
-                                        <input type="date" class="form-control">
+                                        <input type="text" class="form-control kd_akun">
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -92,7 +92,7 @@ input.nominal {
                                     <div class="col-xl-4">
                                 
                                         <label>Nama Akun</label>
-                                           <select class="form-control select2">
+                                           <select class="form-control select2 nama_akun">
                                             <option>Pilih Akun</option>
                                          </select>
                                     </div>
@@ -100,11 +100,11 @@ input.nominal {
                                 <div class="row mt-3">
                                     <div class="col-xl-4">
                                                 <label>Salesman</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control salesman">
                                     </div>
                                     <div class="col-xl-4">
                                                 <label>Keterangan</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control keterangan">
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -270,10 +270,49 @@ input.nominal {
 <script>
 $('.simpan').hide()
 $('.select2').select2();
+
+var action = $(".simpan")
+action.on('click', function() {
+    var row_piutang = []
+    var total_transaksi_row = 0;
+    for (let i = 1; i <= counter; i++) {
+        total_transaksi_row += $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '');
+        row_piutang.push({
+            id_transaksi_item: $('.id_item' + i + '').val(),
+            kd_barang: $('.id_barang' + i + '').val(),
+            barang: $('.barang' + i + '').val(),
+            qty: $('.qty' + i + '').val(),
+            satuan: $('.satuan' + i + '').val(),
+            harga_satuan: $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+            diskon_item: $('.diskon_item' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+            jumlah: $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+        })
+    }
+    $.ajax({
+        url: "<?= site_url('keuangan/simpan'); ?>",
+        method: "POST",
+        data: {
+            no_bukti : $('.no_bukti').val(),
+            dk : $('.dk').val(),
+            tgl_bukti : $('.tgl_bukti').val(),
+            id_pelanggan : $('.plg').val(),
+            kd_akun : $('.kd_akun').val(),
+            nama_akun : $('.nama_akun').val(),
+            salesman : $('.salesman').val(),
+            keterangan : $('.keterangan').val(),
+            pembayaran : $('.pembayaran').val(),
+            piutang_pelanggan : row_piutang
+        },
+        async: true,
+        dataType: 'json',
+        success: function (data) {
+        }
+    })
+})
 $('.plg').change( function() {
             var id = this.value
             $.ajax({
-                    url: "<?= site_url('keuangan/get_piutang_customers'); ?>",
+            url: "<?= site_url('keuangan/get_piutang_customers'); ?>",
             method: "POST",
             data: {
                 id: this.value

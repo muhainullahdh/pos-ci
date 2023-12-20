@@ -305,7 +305,12 @@ class Pos extends CI_Controller
                     "total_transkasi" => $total_transaksii,
                     "status" => 1
                 ];
+                $piutang_history = [
+                    "id_transaksi" => $get_transkasi['id_transaksi'],
+                    "nominal_bayar" => $this->clean($this->input->post('total_bayar')),
+                ];
                 $this->db->insert('piutang', $piutang);
+                $this->db->insert('histori_transaksi', $piutang_history);
             }
         }
         if ($edit_transaksi == 'edit_transaksi') {

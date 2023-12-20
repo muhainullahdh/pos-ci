@@ -101,4 +101,9 @@ class Keuangan extends CI_Controller
         // $this->session->set_flashdata('new_tab', '<script>window.open("' . base_url('pos/cetak?id=') . $id . '&status=not_first", "_blank");</script>');
         // redirect('keuangan');
     }
+    function simpan()
+    {
+        
+        $this->db->insert('histori_transaksi');//table hisstroy pemabayaran piutang
+    }
 }
