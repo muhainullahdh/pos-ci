@@ -63,6 +63,7 @@ input.nominal {
                                     <div class="col-xl-4">
                                         <label>No Bukti</label>
                                         <input type="text" value="PBT-<?= date('y'). date('m') . '-'   ?>" class="form-control no_bukti">
+                                        <input type="hidden" class="form-control row_piutang">
                                     </div>
                                     <div class="col-xl-4">
                                         <label>D/K</label>
@@ -275,18 +276,18 @@ var action = $(".simpan")
 action.on('click', function() {
     var row_piutang = []
     var total_transaksi_row = 0;
-    for (let i = 1; i <= counter; i++) {
-        total_transaksi_row += $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '');
+    var count_row = $('.row_piutang').val()
+    for (let i = 0; i < count_row; i++) {
+        // total_transaksi_row += $('.row_piutang' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '');
         row_piutang.push({
-            id_transaksi_item: $('.id_item' + i + '').val(),
-            kd_barang: $('.id_barang' + i + '').val(),
-            barang: $('.barang' + i + '').val(),
-            qty: $('.qty' + i + '').val(),
-            satuan: $('.satuan' + i + '').val(),
-            harga_satuan: $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-            diskon_item: $('.diskon_item' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-            jumlah: $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+            no_faktur: $('.faktur' + i + '').html(),
+            tgl_faktur: $('.tgl_transaksi' + i + '').html(),
+            tgl_tempo: $('.tempo' + i + '').html(),
+            sisa_piutang: $('.sisa_piutang' + i + '').html(),
+            nominal_bayar: $('.nominal_bayar' + i + '').html(),
+            keterangan: $('.keterangan' + i + '').z(),
         })
+        console.log(row_piutang)
     }
     $.ajax({
         url: "<?= site_url('keuangan/simpan'); ?>",
@@ -321,53 +322,53 @@ $('.plg').change( function() {
             dataType: 'json',
             success: function (data) {
                 $("#load-piutang tbody").empty().append(data);
+                $('.row_piutang').val(data.length);
                 for (let i = 0; i < data.length; i++) {
-                    
                     if (data.length == 0) {
                         $('#load-piutang tbody').append(
                         '<tr style="background-color: white;">' +
                         '<td class="order">Tidak ada</td>' +
                         '</tr>');
                     }else{
+                        console.log(i)
                         $('.simpan').show()
                         $('#load-piutang tbody').append(
                         '<tr style="background-color: white;">' +
-                        '<td class="order">' + data[i].no_faktur + '</td>' +
-                        '<td>' + data[i].tgl_transaksi + '</td>' +
-                        '<td>' + data[i].tgl_tempo_faktur + '</td>' +
-                        '<td>' + data[i].jumlah_bayar_piutang.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
-                        '<td><input type="number" class="form-control nominal_bayar'+data[i].id+'"></td>' +
+                        '<td class="faktur'+i+'">' + data[i].no_faktur + '</td>' +
+                        '<td class="tgl_transaksi'+i+'">' + data[i].tgl_transaksi + '</td>' +
+                        '<td class="tempo'+i+'">' + data[i].tgl_tempo_faktur + '</td>' +
+                        '<td class="sisa_piutang'+i+'">' + data[i].jumlah_bayar_piutang.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                        '<td><input type="number" class="form-control nominal_bayar'+i+'"></td>' +
                         '<td><div class="form-check form-check-inline">'+
-                              '<input class="form-check-input pilih_lunas'+data[i].id+'" name="name_lunas'+data[i].id+'" id="inlineCheckbox1" type="checkbox" value="val'+data[i].id+'">'+
+                              '<input class="form-check-input pilih_lunas'+i+'" name="name_lunas'+i+'" id="inlineCheckbox1" type="checkbox" value="val'+i+'">'+
                             '</div></td>' +
                         // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
-                        '<td><input class="form-control keterangan"></td>' +
+                        '<td><input class="form-control keterangan'+i+'"></td>' +
                         '</tr>');
                     }
-                    $('.nominal_bayar'+data[i].id+'').keyup(function() {
+                    $('.nominal_bayar'+i+'').keyup(function() {
                         var nominal_bayar = $(this).val();
                         // if(isNaN(String.fromCharCode(event.which))){
                             if (parseInt(nominal_bayar) > parseInt(data[i].jumlah_bayar_piutang)) {
-                                $('.nominal_bayar'+data[i].id+'').val(data[i].jumlah_bayar_piutang)
+                                $('.nominal_bayar'+i+'').val(data[i].jumlah_bayar_piutang)
                             }
                             // $(this).val(nominal_bayar.substr(0,nominal_bayar.length-1));
                         // }
                     })
-                    $('.pilih_lunas'+data[i].id+'').click(function() {
-                        console.log($('.pilih_lunas'+data[i].id+'').prop('checked'))
-                        if ($('.pilih_lunas'+data[i].id+'').prop('checked') == true) {
-                            $('.nominal_bayar'+data[i].id+'').val(data[i].jumlah_bayar_piutang)
-                        }else if($('.pilih_lunas'+data[i].id+'').prop('checked') == false){
-                            $('.nominal_bayar'+data[i].id+'').val('');
+                    $('.pilih_lunas'+i+'').click(function() {
+                        if ($('.pilih_lunas'+i+'').prop('checked') == true) {
+                            $('.nominal_bayar'+i+'').val(data[i].jumlah_bayar_piutang)
+                        }else if($('.pilih_lunas'+i+'').prop('checked') == false){
+                            $('.nominal_bayar'+i+'').val('');
                         }
                     })
-                    $('.bayar'+data[i].id+'').click(function(){
+                    $('.bayar'+i+'').click(function(){
                         $.ajax({
                             url: "<?= site_url('keuangan/bayar_angsuran'); ?>",
                             method: "POST",
                             data: {
                                 id: data[i].id_transaksi ,//id Transaksi,
-                                nominal_bayar : $('.nominal_bayar'+data[i].id+'').val()
+                                nominal_bayar : $('.nominal_bayar'+i+'').val()
                             },
                             async: true,
                             dataType: 'json',
