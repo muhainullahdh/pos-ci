@@ -77,9 +77,9 @@
           <span>Inventory</span></a>
         <ul class="sidebar-submenu">
           <li><a href="<?= base_url('inventori') ?>">Sisa Stock</a></li>
-          <li><a href="<?= base_url('barang') ?>">Stock Opname</a></li>
-          <li><a href="<?= base_url('barang') ?>">Koreksi barang</a></li>
-          <li><a href="<?= base_url('barang') ?>">Mutasi barang antar gudang</a></li>
+          <li><a href="<?= base_url('inventori/stock_opname') ?>">Stock Opname</a></li>
+          <li><a href="<?= base_url('inventori/koreksi_barang') ?>">Koreksi barang</a></li>
+          <li><a href="<?= base_url('inventori/mutasi_barang') ?>">Mutasi barang antar gudang</a></li>
         </ul>
       </li>
       <!---- Pembelian--->
@@ -137,38 +137,38 @@
       <li class="mega-menu sidebar-list">
         <a class="sidebar-link sidebar-title" href="#">
           <i data-feather="arrow-up-circle"></i>
-                      <span>Keuangan</span></a>
-            <div class="mega-menu-container menu-content">
-                        <div class="container-fluid">
-                            <div class="row">
-                            <div class="col mega-box">
-                                <div class="link-section">
-                                <div class="submenu-title">
-                                    <h5>Payment</h5>
-                                </div>
-                                <ul class="submenu-content opensubmegamenu">
-                                    <li><a href="error-400.html">Pembayaran [Faktur]</a></li>
-                                    <li><a href="error-401.html">Kas/Bank Keluar</a></li>
-                                </ul>
-                                </div>
-                            </div>
-                            <div class="col mega-box">
-                                <div class="link-section">
-                                <div class="submenu-title">
-                                    <h5> Receivable</h5>
-                                </div>
-                                <ul class="submenu-content opensubmegamenu">
-                                <li><a href="<?= base_url('keuangan') ?>">Pembayaran Piutang [Faktur]</a></li>
-                                <li><a href="<?= base_url('keuangan') ?>">Pembayaran Piutang [Parsial]</a></li>
-                                <li><a href="<?= base_url('keuangan') ?>">Laporan Piutang Pelanggan</a></li>
-                                <li><a href="<?= base_url('keuangan') ?>">Faktur Pajak</a></li>
-                                <li><a href="<?= base_url('keuangan') ?>">Kas/Bank Masuk</a></li>
-                                </ul>
-                                </div>
-                            </div>
-                        </div>
-        </div>
-       </li>
+          <span>Keuangan</span></a>
+        <div class="mega-menu-container menu-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col mega-box">
+                <div class="link-section">
+                  <div class="submenu-title">
+                    <h5>Payment</h5>
+                  </div>
+                  <ul class="submenu-content opensubmegamenu">
+                    <li><a href="error-400.html">Pembayaran [Faktur]</a></li>
+                    <li><a href="error-401.html">Kas/Bank Keluar</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col mega-box">
+                <div class="link-section">
+                  <div class="submenu-title">
+                    <h5> Receivable</h5>
+                  </div>
+                  <ul class="submenu-content opensubmegamenu">
+                    <li><a href="<?= base_url('keuangan') ?>">Pembayaran Piutang [Faktur]</a></li>
+                    <li><a href="<?= base_url('keuangan') ?>">Pembayaran Piutang [Parsial]</a></li>
+                    <li><a href="<?= base_url('keuangan') ?>">Laporan Piutang Pelanggan</a></li>
+                    <li><a href="<?= base_url('keuangan') ?>">Faktur Pajak</a></li>
+                    <li><a href="<?= base_url('keuangan') ?>">Kas/Bank Masuk</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+      </li>
       <li class="sidebar-list">
         <a class="sidebar-link sidebar-title" href="#">
           <i data-feather="activity"></i>
