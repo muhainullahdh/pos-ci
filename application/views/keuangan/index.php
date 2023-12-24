@@ -73,7 +73,7 @@ input.nominal {
                                 <div class="row mt-3">
                                     <div class="col-xl-4">
                                         <label>Tgl Bukti</label>
-                                        <input type="date" class="form-control tgl_bukti">
+                                        <input type="date" value="<?= date('Y-m-d') ?>" class="form-control tgl_bukti">
                                     </div>
                                     <div class="col-xl-4">
                                         <label>Kode Akun</label>
@@ -399,18 +399,20 @@ $('.plg').change( function() {
 
                 //     }
                 // }else if(data.status == 'ready'){
+            // if (data.res.length == 0) {
+            //         swal({
+            //             title: "Opss..",
+            //             text: "faktur berhasil disimpan..!",
+            //             icon: "success",
+            //         })
+            //     }else{
                     for (let i = 0; i < data.res.length; i++) {
-                        if (data.res.length == 0) {
-                            $('#load-piutang tbody').append(
-                            '<tr style="background-color: white;">' +
-                            '<td class="order">Tidak ada</td>' +
-                            '</tr>');
-                        }else{
                             $('.simpan').show()
                             if (data.res[i].id_faktur != null) { //jika data sudah masuk ke piutang
                                 var sisa_piutang = data.res[i].sisa_piutang-data.res[i].jumlah_bayar;
                                 $('#load-piutang tbody').append(
                                 '<tr style="background-color: white;">' +
+                                '<td style="display:none;" class="id_transaksi'+i+'">'+data.res[i].id_transaksi_piutang+'</td>'+
                                 '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
                                 '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_faktur + '</td>' +
                                 '<td class="tempo'+i+'">' + data.res[i].tgl_jatuh_tempo + '</td>' +
@@ -479,10 +481,8 @@ $('.plg').change( function() {
                                         })
                                     }
                                 }
-                        
                     }
-                // }
-            }
+            // }
 
         })
     });
