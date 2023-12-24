@@ -62,7 +62,7 @@ input.nominal {
                                 <div class="row">
                                     <div class="col-xl-4">
                                         <label>No Bukti</label>
-                                        <input type="text" value="PBT-<?= date('y'). date('m') . '-'   ?>" class="form-control no_bukti">
+                                        <input type="text" value="PBT-<?= date('y'). date('m') . '-' . $no_faktur  ?>" class="form-control no_bukti">
                                         <input type="hidden" class="form-control row_piutang">
                                     </div>
                                     <div class="col-xl-4">
@@ -113,23 +113,23 @@ input.nominal {
                                                 <label>Pembayaran</label>
                                             <div class="form-check-size">
                                             <div class="form-check form-check-inline radio radio-primary">
-                                                <input class="form-check-input" id="radioinline1" type="radio" name="radio5" value="Tunai" checked="">
+                                                <input class="form-check-input pembayaran" id="radioinline1" type="radio" name="radio5" value="Tunai" checked="">
                                                 <label class="form-check-label mb-0" for="radioinline1">Tunai</label>
                                             </div>
                                             <div class="form-check form-check-inline radio radio-primary">
-                                                <input class="form-check-input" id="radioinline2" type="radio" name="radio5" value="Transfer">
+                                                <input class="form-check-input pembayaran" id="radioinline2" type="radio" name="radio5" value="Transfer">
                                                 <label class="form-check-label mb-0" for="radioinline2">Transfer</label>
                                             </div>
                                             <div class="form-check form-check-inline radio radio-primary">
-                                                <input class="form-check-input" id="radioinline3" type="radio" name="radio5" value="Giro">
+                                                <input class="form-check-input pembayaran" id="radioinline3" type="radio" name="radio5" value="Giro">
                                                 <label class="form-check-label mb-0" for="radioinline3">Giro</label>
                                             </div>
                                             <div class="form-check form-check-inline radio radio-primary">
-                                                <input class="form-check-input" id="radioinline4" type="radio" name="radio5" value="Cek">
+                                                <input class="form-check-input pembayaran" id="radioinline4" type="radio" name="radio5" value="Cek">
                                                 <label class="form-check-label mb-0" for="radioinline4">Cek</label>
                                             </div>
                                             <div class="form-check form-check-inline radio radio-primary">
-                                                <input class="form-check-input" id="radioinline5" type="radio" name="radio5" value="Bank">
+                                                <input class="form-check-input pembayaran" id="radioinline5" type="radio" name="radio5" value="Bank">
                                                 <label class="form-check-label mb-0" for="radioinline5">Bank</label>
                                             </div>
                                             <input type="text" class="form-control bank_view">
@@ -280,19 +280,20 @@ action.on('click', function() {
     for (let i = 0; i < count_row; i++) {
         // total_transaksi_row += $('.row_piutang' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '');
         row_piutang.push({
+            id_transaksi: $('.id_transaksi' + i + '').html(),
             no_faktur: $('.faktur' + i + '').html(),
             tgl_faktur: $('.tgl_transaksi' + i + '').html(),
             tgl_tempo: $('.tempo' + i + '').html(),
             sisa_piutang: $('.sisa_piutang' + i + '').html(),
-            nominal_bayar: $('.nominal_bayar' + i + '').html(),
-            keterangan: $('.keterangan' + i + '').z(),
+            nominal_bayar: $('.nominal_bayar' + i + '').val(),
+            keterangan: $('.keterangan' + i + '').html(),
         })
-        console.log(row_piutang)
     }
     $.ajax({
         url: "<?= site_url('keuangan/simpan'); ?>",
         method: "POST",
         data: {
+            // id_transaksi : $('.id_transaksi').val(),
             no_bukti : $('.no_bukti').val(),
             dk : $('.dk').val(),
             tgl_bukti : $('.tgl_bukti').val(),
@@ -302,11 +303,22 @@ action.on('click', function() {
             salesman : $('.salesman').val(),
             keterangan : $('.keterangan').val(),
             pembayaran : $('.pembayaran').val(),
-            piutang_pelanggan : row_piutang
+            piutang_pelanggan_list : row_piutang
         },
         async: true,
         dataType: 'json',
         success: function (data) {
+            swal({
+                title: "Berhasil",
+                text: "faktur berhasil disimpan..!",
+                icon: "success",
+                // buttons: true,
+                // dangerMode: true,
+            }).then((res) => {
+                    if (res) {
+                    window.location = '<?= base_url() ?>keuangan';
+                    }
+                })
         }
     })
 })
@@ -322,69 +334,154 @@ $('.plg').change( function() {
             dataType: 'json',
             success: function (data) {
                 $("#load-piutang tbody").empty().append(data);
-                $('.row_piutang').val(data.length);
-                for (let i = 0; i < data.length; i++) {
-                    if (data.length == 0) {
-                        $('#load-piutang tbody').append(
-                        '<tr style="background-color: white;">' +
-                        '<td class="order">Tidak ada</td>' +
-                        '</tr>');
-                    }else{
-                        console.log(i)
-                        $('.simpan').show()
-                        $('#load-piutang tbody').append(
-                        '<tr style="background-color: white;">' +
-                        '<td class="faktur'+i+'">' + data[i].no_faktur + '</td>' +
-                        '<td class="tgl_transaksi'+i+'">' + data[i].tgl_transaksi + '</td>' +
-                        '<td class="tempo'+i+'">' + data[i].tgl_tempo_faktur + '</td>' +
-                        '<td class="sisa_piutang'+i+'">' + data[i].jumlah_bayar_piutang.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
-                        '<td><input type="number" class="form-control nominal_bayar'+i+'"></td>' +
-                        '<td><div class="form-check form-check-inline">'+
-                              '<input class="form-check-input pilih_lunas'+i+'" name="name_lunas'+i+'" id="inlineCheckbox1" type="checkbox" value="val'+i+'">'+
-                            '</div></td>' +
-                        // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
-                        '<td><input class="form-control keterangan'+i+'"></td>' +
-                        '</tr>');
-                    }
-                    $('.nominal_bayar'+i+'').keyup(function() {
-                        var nominal_bayar = $(this).val();
-                        // if(isNaN(String.fromCharCode(event.which))){
-                            if (parseInt(nominal_bayar) > parseInt(data[i].jumlah_bayar_piutang)) {
-                                $('.nominal_bayar'+i+'').val(data[i].jumlah_bayar_piutang)
-                            }
-                            // $(this).val(nominal_bayar.substr(0,nominal_bayar.length-1));
-                        // }
-                    })
-                    $('.pilih_lunas'+i+'').click(function() {
-                        if ($('.pilih_lunas'+i+'').prop('checked') == true) {
-                            $('.nominal_bayar'+i+'').val(data[i].jumlah_bayar_piutang)
-                        }else if($('.pilih_lunas'+i+'').prop('checked') == false){
-                            $('.nominal_bayar'+i+'').val('');
-                        }
-                    })
-                    $('.bayar'+i+'').click(function(){
-                        $.ajax({
-                            url: "<?= site_url('keuangan/bayar_angsuran'); ?>",
-                            method: "POST",
-                            data: {
-                                id: data[i].id_transaksi ,//id Transaksi,
-                                nominal_bayar : $('.nominal_bayar'+i+'').val()
-                            },
-                            async: true,
-                            dataType: 'json',
-                            success: function (data) {
-                                swal({
-                                    title: "Berhasil",
-                                    text: "Bayar piutang berhasil..!",
-                                    icon: "success",
-                                    buttons: true,
-                                    dangerMode: true,
+                $('.row_piutang').val(data.res.length);
+                // if (data.status == 'already') { 
+                //     for (let i = 0; i < data.res.length; i++) {
+                //         if (data.length == 0) {
+                //             $('#load-piutang tbody').append(
+                //             '<tr style="background-color: white;">' +
+                //             '<td class="order">Tidak ada</td>' +
+                //             '</tr>');
+                //         }else{
+                //             console.log(i)
+                //             $('.simpan').show()
+                //             $('#load-piutang tbody').append(
+                //             '<tr style="background-color: white;">' +
+                //             '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
+                //             '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_faktur + '</td>' +
+                //             '<td class="tempo'+i+'">' + data.res[i].tgl_jatuh_tempo + '</td>' +
+                //             '<td class="sisa_piutang'+i+'">' + data.res[i].sisa_piutang.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                //             '<td><input type="number" class="form-control nominal_bayar'+i+'"></td>' +
+                //             '<td><div class="form-check form-check-inline">'+
+                //                 '<input class="form-check-input pilih_lunas'+i+'" name="name_lunas'+i+'" id="inlineCheckbox1" type="checkbox" value="val'+i+'">'+
+                //                 '</div></td>' +
+                //             // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
+                //             '<td><input class="form-control keterangan'+i+'"></td>' +
+                //             '</tr>');
+                //         }
+                //         $('.nominal_bayar'+i+'').keyup(function() {
+                //             var nominal_bayar = $(this).val();
+                //             // if(isNaN(String.fromCharCode(event.which))){
+                //                 if (parseInt(nominal_bayar) > parseInt(data[i].jumlah_bayar_piutang)) {
+                //                     $('.nominal_bayar'+i+'').val(data[i].jumlah_bayar_piutang)
+                //                 }
+                //                 // $(this).val(nominal_bayar.substr(0,nominal_bayar.length-1));
+                //             // }
+                //         })
+                //         $('.pilih_lunas'+i+'').click(function() {
+                //             if ($('.pilih_lunas'+i+'').prop('checked') == true) {
+                //                 $('.nominal_bayar'+i+'').val(data[i].jumlah_bayar_piutang)
+                //             }else if($('.pilih_lunas'+i+'').prop('checked') == false){
+                //                 $('.nominal_bayar'+i+'').val('');
+                //             }
+                //         })
+                //         $('.bayar'+i+'').click(function(){
+                //             $.ajax({
+                //                 url: "<?= site_url('keuangan/bayar_angsuran'); ?>",
+                //                 method: "POST",
+                //                 data: {
+                //                     id: data[i].id_transaksi,//id Transaksi,
+                //                     nominal_bayar: $('.nominal_bayar' + i + '').val()
+                //                 },
+                //                 async: true,
+                //                 dataType: 'json',
+                //                 success: function (data) {
+                //                     swal({
+                //                         title: "Berhasil",
+                //                         text: "Bayar piutang berhasil..!",
+                //                         icon: "success",
+                //                         buttons: true,
+                //                         dangerMode: true,
+                //                     })
+                //                 }
+                //             })
+                //         })
+
+                //     }
+                // }else if(data.status == 'ready'){
+                    for (let i = 0; i < data.res.length; i++) {
+                        if (data.res.length == 0) {
+                            $('#load-piutang tbody').append(
+                            '<tr style="background-color: white;">' +
+                            '<td class="order">Tidak ada</td>' +
+                            '</tr>');
+                        }else{
+                            $('.simpan').show()
+                            if (data.res[i].id_faktur != null) { //jika data sudah masuk ke piutang
+                                var sisa_piutang = data.res[i].sisa_piutang-data.res[i].jumlah_bayar;
+                                $('#load-piutang tbody').append(
+                                '<tr style="background-color: white;">' +
+                                '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
+                                '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_faktur + '</td>' +
+                                '<td class="tempo'+i+'">' + data.res[i].tgl_jatuh_tempo + '</td>' +
+                                '<td class="sisa_piutang'+i+'">' + sisa_piutang.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                '<td><input type="number" class="form-control nominal_bayar'+i+'"></td>' +
+                                '<td><div class="form-check form-check-inline">'+
+                                    '<input class="form-check-input pilih_lunas'+i+'" name="name_lunas'+i+'" id="inlineCheckbox1" type="checkbox" value="val'+i+'">'+
+                                    '</div></td>' +
+                                // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
+                                '<td><input class="form-control keterangan'+i+'"></td>' +
+                                '</tr>');
+                                $('.nominal_bayar'+i+'').keyup(function() {
+                                var nominal_bayar = $(this).val();
+                                    if (parseInt(nominal_bayar) > parseInt(sisa_piutang)) {
+                                        $('.nominal_bayar'+i+'').val(sisa_piutang)
+                                    }
                                 })
-                            }
-                        })
-                    })
-                      
-                }
+                            }else{
+                                $('#load-piutang tbody').append(
+                                '<tr style="background-color: white;">' +
+                                '<td style="display:none;" class="id_transaksi'+i+'">'+data.res[i].id_transaksi_piutang+'</td>'+
+                                '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
+                                '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_transaksi + '</td>' +
+                                '<td class="tempo'+i+'">' + data.res[i].tgl_tempo_faktur + '</td>' +
+                                '<td class="sisa_piutang'+i+'">' + data.res[i].jumlah_bayar_piutang.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                '<td><input type="number" class="form-control nominal_bayar'+i+'"></td>' +
+                                '<td><div class="form-check form-check-inline">'+
+                                    '<input class="form-check-input pilih_lunas'+i+'" name="name_lunas'+i+'" id="inlineCheckbox1" type="checkbox" value="val'+i+'">'+
+                                    '</div></td>' +
+                                // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
+                                '<td><input class="form-control keterangan'+i+'"></td>' +
+                                '</tr>');
+                                $('.nominal_bayar'+i+'').keyup(function() {
+                                var nominal_bayar = $(this).val();
+                                    if (parseInt(nominal_bayar) > parseInt(data.res[i].jumlah_bayar_piutang)) {
+                                        $('.nominal_bayar'+i+'').val(data.res[i].jumlah_bayar_piutang)
+                                    }
+                                })
+                                $('.pilih_lunas'+i+'').click(function() {
+                                    if ($('.pilih_lunas'+i+'').prop('checked') == true) {
+                                        $('.nominal_bayar'+i+'').val(data.res[i].jumlah_bayar_piutang)
+                                    }else if($('.pilih_lunas'+i+'').prop('checked') == false){
+                                        $('.nominal_bayar'+i+'').val('');
+                                    }
+                                })
+                                $('.bayar'+i+'').click(function(){
+                                    $.ajax({
+                                        url: "<?= site_url('keuangan/bayar_angsuran'); ?>",
+                                                method: "POST",
+                                                data: {
+                                                    id: data.res[i].id_transaksi,//id Transaksi,
+                                                    nominal_bayar: $('.nominal_bayar' + i + '').val()
+                                                },
+                                                async: true,
+                                                dataType: 'json',
+                                                success: function (data) {
+                                                    swal({
+                                                        title: "Berhasil",
+                                                        text: "Bayar piutang berhasil..!",
+                                                        icon: "success",
+                                                        buttons: true,
+                                                        dangerMode: true,
+                                                    })
+                                                }
+                                            })
+                                        })
+                                    }
+                                }
+                        
+                    }
+                // }
             }
 
         })

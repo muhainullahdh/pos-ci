@@ -17,33 +17,55 @@ class Keuangan extends CI_Controller
 
     public function index()
     {
+        $data_b = $this->db->query('SELECT max(id_faktur) as no_faktur FROM faktur')->row_array();
+        $no_bukti_faktur = $data_b['no_faktur'];
+        // $urutan = (int) substr($no_bukti_faktur, 2, 6);
+        // $urutan++;
+        // // $huruf = "BH";
+        // $no_bukti_faktur = sprintf("%06s", $urutan);
+        
         $data = [
+            'no_faktur' => str_pad($no_bukti_faktur, 6, "0", STR_PAD_LEFT), //urutan faktur berdasarkan id
             'pelanggan' => $this->db->get('customers')->result(),
             "payment" => $this->db->where('piutang', 1)->where_not_in('pelanggan', '273')->from('transaksi as a')->join('customers as b', 'a.pelanggan = b.id_customer', 'left')->order_by('a.id', 'DESC')->get()->result(),
         ];
-
-        // echo '<pre>';
-        // print_r($data['payment']);
-        // echo '</pre>';
-        // exit;
-
         $this->load->view('body/header');
         $this->load->view('keuangan/index', $data);
         $this->load->view('body/footer');
     }
     function get_piutang_customers()
     {
-        $id = $this->input->post('id');
-        $this->db->select('*,CONCAT("P",LPAD(c.id, 6, "0")) as no_faktur,DATE_ADD(a.tgl_transaksi, INTERVAL 10 DAY) as tgl_tempo_faktur,a.total_transaksi - sum(c.nominal_bayar) jumlah_bayar_piutang');
-        $this->db->where('a.pelanggan',$id);
-        $this->db->where('a.piutang',1);
-        $this->db->from('transaksi as a');
-        $this->db->join('customers as b','a.pelanggan=b.id_customer');
-        $this->db->join('histori_transaksi as c','a.id=c.id_transaksi');
-        $this->db->join('piutang as d','a.id=d.id_transaksi');
-        $this->db->group_by('a.no_struk');
-        $db = $this->db->get()->result();
-        echo json_encode($db);
+        $id = $this->input->post('id');//id pelanggan
+        $cek_faktur = $this->db->get_where('faktur',['pelanggan' => $id])->num_rows();
+        // if ($cek_faktur == true) {
+        //     $this->db->select('*,sum(b.jumlah_bayar) as jumlah_bayar');
+        //     $this->db->where('a.pelanggan',$id);
+        //     $this->db->from('faktur as a');
+        //     $this->db->join('faktur_detail as b','a.no_bukti=b.no_bukti');
+        //     $this->db->group_by('a.id_transaksi');
+        //     $db = $this->db->get()->result();
+        //     $output = [
+        //         "status" => 'already',
+        //         "res" => $db
+        //     ];
+        // } else {
+            $this->db->select('*,CONCAT("P",LPAD(c.id, 6, "0")) as no_faktur,DATE_ADD(a.tgl_transaksi, INTERVAL 10 DAY) as tgl_tempo_faktur,a.total_transaksi - sum(c.nominal_bayar) jumlah_bayar_piutang,a.id as id_transaksi_piutang');
+            $this->db->where('a.pelanggan', $id);
+            $this->db->where('a.piutang', 1);
+            $this->db->from('transaksi as a');
+            $this->db->join('customers as b', 'a.pelanggan=b.id_customer','LEFT');
+            $this->db->join('histori_transaksi as c', 'a.id=c.id_transaksi','LEFT');
+            $this->db->join('piutang as d', 'a.id=d.id_transaksi','LEFT');
+            $this->db->join('faktur as e','a.pelanggan=e.pelanggan','LEFT');
+            $this->db->join('faktur_detail as f','a.id=f.id_transaksi','LEFT');
+            $this->db->group_by('a.no_struk');
+            $db = $this->db->get()->result();
+            $output = [
+                "status" => 'ready',
+                "res" => $db
+            ];
+        // }
+        echo json_encode($output);
     }
     public function bayar_angsuran()
     {
@@ -103,7 +125,49 @@ class Keuangan extends CI_Controller
     }
     function simpan()
     {
-        
-        $this->db->insert('histori_transaksi');//table hisstroy pemabayaran piutang
+        $id_transaksi = $this->input->post('id_transaksi');
+        $no_bukti = $this->input->post('no_bukti');
+        $dk = $this->input->post('dk');
+        $tgl_bukti = $this->input->post('tgl_bukti');
+        $id_pelanggan = $this->input->post('id_pelanggan');
+        $kd_akun = $this->input->post('kd_akun');
+        $nama_akun = $this->input->post('nama_akun');
+        $salesman = $this->input->post('salesman');
+        $keterangan = $this->input->post('keterangan');
+        $pembayaran = $this->input->post('pembayaran');
+
+        $faktur = [
+            "id_transaksi" => 1,
+            "no_bukti" => $no_bukti,
+            "tgl_bukti" => $tgl_bukti,
+            "pelanggan" => $id_pelanggan,
+            "pembayaran" => $pembayaran,
+            "kode_akun" => $kd_akun,
+            "nama_akun" => $nama_akun,
+            "keterangan" => $keterangan,
+        ];
+        $this->db->insert('faktur',$faktur);
+        foreach ($this->input->post('piutang_pelanggan_list') as $x) {
+            $faktur_detail = [
+                "id_transaksi" => $x['id_transaksi'],
+                "no_bukti" => $no_bukti, //no_bukti ambil dari table faktur
+                "no_faktur" => $x['no_faktur'],
+                "tgl_faktur" => $x['tgl_faktur'],
+                "tgl_jatuh_tempo" => $x['tgl_tempo'],
+                "sisa_piutang" => $this->clean($x['sisa_piutang']),
+                "jumlah_bayar" => $this->clean($x['nominal_bayar']),
+                "keterangan" => $x['keterangan'],
+                "status_piutang" => 1
+            ];
+            $this->db->insert('faktur_detail', $faktur_detail);
+        }
+        echo json_encode("berhasil");
+        // $this->db->insert('histori_transaksi');//table hisstroy pemabayaran piutang
+    }
+    function clean($string)
+    {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
     }
 }
