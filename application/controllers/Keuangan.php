@@ -49,15 +49,15 @@ class Keuangan extends CI_Controller
         //         "res" => $db
         //     ];
         // } else {
-            $this->db->select('*,CONCAT("P",LPAD(c.id, 6, "0")) as no_faktur,DATE_ADD(a.tgl_transaksi, INTERVAL 10 DAY) as tgl_tempo_faktur,a.total_transaksi - sum(c.nominal_bayar) jumlah_bayar_piutang,a.id as id_transaksi_piutang');
+            $this->db->select('*,CONCAT("P",LPAD(a.id, 6, "0")) as no_faktur,DATE_ADD(a.tgl_transaksi, INTERVAL 10 DAY) as tgl_tempo_faktur,a.total_transaksi - sum(c.nominal_bayar) jumlah_bayar_piutang,a.id as id_transaksi_piutang');
             $this->db->where('a.pelanggan', $id);
             $this->db->where('a.piutang', 1);
             $this->db->from('transaksi as a');
             $this->db->join('customers as b', 'a.pelanggan=b.id_customer','LEFT');
             $this->db->join('histori_transaksi as c', 'a.id=c.id_transaksi','LEFT');
             $this->db->join('piutang as d', 'a.id=d.id_transaksi','LEFT');
-            $this->db->join('faktur as e','a.pelanggan=e.pelanggan','LEFT');
-            $this->db->join('faktur_detail as f','a.id=f.id_transaksi','LEFT');
+            $this->db->join('faktur as e', 'a.pelanggan=e.pelanggan', 'LEFT');
+            $this->db->join('faktur_detail as f', 'a.id=f.id_transaksi', 'LEFT');
             $this->db->group_by('a.no_struk');
             $db = $this->db->get()->result();
             $output = [
@@ -137,13 +137,13 @@ class Keuangan extends CI_Controller
         $pembayaran = $this->input->post('pembayaran');
 
         $faktur = [
-            "id_transaksi" => 1,
             "no_bukti" => $no_bukti,
             "tgl_bukti" => $tgl_bukti,
             "pelanggan" => $id_pelanggan,
             "pembayaran" => $pembayaran,
             "kode_akun" => $kd_akun,
             "nama_akun" => $nama_akun,
+            "dk" => $dk,
             "keterangan" => $keterangan,
         ];
         $this->db->insert('faktur',$faktur);
@@ -160,6 +160,12 @@ class Keuangan extends CI_Controller
                 "status_piutang" => 1
             ];
             $this->db->insert('faktur_detail', $faktur_detail);
+
+            $piutang_history = [
+                "id_transaksi" => $x['id_transaksi'],
+                "nominal_bayar" => $this->clean($x['nominal_bayar']),
+            ];
+            $this->db->insert('histori_transaksi', $piutang_history);
         }
         echo json_encode("berhasil");
         // $this->db->insert('histori_transaksi');//table hisstroy pemabayaran piutang

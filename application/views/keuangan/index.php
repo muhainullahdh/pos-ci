@@ -408,28 +408,30 @@ $('.plg').change( function() {
             //     }else{
                     for (let i = 0; i < data.res.length; i++) {
                             $('.simpan').show()
-                            if (data.res[i].id_faktur != null) { //jika data sudah masuk ke piutang
+                            if (data.res[i].tgl_faktur != null) { //jika data sudah masuk ke piutang
                                 var sisa_piutang = data.res[i].sisa_piutang-data.res[i].jumlah_bayar;
-                                $('#load-piutang tbody').append(
-                                '<tr style="background-color: white;">' +
-                                '<td style="display:none;" class="id_transaksi'+i+'">'+data.res[i].id_transaksi_piutang+'</td>'+
-                                '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
-                                '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_faktur + '</td>' +
-                                '<td class="tempo'+i+'">' + data.res[i].tgl_jatuh_tempo + '</td>' +
-                                '<td class="sisa_piutang'+i+'">' + sisa_piutang.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
-                                '<td><input type="number" class="form-control nominal_bayar'+i+'"></td>' +
-                                '<td><div class="form-check form-check-inline">'+
-                                    '<input class="form-check-input pilih_lunas'+i+'" name="name_lunas'+i+'" id="inlineCheckbox1" type="checkbox" value="val'+i+'">'+
-                                    '</div></td>' +
-                                // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
-                                '<td><input class="form-control keterangan'+i+'"></td>' +
-                                '</tr>');
-                                $('.nominal_bayar'+i+'').keyup(function() {
-                                var nominal_bayar = $(this).val();
-                                    if (parseInt(nominal_bayar) > parseInt(sisa_piutang)) {
-                                        $('.nominal_bayar'+i+'').val(sisa_piutang)
-                                    }
-                                })
+                                if (sisa_piutang != 0) {
+                                    $('#load-piutang tbody').append(
+                                    '<tr style="background-color: white;">' +
+                                    '<td style="display:none;" class="id_transaksi'+i+'">'+data.res[i].id_transaksi_piutang+'</td>'+
+                                    '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
+                                    '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_faktur + '</td>' +
+                                    '<td class="tempo'+i+'">' + data.res[i].tgl_jatuh_tempo + '</td>' +
+                                    '<td class="sisa_piutang'+i+'">' + sisa_piutang.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                    '<td><input type="number" class="form-control nominal_bayar'+i+'"></td>' +
+                                    '<td><div class="form-check form-check-inline">'+
+                                        '<input class="form-check-input pilih_lunas'+i+'" name="name_lunas'+i+'" id="inlineCheckbox1" type="checkbox" value="val'+i+'">'+
+                                        '</div></td>' +
+                                    // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
+                                    '<td><input class="form-control keterangan'+i+'"></td>' +
+                                    '</tr>');
+                                    $('.nominal_bayar'+i+'').keyup(function() {
+                                    var nominal_bayar = $(this).val();
+                                        if (parseInt(nominal_bayar) > parseInt(sisa_piutang)) {
+                                            $('.nominal_bayar'+i+'').val(sisa_piutang)
+                                        }
+                                    })
+                                }
                             }else{
                                 $('#load-piutang tbody').append(
                                 '<tr style="background-color: white;">' +
