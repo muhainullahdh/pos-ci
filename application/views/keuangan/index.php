@@ -475,6 +475,7 @@ $('.plg').change( function() {
             //     }else{
                     for (let i = 0; i < data.res.length; i++) {
                             $('.simpan').show()
+                            $('.salesman').val(data.res[i].salesman);
                             if (data.res[i].tgl_faktur != null) { //jika data sudah masuk ke piutang
                                 var sisa_piutang = data.res[i].sisa_piutang-data.res[i].jumlah_bayar;
                                 if (sisa_piutang != 0) {
