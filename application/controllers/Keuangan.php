@@ -182,7 +182,12 @@ class Keuangan extends CI_Controller
             ];
             $this->db->insert('histori_transaksi', $piutang_history);
         }
-        echo json_encode("berhasil");
+        echo json_encode(
+            [
+                "id_pelanggan" => $id_pelanggan,
+                'message' => 'berhasil'
+            ]
+        );
         // $this->db->insert('histori_transaksi');//table hisstroy pemabayaran piutang
     }
     function clean($string)
