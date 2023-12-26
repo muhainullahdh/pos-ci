@@ -34,6 +34,7 @@ class Keuangan extends CI_Controller
         $this->db->from('faktur as a');
         $this->db->join('faktur_detail as b','a.no_bukti=b.no_bukti');
         $this->db->join('customers as c','a.pelanggan=c.id_customer');
+        $this->db->join('transaksi as d','b.id_transaksi=d.id');
         $this->db->group_by('b.no_bukti');
         $db_faktur = $this->db->get()->result();
         
@@ -238,7 +239,7 @@ class Keuangan extends CI_Controller
             "transkasi" => $get_transaksi,
             "transaksi_item" => $get_transaksi_item
         ];
-        $this->load->view('pos/cetak', $data);
+        $this->load->view('keuangan/cetak', $data);
         // $mpdf->defaultfooterline=0;
         // // $mpdf->setFooter('<div style="text-align: left;">F.7.1.1</div>');
         // $mpdf->WriteHTML($html);
