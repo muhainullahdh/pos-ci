@@ -482,7 +482,7 @@ $('.plg').change( function() {
                                     $('#load-piutang tbody').append(
                                     '<tr style="background-color: white;">' +
                                     '<td style="display:none;" class="id_transaksi'+i+'">'+data.res[i].id_transaksi_piutang+'</td>'+
-                                    '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
+                                    '<td class="faktur'+i+'">' + data.res[i].no_struk + '</td>' +
                                     '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_faktur + '</td>' +
                                     '<td class="tempo'+i+'">' + data.res[i].tgl_jatuh_tempo + '</td>' +
                                     '<td class="sisa_piutang'+i+'">' + sisa_piutang.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
@@ -492,7 +492,7 @@ $('.plg').change( function() {
                                         '</div></td>' +
                                     // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
                                     '<td><input class="form-control keterangan'+i+'"></td>' +
-                                    '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>'+i+'">Cetak</a></td>' +
+                                    '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>'+data.res[i].no_struk+'">Cetak</a></td>' +
                                     '</tr>');
                                     $('.nominal_bayar'+i+'').keyup(function() {
                                     var nominal_bayar = $(this).val();
@@ -505,7 +505,7 @@ $('.plg').change( function() {
                                 $('#load-piutang tbody').append(
                                 '<tr style="background-color: white;">' +
                                 '<td style="display:none;" class="id_transaksi'+i+'">'+data.res[i].id_transaksi_piutang+'</td>'+
-                                '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
+                                '<td class="faktur'+i+'">' + data.res[i].no_struk + '</td>' +
                                 '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_transaksi + '</td>' +
                                 '<td class="tempo'+i+'">' + data.res[i].tgl_tempo_faktur + '</td>' +
                                 '<td class="sisa_piutang'+i+'">' + data.res[i].jumlah_bayar_piutang.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
@@ -515,7 +515,7 @@ $('.plg').change( function() {
                                     '</div></td>' +
                                 // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
                                 '<td><input class="form-control keterangan'+i+'"></td>' +
-                                '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + i + '">Cetak</a></td>' +
+                                '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + data.res[i].no_struk + '">Cetak</a></td>' +
                                 '</tr>');
                                 $('.nominal_bayar'+i+'').keyup(function() {
                                 var nominal_bayar = $(this).val();
