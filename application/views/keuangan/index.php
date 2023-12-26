@@ -159,97 +159,7 @@ input.nominal {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- <?php foreach ($payment as $p) {
-                                                $sisa_bayar =
-                                                    $p->total_transaksi -
-                                                    $p->total_bayar; ?>
-                                            <tr>
-                                                <td style="display: none"><?= $p->id ?></td>
-                                                <td><?= $p->no_struk ?></td>
-                                                <td><?= $p->tgl_transaksi ?></td>
-                                                <td><?= $p->tgl_transaksi ?></td>
-                                                <td><?= $p->total_transaksi ?></td>
-                                                <td>
-                                                    <input class="form-control">
-                                                </td>
-                                                <td>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input me-2" id="inlineCheckbox1"
-                                                            type="checkbox" value="option1">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="form-control">
-                                                </td>
-                                            </tr>
-                                            <div class="modal fade" id="update_payment<?= $p->no_struk ?>" tabindex="-1"
-                                                role="dialog" aria-labelledby="update_payment" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="update_paymentLongTitle">No.
-                                                                Struk <?= $p->no_struk ?></h5>
-                                                            <button class="btn-close py-0" type="button"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <form action="<?= base_url(
-                                                                'keuangan/bayar_angsuran/'
-                                                            ) .
-                                                                $p->id ?>" method="post"
-                                                            class="form theme-form dark-input" id="myForm">
-                                                            <div class="modal-body">
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <label for="category"
-                                                                            class="form-label">Tagihan</label>
-                                                                        <div class="input-group">
-                                                                            <input type="text"
-                                                                                class="form-control form-control-sm nominal"
-                                                                                value="<?= $sisa_bayar ?>"
-                                                                                name="sisa_bayar"
-                                                                                id="sisa_bayar<?= $p->no_struk ?>"
-                                                                                readonly>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <label for="category" class="form-label">Nominal
-                                                                            bayar</label>
-                                                                        <div class="input-group">
-                                                                            <input type="text"
-                                                                                class="form-control form-control-sm nominal"
-                                                                                name="nominal_bayar"
-                                                                                id="nominal_bayar<?= $p->no_struk ?>"
-                                                                                autofocus>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <label for="category" class="form-label">Sisa
-                                                                            bayar</label>
-                                                                        <div class="input-group">
-                                                                            <input type="text"
-                                                                                class="form-control form-control-sm nominal"
-                                                                                name="sisa" id="sisa<?= $p->no_struk ?>"
-                                                                                readonly>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button class="btn btn-secondary" type="button"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <button class="btn btn-primary"
-                                                                    type="submit">Submit</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <?php
-                                            } ?> -->
+                                          
                                         </tbody>
                                     </table>
                                 </div>
@@ -263,6 +173,16 @@ input.nominal {
                             <div class="tab-pane fade show <?= $this->session->userdata('menu_piutang') == 'list' ? 'active' : '' ?>" id="topline-top-user" role="tabpanel"
                                 aria-labelledby="topline-top-user-tab">
                                 <div class="row">
+                                    <div class="row">
+                                        <form method="POST" action="<?= base_url('keuangan/filter_tgl/start') ?>" class="col-xl-3">
+                                                <label>Mulai Tgl bukti</label>
+                                                <input type="date" onchange="this.form.submit()" name="tgl" value="<?= $this->session->userdata('tgl_filter_piutang') ?>" class="form-control">
+                                        </form>
+                                        <form method="POST" action="<?= base_url('keuangan/filter_tgl/end') ?>" class="col-xl-3">
+                                                <label>Akhir Tgl bukti</label>
+                                                <input type="date" onchange="this.form.submit()" name="tgl" value="<?= $this->session->userdata('tgl_filter_piutang2') ?>" class="form-control">
+                                        </form>
+                                    </div>
                                         <div class="table-responsive mt-5">
                                     <table class="display table" id="faktur">
                                         <thead>
@@ -280,9 +200,9 @@ input.nominal {
                                             <tr>
                                                 <td><?= $x->no_bukti ?></td>
                                                 <td><?= $x->tgl_bukti_faktur ?></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?= $x->kode_pelanggan ?></td>
+                                                <td><?= $x->nama_toko ?></td>
+                                                <td><a href="<?= base_url() ?>" class="btn btn-primary btn-square">Cetak</a></td>
                                             </tr>
                                             <?php } ?>
                                         </tbody>
@@ -349,7 +269,7 @@ action.on('click', function() {
                 // dangerMode: true,
             }).then((res) => {
                     if (res) {
-                        $.ajax({
+                        $.ajax({ //setelah submit tanpa reload,dengan pelanggan yang sama
                             url: "<?= site_url('keuangan/get_piutang_customers'); ?>",
                             method: "POST",
                             data: {

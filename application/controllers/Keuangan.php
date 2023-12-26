@@ -26,9 +26,14 @@ class Keuangan extends CI_Controller
         $this->db->select('*,a.tgl_bukti as tgl_bukti_faktur');
         // $this->db->where('a.pelanggan', $id);
         // $this->db->where('a.piutang', 1);
+        if ($this->session->userdata('tgl_filter_piutang') == true && $this->session->userdata('tgl_filter_piutang') == true ) {
+            $this->db->where('a.tgl_bukti >=', $this->session->userdata('tgl_filter_piutang'));
+            $this->db->where('a.tgl_bukti <=', $this->session->userdata('tgl_filter_piutang2'));
+        }
         $this->db->where('b.tgl_faktur !=', null);
         $this->db->from('faktur as a');
         $this->db->join('faktur_detail as b','a.no_bukti=b.no_bukti');
+        $this->db->join('customers as c','a.pelanggan=c.id_customer');
         $this->db->group_by('b.no_bukti');
         $db_faktur = $this->db->get()->result();
         
@@ -44,8 +49,21 @@ class Keuangan extends CI_Controller
     }
     function set_url()
     {
+        $date = date('Y-m-d');
         $uri = $this->uri->segment(3);
         $this->session->set_userdata('menu_piutang',$uri);
+        $this->session->set_userdata('tgl_filter_piutang',$date);
+        redirect('keuangan');
+    }
+    function filter_tgl()
+    {
+        $uri = $this->uri->segment(3);
+        $date = $this->input->post('tgl');
+        if ($uri == 'start') {
+            $this->session->set_userdata('tgl_filter_piutang',$date);
+        }else if ($uri == 'end') {
+            $this->session->set_userdata('tgl_filter_piutang2', $date);
+        }
         redirect('keuangan');
     }
     function get_piutang_customers()
@@ -189,6 +207,43 @@ class Keuangan extends CI_Controller
             ]
         );
         // $this->db->insert('histori_transaksi');//table hisstroy pemabayaran piutang
+    }
+    function cetak()
+    {
+        $no_struk = $this->uri->segment(3);
+        // $mpdf = new \Mpdf\Mpdf([
+        //     // 'tempDir' => '/tmp',
+        //     'mode' => '',
+        //     'format' => array(90, 80),
+        //     'default_font_size' => 0,
+        //     'default_font' => '',
+        //     'margin_left' => 15,
+        //     'margin_right' => 15,
+        //     'margin_top' => 5,
+        //     'margin_bottom' => 10,
+        //     'margin_header' => 10,
+        //     'margin_footer' => 5,
+        //     'orientation' => 'P',
+        //     'showImageErrors' => true
+        // ]);
+        $this->db->select('*');
+        $this->db->where('a.id', $no_struk);
+        $this->db->join('piutang as b', 'a.id=b.id_transaksi', 'LEFT');
+        $this->db->join('histori_transaksi as c', 'a.id=c.id_transaksi', 'LEFT');
+        $get_transaksi = $this->db->get("transaksi as a")->row_array();
+
+        $this->db->where('id_transaksi', $no_struk);
+        $get_transaksi_item = $this->db->get("transaksi_item")->result();
+        $data = [
+            "transkasi" => $get_transaksi,
+            "transaksi_item" => $get_transaksi_item
+        ];
+        $this->load->view('pos/cetak', $data);
+        // $mpdf->defaultfooterline=0;
+        // // $mpdf->setFooter('<div style="text-align: left;">F.7.1.1</div>');
+        // $mpdf->WriteHTML($html);
+        // $mpdf->SetJS('this.print();');
+        // $mpdf->Output();
     }
     function clean($string)
     {
