@@ -23,8 +23,17 @@ class Keuangan extends CI_Controller
         // $urutan++;
         // // $huruf = "BH";
         // $no_bukti_faktur = sprintf("%06s", $urutan);
+        $this->db->select('*,a.tgl_bukti as tgl_bukti_faktur');
+        // $this->db->where('a.pelanggan', $id);
+        // $this->db->where('a.piutang', 1);
+        $this->db->where('b.tgl_faktur !=', null);
+        $this->db->from('faktur as a');
+        $this->db->join('faktur_detail as b','a.no_bukti=b.no_bukti');
+        $this->db->group_by('b.no_bukti');
+        $db_faktur = $this->db->get()->result();
         
         $data = [
+            'faktur' => $db_faktur,
             'no_faktur' => str_pad($no_bukti_faktur, 6, "0", STR_PAD_LEFT), //urutan faktur berdasarkan id
             'pelanggan' => $this->db->get('customers')->result(),
             "payment" => $this->db->where('piutang', 1)->where_not_in('pelanggan', '273')->from('transaksi as a')->join('customers as b', 'a.pelanggan = b.id_customer', 'left')->order_by('a.id', 'DESC')->get()->result(),
@@ -32,6 +41,12 @@ class Keuangan extends CI_Controller
         $this->load->view('body/header');
         $this->load->view('keuangan/index', $data);
         $this->load->view('body/footer');
+    }
+    function set_url()
+    {
+        $uri = $this->uri->segment(3);
+        $this->session->set_userdata('menu_piutang',$uri);
+        redirect('keuangan');
     }
     function get_piutang_customers()
     {
@@ -49,7 +64,7 @@ class Keuangan extends CI_Controller
         //         "res" => $db
         //     ];
         // } else {
-            $this->db->select('*,CONCAT("P",LPAD(a.id, 6, "0")) as no_faktur,DATE_ADD(a.tgl_transaksi, INTERVAL 10 DAY) as tgl_tempo_faktur,a.total_transaksi - sum(c.nominal_bayar) jumlah_bayar_piutang,a.id as id_transaksi_piutang');
+            $this->db->select('*,CONCAT("P",LPAD(a.id, 6, "0")) as no_faktur,DATE_ADD(a.tgl_transaksi, INTERVAL 10 DAY) as tgl_tempo_faktur,a.total_transaksi - sum(c.nominal_bayar) as jumlah_bayar_piutang,a.id as id_transaksi_piutang');
             $this->db->where('a.pelanggan', $id);
             $this->db->where('a.piutang', 1);
             $this->db->from('transaksi as a');

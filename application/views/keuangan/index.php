@@ -45,19 +45,19 @@ input.nominal {
                 <div class="card">
                     <div class="card-body">
                         <ul class="nav nav-tabs border-tab border-0 mb-0 nav-primary" id="topline-tab" role="tablist">
-                            <li class="nav-item"><a class="nav-link active nav-border pt-0 txt-primary nav-primary"
-                                    id="topline-top-user-tab" data-bs-toggle="tab" href="#topline-top-user" role="tab"
-                                    aria-controls="topline-top-user" aria-selected="true"><i
+                            <li class="nav-item">
+                                <a class="nav-link nav-border <?= $this->session->userdata('menu_piutang') == 'input' ? 'active' : '' ?> pt-0 txt-primary nav-primary"
+                                    id="topline-top-user-tab" href="<?= base_url('keuangan/set_url/input') ?>"><i
                                         class="icofont icofont-file-text"></i>Input Data</a></li>
-                            <li class="nav-item"><a class="nav-link nav-border txt-primary nav-primary"
-                                    id="topline-top-description-tab" data-bs-toggle="tab"
-                                    href="#topline-top-description" role="tab" aria-controls="topline-top-description"
-                                    aria-selected="false"><i class="icofont icofont-file-document"></i>List
+                            <li class="nav-item">
+                                <a class="nav-link <?= $this->session->userdata('menu_piutang') == 'list' ? 'active' : '' ?> nav-border txt-primary nav-primary"
+                                    id="topline-top-description-tab"
+                                    href="<?= base_url('keuangan/set_url/list') ?>"><i class="icofont icofont-file-document"></i>List
                                     Transaksi</a></li>
                         </ul><br>
                         <?= $this->session->flashdata('message_name') ?>
                         <div class="tab-content" id="topline-tabContent">
-                            <div class="tab-pane fade show active" id="topline-top-user" role="tabpanel"
+                            <div class="tab-pane fade show <?= $this->session->userdata('menu_piutang') == 'input' ? 'active' : '' ?>" id="topline-top-user" role="tabpanel"
                                 aria-labelledby="topline-top-user-tab">
                                 <div class="row">
                                     <div class="col-xl-4">
@@ -153,8 +153,9 @@ input.nominal {
                                                 <th>Sisa Piutang</th>
                                                 <th>Jumlah yg dibayar</th>
                                                 <th>Pilih</th>
-                                                <!-- <th>Action</th> -->
                                                 <th>Keterangan</th>
+                                                <th>Action</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -258,6 +259,38 @@ input.nominal {
 
                             </div>
                         </div>
+                        <div class="tab-content" id="topline-tabContent">
+                            <div class="tab-pane fade show <?= $this->session->userdata('menu_piutang') == 'list' ? 'active' : '' ?>" id="topline-top-user" role="tabpanel"
+                                aria-labelledby="topline-top-user-tab">
+                                <div class="row">
+                                        <div class="table-responsive mt-5">
+                                    <table class="display table" id="faktur">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th style="display: none"></th> -->
+                                                <th>No.Bukti terima</th>
+                                                <th>Tgl Bukti Terima</th>
+                                                <th>Kode Pelanggan</th>
+                                                <th>Nama Pelanggan</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($faktur as $x) { ?>
+                                            <tr>
+                                                <td><?= $x->no_bukti ?></td>
+                                                <td><?= $x->tgl_bukti_faktur ?></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -322,6 +355,40 @@ action.on('click', function() {
         }
     })
 })
+            $.ajax({
+                    url: "<?= site_url('keuangan/get_piutang_customers'); ?>",
+                    method: "POST",
+                    data: {
+                        id: 0
+                    },
+                    async: true,
+                    dataType: 'json',
+                    success: function (data) {
+                            // for (let i = 0; i < data.res.length; i++) {
+
+                            //         $('#load-transaksi-piutang tbody').append(
+                            //         '<tr style="background-color: white;">' +
+                            //         '<td style="display:none;" class="id_transaksi'+i+'">'+data.res[i].id_transaksi_piutang+'</td>'+
+                            //         '<td class="faktur'+i+'">' + data.res[i].no_faktur + '</td>' +
+                            //         '<td class="tgl_transaksi'+i+'">' + data.res[i].tgl_faktur + '</td>' +
+                            //         '<td class="tempo'+i+'">' + data.res[i].tgl_jatuh_tempo + '</td>' +
+                            //         '<td class="sisa_piutang'+i+'">' + sisa_piutang.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                            //         '<td><input type="number" class="form-control nominal_bayar'+i+'"></td>' +
+                            //         '<td><div class="form-check form-check-inline">'+
+                            //             '<input class="form-check-input pilih_lunas'+i+'" name="name_lunas'+i+'" id="inlineCheckbox1" type="checkbox" value="val'+i+'">'+
+                            //             '</div></td>' +
+                            //         // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
+                            //         '<td><input class="form-control keterangan'+i+'"></td>' +
+                            //         '</tr>');
+                            //         $('.nominal_bayar'+i+'').keyup(function() {
+                            //         var nominal_bayar = $(this).val();
+                            //             if (parseInt(nominal_bayar) > parseInt(sisa_piutang)) {
+                            //                 $('.nominal_bayar'+i+'').val(sisa_piutang)
+                            //             }
+                            //         })
+                            //     }
+                    }
+                })
 $('.plg').change( function() {
             var id = this.value
             $.ajax({
@@ -424,6 +491,7 @@ $('.plg').change( function() {
                                         '</div></td>' +
                                     // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
                                     '<td><input class="form-control keterangan'+i+'"></td>' +
+                                    '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>'+i+'">Cetak</a></td>' +
                                     '</tr>');
                                     $('.nominal_bayar'+i+'').keyup(function() {
                                     var nominal_bayar = $(this).val();
@@ -446,6 +514,7 @@ $('.plg').change( function() {
                                     '</div></td>' +
                                 // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
                                 '<td><input class="form-control keterangan'+i+'"></td>' +
+                                '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + i + '">Cetak</a></td>' +
                                 '</tr>');
                                 $('.nominal_bayar'+i+'').keyup(function() {
                                 var nominal_bayar = $(this).val();
@@ -520,15 +589,15 @@ $('.plg').change( function() {
 //     result.innerHTML = res;
 // }
 
-// $(document).ready(function() {
-//     // Basic table example
-//     $("#payment").DataTable({
-//         "order": [
-//             [0, "DESC"]
-//         ],
-//     });
-//     $('.bank_view').hide()
-// });
+$(document).ready(function() {
+    // Basic table example
+    $("#faktur").DataTable({
+        "order": [
+            [0, "DESC"]
+        ],
+    });
+    $('.bank_view').hide()
+});
 // </script>
 <?php foreach ($payment as $p): ?>
  <script>
