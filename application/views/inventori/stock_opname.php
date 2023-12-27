@@ -3,7 +3,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h4>Stok opname </h4>
+                    <h4>Stock opname</h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
@@ -24,84 +24,114 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header card-no-border">
-                        <div class="card-header-right">
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#entri_barang">Entri barang</button>
-                        </div>
-                    </div>
                     <div class="card-body">
-
                         <?= $this->session->flashdata('message_name') ?>
-                        <div class="table-responsive">
-                            <table class=" display" id="basic-1">
-                                <thead>
-                                    <tr>
-                                        <th>Nama barang</th>
-                                        <th>Sisa stok</th>
-                                        <th>Total stok</th>
-                                        <th>Saldo stok</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                        <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#buatStockOpname">Buat baru</button>
 
-                                </tbody>
-                            </table>
-                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" id="stock-opname">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>No. Stock Opname</th>
+                                    <th>Gudang</th>
+                                    <th>Tanggal</th>
+                                    <th>User</th>
+                                    <th>Act.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($lists as $l) :
+                                    $gudang = $this->db->where('id', $l->id_gudang)->get('gudang')->row_array();
+                                    $user = $this->db->where('id', $l->created_by)->get('users')->row_array();
+                                ?>
+                                    <tr>
+                                        <td><?= $no++ ?></td>
+                                        <td><?= $l->no_stock_opname ?></td>
+                                        <td><?= $gudang['nama'] ?></td>
+                                        <td><?= format_indo($l->tanggal_opname) ?></td>
+                                        <td><?= $user['nama'] ?></td>
+                                        <td>
+                                            <a href='<?= base_url("inventori/detail_sop/$l->no_stock_opname") ?>' class="btn btn-primary btn-sm">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                endforeach;
+                                ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="entri_barang" tabindex="-1" role="dialog" aria-labelledby="entri_barang" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="buatStockOpname" tabindex="-1" role="dialog" aria-labelledby="buatStockOpname" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="entri_barangLongTitle">Entri barang </h5>
+                <h5 class="modal-title" id="buatStockOpnameLongTitle">Buat stock opname</h5>
                 <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="<?= base_url('keuangan/input_barang') ?>" method="post" class="form theme-form dark-input" id="myForm">
+            <form action="<?= base_url('inventori/add_stock_opname') ?>" method="post" class="form theme-form dark-inputs" id="barangForm">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col">
-                            <label for="category" class="form-label">No. Stok opname</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control form-control-sm nominal" name="nominal_bayar" id="nominal_bayar" autofocus>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="Tanggal">Tanggal</label>
+                                <input class="form-control" id="tanggal" name="tanggal" type="date" value="<?= date('Y-m-d') ?>" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <label for="category" class="form-label">Tanggal</label>
-                            <div class="input-group">
-                                <input class="form-control digits" type="date">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <label for="category" class="form-label">Lokasi barang</label>
-                            <div class="input-group">
-                                <select name="lokasi_barang" id="lokasi_barang" class="form-select">
-                                    <option value="">--Pilih lokasi barang</option>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="Tanggal">Lokasi barang</label>
+                                <select name="gudang" id="gudang" class="form-select input-air-primary digits" onchange="getBarang()">
+                                    <option value="">--</option>
+                                    <?php
+                                    foreach ($gudang as $g) {
+                                    ?>
+                                        <option value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                    <?php
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <label for="category" class="form-label">Keterangan</label>
-                            <div class="input-group">
-                                <textarea name="ketarangan" id="keterangan" cols="30" rows="5" class="form-control"></textarea>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="Keterangan" class="form-label">Keterangan</label>
+                                <textarea name="keterangan" id="keterangan" cols="30" rows="5" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" type="submit">Submit</button>
+
+                    <div class="row">
+                        <div class="col-12 text-end">
+                            <div class="">
+                                <label for="submit" class="form-label">&nbsp;</label>
+                                <button type="submit" class="btn btn-primary" name="submit" data-bs-toggle="tooltip" title="Simpan" value="proses">Buat</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script>
+    $('#stock-opname').DataTable({
+        "paging": true,
+        "ordering": false,
+        "info": false,
+        "order": [
+            [2, "asc"]
+        ]
+    });
+</script>

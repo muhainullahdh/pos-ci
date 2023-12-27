@@ -8,7 +8,7 @@ class Inventori extends CI_Controller
         parent::__construct();
         // $this->load->library('Pdf');
         // $this->load->model('M_admin');
-        $this->load->helper(array('form', 'url'));
+        $this->load->helper(array('form', 'url', 'date'));
 
         $this->load->library('PHPExcel');
         // $this->load->library(array('form_validation','Routerosapi'));
@@ -32,7 +32,23 @@ class Inventori extends CI_Controller
 
     public function stock_opname()
     {
-        $data = [];
+        $data = [
+            "gudang" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
+            "lists" => $this->db->order_by('no_stock_opname', 'DESC')->get('stock_opname')->result()
+        ];
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/stock_opname', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function process_stock_opname()
+    {
+        $data = [
+            "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+            "tanggal" => $this->input->post('tanggal'),
+        ];
+
         $this->load->view('body/header');
         $this->load->view('inventori/stock_opname', $data);
         $this->load->view('body/footer');
@@ -40,10 +56,60 @@ class Inventori extends CI_Controller
 
     public function koreksi_barang()
     {
-        $data = [];
+        $data = [
+            "barang" => $this->db->where_not_in('selisih', 0)->from('stock_opname_details a')->join('stock_opname b', 'a.id_stock_opname = b.id', 'left')->join('barang c', 'a.id_barang = c.id', 'left')->order_by('no_stock_opname', 'DESC')->order_by('nama', 'ASC')->get()->result(),
+
+            // "barang" => $this->db->order_by('nama', 'ASC')->get('barang')->result(),
+        ];
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+        // exit;
+
         $this->load->view('body/header');
         $this->load->view('inventori/koreksi_barang', $data);
         $this->load->view('body/footer');
+    }
+
+    public function proses_koreksi_barang()
+    {
+        $id = $this->uri->segment(3);
+        $nama_barang = $this->input->post('nama_barang');
+
+        $data_koreksi = [
+            "id_barang" => $id,
+            "tanggal_koreksi" => date('Y-m-d'),
+            "jumlah_koreksi" => $this->input->post('koreksi_stok'),
+            "alasan_koreksi" => $this->input->post('alasan_koreksi'),
+            "created_at" => date('Y-m-d H:i:s'),
+            "created_by" => $this->session->userdata('id_user'),
+        ];
+
+        $data_barang = [
+            "stok" => $this->input->post('koreksi_stok'),
+        ];
+
+        $data_stock_opname = [
+            'qty_sistem' => $this->input->post('koreksi_stok'),
+            'qty_fisik' => $this->input->post('koreksi_stok'),
+            'selisih' => 0,
+        ];
+
+        $id_stock_opname_details = $this->input->post('id_stock_opname_details');
+
+        $this->db->where('id', $id)->update('barang', $data_barang);
+
+        $this->db->where('id', $id_stock_opname_details)->update('stock_opname_details', $data_stock_opname);
+
+        $this->db->insert('koreksi', $data_koreksi);
+
+
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Stok ' . $nama_barang . ' berhasil dikoreksi.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+
+        redirect('inventori/koreksi_barang');
     }
 
     public function mutasi_barang()
@@ -51,6 +117,22 @@ class Inventori extends CI_Controller
         $data = [];
         $this->load->view('body/header');
         $this->load->view('inventori/mutasi_barang', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function histori_koreksi()
+    {
+        $data = [
+            'koreksi' => $this->db->select('*, b.nama as nama, c.nama as nama_user')->from('koreksi a')->join('barang b', 'a.id_barang = b.id', 'left')->join('users c', 'a.created_by = c.id', 'left')->order_by('created_at', 'DESC')->get()->result(),
+        ];
+        // echo '<pre>';
+        // print_r($data['koreksi']);
+        // echo '</pre>';
+        // exit;
+
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/histori_koreksi', $data);
         $this->load->view('body/footer');
     }
 
@@ -64,6 +146,26 @@ class Inventori extends CI_Controller
         echo json_encode($barang);
     }
 
+    public function getBarangGudang()
+    {
+        $gudang_id = $this->input->post('gudang_id');
+
+        $barang =  $this->db->where('id_gudang', $gudang_id)->order_by('nama', 'ASC')->get('barang')->result();
+
+        // Mengembalikan data dalam format JSON
+        echo json_encode($barang);
+    }
+
+    public function getBarangDetail()
+    {
+        $id_barang = $this->input->post('barang_id');
+
+        $barang =  $this->db->where('id', $id_barang)->get('barang')->row_array();
+
+        // Mengembalikan data dalam format JSON
+        echo json_encode($barang);
+    }
+
     public function process()
     {
         $kelompok_barang = $this->input->post('kelompok_barang');
@@ -71,6 +173,8 @@ class Inventori extends CI_Controller
         $barang2 = $this->input->post('barang2');
         $gudang1 = $this->input->post('gudang1');
         $gudang2 = $this->input->post('gudang2');
+        $opsi_stok = $this->input->post('opsi_stok');
+        $input_nama_barang = $this->input->post('input_nama_barang');
 
         // $data = [
         //     'kategori' => $kelompok_barang,
@@ -81,6 +185,22 @@ class Inventori extends CI_Controller
         // ];
 
         if ($_POST['submit'] == "proses") {
+
+            // if ($kelompok_barang && $barang && $barang2 && $gudang1 && $gudang2 && $opsi_stok && $input_nama_barang) {
+
+            // } else if ($kelompok_barang && $barang && $barang2 && $gudang1 && $gudang2 && $opsi_stok ) {
+
+            // } else if ($kelompok_barang && $barang && $barang2 && $gudang1 && $gudang2) {
+
+            // } else if ($kelompok_barang && $barang && $barang2 && $gudang1) {
+
+            // } else if ($kelompok_barang && $barang && $barang2) {
+
+            // } else if ($kelompok_barang && $barang) {
+
+            // } else if ($kelompok_barang) {
+
+            // }
             if ($kelompok_barang) {
                 if ($barang) {
                     $nama_barang1 = $this->db->where('id', $barang)->get('barang')->row_array();
@@ -93,8 +213,6 @@ class Inventori extends CI_Controller
                         ];
                     } else {
                         $nama_barang2 = $this->db->where('id', $barang2)->get('barang')->row_array();
-                        // var_dump($nama_barang1['nama'], $nama_barang2['nama']);
-                        // exit;
                         $data = [
                             "tampil" => $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->order_by('nama', 'ASC')->get()->result(),
                             "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
@@ -313,5 +431,106 @@ class Inventori extends CI_Controller
             $objWriter->save('php://output');
             exit;
         }
+    }
+
+    public function add_stock_opname()
+    {
+        $tanggal = $this->input->post('tanggal');
+        $gudang = $this->input->post('gudang');
+        $keterangan = $this->input->post('keterangan');
+
+        $max_num = $this->db->select('max(no_urut) as max')->get('stock_opname')->row_array();
+
+        if (!$max_num) {
+            $bilangan = 1; // Nilai Proses
+        } else {
+            $bilangan = $max_num['max'] + 1;
+        }
+
+        $no_urut = sprintf("%06d", $bilangan);
+
+        $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
+
+        $data = [
+            'no_urut' => $no_urut,
+            'no_stock_opname' => $no_stock_opname,
+            'tanggal_opname' => $tanggal,
+            'id_gudang' => $gudang,
+            'keterangan' => $keterangan,
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id_user'),
+        ];
+
+        $this->db->insert('stock_opname', $data);
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Stok opname berhasil ditambahkan.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+        // After that you need to used redirect function instead of load view such as 
+        redirect("inventori/detail_sop/$no_stock_opname");
+    }
+
+    public function detail_sop()
+    {
+        $id = $this->uri->segment(3);
+
+        $sop = $this->db->where('no_stock_opname', $id)->get('stock_opname')->row_array();
+
+        $data = [
+            "sop" => $sop,
+            "list" => $this->db->where('id_stock_opname', $sop['id'])->get('stock_opname_details')->result(),
+            "barang" =>  $this->db->where('id_gudang', $sop['id_gudang'])->order_by('nama', 'ASC')->get('barang')->result(),
+        ];
+
+        // print_r($data['barang']);
+        // exit;
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/stock_opname_detail', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function add_detail_sop()
+    {
+        $no_stock_opname = $this->input->post('no_stock_opname');
+
+        $data = [
+            'id_stock_opname' => $this->input->post('id_stock_opname'),
+            'id_barang' => $this->input->post('barang'),
+            'satuan' => $this->input->post('satuan'),
+            'qty_sistem' => $this->input->post('qty_sistem'),
+            'qty_fisik' => $this->input->post('qty_fisik'),
+            'selisih' => $this->input->post('selisih'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id_user'),
+        ];
+
+        // echo '<pre>';
+        // print_r($data);
+        // print_r($no_stock_opname);
+        // echo '</pre>';
+
+        $this->db->insert('stock_opname_details', $data);
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Stok opname berhasil ditambahkan.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+        // After that you need to used redirect function instead of load view such as 
+        redirect("inventori/detail_sop/$no_stock_opname");
+    }
+
+    public function delete_detail_sop()
+    {
+        $no_stock_opname = $this->uri->segment(3);
+        $id = $this->uri->segment(4);
+
+        $this->db->where('id', $id);
+        $this->db->delete('stock_opname_details');
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Stok opname berhasil dihapus.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+        // After that you need to used redirect function instead of load view such as 
+        redirect("inventori/detail_sop/$no_stock_opname");
     }
 }
