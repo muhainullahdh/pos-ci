@@ -26,9 +26,13 @@ class Keuangan extends CI_Controller
         $this->db->select('*,a.tgl_bukti as tgl_bukti_faktur');
         // $this->db->where('a.pelanggan', $id);
         // $this->db->where('a.piutang', 1);
-        if ($this->session->userdata('tgl_filter_piutang') == true && $this->session->userdata('tgl_filter_piutang') == true ) {
+        if ($this->session->userdata('tgl_filter_piutang') == true && $this->session->userdata('tgl_filter_piutang2') == true ) {
             $this->db->where('a.tgl_bukti >=', $this->session->userdata('tgl_filter_piutang'));
             $this->db->where('a.tgl_bukti <=', $this->session->userdata('tgl_filter_piutang2'));
+        } else {
+            $date = date('Y-m-d');
+            $this->session->set_userdata('tgl_filter_piutang', $date);
+            $this->session->set_userdata('tgl_filter_piutang2', $date);
         }
         $this->db->where('b.tgl_faktur !=', null);
         $this->db->from('faktur as a');
@@ -51,9 +55,9 @@ class Keuangan extends CI_Controller
     function set_url()
     {
         $date = date('Y-m-d');
+        $this->session->set_userdata('tgl_filter_piutang', $date);
         $uri = $this->uri->segment(3);
         $this->session->set_userdata('menu_piutang',$uri);
-        $this->session->set_userdata('tgl_filter_piutang',$date);
         redirect('keuangan');
     }
     function filter_tgl()

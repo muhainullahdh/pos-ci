@@ -202,7 +202,7 @@ input.nominal {
                                                 <td><?= $x->tgl_bukti_faktur ?></td>
                                                 <td><?= $x->kode_pelanggan ?></td>
                                                 <td><?= $x->nama_toko ?></td>
-                                                <td><a target="_blank" href="<?= base_url('keuangan/cetak/'.$x->no_struk) ?>" class="btn btn-primary btn-square">Cetak</a></td>
+                                                <td><a target="_blank" href="<?= base_url('keuangan/cetak/'.$x->id_transaksi) ?>" class="btn btn-primary btn-square">Cetak</a></td>
                                             </tr>
                                             <?php } ?>
                                         </tbody>
