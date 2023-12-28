@@ -33,7 +33,7 @@ class Inventori extends CI_Controller
     public function stock_opname()
     {
         $data = [
-            "gudang" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
+            "gudang2" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
             "lists" => $this->db->order_by('no_stock_opname', 'DESC')->get('stock_opname')->result()
         ];
 

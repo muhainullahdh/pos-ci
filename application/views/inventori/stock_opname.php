@@ -93,7 +93,7 @@
                                 <select name="gudang" id="gudang" class="form-select input-air-primary digits" onchange="getBarang()">
                                     <option value="">--</option>
                                     <?php
-                                    foreach ($gudang as $g) {
+                                    foreach ($gudang2 as $g) {
                                     ?>
                                         <option value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
                                     <?php
