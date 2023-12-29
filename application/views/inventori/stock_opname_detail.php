@@ -10,7 +10,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h4>Stock opname <?= $sop['no_stock_opname'] ?></h4>
+                    <h4>Stock opname</h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
@@ -21,7 +21,12 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Stok opname</li>
+                        <li class="breadcrumb-item">
+                            <a href="<?= base_url('inventori/stock_opname') ?>">Stok opname</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <?= $sop['no_stock_opname'] ?>
+                        </li>
                     </ol>
                 </div>
             </div>
@@ -32,8 +37,26 @@
             <div class="col-sm-12">
                 <div class="card">
                     <!-- <div class="card-body" style="padding: 10px !important"> -->
-                    <div class="table-responsive" style="padding: 10px !important; min-width: 0px !important;">
+                    <div class="card-body">
                         <?= $this->session->flashdata('message_name') ?>
+                        <!-- <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#buatStockOpname">Buat baru</button> -->
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <input type="hidden" name="no_urut" id="no_urut" class="form-control" value="<?= $sop['no_urut'] ?>">
+                                    <label class="form-label" for="no_sop">No. Stock Opname</label>
+                                    <input class="form-control" id="no_sop" name="no_sop" type="text" value="<?= $sop['no_stock_opname'] ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="Tanggal">Tanggal</label>
+                                    <input type="date" name="tanggal_sop" id="tanggal_sop" class="form-control" value="<?= $sop['tanggal_opname'] ?>" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="padding: 10px !important; min-width: 0px !important;">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -61,7 +84,7 @@
                                         <td><?= $l->qty_fisik ?></td>
                                         <td><?= $l->selisih ?></td>
                                         <td>
-                                            <a href='<?= base_url("inventori/delete_detail_sop/$no_sop/$l->id") ?>' class="btn btn-danger btn-sm btn-delete" data-bs-toggle="tooltip" title="Hapus <?= $barang_detail['nama'] ?>">&times;</a>
+                                            <a href='<?= base_url("inventori/delete_detail_sop/$no_sop/$l->Id") ?>' class="btn btn-danger btn-sm btn-delete" data-bs-toggle="tooltip" title="Hapus <?= $barang_detail['nama'] ?>">&times;</a>
                                         </td>
                                     </tr>
                                 <?php
@@ -73,7 +96,7 @@
                                         <td style="width: 200px;">
                                             <input type="hidden" name="id_stock_opname" value="<?= $sop['id'] ?>">
                                             <input type="hidden" name="no_stock_opname" value="<?= $sop['no_stock_opname'] ?>">
-                                            <select name="barang" id="barang" class="form-select input-air-primary digits select2" onchange="showBarangDetail()">
+                                            <select name="barang" id="barang" class="form-select input-air-primary digits select2" onchange="showBarangDetail()" required>
                                                 <option value="">--</option>
                                                 <?php
                                                 foreach ($barang as $b) {

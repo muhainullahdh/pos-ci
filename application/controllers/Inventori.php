@@ -32,10 +32,28 @@ class Inventori extends CI_Controller
 
     public function stock_opname()
     {
+        $max_num = $this->db->select('max(no_urut) as max')->get('stock_opname')->row_array();
+
+        if (!$max_num) {
+            $bilangan = 1; // Nilai Proses
+        } else {
+            $bilangan = $max_num['max'] + 1;
+        }
+
+        $no_urut = sprintf("%06d", $bilangan);
+
+        $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
         $data = [
             "gudang2" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
-            "lists" => $this->db->order_by('no_stock_opname', 'DESC')->get('stock_opname')->result()
+            "lists" => $this->db->order_by('no_stock_opname', 'DESC')->get('stock_opname')->result(),
+            "no_sop" => $no_stock_opname,
+            "no_urut" => $no_urut,
         ];
+
+        // echo '<pre>';
+        // print_r($data['lists']);
+        // echo '</pre>';
+        // exit;
 
         $this->load->view('body/header');
         $this->load->view('inventori/stock_opname', $data);
@@ -439,20 +457,29 @@ class Inventori extends CI_Controller
         $gudang = $this->input->post('gudang');
         $keterangan = $this->input->post('keterangan');
 
-        $max_num = $this->db->select('max(no_urut) as max')->get('stock_opname')->row_array();
+        // $max_num = $this->db->select('max(no_urut) as max')->get('stock_opname')->row_array();
 
-        if (!$max_num) {
-            $bilangan = 1; // Nilai Proses
-        } else {
-            $bilangan = $max_num['max'] + 1;
-        }
+        // if (!$max_num) {
+        //     $bilangan = 1; // Nilai Proses
+        // } else {
+        //     $bilangan = $max_num['max'] + 1;
+        // }
 
-        $no_urut = sprintf("%06d", $bilangan);
+        // $no_urut = sprintf("%06d", $bilangan);
 
-        $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
+        // $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
 
+        // $data = [
+        //     'no_stock_opname' => $no_stock_opname,
+        //     'tanggal_opname' => $tanggal,
+        //     'id_gudang' => $gudang,
+        //     'keterangan' => $keterangan,
+        //     "barang" =>  $this->db->where('id_gudang', $gudang)->order_by('nama', 'ASC')->get('barang')->result(),
+        // ];
+
+        $no_stock_opname = $this->input->post('no_sop');
         $data = [
-            'no_urut' => $no_urut,
+            'no_urut' => $this->input->post('no_urut'),
             'no_stock_opname' => $no_stock_opname,
             'tanggal_opname' => $tanggal,
             'id_gudang' => $gudang,
@@ -468,6 +495,10 @@ class Inventori extends CI_Controller
             </div>');
         // After that you need to used redirect function instead of load view such as 
         redirect("inventori/detail_sop/$no_stock_opname");
+
+        // $this->load->view('body/header');
+        // $this->load->view('inventori/add_detail_sop', $data);
+        // $this->load->view('body/footer');
     }
 
     public function detail_sop()
@@ -517,6 +548,20 @@ class Inventori extends CI_Controller
             </div>');
         // After that you need to used redirect function instead of load view such as 
         redirect("inventori/detail_sop/$no_stock_opname");
+    }
+
+    public function delete_sop()
+    {
+        $id = $this->uri->segment(3);
+
+        $this->db->where('id', $id);
+        $this->db->delete('stock_opname');
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Stok opname berhasil dihapus.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+        // After that you need to used redirect function instead of load view such as 
+        redirect("inventori/stock_opname");
     }
 
     public function delete_detail_sop()
