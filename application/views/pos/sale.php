@@ -1323,8 +1323,18 @@
                                     $('.stock' + counter + '').val(data2.stok / data2.qty_kecil);
                                     $('.stock-c' + counter + '').val(data2.stok / data2.qty_kecil - qty);
                                 }else{
-                                    $('.stock' + counter + '').val(data2.stok);
-                                    $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);
+                                    if (j.split(',')[1] == data2.id_satuan_besar) {
+                                        $('.stock' + counter + '').val(data2.stok);
+                                        $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);
+                                    }else if(j.split(',')[1] == data2.id_satuan_kecil){
+                                        $('.stock' + counter + '').val(data2.stok);
+                                        $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_kecil);
+                                    }else if(){
+                                         $('.stock' + counter + '').val(data2.stok);
+                                        $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_konv);
+                                    }
+                                    
+                                   
                                 }
                                 $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                             }
