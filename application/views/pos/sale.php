@@ -1140,8 +1140,8 @@
                                             $('.stock' + counter + '').val(data.stok / data.qty_besar);
                                             $('.stock-c' + counter + '').val(data.stok / data.qty_besar - qty);
                                         }else if(data.id_satuan_besar == 'KARUNG'){
-                                            $('.stock' + counter + '').val(data.stok / data.qty_kecil);
-                                            $('.stock-c' + counter + '').val(data.stok - qty * data.qty_kecil);
+                                            $('.stock' + counter + '').val(Math.floor(data.stok / data.qty_kecil));
+                                            $('.stock-c' + counter + '').val(Math.floor(data.stok / data.qty_kecil - qty));
                                         }else{
                                             $('.stock' + counter + '').val(data.stok);
                                             $('.stock-c' + counter + '').val(data.stok - qty * data.qty_besar);
