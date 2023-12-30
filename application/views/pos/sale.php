@@ -1139,6 +1139,9 @@
                                         }else if (data.id_satuan_besar == 'SLOP') {
                                             $('.stock' + counter + '').val(data.stok / data.qty_besar);
                                             $('.stock-c' + counter + '').val(data.stok / data.qty_besar - qty);
+                                        }else if(data.id_satuan_besar == 'KARUNG'){
+                                            $('.stock' + counter + '').val(data.stok / data.qty_kecil);
+                                            $('.stock-c' + counter + '').val(data.stok - qty * data.qty_kecil);
                                         }else{
                                             $('.stock' + counter + '').val(data.stok);
                                             $('.stock-c' + counter + '').val(data.stok - qty * data.qty_besar);
@@ -1324,8 +1327,13 @@
                                     $('.stock-c' + counter + '').val(data2.stok / data2.qty_kecil - qty);
                                 }else{
                                     if (j.split(',')[1] == data2.id_satuan_besar) {
-                                        $('.stock' + counter + '').val(data2.stok);
-                                        $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);
+                                        if (j.split(',')[1] == 'KARUNG') {
+                                            $('.stock' + counter + '').val(data2.stok / data2.id_satuan_kecil);
+                                            $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);           
+                                        }else{
+                                            $('.stock' + counter + '').val(data2.stok);
+                                            $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);
+                                        }
                                     }else if(j.split(',')[1] == data2.id_satuan_kecil){
                                         $('.stock' + counter + '').val(data2.stok);
                                         $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_kecil);
