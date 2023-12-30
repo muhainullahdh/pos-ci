@@ -1329,7 +1329,7 @@
                                     }else if(j.split(',')[1] == data2.id_satuan_kecil){
                                         $('.stock' + counter + '').val(data2.stok);
                                         $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_kecil);
-                                    }else if(){
+                                    }else if(j.split(',')[1] == data2.id_satuan_kecil_konv){
                                          $('.stock' + counter + '').val(data2.stok);
                                         $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_konv);
                                     }
