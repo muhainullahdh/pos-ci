@@ -1144,7 +1144,7 @@
                                             $('.stock-c' + counter + '').val(Math.floor(data.stok / data.qty_kecil - qty));
                                         }else{
                                             $('.stock' + counter + '').val(data.stok);
-                                            $('.stock-c' + counter + '').val(data.stok - qty * data.qty_besar);
+                                            $('.stock-c' + counter + '').val(data.stok - qty * data.qty_kecil);
                                         }
                                         // }
                                         // console.log(data.nama)
@@ -1328,7 +1328,7 @@
                                 }else{
                                     if (j.split(',')[1] == data2.id_satuan_besar) {
                                         if (j.split(',')[1] == 'KARUNG') {
-                                            $('.stock' + counter + '').val(data2.stok / data2.id_satuan_kecil);
+                                            $('.stock' + counter + '').val(data2.stok / data2.qty_kecil);
                                             $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);           
                                         }else{
                                             $('.stock' + counter + '').val(data2.stok);
@@ -1336,12 +1336,11 @@
                                         }
                                     }else if(j.split(',')[1] == data2.id_satuan_kecil){
                                         $('.stock' + counter + '').val(data2.stok);
-                                        $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_kecil);
+                                        $('.stock-c' + counter + '').val(data2.stok - qty);
                                     }else if(j.split(',')[1] == data2.id_satuan_kecil_konv){
                                          $('.stock' + counter + '').val(data2.stok);
                                         $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_konv);
                                     }
-                                    
                                    
                                 }
                                 $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));

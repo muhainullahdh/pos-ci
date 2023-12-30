@@ -301,6 +301,7 @@ class Pos extends CI_Controller
                 $this->db->update('transaksi');
                 $piutang = [
                     "id_transaksi" => $get_transkasi['id_transaksi'],
+                    // "pelanggan_piutang" => $get_transkasi['pelanggan'],
                     "total_bayar_piutang" => $this->clean($this->input->post('total_bayar')),
                     "total_transkasi" => $total_transaksii,
                     "status" => 1
@@ -405,7 +406,7 @@ class Pos extends CI_Controller
     function load_transaksi()
     {
         $first_date = $this->session->userdata('reprint_date_penjualan');
-        $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('reprint_date_penjualan2'))));
+        $second_date = date('Y-m-d', strtotime('+0 days', strtotime($this->session->userdata('reprint_date_penjualan2'))));
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
         $this->db->join('customers as b', 'a.pelanggan=b.id_customer');
@@ -415,6 +416,7 @@ class Pos extends CI_Controller
         // $this->db->where('a.tahan',0);
         $this->db->where('a.cencel', 0);
         $this->db->where('a.kasir', $this->session->userdata('id_user'));
+        $this->db->group_by('a.no_struk');
         if ($first_date == true && $second_date == true) {
             $this->db->where('a.tgl_transaksi >=', $first_date);
             $this->db->where('a.tgl_transaksi <=', $second_date);
