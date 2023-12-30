@@ -1287,9 +1287,11 @@
                                 $('.harga' + i + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                 $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                 if (j.split(',')[1] == 'SLOP') {
-                                    $('.stock-c' + i + '').val($('.stock' + i + '').val() / j.split(',')[0]);
+                                    $('.stock' + i + '').val(data2.stok / j.split(',')[0]);
+                                    $('.stock-c' + i + '').val(data2.stok / j.split(',')[0] - qty);
                                 }else{
-                                    $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * j.split(',')[0]);
+                                    $('.stock' + i + '').val(data2.stok / j.split(',')[0]);
+                                    $('.stock-c' + i + '').val(data2.stok - qty * j.split(',')[0]);
                                 }
                                 var total_pos_fix = 0;
                                 for (let t = 1; t <= counter; t++) {
