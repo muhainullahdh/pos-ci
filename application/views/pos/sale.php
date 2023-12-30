@@ -1038,12 +1038,18 @@
                                     var satuann = ''
                                     if (!data.id_satuan_besar == "") {
                                         satuann += '<option value=' + data.qty_besar + "," + data.id_satuan_besar + '>' + data.id_satuan_besar + ' </option>';
+                                        // cek_satuan = data.id_satuan_besar;
+                                        // cek_isi_satuan = data.qty_besar;
                                     }
                                     if (!data.id_satuan_kecil == "") {
                                         satuann += '<option value=' + data.qty_kecil + "," + data.id_satuan_kecil + '>' + data.id_satuan_kecil + ' </option>';
+                                        // cek_satuan = data.id_satuan_kecil;
+                                        // cek_isi_satuan = data.qty_kecil;
                                     }
                                     if (!data.id_satuan_kecil_konv == "") {
                                         satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + '>' + data.id_satuan_kecil_konv + ' </option>';
+                                        // cek_satuan = data.id_satuan_kecil_konv;
+                                        // cek_isi_satuan = data.qty_konv;
                                     }
                                     <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
                                         if (!data.hargajualb_retail == "") {
@@ -1124,8 +1130,19 @@
                                         //     $('.stock'+counter+'').val($('.stock-c'+co+'').val());
                                         //     // console.log($('.stock-c'+co+'').val())
                                         // }else{
-                                        $('.stock' + counter + '').val(stok);
-                                        $('.stock-c' + counter + '').val(stok - (qty));
+                                        // $('.stock' + counter + '').val(stok);
+                                        // $('.stock-c' + counter + '').val(stok - (qty));
+                                        
+                                        if (data.id_satuan_besar == 'BAL') {
+                                            $('.stock' + counter + '').val(data.stok / data.qty_konv);
+                                            $('.stock-c' + counter + '').val(Math.ceil(data.stok / data.qty_konv - qty));
+                                        }else if (data.id_satuan_besar == 'SLOP') {
+                                            $('.stock' + counter + '').val(data.stok / data.qty_besar);
+                                            $('.stock-c' + counter + '').val(data.stok / data.qty_besar - qty);
+                                        }else{
+                                            $('.stock' + counter + '').val(data.stok);
+                                            $('.stock-c' + counter + '').val(data.stok - qty * data.qty_besar);
+                                        }
                                         // }
                                         // console.log(data.nama)
                                         $('.total_item').val(counter)
@@ -1286,16 +1303,28 @@
                                 var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                 $('.harga' + i + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                 $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                if (j.split(',')[1] == 'SLOP') {
-                                    $('.stock' + i + '').val(data2.stok / j.split(',')[0]);
-                                    $('.stock-c' + i + '').val(data2.stok / j.split(',')[0] - qty);
-                                }else{
-                                    $('.stock' + i + '').val(data2.stok / j.split(',')[0]);
-                                    $('.stock-c' + i + '').val(data2.stok - qty * j.split(',')[0]);
-                                }
+                                
+                                
+                                // if (j.split(',')[1] == 'SLOP') {
+                                //     $('.stock' + i + '').val(data2.stok / j.split(',')[0]);
+                                //     $('.stock-c' + i + '').val(data2.stok / j.split(',')[0] - qty);
+                                // }else{
+                                //     $('.stock' + i + '').val(data2.stok / j.split(',')[0]);
+                                //     $('.stock-c' + i + '').val(data2.stok - qty * j.split(',')[0]);
+                                // }
                                 var total_pos_fix = 0;
                                 for (let t = 1; t <= counter; t++) {
                                     total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                }
+                                if (j.split(',')[1] == 'BAL') {
+                                    $('.stock' + counter + '').val(data2.stok / data2.qty_konv);
+                                    $('.stock-c' + counter + '').val(Math.ceil(data2.stok / data2.qty_konv - qty));
+                                }else if (j.split(',')[1] == 'SLOP') {
+                                    $('.stock' + counter + '').val(data2.stok / data2.qty_kecil);
+                                    $('.stock-c' + counter + '').val(data2.stok / data2.qty_kecil - qty);
+                                }else{
+                                    $('.stock' + counter + '').val(data2.stok);
+                                    $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);
                                 }
                                 $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                             }
