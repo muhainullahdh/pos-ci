@@ -1286,7 +1286,11 @@
                                 var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                 $('.harga' + i + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                 $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * j.split(',')[0]);
+                                if (j.split(',')[1] == 'SLOP') {
+                                    $('.stock-c' + i + '').val($('.stock' + i + '').val() / j.split(',')[0]);
+                                }else{
+                                    $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * j.split(',')[0]);
+                                }
                                 var total_pos_fix = 0;
                                 for (let t = 1; t <= counter; t++) {
                                     total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
