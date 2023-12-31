@@ -178,6 +178,9 @@ class Inventori extends CI_Controller
     {
         $id_barang = $this->input->post('barang_id');
 
+        // print_r($id_barang);
+        // exit;
+
         $barang =  $this->db->where('id', $id_barang)->get('barang')->row_array();
 
         // Mengembalikan data dalam format JSON
@@ -451,54 +454,60 @@ class Inventori extends CI_Controller
         }
     }
 
+    public function cetak_pdf()
+    {
+        $dataArray = $this->input->get('data');
+        echo json_encode($dataArray);
+        // Tidak perlu exit di sini, kecuali Anda memang ingin menghentikan eksekusi lebih lanjut.
+    }
     public function add_stock_opname()
     {
         $tanggal = $this->input->post('tanggal');
         $gudang = $this->input->post('gudang');
         $keterangan = $this->input->post('keterangan');
 
-        // $max_num = $this->db->select('max(no_urut) as max')->get('stock_opname')->row_array();
+        $max_num = $this->db->select('max(no_urut) as max')->get('stock_opname')->row_array();
 
-        // if (!$max_num) {
-        //     $bilangan = 1; // Nilai Proses
-        // } else {
-        //     $bilangan = $max_num['max'] + 1;
-        // }
+        if (!$max_num) {
+            $bilangan = 1; // Nilai Proses
+        } else {
+            $bilangan = $max_num['max'] + 1;
+        }
 
-        // $no_urut = sprintf("%06d", $bilangan);
+        $no_urut = sprintf("%06d", $bilangan);
 
-        // $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
+        $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
 
+        // $no_stock_opname = $this->input->post('no_sop');
         // $data = [
+        //     'no_urut' => $this->input->post('no_urut'),
         //     'no_stock_opname' => $no_stock_opname,
         //     'tanggal_opname' => $tanggal,
         //     'id_gudang' => $gudang,
         //     'keterangan' => $keterangan,
-        //     "barang" =>  $this->db->where('id_gudang', $gudang)->order_by('nama', 'ASC')->get('barang')->result(),
+        //     'created_at' => date('Y-m-d H:i:s'),
+        //     'created_by' => $this->session->userdata('id_user'),
         // ];
 
-        $no_stock_opname = $this->input->post('no_sop');
+        // $this->db->insert('stock_opname', $data);
+        // $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        //     Stok opname berhasil ditambahkan.
+        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        //     </div>');
+        // After that you need to used redirect function instead of load view such as 
+        // redirect("inventori/detail_sop/$no_stock_opname");
+
         $data = [
-            'no_urut' => $this->input->post('no_urut'),
             'no_stock_opname' => $no_stock_opname,
             'tanggal_opname' => $tanggal,
             'id_gudang' => $gudang,
             'keterangan' => $keterangan,
-            'created_at' => date('Y-m-d H:i:s'),
-            'created_by' => $this->session->userdata('id_user'),
+            "barang" =>  $this->db->where('id_gudang', $gudang)->order_by('nama', 'ASC')->get('barang')->result(),
         ];
 
-        $this->db->insert('stock_opname', $data);
-        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Stok opname berhasil ditambahkan.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>');
-        // After that you need to used redirect function instead of load view such as 
-        redirect("inventori/detail_sop/$no_stock_opname");
-
-        // $this->load->view('body/header');
-        // $this->load->view('inventori/add_detail_sop', $data);
-        // $this->load->view('body/footer');
+        $this->load->view('body/header');
+        $this->load->view('inventori/add_detail_sop', $data);
+        $this->load->view('body/footer');
     }
 
     public function detail_sop()
@@ -523,31 +532,93 @@ class Inventori extends CI_Controller
 
     public function add_detail_sop()
     {
-        $no_stock_opname = $this->input->post('no_stock_opname');
+        // $no_stock_opname = $this->input->post('no_stock_opname');
 
-        $data = [
-            'id_stock_opname' => $this->input->post('id_stock_opname'),
-            'id_barang' => $this->input->post('barang'),
-            'satuan' => $this->input->post('satuan'),
-            'qty_sistem' => $this->input->post('qty_sistem'),
-            'qty_fisik' => $this->input->post('qty_fisik'),
-            'selisih' => $this->input->post('selisih'),
-            'created_at' => date('Y-m-d H:i:s'),
-            'created_by' => $this->session->userdata('id_user'),
-        ];
+        // $data = [
+        //     'id_stock_opname' => $this->input->post('id_stock_opname'),
+        //     'id_barang' => $this->input->post('barang'),
+        //     'satuan' => $this->input->post('satuan'),
+        //     'qty_sistem' => $this->input->post('qty_sistem'),
+        //     'qty_fisik' => $this->input->post('qty_fisik'),
+        //     'selisih' => $this->input->post('selisih'),
+        //     'created_at' => date('Y-m-d H:i:s'),
+        //     'created_by' => $this->session->userdata('id_user'),
+        // ];
 
+        // // echo '<pre>';
+        // // print_r($data);
+        // // print_r($no_stock_opname);
+        // // echo '</pre>';
+
+        // $this->db->insert('stock_opname_details', $data);
+        // $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        //     Stok opname berhasil ditambahkan.
+        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        //     </div>');
+        // // After that you need to used redirect function instead of load view such as 
+        // redirect("inventori/detail_sop/$no_stock_opname");
+
+        // Assuming you have received the form data through POST
+        $no_stock_opname = $this->input->post('no_sop');
+        $tanggal_opname = $this->input->post('tanggal_sop');
+
+        // Create a new stock_opname record
+        $stock_opname_data = array(
+            'no_stock_opname' => $no_stock_opname,
+            'tanggal_opname' => $tanggal_opname,
+            // Add other relevant fields
+        );
         // echo '<pre>';
-        // print_r($data);
-        // print_r($no_stock_opname);
-        // echo '</pre>';
+        // print_r($stock_opname_data);
+        // echo '</pre><br>';
 
-        $this->db->insert('stock_opname_details', $data);
-        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Stok opname berhasil ditambahkan.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>');
-        // After that you need to used redirect function instead of load view such as 
-        redirect("inventori/detail_sop/$no_stock_opname");
+        // Insert into stock_opname table
+        $this->db->insert('stock_opname', $stock_opname_data);
+
+        // Get the inserted stock_opname ID
+        $stock_opname_id = $this->db->insert_id();
+
+        // Get data from the dynamic rows
+        $barang_ids = $this->input->post('id_barang');
+        $qty_fisik_values = $this->input->post('qty_fisik');
+        $qty_sistem_values = $this->input->post('qty_sistem');
+        $satuan_values = $this->input->post('satuan');
+        $selisih_values = $this->input->post('selisih');
+
+        // Loop through the rows and insert into stock_opname_details
+        if (is_array($barang_ids)) {
+
+            for ($i = 0; $i < count($barang_ids); $i++) {
+                $barang_id = $barang_ids[$i];
+                $qty_fisik = $qty_fisik_values[$i];
+                $qty_sistem = $qty_sistem_values[$i];
+                $satuan = $satuan_values[$i];
+                $selisih = $selisih_values[$i];
+
+                $stock_opname_detail_data = [
+                    'id_stock_opname' => $stock_opname_id,
+                    'id_barang' => $barang_id,
+                    'satuan' => $satuan,
+                    'qty_sistem' => $qty_sistem,
+                    'qty_fisik' => $qty_fisik,
+                    'selisih' => $selisih,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => $this->session->userdata('id_user'),
+                ];
+
+                // echo '<pre>';
+                // print_r($stock_opname_detail_data);
+                // echo '</pre>';
+                // Insert into stock_opname_details table
+                $this->db->insert('stock_opname_details', $stock_opname_detail_data);
+            }
+        } else {
+            echo "No items selected in the form.";
+        }
+
+        // Redirect or show a success message
+        redirect('inventori/stock_opname');
+        exit;
     }
 
     public function delete_sop()

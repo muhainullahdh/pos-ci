@@ -73,7 +73,7 @@
     </div>
 </div>
 <div class="modal fade" id="buatStockOpname" tabindex="-1" role="dialog" aria-labelledby="buatStockOpname" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="buatStockOpnameLongTitle">Buat stock opname</h5>
@@ -82,41 +82,38 @@
             <form action="<?= base_url('inventori/add_stock_opname') ?>" method="post" class="form theme-form dark-inputs" id="barangForm">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <input type="hidden" name="no_urut" id="no_urut" class="form-control" value="<?= $no_urut ?>">
-                                <label for="No. Stock Opname" class="form-label">No. Stock Opname</label>
-                                <input type="text" class="form-control" name="no_sop" id="no_sop" value="<?= $no_sop ?>" readonly>
-                            </div>
+                        <div class="mb-3">
+                            <input type="hidden" name="no_urut" id="no_urut" class="form-control" value="<?= $no_urut ?>">
+                            <label for="No. Stock Opname" class="form-label">No. Stock Opname</label>
+                            <input type="text" class="form-control" name="no_sop" id="no_sop" value="<?= $no_sop ?>" readonly>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="Tanggal">Tanggal</label>
-                                <input class="form-control" id="tanggal" name="tanggal" type="date" value="<?= date('Y-m-d') ?>" required>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="Tanggal">Tanggal</label>
+                            <input class="form-control" id="tanggal" name="tanggal" type="date" value="<?= date('Y-m-d') ?>" required>
                         </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="Tanggal">Lokasi barang</label>
-                                <select name="gudang" id="gudang" class="form-select input-air-primary digits" onchange="getBarang()" required>
-                                    <option value="">--</option>
-                                    <?php
-                                    foreach ($gudang2 as $g) {
-                                    ?>
-                                        <option value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="mb-3">
+                            <label class="form-label" for="Tanggal">Lokasi barang</label>
+                            <select name="gudang" id="gudang" class="form-select input-air-primary digits" onchange="getBarang()" required>
+                                <option value="">--</option>
+                                <?php
+                                foreach ($gudang2 as $g) {
+                                ?>
+                                    <option value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
                         </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="Keterangan" class="form-label">Keterangan</label>
-                                <textarea name="keterangan" id="keterangan" cols="30" rows="5" class="form-control"></textarea>
-                            </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="Keterangan" class="form-label">Keterangan</label>
+                            <textarea name="keterangan" id="keterangan" cols="30" rows="3" class="form-control"></textarea>
                         </div>
                     </div>
                 </div>

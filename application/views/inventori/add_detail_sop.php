@@ -1,3 +1,4 @@
+<link href="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
 <div class="page-body">
 
     <div class="container-fluid">
@@ -44,51 +45,64 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table" id="stock-opname">
-                                <thead>
-                                    <tr>
-                                        <th>Nama barang</th>
-                                        <th>Satuan</th>
-                                        <th>Stok Sistem</th>
-                                        <th>Stok Aktual</th>
-                                        <th>Selisih</th>
-                                        <th>Act.</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 200px;">
-                                            <select name="barang[]" id="barang[]" class="form-select input-air-primary digits select2" onchange="showBarangDetail(this)" required>
-                                                <option value="">--</option>
-                                                <?php
-                                                foreach ($barang as $b) {
-                                                ?>
-                                                    <option value="<?= $b->id ?>">(<?= $b->kode_barang ?>) <?= $b->nama ?></option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" name="satuan[]" id="satuan[]" readonly>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" name="qty_sistem[]" id="qty_sistem[]" readonly>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" name="qty_fisik[]" id="qty_fisik[]" oninput="hitung(this)">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" name="selisih[]" id="selisih[]" readonly>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-light btn-sm" name="add_row">&plus;</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="keterangan" class="form-label">Keterangan</label>
+                                        <textarea name="keterangan" id="keterangan" cols="30" rows="2" class="form-control"><?= $keterangan ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-primary btn-sm mt-5">Simpan</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table" id="stock-opname">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama barang</th>
+                                            <th>Satuan</th>
+                                            <th>Stok Sistem</th>
+                                            <th>Stok Aktual</th>
+                                            <th>Selisih</th>
+                                            <th>Act.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sample-wrapper">
+                                        <!-- <tr>
+                                            <td style="width: 200px;">
+                                                <select name="barang[]" id="barang[]" class="form-select input-air-primary digits select2" onchange="showBarangDetail(this)" required>
+                                                    <option value="">--</option>
+                                                    <?php
+                                                    foreach ($barang as $b) {
+                                                    ?>
+                                                        <option value="<?= $b->id ?>">(<?= $b->kode_barang ?>) <?= $b->nama ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="satuan[]" id="satuan[]" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="qty_sistem[]" id="qty_sistem[]" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" name="qty_fisik[]" id="qty_fisik[]" oninput="hitung(this)">
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" name="selisih[]" id="selisih[]" readonly>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-light btn-sm" name="add_row">&plus;</button>
+                                            </td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -98,89 +112,144 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- <script>
-    $('.select2').select2();
-</script> -->
 <script>
-    $(document).ready(function() {
-        $('.select2').select2();
+    // $(document).ready(function() {
+    var counter = 0;
+    <?php
 
-        <?php
-        $barangOptions = [];
-        foreach ($barang as $b) {
-            $barangOptions[] = [
-                'id' => $b->id,
-                'kode_barang' => $b->kode_barang,
-                'nama' => $b->nama,
-            ];
+    $barangOptions = [];
+    foreach ($barang as $b) {
+        $barangOptions[] = [
+            'id' => $b->id,
+            'label' => $b->nama,
+            'satuan' => $b->id_satuan_kecil,
+            'stok' => $b->qty_kecil,
+        ];
+    }
+    ?>
+
+    var optionsBarang = <?php echo json_encode($barangOptions); ?>;
+
+    function showBarangDetail(element) {
+        // var barangId = $(element).val();
+        var barangId = $(element).closest('tr').find('.id_barang' + counter + '').val();
+
+        if (barangId) {
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('inventori/getbarangdetail') ?>',
+                data: {
+                    barang_id: barangId
+                },
+                success: function(detailData) {
+                    var barangDetail = JSON.parse(detailData);
+                    // console.log(barangDetail.id_satuan_kecil);
+                    var row = $(element).closest('tr');
+                    row.find('[name="satuan' + counter + '"]').val(barangDetail.id_satuan_kecil);
+                    row.find('[name="qty_sistem' + counter + '"]').val(barangDetail.stok);
+                }
+            });
+        } else {
+            var row = $(element).closest('tr');
+            row.find('[name="satuan' + counter + '"]').val('');
+            row.find('[name="qty_sistem' + counter + '"]').val('');
         }
-        ?>
+    }
 
-        var optionsBarang = <?php echo json_encode($barangOptions); ?>;
+    function hitung(element) {
+        var row = $(element).closest('tr');
+        var qty_sistem = row.find('[name="qty_sistem[]"]').val();
+        var qty_fisik = row.find('[name="qty_fisik[]"]').val();
+        var selisih = Number(qty_fisik) - Number(qty_sistem);
+        row.find('[name="selisih[]"]').val(selisih);
+    }
 
-        function showBarangDetail(element) {
-            var barangId = $(element).val();
+    // });
 
-            if (barangId) {
-                $.ajax({
-                    type: 'POST',
-                    url: '<?= base_url('inventori/getbarangdetail') ?>',
-                    data: {
-                        barang_id: barangId
-                    },
-                    success: function(detailData) {
-                        var barangDetail = JSON.parse(detailData);
-                        var row = $(element).closest('tr');
-                        row.find('[name="satuan[]"]').val(barangDetail.id_satuan_kecil);
-                        row.find('[name="qty_sistem[]"]').val(barangDetail.stok);
+    function check_pos() {
+        $(".barang" + counter + "").focus();
+        $(".barang" + counter + "").autocomplete({
+            source: function(request, response) {
+                var term = request.term.toLowerCase();
+                var matchingItems = $.grep(optionsBarang, function(item) {
+                    return item.label.toLowerCase().indexOf(term) !== -1;
+                });
+                response(matchingItems);
+            },
+            select: function(event, ui) {
+                console.log(ui);
+                $('.barang' + counter + '').val(ui.item.nama);
+                $('.id_barang' + counter + '').val(ui.item.id);
+                $('.satuan' + counter + '').val(ui.item.satuan);
+                $('.qty_sistem' + counter + '').val(ui.item.stok);
+                // Additional logic if needed
+                // showBarangDetail('.barang' + counter);
+            }
+        })
+    }
+    document.onkeyup = function(e) {
+        if (e.which == 16) {
+            var max_fields = 5;
+            var wrapper = $("#sample-wrapper");
+
+            if ($(".barang" + counter + "").val() == "") {
+                swal({
+                    title: "Opss..!",
+                    text: "Harap isi dulu row sebelumnya",
+                    icon: "warning",
+                    dangerMode: true,
+                }).then((r) => {
+                    if (r) {
+                        $(".barang" + counter + "").focus();
                     }
                 });
             } else {
-                var row = $(element).closest('tr');
-                row.find('[name="satuan[]"]').val('');
-                row.find('[name="qty_sistem[]"]').val('');
+                if (counter < max_fields) {
+                    counter++;
+                    $(wrapper).append(
+                        '<tr id=r' + counter + '>' +
+                        '<td style="width: 200px;">' +
+                        '<input class="form-control barang' + counter + '">' +
+                        '<input type="hidden" class="form-control id_barang' + counter + '" name="id_barang[]">' +
+                        '</td>' +
+                        '<td>' +
+                        '<input type="text" class="form-control satuan' + counter + '" name="satuan[]" id="satuan[]" readonly>' +
+                        '</td>' +
+                        '<td>' +
+                        '<input type="text" class="form-control qty_sistem' + counter + '" name="qty_sistem[]" id="qty_sistem[]" readonly>' +
+                        '</td>' +
+                        '<td>' +
+                        '<input type="number" class="form-control" name="qty_fisik[]" id="qty_fisik[" oninput="hitung(this)">' +
+                        '</td>' +
+                        '<td>' +
+                        '<input type="number" class="form-control" name="selisih[]" id="selisih[]" readonly>' +
+                        '</td>' +
+                        '<td>' +
+                        '<button id=' + counter + ' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>' +
+                        '<td>' +
+                        '</tr>'
+                    );
+                    $('.select2').select2();
+                }
+                check_pos();
             }
         }
+    }
 
-        function hitung(element) {
-            var row = $(element).closest('tr');
-            var qty_sistem = row.find('[name="qty_sistem[]"]').val();
-            var qty_fisik = row.find('[name="qty_fisik[]"]').val();
-            var selisih = Number(qty_fisik) - Number(qty_sistem);
-            row.find('[name="selisih[]"]').val(selisih);
-        }
-
-        $('[name="add_row"]').on('click', function() {
-            var existingRow = $('#stock-opname tbody tr:first');
-            var newRow = existingRow.clone();
-            newRow.find('input, select').val('');
-
-            var selectBarang = newRow.find('select[name="barang[]"]');
-            selectBarang.empty();
-            optionsBarang.forEach(function(option) {
-                selectBarang.append('<option value="' + option.id + '">(' + option.kode_barang + ') ' + option.nama + '</option>');
-            });
-
-            $('#stock-opname tbody').append(newRow);
-        });
-
-        $(".btn-delete").on("click", function(e) {
-            e.preventDefault();
-            const href = $(this).attr("href");
-            Swal.fire({
-                title: "Anda yakin?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, Hapus!",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.location.href = href;
-                }
-            });
+    $(".btn-delete").on("click", function(e) {
+        e.preventDefault();
+        const href = $(this).attr("href");
+        Swal.fire({
+            title: "Anda yakin?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Hapus!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.location.href = href;
+            }
         });
     });
-</script>
-
 </script>

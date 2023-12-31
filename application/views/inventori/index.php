@@ -25,6 +25,29 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#filterStok">Filter</button>
+                            </div>
+                            <div class="col-6 text-end">
+                                <?php
+                                if (isset($tampil)) {
+                                ?>
+                                    <div class="btn-group">
+                                        <a href="<?= base_url('inventori') ?>" class="btn btn-warning btn-sm" type="button">Reset</a>
+                                        <!-- <form action="<?= base_url('inventori/unduh_stock') ?>" method="post"> -->
+                                        <button type="button" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak Excel" value="cetak_excel" type="button" style="margin-left: 5px; margin-right: 5px;" onclick="cetak_excel()">Cetak excel</button>
+                                        <button type="button" id="btnCetakPDF" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak PDF" value="cetak" onclick="cetak_pdf()">Cetak PDF</button>
+                                        <!-- </form> -->
+
+                                    </div>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body" style="padding: 10px !important">
                         <?php
                         if (isset($tampil)) {
@@ -36,7 +59,9 @@
                                             <th>No.</th>
                                             <th>Kode barang</th>
                                             <th>Nama barang</th>
-                                            <th>Satuan</th>
+                                            <th>Sat. Besar</th>
+                                            <th>Sat. Kecil</th>
+                                            <th>Sat. Konv.</th>
                                             <th>Sisa stok</th>
                                             <th>Saldo stok</th>
                                         </tr>
@@ -45,14 +70,16 @@
                                         <?php
                                         $no = 1;
                                         foreach ($tampil as $t) {
-                                            $saldo_stock = $t->qty_kecil + $t->hargajualk_retail;
+                                            $saldo_stock = $t->stok * $t->hpp_kecil;
                                         ?>
                                             <tr>
                                                 <td class="text-end"><?= $no++ ?>.</td>
                                                 <td><?= $t->kode_barang ?></td>
                                                 <td><?= $t->nama ?></td>
-                                                <td class="text-end"><?= $t->qty_kecil . ' '  . $t->id_satuan_kecil ?></td>
-                                                <td class="text-end"><?= $t->stok ?></td>
+                                                <td class=""><?= ($t->id_satuan_besar) ?></td>
+                                                <td class=""><?= $t->id_satuan_kecil ?></td>
+                                                <td class=""><?= ($t->id_satuan_kecil_konv) ? $t->id_satuan_kecil_konv : "-" ?></td>
+                                                <td class="text-end"><?= number_format($t->stok) ?></td>
                                                 <td class="text-end"><?= number_format($saldo_stock) ?></td>
                                             </tr>
                                         <?php
@@ -64,8 +91,6 @@
                         <?php
                         }
                         ?>
-                        <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#filterStok">Filter</button>
-                        <a href="<?= base_url('inventori') ?>" class="btn btn-warning btn-sm">Reset</a>
                     </div>
                 </div>
             </div>
@@ -204,9 +229,7 @@
                             <div class="mb-3">
                                 <label for="submit" class="form-label">&nbsp;</label>
                                 <a href="<?= base_url('inventori') ?>" class="btn btn-warning" data-bs-toggle="tooltip" title="Reset pencarian">Reset</a>
-                                <button type="submit" class="btn btn-primary" name="submit" data-bs-toggle="tooltip" title="Hanya update nama" value="proses">Proses</button>
-                                <button type="submit" class="btn btn-primary" name="submit" data-bs-toggle="tooltip" title="Hanya update nama" value="cetak">Cetak</button>
-                                <button type="submit" class="btn btn-primary" name="submit" data-bs-toggle="tooltip" title="Hanya update nama" value="cetak_excel">Cetak excel</button>
+                                <button type="submit" class="btn btn-primary" name="submit" data-bs-toggle="tooltip" title="Hanya update nama" value="proses">Tampilkan</button>
                             </div>
                         </div>
                     </div>
@@ -263,4 +286,25 @@
         ]
     });
     $('#basic-3').DataTable({});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function cetak_pdf() {
+        // Pastikan variabel $tampil terdefinisi dan berisi data
+        var dataArray = <?php echo isset($tampil) ? json_encode($tampil) : 'null'; ?>;
+
+        // Lakukan permintaan AJAX GET ke server
+        $.ajax({
+            type: 'GET',
+            url: '<?= base_url('inventori/cetak_pdf') ?>',
+            data: {
+                data: dataArray
+            },
+            success: function(response) {
+                // Lakukan sesuatu dengan respons jika diperlukan
+                window.location.href = '<?= base_url('inventori/cetak_pdf') ?>';
+            }
+        });
+    }
 </script>
