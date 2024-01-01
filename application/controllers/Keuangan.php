@@ -29,10 +29,6 @@ class Keuangan extends CI_Controller
         if ($this->session->userdata('tgl_filter_piutang') == true && $this->session->userdata('tgl_filter_piutang2') == true ) {
             $this->db->where('a.tgl_bukti >=', $this->session->userdata('tgl_filter_piutang'));
             $this->db->where('a.tgl_bukti <=', $this->session->userdata('tgl_filter_piutang2'));
-        } else {
-            $date = date('Y-m-d');
-            $this->session->set_userdata('tgl_filter_piutang', $date);
-            $this->session->set_userdata('tgl_filter_piutang2', $date);
         }
         $this->db->where('b.tgl_faktur !=', null);
         $this->db->from('faktur as a');
@@ -213,7 +209,7 @@ class Keuangan extends CI_Controller
         );
         // $this->db->insert('histori_transaksi');//table hisstroy pemabayaran piutang
     }
-    function cetak()
+    function cetak_faktur_p()
     {
         $no_struk = $this->uri->segment(3);
         // $mpdf = new \Mpdf\Mpdf([

@@ -38,6 +38,11 @@ class Login extends CI_Controller {
                     ];
                     $this->session->set_userdata($data);
                     $this->session->set_userdata('tipe_penjualan','umum,1,1');
+                    $date = date('Y-m-d');
+                    $this->session->set_userdata('tgl_filter_piutang', $date);
+                    $this->session->set_userdata('tgl_filter_piutang2', $date);
+                    $uri = 'input';
+                    $this->session->set_userdata('menu_piutang', $uri);
                     $this->session->set_flashdata('massage', '<div class="alert alert-success" role="alert">Login Berhasil !</div>');
                     if ($user['level'] == 1) {//admin
                         redirect();

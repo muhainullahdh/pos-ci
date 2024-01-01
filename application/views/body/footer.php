@@ -22,13 +22,14 @@
     <!-- scrollbar js-->
     <script src="<?= base_url() ?>assets/js/scrollbar/simplebar.js"></script>
     <script src="<?= base_url() ?>assets/js/scrollbar/custom.js"></script>
+    <!-- <script src="<?= base_url() ?>assets/js/ckeditor/ckeditor.js"></script> -->
+<script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <!-- Sidebar jquery-->
     <script src="<?= base_url() ?>assets/js/config.js"></script>
     <script src="<?= base_url() ?>assets/js/sweet-alert/sweetalert.min.js"></script>
 
 <script type="text/javascript" src="https://repo.rachmat.id/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Plugins JS start-->
@@ -54,7 +55,7 @@
     <script src="<?= base_url() ?>assets/js/typeahead-search/typeahead-custom.js"></script> -->
     <script src="<?= base_url() ?>assets/js/height-equal.js"></script>
     <script src="<?= base_url() ?>assets/js/animation/wow/wow.min.js"></script>
-
+   
 
 
     <!-- Plugins JS Ends-->
@@ -72,7 +73,7 @@
         //     }
         // }
         $(document).ready(function(){
-
+CKEDITOR.replace('editor1');
             var t = $('#t_barang').DataTable(
                 {order:[[0,"desc"]]}
             );

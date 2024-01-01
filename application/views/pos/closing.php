@@ -348,8 +348,7 @@
 
                         $jumlah_row += $row->jumlah;
                         $total_bayar_row += $row->total_bayar;
-                        $kurang_bayar =
-                            $row->total_transkasi - $row->total_bayar_piutang;
+                        $kurang_bayar = $row->total_transkasi - $row->total_bayar_piutang;
                         ?>
                         <tr>
                             <td class="bor-lf"><?= $no ?></td>

@@ -285,7 +285,7 @@ action.on('click', function() {
                                     $('.salesman').val(data.res[i].salesman);
                                     if (data.res[i].tgl_faktur != null) { //jika data sudah masuk ke piutang
                                         var sisa_piutang = data.res[i].sisa_piutang - data.res[i].jumlah_bayar;
-                                        if (sisa_piutang != 0) {
+                                        // if (sisa_piutang != 0) {
                                             $('#load-piutang tbody').append(
                                                 '<tr style="background-color: white;">' +
                                                 '<td style="display:none;" class="id_transaksi' + i + '">' + data.res[i].id_transaksi_piutang + '</td>' +
@@ -299,7 +299,7 @@ action.on('click', function() {
                                                 '</div></td>' +
                                                 // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
                                                 '<td><input class="form-control keterangan' + i + '"></td>' +
-                                                '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + data.res[i].no_struk + '">Cetak</a></td>' +
+                                                '<td><a class="btn btn-primary btn-square" target="_blank" href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + data.res[i].no_struk + '">Cetak</a></td>' +
                                                 '</tr>');
                                             $('.nominal_bayar' + i + '').keyup(function () {
                                                 var nominal_bayar = $(this).val();
@@ -307,7 +307,7 @@ action.on('click', function() {
                                                     $('.nominal_bayar' + i + '').val(sisa_piutang)
                                                 }
                                             })
-                                        }
+                                        // }
                                     } else {
                                         $('#load-piutang tbody').append(
                                             '<tr style="background-color: white;">' +
@@ -322,7 +322,7 @@ action.on('click', function() {
                                             '</div></td>' +
                                             // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
                                             '<td><input class="form-control keterangan' + i + '"></td>' +
-                                            '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + data.res[i].no_struk + '">Cetak</a></td>' +
+                                            '<td><a class="btn btn-primary btn-square" target="_blank" href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + data.res[i].id_transaksi + '">Cetak</a></td>' +
                                             '</tr>');
                                         $('.nominal_bayar' + i + '').keyup(function () {
                                             var nominal_bayar = $(this).val();
@@ -435,7 +435,7 @@ action.on('click', function() {
                                             '</div></td>' +
                                         // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
                                         '<td><input class="form-control keterangan'+i+'"></td>' +
-                                        '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>'+data.res[i].no_struk+'">Cetak</a></td>' +
+                                        '<td><a class="btn btn-primary btn-square" target="_blank" href="<?= base_url('keuangan/cetak_faktur_p/') ?>'+data.res[i].no_struk+'">Cetak</a></td>' +
                                         '</tr>');
                                         $('.nominal_bayar'+i+'').keyup(function() {
                                         var nominal_bayar = $(this).val();
@@ -458,7 +458,7 @@ action.on('click', function() {
                                         '</div></td>' +
                                     // '<td><button class="btn btn-primary bayar'+data[i].id+'">Bayar</button></td>' +
                                     '<td><input class="form-control keterangan'+i+'"></td>' +
-                                    '<td><a href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + data.res[i].no_struk + '">Cetak</a></td>' +
+                                    '<td><a class="btn btn-primary btn-square" target="_blank" href="<?= base_url('keuangan/cetak_faktur_p/') ?>' + data.res[i].no_struk + '">Cetak</a></td>' +
                                     '</tr>');
                                     $('.nominal_bayar'+i+'').keyup(function() {
                                     var nominal_bayar = $(this).val();

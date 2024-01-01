@@ -1330,7 +1330,8 @@
                                         if (j.split(',')[1] == 'KARUNG') {
                                             $('.stock' + counter + '').val(data2.stok / data2.qty_kecil);
                                             $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);           
-                                        }else{
+                                        }
+                                        else{
                                             $('.stock' + counter + '').val(data2.stok);
                                             $('.stock-c' + counter + '').val(data2.stok - qty * data2.qty_besar);
                                         }

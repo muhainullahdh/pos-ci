@@ -180,9 +180,10 @@
             </th>
         </tr>
         <tr>
-            <td colspan="2" width="150" style="text-align: center; vertical-align: middle;font-size:12px;">Barang yang sudah dibeli tidak dapat <br> di kembalikan
-                Mohon croscek sebelum meninggalkan toko <br>
-                <b>TERIMAKASIH</b>
+            <td colspan="3" width="290" style="padding:10px;text-align: center; vertical-align: middle;font-size:15px;">
+                <?php $setting = $this->db->get_where('setting', ['id' => 1])->row_array();
+                echo $setting['struk'];
+                ?>
             </td>
         </tr>
     </table>

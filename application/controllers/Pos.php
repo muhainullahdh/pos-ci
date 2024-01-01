@@ -295,7 +295,7 @@ class Pos extends CI_Controller
         }
         if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
             $this->db->insert_batch('transaksi_item', $output); //submit
-            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii) {
+            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii - $this->clean($this->input->post('diskon_all'))) {
                 $this->db->where('id', $get_transkasi['id_transaksi']); //update data transaksi
                 $this->db->set('piutang', 1);
                 $this->db->update('transaksi');
@@ -405,6 +405,11 @@ class Pos extends CI_Controller
     }
     function load_transaksi()
     {
+        // $this->db->from('transaksi as a');
+        // $this->db->join('customers as b', 'a.pelanggan=b.id_customer');
+        // $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi');
+        // $this->db->join('users as d', 'd.id=a.kasir');
+
         $first_date = $this->session->userdata('reprint_date_penjualan');
         $second_date = date('Y-m-d', strtotime('+0 days', strtotime($this->session->userdata('reprint_date_penjualan2'))));
         $this->db->select('*,sum(c.jumlah) as total_transaksi');

@@ -178,6 +178,15 @@
           <li><a href="dashboard-04.html">Role</a></li>
         </ul>
       </li>
+      <li class="sidebar-list">
+        <a class="sidebar-link sidebar-title" href="#">
+          <i data-feather="activity"></i>
+          <span>Setting</span></a>
+        <ul class="sidebar-submenu">
+          <li><a href="<?= base_url('setting/struk') ?>">Struk</a></li>
+          <li><a href="dashboard-04.html">Role</a></li>
+        </ul>
+      </li>
       <!-- <li class="sidebar-list">
                     <a class="sidebar-link sidebar-title link-nav" href="support-ticket.html">
                       <svg class="stroke-icon">
