@@ -78,6 +78,12 @@
                 <td><?= $x->qty ?> &nbsp;&nbsp;&nbsp; <?= $x->satuan ?> &nbsp;&nbsp;&nbsp; <?= number_format($x->harga_satuan, 0, ',', ',') ?> </td>
                 <td style="text-align:right"><?= number_format($x->harga_satuan * $x->qty, 0, ',', ',') ?></td>
             </tr>
+            <?php if ($x->diskon_item != 0) { ?>
+                <tr>
+                    <td style="text-align:right">Diskon</td>
+                    <td style="text-align:right"><?= number_format($x->diskon_item,0,',',',') ?></td>
+                </tr>
+            <?php } ?>
         <?php } ?>
         <tr>
             <th colspan="2">
