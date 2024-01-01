@@ -36,8 +36,9 @@
 
 <body>
     <table>
+        <?php $setting = $this->db->get_where('setting', ['id' => 1])->row_array(); ?>
         <tr>
-            <td colspan="2" style="text-align: center; vertical-align: middle;"><b style="font-size:28px;">TOKO LINGLING</b><br> JL.RAYA TENGAH NO.1 </td>
+            <td colspan="2" style="text-align: center; vertical-align: middle;"><b style="font-size:28px;">TOKO LINGLING</b> <?= $setting['alamat'] ?></td>
         </tr>
         <!-- <tr>
         <td style="text-align:right">JL.RAYA TENGAH NO.1</td>
@@ -187,7 +188,7 @@
         </tr>
         <tr>
             <td colspan="3" width="290" style="padding:10px;text-align: center; vertical-align: middle;font-size:15px;">
-                <?php $setting = $this->db->get_where('setting', ['id' => 1])->row_array();
+                <?php 
                 echo $setting['struk'];
                 ?>
             </td>

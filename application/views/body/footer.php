@@ -73,7 +73,9 @@
         //     }
         // }
         $(document).ready(function(){
-CKEDITOR.replace('editor1');
+          CKEDITOR.replace('editor1');
+          CKEDITOR.replace('editor2');
+          
             var t = $('#t_barang').DataTable(
                 {order:[[0,"desc"]]}
             );

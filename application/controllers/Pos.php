@@ -295,7 +295,7 @@ class Pos extends CI_Controller
         }
         if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
             $this->db->insert_batch('transaksi_item', $output); //submit
-            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii - $this->clean($this->input->post('diskon_all'))) {
+            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii - intval($this->clean($this->input->post('diskon_all'))) ) {
                 $this->db->where('id', $get_transkasi['id_transaksi']); //update data transaksi
                 $this->db->set('piutang', 1);
                 $this->db->update('transaksi');

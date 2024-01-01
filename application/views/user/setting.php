@@ -38,22 +38,47 @@
                 <div class="card">
                     <div class="card-header">
                         <h6>Setting Struk</h6><br>
+                        
+                    </div>
+                    <div class="card-body">
                         <form action="<?= base_url('setting/struk') ?>" method="POST">
                             <div class="row mt-2">
                                 <div class="col-xl-6">
                                     <input type="hidden" name="action" value="edit">
                                     <!-- <textarea id="editor" name="content" cols="30" rows="10" placeholder="Tuliskan isi pikiranmu...">awdwadwa</textarea> -->
-                                                <textarea name="editor1" id="editor1" rows="5" cols="10"><?= $setting['struk'] ?></textarea>
+                                    <textarea name="editor1" id="editor1" rows="5" cols="10"><?= $setting['struk'] ?></textarea>
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-xl-4">
-                                   <button class="btn btn-primary btn-square" type="submit">Simpan</button>
+                                    <button class="btn btn-primary btn-square" type="submit">Simpan</button>
                                 </div>
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Setting Alamat</h6><br>
+                        
+                    </div>
                     <div class="card-body">
+                        <form action="<?= base_url('setting/struk') ?>" method="POST">
+                            <div class="row mt-2">
+                                <div class="col-xl-6">
+                                    <input type="hidden" name="action" value="edit">
+                                    <!-- <textarea id="editor" name="content" cols="30" rows="10" placeholder="Tuliskan isi pikiranmu...">awdwadwa</textarea> -->
+                                    <textarea name="editor2" id="editor2" rows="5" cols="10"><?= $setting['alamat'] ?></textarea>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-xl-4">
+                                    <button class="btn btn-primary btn-square" type="submit">Simpan</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

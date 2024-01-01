@@ -51,11 +51,18 @@ class Setting extends CI_Controller
         //         redirect('user/customer');
         //     }
         // }
-        if ($action == 'edit') {
+        if ($action == 'edit' && $this->input->post('editor1') == true) {
 
             $datax = [
                 "struk" => $this->input->post('editor1'),
+            ];
+            $this->db->where('id', 1);
+            $this->db->update('setting', $datax);
+            redirect('setting/struk');
 
+        }else if ($action == 'edit' && $this->input->post('editor2') == true) {
+            $datax = [
+                "alamat" => $this->input->post('editor2'),
             ];
             $this->db->where('id', 1);
             $this->db->update('setting', $datax);
