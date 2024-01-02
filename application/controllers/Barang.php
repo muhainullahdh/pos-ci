@@ -28,6 +28,7 @@ class Barang extends CI_Controller {
         $urutan++;
         $huruf = "BH";
         $kodeBarang = $huruf . sprintf("%05s", $urutan);
+
         $data = [
             "barang" => $barang,
             "kode_barang" => $kodeBarang
@@ -365,10 +366,20 @@ class Barang extends CI_Controller {
     }
     function add_pb()
     {
+
+        $data_b = $this->db->query('SELECT max(no_pb) as no_pb FROM penerimaan')->row_array();
+        $kode_pb = $data_b['no_pb'];
+        $urutan = (int) substr($kode_pb, 3, 6);
+        $urutan++;
+        $huruf = "PB-";
+        $kode_pb = $huruf . sprintf("%03d", $urutan);
+
         $satuan = $this->db->get('satuan')->result();
         $data = [
+            "kode_pb" => $kode_pb,
             "penerimaan" => $this->db->get('penerimaan')->result(),
-            "satuan" => $satuan
+            "satuan" => $satuan,
+            "gudang" => $this->db->get('gudang')->result()
         ];
         $this->load->view('body/header');
         $this->load->view('barang/penerimaan',$data);
@@ -376,9 +387,48 @@ class Barang extends CI_Controller {
     }
     function submit_pb()
     {
+        $no_pb = $this->input->post('no_pb');
+        $tgl_pb = $this->input->post('tgl_pb');
+        $supplier = $this->input->post('supplier');
+        $srt_jln = $this->input->post('srt_jln');
+        $tgl_srt_jln = $this->input->post('tgl_srt_jln');
+        $pembayaran = $this->input->post('c_bayar');
+        $tempo = $this->input->post('tempo');
+        $ppn = $this->input->post('ppn');
+        $fp = $this->input->post('fp');
+        $tgl_fp = $this->input->post('tgl_fp');
+        $keterangan = $this->input->post('keterangan');
 
-    }
-
+        $pb = [
+            "no_pb" => $no_pb,
+            "tgl_pb" => $tgl_pb,
+            "supplier" => $supplier,
+            "no_srt_jln" => $srt_jln,
+            "tgl_srt_jln" => $tgl_srt_jln,
+            "pembayaran" => $pembayaran,
+            "tempo" => $tempo,
+            "no_faktur" => $fp,
+            "tgl_faktur" => $tgl_fp,
+            "type_ppn" => $ppn,
+            "keterangan" => $keterangan,
+        ];
+        $this->db->insert('penerimaan',$pb);
+        $pb_get = $this->db->query("SELECT MAX(id_penerimaan) as id_penerimaan from penerimaan")->row_array();
+        foreach ($this->input->post('item') as $x) {
+            $output[] = array(
+                "id_pb" => $pb_get['id_penerimaan'],
+                "id_barang" => $x['id_barang'],
+                "nama_barang" => $x['nama_barang'],
+                "satuan" => $x['satuan'],
+                "qty_pb" => $x['qty'],
+                "harga_satuan" => $x['harga_satuan'],
+                "harga_netto" => $x['netto'],
+                "gudang" => $x['gudang'],
+            );
+        }
+        $this->db->insert_batch('penerimaan_list', $output); //submit
+        echo json_encode("berhasil");
+        }
     function gudang()
     {
         $kd_supplier = $this->input->post('kd_supplier');

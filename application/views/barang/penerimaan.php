@@ -46,8 +46,9 @@
                                 <label>No.PB</label>
                             </div>
                             <div class="col-xl-3">
-                                <?php $date = date('d').date('m').date('Y'); $urutan = $this->db->query("SELECT max(no_pb) as t FROM penerimaan where no_pb like '%".$date."%'")->row_array() ?>
-                                <input type="text" readonly class="form-control no_pb" value="<?= "PB-" . date('m') . date('y') .sprintf('%06d',$urutan['t']+1); ?>">
+                                <?php $date = date('d').date('m').date('Y'); 
+                                $urutan = $this->db->query("SELECT max(no_pb) as t FROM penerimaan where tgl_pb=".date('Y-m-d')." ")->row_array() ?>
+                                <input type="text" readonly class="form-control no_pb" value="PB-<?= date('d') . date('m') . date('y') . sprintf('%04d', $urutan['t']) ?>">
                                 <!-- <input type="text" class="form-control no_pb" value="PB-2311-000078"> -->
                             </div>
                             <div class="col-xl-1"></div>
@@ -470,7 +471,17 @@
                                     '<input type="text" class="form-control uang'+counter+' netto'+counter+'">'+
                                     '</td>'+
                                     '<td>'+
-                                    '<input type="text" class="form-control gudang'+counter+'">'+
+                                        '<select id="idg'+counter+'" class="form-control gudang'+counter+'" style="cursor: text;">'+
+                                        '<option value="">Pilih satuan</option>'+
+                                    <?php
+                                    if ($this->uri->segment(2) == 'add_pb') {
+                                        foreach ($gudang as $x) {
+                                            ?>
+                                                '<option value="<?= $x->id ?>"><?= $x->nama ?></option>' +
+                                        <?php }
+                                    } ?>
+                                    '</select>' +
+                                    // '<input type="text" class="form-control gudang'+counter+'">'+
                                     '</td>'+
                                     '</tr>'
                               );
@@ -547,20 +558,21 @@
                                     var xx = []
                                     for (let i = 1; i <= counter; i++) {
                                         xx.push ({ // loop table
-                                            id_pb_list : $('.id_pb_list'+i+'').val(),
+                                            id_barang : $('.id_pb_list'+i+'').val(),
                                             nama_barang : $('.barang'+i+'').val(),
                                             qty : $('.qty'+i+'').val(),
                                             satuan : $('.satuan'+i+'').val(),
                                             harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            jumlah : $('.jumlah'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            // diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            netto : $('.netto'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                            gudang : $('.gudang'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
                                         })
                                     }
                                     var datax = {
-                                            cek : value_ac,
+                                            cek : 'submit',
                                             no_pb : $('.no_pb').val(),
                                             tgl_pb : $('.tgl_pb').val(),
-                                            member : $('.member').val(),
+                                            // member : $('.member').val(),
                                             supplier : $('.supplier').val(),
                                             srt_jln : $('.srt_jln').val(),
                                             tgl_srt_jln : $('.tgl_srt_jln').val(),
@@ -580,32 +592,18 @@
                                                     async : true,
                                                     dataType : 'json',
                                                     success: function(data){
-                                                        if (data.tahan == '1') {
+                                                        if (data == 'berhasil') {
                                                             swal({
                                                                     title: "Berhasil..!",
-                                                                    text: "Transaksi "+data.no_struk+"  berhasil ditahan",
+                                                                    text: "Penerimaan barang "+no_pb+" berhasil",
                                                                     icon: "success",
                                                                     })
                                                                     .then((willDelete) => {
                                                                         if (willDelete) {
-                                                                        window.location = '<?= base_url() ?>pos/';
+                                                                        window.location = '<?= base_url() ?>barang/add_pb';
                                                                         }
                                                                     });
-                                                        }else{
-                                                            swal({
-                                                                title: "Berhasil..!",
-                                                                text: "Transaksi "+data.no_struk+data.tahan+"  berhasil disimpan",
-                                                                icon: "success",
-                                                                }).then((willDelete) => {
-                                                                if (willDelete) {
-                                                                window.open('<?= base_url() ?>pos/cetak?id=' + data.id_transaksi,'_blank');
-                                                                window.location = '<?= base_url() ?>pos'
-                                                                }
-                                                            });
                                                         }
-                                                    },
-                                                    error: function(data){
-                                                        console.log(data)
                                                     }
                                             })
                     }

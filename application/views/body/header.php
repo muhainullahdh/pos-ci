@@ -50,6 +50,9 @@
     }
   </style>
 </head>
+<?php
+date_default_timezone_set('Asia/Jakarta');
+?>
 
 <body onload="startTime()">
   <!-- loader starts-->
