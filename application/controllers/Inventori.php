@@ -372,14 +372,6 @@ class Inventori extends CI_Controller
                 )
             );
 
-            // print_r($data['tampil']);
-            // foreach ($data['tampil'] as $t) {
-            //     echo '<pre>';
-            //     print_r($t->nama);
-            //     echo '</pre>';
-            // }
-            // exit;
-
             // bagian header
             $excel->setActiveSheetIndex(0)->setCellValue('A1', "No.");
             $excel->setActiveSheetIndex(0)->setCellValue('B1', "Kode barang");
@@ -478,30 +470,13 @@ class Inventori extends CI_Controller
 
         $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
 
-        // $no_stock_opname = $this->input->post('no_sop');
-        // $data = [
-        //     'no_urut' => $this->input->post('no_urut'),
-        //     'no_stock_opname' => $no_stock_opname,
-        //     'tanggal_opname' => $tanggal,
-        //     'id_gudang' => $gudang,
-        //     'keterangan' => $keterangan,
-        //     'created_at' => date('Y-m-d H:i:s'),
-        //     'created_by' => $this->session->userdata('id_user'),
-        // ];
-
-        // $this->db->insert('stock_opname', $data);
-        // $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-        //     Stok opname berhasil ditambahkan.
-        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        //     </div>');
-        // After that you need to used redirect function instead of load view such as 
-        // redirect("inventori/detail_sop/$no_stock_opname");
-
         $data = [
+            'no_urut' => $no_urut,
             'no_stock_opname' => $no_stock_opname,
             'tanggal_opname' => $tanggal,
             'id_gudang' => $gudang,
             'keterangan' => $keterangan,
+            "gudang2" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
             "barang" =>  $this->db->where('id_gudang', $gudang)->order_by('nama', 'ASC')->get('barang')->result(),
         ];
 
@@ -522,9 +497,6 @@ class Inventori extends CI_Controller
             "barang" =>  $this->db->where('id_gudang', $sop['id_gudang'])->order_by('nama', 'ASC')->get('barang')->result(),
         ];
 
-        // print_r($data['barang']);
-        // exit;
-
         $this->load->view('body/header');
         $this->load->view('inventori/stock_opname_detail', $data);
         $this->load->view('body/footer');
@@ -532,45 +504,19 @@ class Inventori extends CI_Controller
 
     public function add_detail_sop()
     {
-        // $no_stock_opname = $this->input->post('no_stock_opname');
-
-        // $data = [
-        //     'id_stock_opname' => $this->input->post('id_stock_opname'),
-        //     'id_barang' => $this->input->post('barang'),
-        //     'satuan' => $this->input->post('satuan'),
-        //     'qty_sistem' => $this->input->post('qty_sistem'),
-        //     'qty_fisik' => $this->input->post('qty_fisik'),
-        //     'selisih' => $this->input->post('selisih'),
-        //     'created_at' => date('Y-m-d H:i:s'),
-        //     'created_by' => $this->session->userdata('id_user'),
-        // ];
-
-        // // echo '<pre>';
-        // // print_r($data);
-        // // print_r($no_stock_opname);
-        // // echo '</pre>';
-
-        // $this->db->insert('stock_opname_details', $data);
-        // $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-        //     Stok opname berhasil ditambahkan.
-        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        //     </div>');
-        // // After that you need to used redirect function instead of load view such as 
-        // redirect("inventori/detail_sop/$no_stock_opname");
-
         // Assuming you have received the form data through POST
         $no_stock_opname = $this->input->post('no_sop');
         $tanggal_opname = $this->input->post('tanggal_sop');
 
         // Create a new stock_opname record
         $stock_opname_data = array(
+            'no_urut' => $this->input->post('no_urut'),
             'no_stock_opname' => $no_stock_opname,
             'tanggal_opname' => $tanggal_opname,
-            // Add other relevant fields
+            'id_gudang' => $this->input->post('gudang'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id_user'),
         );
-        // echo '<pre>';
-        // print_r($stock_opname_data);
-        // echo '</pre><br>';
 
         // Insert into stock_opname table
         $this->db->insert('stock_opname', $stock_opname_data);
@@ -584,6 +530,7 @@ class Inventori extends CI_Controller
         $qty_sistem_values = $this->input->post('qty_sistem');
         $satuan_values = $this->input->post('satuan');
         $selisih_values = $this->input->post('selisih');
+        $now = date('Y-m-d H:i:s');
 
         // Loop through the rows and insert into stock_opname_details
         if (is_array($barang_ids)) {
@@ -602,23 +549,35 @@ class Inventori extends CI_Controller
                     'qty_sistem' => $qty_sistem,
                     'qty_fisik' => $qty_fisik,
                     'selisih' => $selisih,
-                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_at' => $now,
                     'created_by' => $this->session->userdata('id_user'),
                 ];
 
-                // echo '<pre>';
-                // print_r($stock_opname_detail_data);
-                // echo '</pre>';
                 // Insert into stock_opname_details table
                 $this->db->insert('stock_opname_details', $stock_opname_detail_data);
             }
-        } else {
-            echo "No items selected in the form.";
-        }
 
-        // Redirect or show a success message
-        redirect('inventori/stock_opname');
-        exit;
+            $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Stok opname berhasil ditambahkan.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+            // Redirect or show a success message
+            redirect('inventori/stock_opname');
+        } else {
+            // Redirect or show a success message
+            redirect('inventori/stock_opname');
+        }
+    }
+
+    public function pending_sop()
+    {
+        $data = [
+            "barang" => $this->db->where('a.status', 0)->from('stock_opname_details a')->join('stock_opname b', 'a.id_stock_opname = b.id', 'left')->join('barang c', 'a.id_barang = c.id', 'left')->get()->result(),
+        ];
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/pending_sop', $data);
+        $this->load->view('body/footer');
     }
 
     public function delete_sop()
@@ -648,5 +607,34 @@ class Inventori extends CI_Controller
             </div>');
         // After that you need to used redirect function instead of load view such as 
         redirect("inventori/detail_sop/$no_stock_opname");
+    }
+
+    public function approve()
+    {
+        $id = $this->uri->segment(3);
+        print_r($id);
+
+        $sop_detail = $this->db->where('Id', $id)->get('stock_opname_details')->row_array();
+
+        $data_sop_detail = ['status' => 1];
+
+        $data_stok = ['stok' => $sop_detail['qty_fisik']];
+
+        $this->db->where('id', $sop_detail['id_barang'])->update('barang', $data_stok);
+        $update = $this->db->where('Id', $id)->update('stock_opname_details', $data_sop_detail);
+
+        if ($update) {
+            $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                Stok barang sudah diperbarui.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+        } else {
+            $this->session->set_flashdata('message_name', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Terjadi kesalahan. Silahkan dicoba lagi.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+        }
+
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }

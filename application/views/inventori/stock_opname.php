@@ -27,6 +27,7 @@
                     <div class="card-body">
                         <?= $this->session->flashdata('message_name') ?>
                         <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#buatStockOpname">Buat baru</button>
+                        <a href="<?= base_url('inventori/pending_sop') ?>" class="btn btn-danger btn-sm">Butuh persetujuan</a>
 
                         <div class="table-responsive mt-3">
                             <table class="table" id="basic-1">

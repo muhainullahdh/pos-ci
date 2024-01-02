@@ -28,17 +28,35 @@
                 <div class="card">
 
                     <form action="<?= base_url('inventori/add_detail_sop') ?>" method="post">
+                        <input type="hidden" name="no_urut" value="<?= $no_urut ?>">
                         <div class="card-body">
                             <?= $this->session->flashdata('message_name') ?>
                             <!-- <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#buatStockOpname">Buat baru</button> -->
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="no_sop">No. Stock Opname</label>
                                         <input class="form-control" id="no_sop" name="no_sop" type="text" value="<?= $no_stock_opname ?>" required>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_sop">Gudang</label>
+
+                                        <select name="gudang" id="gudang" class="form-select input-air-primary digits" onchange="getBarang()" required>
+                                            <option value="">--</option>
+                                            <?php
+                                            foreach ($gudang2 as $g) {
+                                            ?>
+                                                <option <?= ($g->id == $id_gudang) ? 'selected' : '' ?> value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="Tanggal">Tanggal</label>
                                         <input type="date" name="tanggal_sop" id="tanggal_sop" class="form-control" value="<?= $tanggal_opname ?>">
@@ -71,35 +89,6 @@
                                         </tr>
                                     </thead>
                                     <tbody id="sample-wrapper">
-                                        <!-- <tr>
-                                            <td style="width: 200px;">
-                                                <select name="barang[]" id="barang[]" class="form-select input-air-primary digits select2" onchange="showBarangDetail(this)" required>
-                                                    <option value="">--</option>
-                                                    <?php
-                                                    foreach ($barang as $b) {
-                                                    ?>
-                                                        <option value="<?= $b->id ?>">(<?= $b->kode_barang ?>) <?= $b->nama ?></option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="satuan[]" id="satuan[]" readonly>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="qty_sistem[]" id="qty_sistem[]" readonly>
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control" name="qty_fisik[]" id="qty_fisik[]" oninput="hitung(this)">
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control" name="selisih[]" id="selisih[]" readonly>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-light btn-sm" name="add_row">&plus;</button>
-                                            </td>
-                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -123,7 +112,7 @@
             'id' => $b->id,
             'label' => $b->nama,
             'satuan' => $b->id_satuan_kecil,
-            'stok' => $b->qty_kecil,
+            'stok' => $b->stok,
         ];
     }
     ?>
