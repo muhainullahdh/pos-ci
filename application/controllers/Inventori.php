@@ -7,7 +7,7 @@ class Inventori extends CI_Controller
     {
         parent::__construct();
         // $this->load->library('Pdf');
-        // $this->load->model('M_admin');
+        $this->load->model('M_Barang');
         $this->load->helper(array('form', 'url', 'date'));
 
         $this->load->library('PHPExcel');
@@ -74,56 +74,32 @@ class Inventori extends CI_Controller
 
     public function koreksi_barang()
     {
-        $data = [
-            "barang" => $this->db->where_not_in('selisih', 0)->from('stock_opname_details a')->join('stock_opname b', 'a.id_stock_opname = b.id', 'left')->join('barang c', 'a.id_barang = c.id', 'left')->order_by('no_stock_opname', 'DESC')->order_by('nama', 'ASC')->get()->result(),
-
-            // "barang" => $this->db->order_by('nama', 'ASC')->get('barang')->result(),
-        ];
-        // echo '<pre>';
-        // print_r($data);
-        // echo '</pre>';
-        // exit;
 
         $this->load->view('body/header');
-        $this->load->view('inventori/koreksi_barang', $data);
+        $this->load->view('inventori/koreksi_barang');
         $this->load->view('body/footer');
     }
 
     public function proses_koreksi_barang()
     {
-        $id = $this->uri->segment(3);
+        $id_barang = $this->input->post('id_barang');
         $nama_barang = $this->input->post('nama_barang');
 
         $data_koreksi = [
-            "id_barang" => $id,
+            "id_barang" => $id_barang,
             "tanggal_koreksi" => date('Y-m-d'),
-            "jumlah_koreksi" => $this->input->post('koreksi_stok'),
+            "stok_awal" => $this->input->post('stok'),
+            "debit_kredit" => $this->input->post('debit_kredit'),
+            "jumlah_koreksi" => $this->input->post('jumlah'),
             "alasan_koreksi" => $this->input->post('alasan_koreksi'),
             "created_at" => date('Y-m-d H:i:s'),
             "created_by" => $this->session->userdata('id_user'),
         ];
 
-        $data_barang = [
-            "stok" => $this->input->post('koreksi_stok'),
-        ];
-
-        $data_stock_opname = [
-            'qty_sistem' => $this->input->post('koreksi_stok'),
-            'qty_fisik' => $this->input->post('koreksi_stok'),
-            'selisih' => 0,
-        ];
-
-        $id_stock_opname_details = $this->input->post('id_stock_opname_details');
-
-        $this->db->where('id', $id)->update('barang', $data_barang);
-
-        $this->db->where('id', $id_stock_opname_details)->update('stock_opname_details', $data_stock_opname);
-
         $this->db->insert('koreksi', $data_koreksi);
 
-
         $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Stok ' . $nama_barang . ' berhasil dikoreksi.
+            Stok ' . $nama_barang . ' telah dikoreksi. Menunggu persetujuan.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>');
 
@@ -141,7 +117,7 @@ class Inventori extends CI_Controller
     public function histori_koreksi()
     {
         $data = [
-            'koreksi' => $this->db->select('*, b.nama as nama, c.nama as nama_user')->from('koreksi a')->join('barang b', 'a.id_barang = b.id', 'left')->join('users c', 'a.created_by = c.id', 'left')->order_by('created_at', 'DESC')->get()->result(),
+            'koreksi' => $this->db->select('a.id as id_koreksi, b.nama as nama_barang, tanggal_koreksi, stok_awal, jumlah_koreksi, debit_kredit, alasan_koreksi, c.nama as nama_user, status_koreksi')->from('koreksi a')->join('barang b', 'a.id_barang = b.id', 'left')->join('users c', 'a.created_by = c.id', 'left')->order_by('created_at', 'DESC')->limit(500, 0)->get()->result(),
         ];
         // echo '<pre>';
         // print_r($data['koreksi']);
@@ -151,6 +127,22 @@ class Inventori extends CI_Controller
 
         $this->load->view('body/header');
         $this->load->view('inventori/histori_koreksi', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function pending_koreksi()
+    {
+        $data = [
+            'koreksi' => $this->db->select('a.id as id_koreksi, b.nama as nama_barang, tanggal_koreksi, stok_awal, jumlah_koreksi, debit_kredit, alasan_koreksi, c.nama as nama_user, status_koreksi')->from('koreksi a')->join('barang b', 'a.id_barang = b.id', 'left')->join('users c', 'a.created_by = c.id', 'left')->where('status_koreksi', '0')->order_by('created_at', 'DESC')->get()->result(),
+        ];
+        // echo '<pre>';
+        // print_r($data['koreksi']);
+        // echo '</pre>';
+        // exit;
+
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/pending_koreksi', $data);
         $this->load->view('body/footer');
     }
 
@@ -622,6 +614,77 @@ class Inventori extends CI_Controller
 
         $this->db->where('id', $sop_detail['id_barang'])->update('barang', $data_stok);
         $update = $this->db->where('Id', $id)->update('stock_opname_details', $data_sop_detail);
+
+        if ($update) {
+            $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                Stok barang sudah diperbarui.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+        } else {
+            $this->session->set_flashdata('message_name', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Terjadi kesalahan. Silahkan dicoba lagi.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+        }
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function getData()
+    {
+        $results = $this->M_Barang->getDataBarang();
+
+        $data = [];
+
+        $no = $this->input->post('start', true);
+
+        foreach ($results as $r) {
+            $row = array();
+
+            $gudang = $this->db->where('id', $r->id_gudang)->get('gudang')->row_array();
+            if ($r->id_gudang) {
+                $nama_gudang = $gudang['nama'];
+            } else {
+                $nama_gudang = '-';
+            }
+
+            $row[] = ++$no . '.';
+            $row[] = $r->kode_barang;
+            $row[] = $r->nama;
+            $row[] = $r->stok;
+            $row[] = $nama_gudang;
+            $row[] = '<button type="button" data-id="' . $r->id . '" class="btn btn-primary btn-square barang_v"><i class="fa fa-eye"></i></button>';
+
+            $row[] = $r->id;
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $this->input->post('draw', true),
+            "recordsTotal" => $this->M_Barang->count_all_data(),
+            "recordsFiltered" => $this->M_Barang->count_filtered_data(),
+            "data" => $data
+        );
+        $this->output->set_content_type('application/json')->set_output(json_encode($output));
+    }
+
+    public function approve_koreksi()
+    {
+        $id = $this->uri->segment(3);
+        $koreksi_detail = $this->db->where('id', $id)->get('koreksi')->row_array();
+
+        if ($koreksi_detail['debit_kredit'] == "debit") {
+            $stok_baru = $koreksi_detail['stok_awal'] + $koreksi_detail['jumlah_koreksi'];
+        } else if ($koreksi_detail['debit_kredit'] == "kredit") {
+            $stok_baru = $koreksi_detail['stok_awal'] - $koreksi_detail['jumlah_koreksi'];
+        }
+
+        $data_koreksi_detail = ['status_koreksi' => 1];
+
+        $data_stok = ['stok' => $stok_baru];
+
+        $this->db->where('id', $koreksi_detail['id_barang'])->update('barang', $data_stok);
+        $update = $this->db->where('id', $id)->update('koreksi', $data_koreksi_detail);
 
         if ($update) {
             $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">

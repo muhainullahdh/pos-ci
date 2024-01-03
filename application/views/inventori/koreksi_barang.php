@@ -22,123 +22,156 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <div class="card">
-                    <div class="card-header card-no-border">
-                        <div class="card-header-right">
-                            <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#entri_barang">Entri barang</button> -->
+                    <div class="card-header card-no-border" style="padding: 10px !important">
+                        <div class="card-header-left">
                             <a href="<?= base_url('inventori/histori_koreksi') ?>" class="btn btn-primary btn-sm">Riwayat koreksi</a>
+                            <a href="<?= base_url('inventori/pending_koreksi') ?>" class="btn btn-danger btn-sm">Butuh persetujuan</a>
                         </div>
                     </div>
-                    <div class="card-body">
-
+                    <div class="card-body" style="padding: 10px !important">
                         <?= $this->session->flashdata('message_name') ?>
-                        <div class="table-responsive">
-                            <table class=" display" id="basic-1">
+                        <!-- <div class="row">
+                            <a href="<?= base_url('inventori/histori_koreksi') ?>" class="btn btn-primary btn-sm">Riwayat koreksi</a>
+                        </div> -->
+                        <div class="signal-table">
+                            <table class="table table-hover" id="table-koreksi">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Kode barang</th>
                                         <th>Nama barang</th>
-                                        <th>Qty sistem</th>
-                                        <th>Qty fisik</th>
-                                        <th>Selisih</th>
+                                        <th>Stok</th>
+                                        <th>Gudang</th>
                                         <th>Act.</th>
+                                        <th>Id</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($barang as $b) {
-                                        $selisih = $b->selisih;
-                                        $formatted_selisih = ($selisih >= 0) ? "+$selisih" : "$selisih";
-                                    ?>
-                                        <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $b->kode_barang ?></td>
-                                            <td><?= $b->nama ?></td>
-                                            <td><?= $b->qty_sistem ?></td>
-                                            <td><?= $b->qty_fisik ?></td>
-                                            <td class="text-center"><?= $formatted_selisih ?></td>
-                                            <td>
-                                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal<?= $b->kode_barang ?>">Edit</button>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<?php
-foreach ($barang as $b) {
-?>
-    <div class="modal fade" id="modal<?= $b->kode_barang ?>" tabindex="-1" role="dialog" aria-labelledby="modal<?= $b->kode_barang ?>" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="entri_barangLongTitle"><?= $b->nama ?> </h5>
-                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form action="<?= base_url('inventori/proses_koreksi_barang') ?>" method="post">
+                            <input type="hidden" class="form-control" name="id_barang" id="id_barang" required readonly>
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_sop">Nama barang</label>
+                                        <input type="text" class="form-control" name="nama_barang" id="nama_barang" required readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_sop">Stok sekarang</label>
+                                        <input type="text" class="form-control" name="stok" id="stok" required readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_sop">Debit/Kredit</label>
+                                        <select name="debit_kredit" id="debit_kredit" class="form-control" required>
+                                            <option value="">--</option>
+                                            <option value="debit">Debit</option>
+                                            <option value="kredit">Kredit</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_sop">Jumlah</label>
+                                        <input type="text" class="form-control" name="jumlah" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_sop">Alasan</label>
+                                        <textarea name="alasan_koreksi" id="alasan_koreksi" cols="30" rows="3" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_sop"></label>
+                                        <button type="submit" class="btn btn-primary btn-process mt-4">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <form action="<?= base_url('inventori/proses_koreksi_barang/' . $b->id_barang) ?>" method="post" class="form theme-form dark-input" id="myForm">
-                    <div class="modal-body">
-                        <!-- <div class="row">
-                            <div class="col">
-                                <label for="category" class="form-label">Qty Sistem</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm nominal" name="qty_sistem" id="qty_sistem" value="<?= $b->qty_sistem ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <label for="category" class="form-label">Qty Fisik</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm nominal" name="qty_fisik" id="qty_fisik" value="<?= $b->qty_fisik ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <label for="category" class="form-label">Selisih</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm nominal" name="selisih" id="selisih" value="<?= $b->selisih ?>">
-                                </div>
-                            </div>
-                        </div> -->
-                        <input type="hidden" name="id_stock_opname_details" value="<?= $b->Id ?>">
-                        <input type="hidden" name="nama_barang" value="<?= $b->nama ?>">
-                        <div class="row">
-                            <div class="col">
-                                <label for="category" class="form-label">Koreksi stok</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm nominal" name="koreksi_stok" id="koreksi_stok">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <label for="category" class="form-label">Alasan koreksi</label>
-                                <div class="input-group">
-                                    <textarea type="text" class="form-control form-control-sm nominal" name="alasan_koreksi" id="alasan_koreksi"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
-<?php
-}
-?>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+
+<script>
+    var tableKoreksi = '#table-koreksi';
+
+    var dataTable = new DataTable(tableKoreksi, {
+        "processing": true,
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": "getData",
+            "type": "POST",
+        },
+        // "columnDefs": [-1],
+        "columnDefs": [{
+            "targets": -1, // Kolom terakhir
+            "orderable": false, // Tidak bisa diurutkan
+            // "render": function(data, type, row, meta) {
+            //     return '';
+            // }
+        }, {
+            "targets": [6],
+            "visible": false
+        }],
+        "orderable": true
+    });
+    // Tanggapi klik pada tombol .barang_v
+    $(tableKoreksi).on('click', '.barang_v', function() {
+        // Ambil index baris yang diklik
+        var rowIndex = $(this).closest('tr').index();
+
+        // Ambil data detail barang dari baris yang diklik
+        var rowData = dataTable.row(rowIndex).data();
+
+        // Pastikan rowData tidak kosong sebelum mengakses indeksnya
+        if (rowData) {
+            var kodeBarang = rowData[1]; // Kolom ke-2 adalah Nama Barang
+            var namaBarang = rowData[2]; // Kolom ke-2 adalah Nama Barang
+            var stokSekarang = rowData[3]; // Kolom ke-3 adalah Stok Sekarang
+            var idBarang = rowData[6]; // Kolom ke-3 adalah Stok Sekarang
+
+            // Isi nilai ke dalam input nama_barang dan stok
+            $('#nama_barang').val(namaBarang);
+            $('#stok').val(stokSekarang);
+            $('#id_barang').val(idBarang);
+        }
+    });
+</script>

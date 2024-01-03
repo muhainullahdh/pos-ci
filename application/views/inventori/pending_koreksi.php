@@ -66,7 +66,9 @@
                                                 <?php
                                                 if ($b->status_koreksi == 0) {
                                                 ?>
-                                                    <button class="btn btn-warning btn-xs">Belum disetujui</button>
+                                                    <a href="<?= base_url('inventori/approve_koreksi/' . $b->id_koreksi) ?>" class="btn btn-primary btn-xs btn-process" title="Setujui koreksi">
+                                                        <i class="fa fa-check"></i>
+                                                    </a>
                                                 <?php
                                                 } else {
                                                 ?>

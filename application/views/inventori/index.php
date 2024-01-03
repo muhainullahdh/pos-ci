@@ -193,7 +193,7 @@
                                     <?php
                                     foreach ($gudang as $g) {
                                     ?>
-                                        <option value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                        <option value="<?= $g->id ?>"><?= $g->nama ?></option>
                                     <?php
                                     }
                                     ?>

@@ -101,7 +101,7 @@
                                                 <?php
                                                 foreach ($barang as $b) {
                                                 ?>
-                                                    <option value="<?= $b->id ?>">(<?= $b->kode_barang ?>) <?= $b->nama ?></option>
+                                                    <option value="<?= $b->id ?>"><?= $b->nama ?></option>
                                                 <?php
                                                 }
                                                 ?>
