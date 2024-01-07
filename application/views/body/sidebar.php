@@ -88,7 +88,7 @@
           <i data-feather="arrow-down-circle"></i>
           <span>Pembelian</span></a>
         <ul class="sidebar-submenu">
-          <li><a href="<?= base_url('barang/penerimaan') ?>">Penerimaan Barang</a></li>
+          <li><a href="<?= base_url('pembelian') ?>">Penerimaan Barang</a></li>
           <li><a href="dashboard-04.html">Role</a></li>
         </ul>
       </li>

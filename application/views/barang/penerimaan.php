@@ -19,13 +19,14 @@
               </div>
             </div>
           </div>
-          <?php
-          if ($this->session->flashdata('msg') == 'double_satuan') { ?>
+          <?php if ($this->session->flashdata('msg') == 'double_satuan') { ?>
           <script>
             $(document).ready(function() {
                 swal({
                         title: "Opss",
-                        text: "Data <?= $this->session->flashdata('msg_val') ?> tidak boleh sama",
+                        text: "Data <?= $this->session->flashdata(
+                            'msg_val'
+                        ) ?> tidak boleh sama",
                         icon: "warning",
                     })
                 })
@@ -46,9 +47,22 @@
                                 <label>No.PB</label>
                             </div>
                             <div class="col-xl-3">
-                                <?php $date = date('d').date('m').date('Y'); 
-                                $urutan = $this->db->query("SELECT max(no_pb) as t FROM penerimaan where tgl_pb=".date('Y-m-d')." ")->row_array() ?>
-                                <input type="text" readonly class="form-control no_pb" value="PB-<?= date('d') . date('m') . date('y') . sprintf('%04d', $urutan['t']) ?>">
+                                <?php
+                                $date = date('d') . date('m') . date('Y');
+                                $urutan = $this->db
+                                    ->query(
+                                        'SELECT max(no_pb) as t FROM penerimaan where tgl_pb=' .
+                                            date('Y-m-d') .
+                                            ' '
+                                    )
+                                    ->row_array();
+                                ?>
+                                <input type="text" readonly class="form-control no_pb" value="PB-<?= date(
+                                    'd'
+                                ) .
+                                    date('m') .
+                                    date('y') .
+                                    sprintf('%04d', $urutan['t'] + 1) ?>">
                                 <!-- <input type="text" class="form-control no_pb" value="PB-2311-000078"> -->
                             </div>
                             <div class="col-xl-1"></div>
@@ -83,7 +97,9 @@
                                 <label>Tgl.PB</label>
                             </div>
                             <div class="col-xl-3">
-                                <input type="date" class="form-control tgl_pb">
+                                <input type="date" value="<?= date(
+                                    'Y-m-d'
+                                ) ?>" class="form-control tgl_pb">
                             </div>
                             <div class="col-xl-1"></div>
                             <div class="col-xl-2">
@@ -110,10 +126,18 @@
                             <div class="col-xl-3">
                                 <select name="" id="" class="form-control supplier select2">
                                     <option value="">Pilih Supplier</option>
-                                    <?php $supplier = $this->db->get('supplier')->result();
+                                    <?php
+                                    $this->db->where(
+                                        'nama_supplier !=',
+                                        'UMUM'
+                                    );
+                                    $supplier = $this->db
+                                        ->get('supplier')
+                                        ->result();
                                     foreach ($supplier as $x) { ?>
                                         <option value="<?= $x->kode_supplier ?>"><?= $x->nama_supplier ?></option>
-                                    <?php } ?>
+                                    <?php }
+                                    ?>
                                 </select>
                             </div>
                             <div class="col-xl-1"></div>
@@ -152,7 +176,9 @@
                                 <label>Tgl Srt Jln</label>
                             </div>
                             <div class="col-xl-3">
-                                <input type="date" class="form-control tgl_srt_jln">
+                                <input type="date" value="<?= date(
+                                    'Y-m-d'
+                                ) ?>" class="form-control tgl_srt_jln">
                             </div>
                        </div>
                        <div class="row mt-3">
@@ -204,13 +230,15 @@
                 </div>
               </div>
             </div>
-            <?php }else{ ?>
+            <?php } else { ?>
             <div class="row">
               <div class="col-sm-12">
                 <div class="card">
                   <div class="card-header">
                     <h4>List penerimaan</h4><br>
-                    <a href="<?= base_url('barang/add_pb') ?>" class="btn btn-secondary">Add</a>
+                    <a href="<?= base_url(
+                        'pembelian/add_pb'
+                    ) ?>" class="btn btn-secondary">Add</a>
                   </div>
                     <div class="card-body">
                         <div class="table-responsive" style="height: 450px;">
@@ -226,10 +254,22 @@
                                             </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($penerimaan as $x) {  ?>
+                                    <?php foreach ($penerimaan as $x) { ?>
                                             <tr>
                                                 <td>
-                                                    <?= $x->nama ?>
+                                                    <?= $x->no_pb ?>
+                                                </td>
+                                                <td>
+                                                    <?= $x->tgl_pb ?>
+                                                </td>
+                                                <td>
+                                                    <?= $x->supplier ?>
+                                                </td>
+                                                <td>
+                                                    <?= $x->total_penerima ?>
+                                                </td>
+                                                <td>
+                                                    <?= $x->total_penerima ?>
                                                 </td>
 
                                                 <td>
@@ -247,8 +287,12 @@
                                                   </div>
                                                   <div class="modal-body">
                                                     <div class="modal-toggle-wrapper">
-                                                        <?= $this->session->flashdata('msg') ?>
-                                                        <form action="<?= base_url('barang/penerimaan') ?>" method="post">
+                                                        <?= $this->session->flashdata(
+                                                            'msg'
+                                                        ) ?>
+                                                        <form action="<?= base_url(
+                                                            'pembelian'
+                                                        ) ?>" method="post">
                                                             <div class="row">
                                                                     <!-- <div class="modal-img"> <img src="../assets/images/gif/online-shopping.gif" alt="online-shopping"></div> -->
                                                                     <div class="col">
@@ -306,7 +350,9 @@
                                     $('.id_pb_list'+counter+'').val(ui.item.description);
                                     var i,j;
                                                 // $.ajax({
-                                                //     url : "<?= site_url('pos/search_barang');?>",
+                                                //     url : "<?= site_url(
+                                                    'pos/search_barang'
+                                                ) ?>",
                                                 //     method : "POST",
                                                 //     data : {id: ui.item.description},
                                                 //     async : true,
@@ -322,29 +368,74 @@
                                                 //         if (data.id_satuan_kecil_konv != "") {
                                                 //             satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
                                                 //         }
-                                                //         <?php if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
+                                                //         <?php if (
+                                                    strtolower(
+                                                        explode(
+                                                            ',',
+                                                            $this->session->userdata(
+                                                                'tipe_penjualan'
+                                                            )
+                                                        )[0]
+                                                    ) == 'umum'
+                                                ) { ?>
                                                 //             var harga1 = formatRupiah(data.hargajualb_retail)
                                                 //             if (data.id_satuan_besar != "") {
                                                 //                 var qtyyy = data.qty_besar
                                                 //             }
                                                 //             var jumlah = data.hargajualb_retail * qtyyy
-                                                //         <?php }else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
+                                                //         <?php } elseif (
+                                                    strtolower(
+                                                        explode(
+                                                            ',',
+                                                            $this->session->userdata(
+                                                                'tipe_penjualan'
+                                                            )
+                                                        )[0]
+                                                    ) == 'retail'
+                                                ) { ?>
                                                 //             var harga1 = formatRupiah(data.hargajualb_retail)
                                                 //                 if (data.id_satuan_besar != "") {
                                                 //                     var qtyyy = data.qty_besar
                                                 //                 }
                                                 //             var jumlah = data.hargajualb_retail * qtyyy
-                                                //         <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'grosir'){ ?>
+                                                //         <?php } elseif (
+                                                    strtolower(
+                                                        explode(
+                                                            ',',
+                                                            $this->session->userdata(
+                                                                'tipe_penjualan'
+                                                            )
+                                                        )[0]
+                                                    ) == 'grosir'
+                                                ) { ?>
                                                 //             var harga1 = formatRupiah(data.hargajualb_grosir)
                                                 //             if (data.id_satuan_kecil != "") {
                                                 //                     var qtyyy = data.qty_kecil
                                                 //                 }
                                                 //             var jumlah = data.hargajualk_grosir * qtyyy
-                                                //         <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'partai'){ ?>
+                                                //         <?php } elseif (
+                                                    strtolower(
+                                                        explode(
+                                                            ',',
+                                                            $this->session->userdata(
+                                                                'tipe_penjualan'
+                                                            )
+                                                        )[0]
+                                                    ) == 'partai'
+                                                ) { ?>
                                                 //             var harga1 = formatRupiah(data.hargajualb_partai)
-                                                //         <?php } else if (strtolower(explode(',',$this->session->userdata('tipe_penjualan'))[0]) == 'promo'){ ?>
+                                                //         <?php } elseif (
+                                                    strtolower(
+                                                        explode(
+                                                            ',',
+                                                            $this->session->userdata(
+                                                                'tipe_penjualan'
+                                                            )
+                                                        )[0]
+                                                    ) == 'promo'
+                                                ) { ?>
                                                 //             var harga1 = formatRupiah(data.hargajualb_promo)
-                                                //         <?php }?>
+                                                //         <?php } ?>
                                                 //             var stok = data.stok
                                                 //             var min_stok = data.min_stok
                                                 //         if (stok < min_stok) {
@@ -443,13 +534,13 @@
                                     '<td>'+
                                     '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
                                         '<option value="">Pilih satuan</option>'+
-                                        <?php
-                                        if ($this->uri->segment(2) == 'add_pb') {
-                                            foreach ($satuan as $x) {
-                                        ?>
+                                        <?php if (
+                                            $this->uri->segment(2) == 'add_pb'
+                                        ) {
+                                            foreach ($satuan as $x) { ?>
                                         '<option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option>'+
                                         <?php }
-                                            }?>
+                                        } ?>
                                     '</select>'+
                                     '</td>'+
                                     '<td>'+
@@ -473,10 +564,10 @@
                                     '<td>'+
                                         '<select id="idg'+counter+'" class="form-control gudang'+counter+'" style="cursor: text;">'+
                                         '<option value="">Pilih satuan</option>'+
-                                    <?php
-                                    if ($this->uri->segment(2) == 'add_pb') {
-                                        foreach ($gudang as $x) {
-                                            ?>
+                                    <?php if (
+                                        $this->uri->segment(2) == 'add_pb'
+                                    ) {
+                                        foreach ($gudang as $x) { ?>
                                                 '<option value="<?= $x->id ?>"><?= $x->nama ?></option>' +
                                         <?php }
                                     } ?>
@@ -554,6 +645,7 @@
 
                         }
                     }else if(e.which == 113){ // submit f2
+                        
                                     var barang = ''
                                     var xx = []
                                     for (let i = 1; i <= counter; i++) {
@@ -568,6 +660,7 @@
                                             gudang : $('.gudang'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
                                         })
                                     }
+                                    
                                     var datax = {
                                             cek : 'submit',
                                             no_pb : $('.no_pb').val(),
@@ -582,11 +675,24 @@
                                             fp : $('.fp').val(),
                                             tgl_fp : $('.tgl_fp').val(),
                                             keterangan : $('.keterangan').val(),
-                                            // id_transaksi : <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
+                                            // id_transaksi : <?= $this->uri->segment(
+                                                3
+                                            ) == true
+                                                ? $this->uri->segment(3)
+                                                : 0 ?>,
                                             item : xx
                                         }
+                                        if (xx.length == 0) {
+                                            swal({
+                                                title: "Opss..!",
+                                                text: "Barang tidak boleh kosong",
+                                                icon: "warning",
+                                            })
+                                        }else{
                                             $.ajax({
-                                                    url : "<?= site_url('barang/submit_pb');?>",
+                                                    url : "<?= site_url(
+                                                        'pembelian/submit_pb'
+                                                    ) ?>",
                                                     method : "POST",
                                                     data : datax,
                                                     async : true,
@@ -600,12 +706,13 @@
                                                                     })
                                                                     .then((willDelete) => {
                                                                         if (willDelete) {
-                                                                        window.location = '<?= base_url() ?>barang/add_pb';
+                                                                        window.location = '<?= base_url() ?>pembelian/add_pb';
                                                                         }
                                                                     });
                                                         }
                                                     }
                                             })
+                                        }
                     }
                 };
         })
