@@ -2274,15 +2274,15 @@
                                 });
                                 $.fn.modal.Constructor.prototype._enforceFocus = function() {};
                                 $('#modal_penjualan').modal('show');
-                                var kurang_bayar = 0
+                                // var kurang_bayar = 0
                                 for (let i = 0; i < data.length; i++) {
-                                    kurang_bayar += data[i].total_transkasi - data[i].total_bayar_piutang;
+                                    // kurang_bayar += data[i].total_transkasi - data[i].total_bayar_piutang;
                                     <?php if ($this->session->userdata('level') == '1') { ?>
                                         var invs_level = ''
                                     <?php } else { ?>
                                         var invs_level = 'invisible'
                                     <?php } ?>
-                                    var total_fix = data[i].total_transaksi-kurang_bayar;
+                                    var total_fix = data[i].total_transaksi;
                                     $('#load-transaksi tbody').append(
                                         '<tr style="background-color: white;">' +
                                         '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
