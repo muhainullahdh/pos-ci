@@ -132,7 +132,7 @@ class Pos extends CI_Controller
         $this->db->join('piutang as b', 'a.id=b.id_transaksi', 'LEFT');
         $this->db->join('histori_transaksi as c', 'a.id=c.id_transaksi', 'LEFT');
         $get_transaksi = $this->db->get("transaksi as a")->row_array();
-
+        
         $this->db->where('id_transaksi', $id_transaksi);
         $get_transaksi_item = $this->db->get("transaksi_item")->result();
         $data = [

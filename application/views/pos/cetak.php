@@ -102,12 +102,37 @@
             <td>Sub Total</td>
             <td style="text-align:right"><?= number_format($sub_total, 0, ',', ',') ?></td>
         </tr>
-        <?php
+        <!-- <?php
         if ($this->input->get('status') == "not_first") {
         ?>
             <tr>
                 <td>Sisa bon Yang lalu</td>
                 <td style="text-align:right"><?= number_format($transkasi['total_transkasi'] - $transkasi['total_bayar'], 0, ',', ',') ?></td>
+            </tr>
+        <?php
+        }
+        ?> -->
+        <?php
+          $pelanggan = $transkasi['pelanggan'];
+            $sum = $this->db->query("SELECT
+	*,sum(a.total_transaksi) - SUM( nominal_bayar ) as cek_piutang
+FROM
+	transaksi AS a
+	LEFT JOIN histori_transaksi AS b ON ( a.id = b.id_transaksi ) 
+WHERE a.pelanggan='".$pelanggan."'")->row_array();
+            $cek_piutang_customers = $sum['cek_piutang'];
+        if ($cek_piutang_customers != 0) {
+          
+        ?>
+            <tr>
+                <td></td>
+                <td>
+                    <hr>
+                </td>
+            </tr>
+            <tr>
+                <td>Sisa Bon Yang lalu</td>
+                <td style="text-align:right"><?= number_format($sum['cek_piutang'], 0, ',', ',') ?></td>
             </tr>
         <?php
         }
@@ -163,11 +188,18 @@
         ?>
 
         <?php
+                    $sum2 = $this->db->query("SELECT
+	*,sum(a.total_transaksi) - SUM( nominal_bayar ) as cek_piutang
+FROM
+	transaksi AS a
+	LEFT JOIN histori_transaksi AS b ON ( a.id = b.id_transaksi ) 
+WHERE a.pelanggan='".$pelanggan."' AND a.id='".$this->input->get('id')."'")->row_array();
         if ($transkasi['piutang'] == 1) {
-            $pelanggan = $transkasi['pelanggan'];
-            $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar');
-            $this->db->where('pelanggan', $pelanggan);
-            $sum = $this->db->get('transaksi')->row_array();
+            // $pelanggan = $transkasi['pelanggan'];
+            // $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar');
+            // $this->db->where('pelanggan', $pelanggan);
+            // $this->db->where('id', $this->input->get('id'));
+            // $sum2 = $this->db->get('transaksi')->row_array();
         ?>
             <tr>
                 <td></td>
@@ -177,7 +209,7 @@
             </tr>
             <tr>
                 <td>Sisa Bon</td>
-                <td style="text-align:right"><?= number_format($sum['transaksi'] - $sum['bayar'], 0, ',', ',') ?></td>
+                <td style="text-align:right"><?= number_format($sum2['cek_piutang'], 0, ',', ',') ?></td>
             </tr>
         <?php
         }
