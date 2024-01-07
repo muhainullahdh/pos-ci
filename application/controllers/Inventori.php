@@ -50,11 +50,6 @@ class Inventori extends CI_Controller
             "no_urut" => $no_urut,
         ];
 
-        // echo '<pre>';
-        // print_r($data['lists']);
-        // echo '</pre>';
-        // exit;
-
         $this->load->view('body/header');
         $this->load->view('inventori/stock_opname', $data);
         $this->load->view('body/footer');
@@ -74,9 +69,26 @@ class Inventori extends CI_Controller
 
     public function koreksi_barang()
     {
+        $max_num = $this->db->select('max(no_urut) as max')->get('koreksi')->row_array();
+
+        if (!$max_num) {
+            $bilangan = 1; // Nilai Proses
+        } else {
+            $bilangan = $max_num['max'] + 1;
+        }
+
+        $no_urut = sprintf("%06d", $bilangan);
+
+        $no_koreksi = 'STP-' . date('ym') . '-' . $no_urut;
+        $data = [
+            "gudang2" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
+            "lists" => $this->db->order_by('no_koreksi', 'DESC')->get('koreksi')->result(),
+            "no_koreksi" => $no_koreksi,
+            "no_urut" => $no_urut,
+        ];
 
         $this->load->view('body/header');
-        $this->load->view('inventori/koreksi_barang');
+        $this->load->view('inventori/koreksi_barang', $data);
         $this->load->view('body/footer');
     }
 
@@ -127,22 +139,6 @@ class Inventori extends CI_Controller
 
         $this->load->view('body/header');
         $this->load->view('inventori/histori_koreksi', $data);
-        $this->load->view('body/footer');
-    }
-
-    public function pending_koreksi()
-    {
-        $data = [
-            'koreksi' => $this->db->select('a.id as id_koreksi, b.nama as nama_barang, tanggal_koreksi, stok_awal, jumlah_koreksi, debit_kredit, alasan_koreksi, c.nama as nama_user, status_koreksi')->from('koreksi a')->join('barang b', 'a.id_barang = b.id', 'left')->join('users c', 'a.created_by = c.id', 'left')->where('status_koreksi', '0')->order_by('created_at', 'DESC')->get()->result(),
-        ];
-        // echo '<pre>';
-        // print_r($data['koreksi']);
-        // echo '</pre>';
-        // exit;
-
-
-        $this->load->view('body/header');
-        $this->load->view('inventori/pending_koreksi', $data);
         $this->load->view('body/footer');
     }
 
@@ -477,6 +473,56 @@ class Inventori extends CI_Controller
         $this->load->view('body/footer');
     }
 
+    public function add_koreksi()
+    {
+        $tanggal = $this->input->post('tanggal');
+        $gudang = $this->input->post('gudang');
+        $keterangan = $this->input->post('keterangan');
+
+        $max_num = $this->db->select('max(no_urut) as max')->get('koreksi')->row_array();
+
+        if (!$max_num) {
+            $bilangan = 1; // Nilai Proses
+        } else {
+            $bilangan = $max_num['max'] + 1;
+        }
+
+        $no_urut = sprintf("%06d", $bilangan);
+
+        $no_koreksi = 'STP-' . date('ym') . '-' . $no_urut;
+
+        $data = [
+            'no_urut' => $no_urut,
+            'no_koreksi' => $no_koreksi,
+            'tanggal_koreksi' => $tanggal,
+            'id_gudang' => $gudang,
+            'keterangan' => $keterangan,
+            "gudang2" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
+            "barang" =>  $this->db->where('id_gudang', $gudang)->order_by('nama', 'ASC')->get('barang')->result(),
+        ];
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/add_detail_koreksi', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function detail_koreksi()
+    {
+        $id = $this->uri->segment(3);
+
+        $koreksi = $this->db->where('no_koreksi', $id)->get('koreksi')->row_array();
+
+        $data = [
+            "koreksi" => $koreksi,
+            "list" => $this->db->where('id_koreksi', $koreksi['id'])->get('koreksi_details')->result(),
+            "barang" =>  $this->db->where('id_gudang', $koreksi['id_gudang'])->order_by('nama', 'ASC')->get('barang')->result(),
+        ];
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/koreksi_detail', $data);
+        $this->load->view('body/footer');
+    }
+
     public function detail_sop()
     {
         $id = $this->uri->segment(3);
@@ -561,14 +607,97 @@ class Inventori extends CI_Controller
         }
     }
 
+    public function add_detail_koreksi()
+    {
+        // Assuming you have received the form data through POST
+        $no_koreksi = $this->input->post('no_koreksi');
+        $tanggal_koreksi = $this->input->post('tanggal_koreksi');
+
+        // Create a new koreksi record
+        $koreksi_data = array(
+            'no_urut' => $this->input->post('no_urut'),
+            'no_koreksi' => $no_koreksi,
+            'tanggal_koreksi' => $tanggal_koreksi,
+            'id_gudang' => $this->input->post('gudang'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id_user'),
+        );
+
+        // Insert into koreksi table
+        $this->db->insert('koreksi', $koreksi_data);
+
+        // Get the inserted koreksi ID
+        $koreksi_id = $this->db->insert_id();
+
+        // Get data from the dynamic rows
+        $barang_ids = $this->input->post('id_barang');
+        $debit_kredit_values = $this->input->post('debit_kredit');
+        $qty_sistem_values = $this->input->post('qty_sistem');
+        $satuan_values = $this->input->post('satuan');
+        $jumlah_values = $this->input->post('jumlah');
+        $now = date('Y-m-d H:i:s');
+
+        // Loop through the rows and insert into koreksi_details
+        if (is_array($barang_ids)) {
+
+            for ($i = 0; $i < count($barang_ids); $i++) {
+                $barang_id = $barang_ids[$i];
+                $debit_kredit = $debit_kredit_values[$i];
+                $qty_sistem = $qty_sistem_values[$i];
+                $satuan = $satuan_values[$i];
+                $jumlah = $jumlah_values[$i];
+
+                $koreksi_detail_data = [
+                    'id_koreksi' => $koreksi_id,
+                    'id_barang' => $barang_id,
+                    'satuan' => $satuan,
+                    'stok_awal' => $qty_sistem,
+                    'debit_kredit' => $debit_kredit,
+                    'jumlah_koreksi' => $jumlah,
+                    'created_at' => $now,
+                    'created_by' => $this->session->userdata('id_user'),
+                ];
+
+                // Insert into koreksi_details table
+                $this->db->insert('koreksi_details', $koreksi_detail_data);
+            }
+
+            $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Stok koreksi berhasil ditambahkan.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+            // Redirect or show a success message
+            redirect('inventori/koreksi_barang');
+        } else {
+            // Redirect or show a success message
+            redirect('inventori/koreksi_barang');
+        }
+    }
+
     public function pending_sop()
     {
         $data = [
-            "barang" => $this->db->where('a.status', 0)->from('stock_opname_details a')->join('stock_opname b', 'a.id_stock_opname = b.id', 'left')->join('barang c', 'a.id_barang = c.id', 'left')->get()->result(),
+            "barang" => $this->db->where('a.status', 0)->from('stock_opname_details a')->join('stock_opname b', 'a.id_stock_opname = b.id', 'left')->join('barang c', 'a.id_barang = c.id', 'left')->order_by('no_stock_opname', 'ASC')->order_by('nama', 'ASC')->get()->result(),
         ];
 
         $this->load->view('body/header');
         $this->load->view('inventori/pending_sop', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function pending_koreksi()
+    {
+        $data = [
+            "barang" => $this->db->where('a.status_koreksi', 0)->from('koreksi_details a')->join('koreksi b', 'a.id_koreksi = b.id', 'left')->join('barang c', 'a.id_barang = c.id', 'left')->order_by('no_koreksi', 'ASC')->order_by('nama', 'ASC')->get()->result(),
+        ];
+
+        // echo '<pre>';
+        // print_r($data['barang']);
+        // echo '</pre>';
+        // exit;
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/pending_koreksi', $data);
         $this->load->view('body/footer');
     }
 
@@ -599,6 +728,21 @@ class Inventori extends CI_Controller
             </div>');
         // After that you need to used redirect function instead of load view such as 
         redirect("inventori/detail_sop/$no_stock_opname");
+    }
+
+    public function delete_detail_koreksi()
+    {
+        $no_koreksi = $this->uri->segment(3);
+        $id = $this->uri->segment(4);
+
+        $this->db->where('id', $id);
+        $this->db->delete('koreksi_details');
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Data koreksi berhasil dihapus.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+        // After that you need to used redirect function instead of load view such as 
+        redirect("inventori/detail_sop/$no_koreksi");
     }
 
     public function approve()
@@ -671,7 +815,12 @@ class Inventori extends CI_Controller
     public function approve_koreksi()
     {
         $id = $this->uri->segment(3);
-        $koreksi_detail = $this->db->where('id', $id)->get('koreksi')->row_array();
+        $koreksi_detail = $this->db->where('Id', $id)->get('koreksi_details')->row_array();
+
+        // echo '<pre>';
+        // print_r($koreksi_detail);
+        // echo ' </pre>';
+        // exit;
 
         if ($koreksi_detail['debit_kredit'] == "debit") {
             $stok_baru = $koreksi_detail['stok_awal'] + $koreksi_detail['jumlah_koreksi'];
@@ -684,7 +833,7 @@ class Inventori extends CI_Controller
         $data_stok = ['stok' => $stok_baru];
 
         $this->db->where('id', $koreksi_detail['id_barang'])->update('barang', $data_stok);
-        $update = $this->db->where('id', $id)->update('koreksi', $data_koreksi_detail);
+        $update = $this->db->where('Id', $id)->update('koreksi_details', $data_koreksi_detail);
 
         if ($update) {
             $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">

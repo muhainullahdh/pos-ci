@@ -3,7 +3,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h4>Riwayat koreksi barang </h4>
+                    <h4>Persetujuan koreksi barang </h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
@@ -14,7 +14,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Riwayat koreksi barang</li>
+                        <li class="breadcrumb-item">Persetujuan koreksi barang</li>
                     </ol>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     <div class="card-header card-no-border">
                         <div class="card-header-right">
                             <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#entri_barang">Entri barang</button> -->
-                            <a href="<?= base_url('inventori/koreksi_barang') ?>" class="btn btn-primary btn-sm">Koreksi</a>
+                            <a href="<?= base_url('inventori/koreksi_barang') ?>" class="btn btn-primary btn-sm">Kembali</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -38,36 +38,34 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
+                                        <th>No. Koreksi</th>
                                         <th>Nama barang</th>
                                         <th>Tanggal koreksi</th>
                                         <th>Stok awal</th>
-                                        <th>Jumlah koreksi</th>
                                         <th>Debit/Kredit</th>
-                                        <th>Alasan</th>
-                                        <th>User</th>
+                                        <th>Jumlah koreksi</th>
                                         <th>Act.</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($koreksi as $b) {
+                                    foreach ($barang as $b) {
                                     ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
-                                            <td><?= $b->nama_barang ?></td>
+                                            <td><?= $b->no_koreksi ?></td>
+                                            <td><?= $b->nama ?></td>
                                             <td><?= $b->tanggal_koreksi ?></td>
                                             <td><?= $b->stok_awal ?></td>
-                                            <td><?= $b->jumlah_koreksi ?></td>
                                             <td><?= strtoupper($b->debit_kredit) ?></td>
-                                            <td><?= $b->alasan_koreksi ?></td>
-                                            <td><?= $b->nama_user ?></td>
+                                            <td><?= $b->jumlah_koreksi ?></td>
                                             <td>
                                                 <?php
                                                 if ($b->status_koreksi == 0) {
                                                 ?>
-                                                    <a href="<?= base_url('inventori/approve_koreksi/' . $b->id_koreksi) ?>" class="btn btn-primary btn-xs btn-process" title="Setujui koreksi">
-                                                        <i class="fa fa-check"></i>
+                                                    <a href="<?= base_url('inventori/approve_koreksi/' . $b->Id) ?>" class="btn btn-primary btn-sm btn-process" title="Setujui koreksi">
+                                                        <i class="fa fa-thumbs-up"></i>
                                                     </a>
                                                 <?php
                                                 } else {

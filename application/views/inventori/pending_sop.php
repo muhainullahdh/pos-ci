@@ -37,6 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
+                                        <th>No. Stock opname</th>
                                         <th>Kode barang</th>
                                         <th>Nama barang</th>
                                         <th>Qty sistem</th>
@@ -54,6 +55,7 @@
                                     ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
+                                            <td><?= $b->no_stock_opname ?></td>
                                             <td><?= $b->kode_barang ?></td>
                                             <td><?= $b->nama ?></td>
                                             <td><?= $b->qty_sistem ?></td>
