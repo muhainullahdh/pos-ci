@@ -1220,9 +1220,10 @@
                         var id = $(this).val();
                         i = this.id.slice(3);
                         j = this.value; //isi satuan
+                        console.log(i)
                         var qty = $("input[id='idq" + i + "']")[0].value
                         var diskon_item = $("input[id='idd" + i + "']")[0].value
-                        var id_barangg = $('.id_barang' + counter + '').val();
+                        var id_barangg = $('.id_barang' + i + '').val();
                         $.ajax({
                             url: "<?= site_url('pos/search_barang'); ?>",
                             method: "POST",
@@ -1232,6 +1233,7 @@
                             async: true,
                             dataType: 'json',
                             success: function(data2) {
+                            
                                 <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
                                     if (data2.id_satuan_besar == j.split(',')[1]) {
                                         var qtyyyx = data2.qty_besar;
@@ -1250,6 +1252,7 @@
                                     if (data2.id_satuan_besar == j.split(',')[1]) {
                                         var qtyyyx = data2.qty_besar;
                                         var satuan_p = data2.hargajualb_retail;
+                                          
                                     }
                                     if (j.split(',')[1] == data2.id_satuan_kecil) {
                                         var qtyyyx = data2.qty_kecil;
@@ -1304,7 +1307,7 @@
                                     }
                                 <?php } ?>
                                 var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
-                                $('.harga' + i + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                $('.harga' + counter + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                 $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                 
                                 
@@ -2173,6 +2176,7 @@
                                     diskon_all: $('.diskon_all').val(),
                                     total_netto: $('.total_netto').val(),
                                     total_bayar: $('.total_bayar').val(),
+                                    total_transaksi: $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                     tunai: $('.tunaii').val(),
                                     kembali: $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                     jumlah_item: $('.total_item').val(),
@@ -2291,7 +2295,7 @@
                                         '</tr>');
                                     // check_pos()
                                 }
-                                console.log(data)
+                                console.log('data penjualan shortcut `')
                             },
                             error: function(e) {
                                 console.log(e)
@@ -2467,7 +2471,7 @@
                                 diskon_all: $('.diskon_all').val(),
                                 total_netto: $('.total_netto').val(),
                                 total_bayar: $('.total_bayar').val(),
-                                total_transaksi: total_transaksi_row,
+                                total_transaksi: $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                 tunai: $('.tunaii').val(),
                                 kembali: $('.kembali').html().toString().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                 jumlah_item: $('.total_item').val(),
@@ -2694,7 +2698,7 @@
                                                 $('#modal_penjualan tbody').empty();
                                                 setTimeout(() => {
                                                     $('#modal_penjualan').modal('show');
-                                                    for (let i = 0; i <= data.length; i++) {
+                                                    for (let i = 0; i < data.length; i++) {
                                                         <?php if ($this->session->userdata('level') == '1') { ?>
                                                             var invs_level = ''
                                                         <?php } else { ?>
@@ -2710,6 +2714,7 @@
                                                             '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
                                                             '</tr>');
                                                     }
+                                                    console.log('cencel transaksi')
                                                 }, 500);
                                             }
                                         })
@@ -2809,7 +2814,7 @@
                                 $('#modal_penjualan tbody').empty();
                                 setTimeout(() => {
                                     $('#modal_penjualan').modal('show');
-                                    for (let i = 0; i <= data.length; i++) {
+                                    for (let i = 0; i < data.length; i++) {
                                         <?php if ($this->session->userdata('level') == '1') { ?>
                                             var invs_level = ''
                                         <?php } else { ?>
@@ -2825,6 +2830,7 @@
                                             '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
                                             '</tr>');
                                     }
+                                    console.log('change date')
                                 }, 500)
                             },
                             error: function(e) {
@@ -2856,7 +2862,7 @@
                                 $('#modal_penjualan tbody').empty();
                                 setTimeout(() => {
                                     $('#modal_penjualan').modal('show');
-                                    for (let i = 0; i <= data.length; i++) {
+                                    for (let i = 0; i < data.length; i++) {
                                         <?php if ($this->session->userdata('level') == '1') { ?>
                                             var invs_level = ''
                                         <?php } else { ?>

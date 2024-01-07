@@ -161,18 +161,20 @@
         <?php
         }
         ?>
-        <tr>
-            <td></td>
-            <td>
-                <hr>
-            </td>
-        </tr>
-        <?php
-        if ($this->input->get('status') != "not_first") {
-            $pelanggan = $transkasi['pelanggan'];
 
-            $sum = $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar')->where('pelanggan', $pelanggan)->get('transaksi')->row_array();
+        <?php
+        if ($transkasi['piutang'] == 1) {
+            $pelanggan = $transkasi['pelanggan'];
+            $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar');
+            $this->db->where('pelanggan', $pelanggan);
+            $sum = $this->db->get('transaksi')->row_array();
         ?>
+            <tr>
+                <td></td>
+                <td>
+                    <hr>
+                </td>
+            </tr>
             <tr>
                 <td>Sisa Bon</td>
                 <td style="text-align:right"><?= number_format($sum['transaksi'] - $sum['bayar'], 0, ',', ',') ?></td>
