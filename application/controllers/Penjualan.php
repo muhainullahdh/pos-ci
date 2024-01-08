@@ -24,11 +24,12 @@ class Penjualan extends CI_Controller {
         $first_date = $this->session->userdata('date_penjualan');
         $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('date_penjualan2'))));
         // $this->db->where('b.tahan',0);
-        $this->db->select('*,sum(c.jumlah) as total_transaksi,d.nama as nama_kasir,a.id as id_transaksi');
+        $this->db->select('*,d.nama as nama_kasir,a.id as id_transaksi,sum(e.nominal_bayar) as bayar_piutang');
         $this->db->from('transaksi as a');
         $this->db->join('customers as b','a.pelanggan=b.id_customer');
         $this->db->join('transaksi_item as c','a.id=c.id_transaksi');
         $this->db->join('users as d','d.id=a.kasir');
+        $this->db->join('histori_transaksi as e','e.id_transaksi=a.id','LEFT');
         $this->db->where('a.cencel !=',1);
         if ($first_date == true && $second_date == true) {
             $this->db->where('a.tgl_transaksi >=',$first_date);

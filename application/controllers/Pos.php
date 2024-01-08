@@ -127,10 +127,11 @@ class Pos extends CI_Controller
         //     'orientation' => 'P',
         //     'showImageErrors' => true
         // ]);
-        $this->db->select('*');
+        $this->db->select('*,sum(c.nominal_bayar) as bayar_piutang,sum(d.jumlah) as t_transaksi');
         $this->db->where('a.id', $id_transaksi);
         $this->db->join('piutang as b', 'a.id=b.id_transaksi', 'LEFT');
         $this->db->join('histori_transaksi as c', 'a.id=c.id_transaksi', 'LEFT');
+        $this->db->join('transaksi_item as d', 'a.id=d.id_transaksi', 'LEFT');
         $get_transaksi = $this->db->get("transaksi as a")->row_array();
         
         $this->db->where('id_transaksi', $id_transaksi);
@@ -699,13 +700,15 @@ class Pos extends CI_Controller
             $pembayaranx = "";
         }
         $today = date('Y-m-d');
-        $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
+        $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim,sum(i.jumlah) as t_transaksi,sum(j.nominal_bayar) as bayar_piutang from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
          left join customers as c on(a.pelanggan=c.id_customer)
          left join users d on (a.kasir=d.id)
          left join barang as e on(b.kd_barang=e.id)
          left join kategori as f on(e.kategori_id=f.id)
          left join ekspedisi as g on(a.pengiriman = g.id)
          left join piutang as h on(a.id=h.id_transaksi)
+         left join transaksi_item as i on(a.id=i.id_transaksi)
+         left join histori_transaksi as j on(a.id=j.id_transaksi) 
           WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' " . $pembayaranx . " and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
 
         // echo '<pre>';

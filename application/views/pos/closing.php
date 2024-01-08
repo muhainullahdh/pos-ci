@@ -359,10 +359,10 @@
                             <td class="bor-lf"><?= $row->pembayaran ?></td>
                             <td class="bor-lf"><?= $row->nama_toko ?></td>
                             <td class="bor-lf"><?= 'Rp.' .
-                                number_format($row->jumlah, 0, '.', '.') ?></td>
+                                number_format($row->total_transaksi, 0, '.', '.') ?></td>
                             <td class="bor-lf"><?= 'Rp.' .
                                 number_format(
-                                    $row->total_bayar,
+                                    $row->total_transaksi - $row->bayar_piutang,
                                     0,
                                     '.',
                                     '.'
