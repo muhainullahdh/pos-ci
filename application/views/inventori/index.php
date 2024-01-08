@@ -38,10 +38,14 @@
                                         <a href="<?= base_url('inventori') ?>" class="btn btn-warning btn-sm" type="button">Reset</a>
                                         <form action="<?= base_url('inventori/unduh_stock') ?>" method="post">
                                             <button type="submit" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak Excel" value="cetak_excel" style="margin-left: 5px; margin-right: 5px;" onclick="cetak_excel()">Cetak excel</button>
-                                            <button type="submit" id="btnCetakPDF" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak PDF" value="cetak" onclick="cetak_pdf()">Cetak PDF</button>
+                                            <button type="submit" id="btnCetakPDF" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak PDF" value="cetak" target="_blank">Cetak PDF</button>
                                             <input type="hidden" class="form-control" name="kelompok_barang" value="<?= $this->input->post('kelompok_barang') ?>">
                                             <input type="hidden" class="form-control" name="barang" value="<?= $this->input->post('barang') ?>">
                                             <input type="hidden" class="form-control" name="barang2" value="<?= $this->input->post('barang2') ?>">
+                                            <input type="hidden" class="form-control" name="gudang1" value="<?= $this->input->post('gudang1') ?>">
+                                            <input type="hidden" class="form-control" name="gudang2" value="<?= $this->input->post('gudang2') ?>">
+                                            <input type="hidden" class="form-control" name="opsi_stok" value="<?= $this->input->post('opsi_stok') ?>">
+                                            <input type="hidden" class="form-control" name="input_nama_barang" value="<?= $this->input->post('input_nama_barang') ?>">
                                         </form>
 
                                     </div>
@@ -117,7 +121,8 @@
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="kelompok_barang" class="form-label">Kelompok barang </label>
-                                <select name="kelompok_barang" id="kelompok_barang" class="form-select input-air-primary digits select2" onchange="getBarang()">
+                                <select name="kelompok_barang" id="kelompok_barang" class="form-select input-air-primary digits select2">
+                                    <!-- <select name="kelompok_barang" id="kelompok_barang" class="form-select input-air-primary digits select2" onchange="getBarang()"> -->
                                     <option value="">--pilih</option>
                                     <?php
                                     foreach ($categories as $c) {
@@ -135,15 +140,21 @@
                             <div class="mb-3">
                                 <label for="article_category" class="form-label">Barang</label>
                                 <select name="barang" id="barang" class="form-select input-air-primary digits select2">
-                                    <option value="all">--Pilih</option>
-                                    <?php
-                                    $id_barang = $this->input->post('barang');
-                                    $nama_barang = $this->db->where('id', $id_barang)->get('barang')->row_array();
-                                    if ($id_barang) {
-                                    ?>
+                                    <option value="">--Pilih</option>
+                                    <!-- <?php
+                                            $id_barang = $this->input->post('barang');
+                                            $nama_barang = $this->db->where('id', $id_barang)->get('barang')->row_array();
+                                            if ($id_barang) {
+                                            ?>
                                         <option value="<?= $id_barang ?>" selected><?= $nama_barang['nama'] ?></option>
                                     <?php
-                                    } else {
+                                            }
+                                    ?> -->
+                                    <?php
+                                    foreach ($barang as $b) {
+                                    ?>
+                                        <option <?= ($id_barang == $b->id) ? "selected" : '' ?> value="<?= $b->id ?>"><?= $b->nama ?></option>
+                                    <?php
                                     }
                                     ?>
                                 </select>
@@ -153,13 +164,20 @@
                             <div class="mb-3">
                                 <label for="article_category" class="form-label">s/d</label>
                                 <select name="barang2" id="barang2" class="form-select input-air-primary digits select2">
-                                    <option value="all">--Pilih</option>
-                                    <?php
-                                    $id_barang2 = $this->input->post('barang2');
-                                    $nama_barang2 = $this->db->where('id', $id_barang2)->get('barang')->row_array();
-                                    if ($id_barang2) {
-                                    ?>
+                                    <option value="">--Pilih</option>
+                                    <!-- <?php
+                                            $id_barang2 = $this->input->post('barang2');
+                                            $nama_barang2 = $this->db->where('id', $id_barang2)->get('barang')->row_array();
+                                            if ($id_barang2) {
+                                            ?>
                                         <option value="<?= $id_barang2 ?>" selected><?= $nama_barang2['nama'] ?></option>
+                                    <?php
+                                            }
+                                    ?> -->
+                                    <?php
+                                    foreach ($barang as $b) {
+                                    ?>
+                                        <option <?= ($id_barang2 == $b->id) ? "selected" : '' ?> value="<?= $b->id ?>"><?= $b->nama ?></option>
                                     <?php
                                     }
                                     ?>
@@ -182,7 +200,7 @@
                                     <?php
                                     foreach ($gudang as $g) {
                                     ?>
-                                        <option value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                        <option <?= ($this->input->post('gudang1') == $g->id) ? "selected" : "" ?> value="<?= $g->id ?>"><?= $g->nama ?></option>
                                     <?php
                                     }
                                     ?>
@@ -197,7 +215,7 @@
                                     <?php
                                     foreach ($gudang as $g) {
                                     ?>
-                                        <option value="<?= $g->id ?>"><?= $g->nama ?></option>
+                                        <option <?= ($this->input->post('gudang2') == $g->id) ? "selected" : "" ?> value="<?= $g->id ?>"><?= $g->nama ?></option>
                                     <?php
                                     }
                                     ?>
@@ -210,18 +228,18 @@
                             <div class="mb-3">
                                 <label for="option" class="form-label">Option</label>
                                 <select name="opsi_stok" id="opsi_stok" class="form-select input-air-primary digits">
-                                    <option value="all">All</option>
-                                    <option value="sisa_stok">Sisa stok</option>
-                                    <option value="stok_0">Stok 0</option>
-                                    <option value="stok_minus">Stok minus</option>
-                                    <option value="stok_0_dan_minus">Stok 0 dan minus</option>
+                                    <option value="">All</option>
+                                    <option <?= ($this->input->post('opsi_stok') == "sisa_stok") ? "selected" : "" ?> value="sisa_stok">Sisa stok</option>
+                                    <option <?= ($this->input->post('opsi_stok') == "stok_0") ? "selected" : "" ?> value="stok_0">Stok 0</option>
+                                    <option <?= ($this->input->post('opsi_stok') == "stok_minus") ? "selected" : "" ?> value="stok_minus">Stok minus</option>
+                                    <option <?= ($this->input->post('opsi_stok') == "stok_0_dan_minus") ? "selected" : "" ?> value="stok_0_dan_minus">Stok 0 dan minus</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="article_category" class="form-label">Nama barang / barcode</label>
-                                <input type="text" name="input_nama_barang" id="input_nama_barang" class="form-control input-air-primary">
+                                <input type="text" name="input_nama_barang" id="input_nama_barang" class="form-control input-air-primary" value=" <?= (($this->input->post('input_nama_barang'))) ? $this->input->post('input_nama_barang') : "" ?>" placeholder="Masukkan kata kunci nama barang">
                             </div>
                         </div>
                     </div>
@@ -259,38 +277,38 @@
     });
 </script>
 <script>
-    function getBarang() {
-        var kategoriId = document.getElementById('kelompok_barang').value;
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('inventori/getbarang') ?>',
-            data: {
-                kategori_id: kategoriId
-            },
-            success: function(data) {
-                // Parse data JSON dari server
-                var barangOptions = JSON.parse(data);
+    // function getBarang() {
+    //     var kategoriId = document.getElementById('kelompok_barang').value;
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '<?= base_url('inventori/getbarang') ?>',
+    //         data: {
+    //             kategori_id: kategoriId
+    //         },
+    //         success: function(data) {
+    //             // Parse data JSON dari server
+    //             var barangOptions = JSON.parse(data);
 
-                // Hapus opsi yang ada sebelumnya
-                $('#barang').empty();
-                $('#barang2').empty();
+    //             // Hapus opsi yang ada sebelumnya
+    //             $('#barang').empty();
+    //             $('#barang2').empty();
 
-                // Tambahkan opsi default
-                $('#barang').append('<option value="">--Pilih--</option>');
-                $('#barang2').append('<option value="">--Pilih--</option>');
+    //             // Tambahkan opsi default
+    //             $('#barang').append('<option value="">--Pilih--</option>');
+    //             $('#barang2').append('<option value="">--Pilih--</option>');
 
-                // Tambahkan opsi-opsi barang baru
-                $.each(barangOptions, function(index, value) {
-                    $('#barang').append('<option value="' + value.id + '">' + value.nama + '</option>');
-                    $('#barang2').append('<option value="' + value.id + '">' + value.nama + '</option>');
-                });
+    //             // Tambahkan opsi-opsi barang baru
+    //             $.each(barangOptions, function(index, value) {
+    //                 $('#barang').append('<option value="' + value.id + '">' + value.nama + '</option>');
+    //                 $('#barang2').append('<option value="' + value.id + '">' + value.nama + '</option>');
+    //             });
 
-                // Tampilkan hasil
-                // $('#hasilBarang').html('Hasil: ' + $('#barang option:selected').text());
-                // $('#hasilBarang2').html('Hasil: ' + $('#barang2 option:selected').text());
-            }
-        });
-    }
+    //             // Tampilkan hasil
+    //             // $('#hasilBarang').html('Hasil: ' + $('#barang option:selected').text());
+    //             // $('#hasilBarang2').html('Hasil: ' + $('#barang2 option:selected').text());
+    //         }
+    //     });
+    // }
 </script>
 <script>
     $('#sisa-stok').DataTable({
@@ -302,25 +320,4 @@
         ]
     });
     $('#basic-3').DataTable({});
-</script>
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    function cetak_pdf() {
-        // Pastikan variabel $tampil terdefinisi dan berisi data
-        var dataArray = <?php echo isset($tampil) ? json_encode($tampil) : 'null'; ?>;
-
-        // Lakukan permintaan AJAX GET ke server
-        $.ajax({
-            type: 'GET',
-            url: '<?= base_url('inventori/cetak_pdf') ?>',
-            data: {
-                data: dataArray
-            },
-            success: function(response) {
-                // Lakukan sesuatu dengan respons jika diperlukan
-                window.location.href = '<?= base_url('inventori/cetak_pdf') ?>';
-            }
-        });
-    }
 </script>
