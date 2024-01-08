@@ -2285,13 +2285,13 @@
                                     var total_fix = data[i].total_transaksi;
                                     $('#load-transaksi tbody').append(
                                         '<tr style="background-color: white;">' +
-                                        '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
-                                        '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="edit_transaksi_kasir badge badge-success">Edit</a></td>' +
+                                        '<td><a type="button" id="' + data[i].i_transaksi + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
+                                        '<td><a type="button" id="' + data[i].i_transaksi + ',' + data[i].no_struk + '" class="edit_transaksi_kasir badge badge-success">Edit</a></td>' +
                                         '<td class="order">' + data[i].no_struk + '</td>' +
                                         '<td>' + data[i].nama_toko + '</td>' +
                                         '<td>' + data[i].jumlah_item + '</td>' +
                                         '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
-                                        '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
+                                        '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                         '</tr>');
                                     // check_pos()
                                 }
@@ -2706,12 +2706,12 @@
                                                         <?php } ?>
                                                         $('#load-transaksi tbody').append(
                                                             '<tr style="background-color: white;">' +
-                                                            '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
+                                                            '<td><a type="button" id="' + data[i].i_transaksi + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
                                                             '<td class="order">' + data[i].no_struk + '</td>' +
                                                             '<td>' + data[i].nama_toko + '</td>' +
                                                             '<td>' + data[i].jumlah_item + '</td>' +
                                                             '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
-                                                            '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
+                                                            '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                                             '</tr>');
                                                     }
                                                     console.log('cencel transaksi')
@@ -2822,12 +2822,12 @@
                                         <?php } ?>
                                         $('#load-transaksi tbody').append(
                                             '<tr style="background-color: white;">' +
-                                            '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
+                                            '<td><a type="button" id="' + data[i].i_transaksi + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
                                             '<td class="order">' + data[i].no_struk + '</td>' +
                                             '<td>' + data[i].nama_toko + '</td>' +
                                             '<td>' + data[i].jumlah_item + '</td>' +
                                             '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
-                                            '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
+                                            '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                             '</tr>');
                                     }
                                     console.log('change date')
@@ -2871,12 +2871,12 @@
                                         if (data.length == true) {
                                             $('#load-transaksi tbody').append(
                                                 '<tr style="background-color: white;">' +
-                                                '<td><a type="button" id="' + data[i].id + ',' + data[i].no_struk + '" class="cencel_transaksi badge ' + invs_level + ' badge-danger">Cencel</a></td>' +
+                                                '<td><a type="button" id="' + data[i].i_transaksi + ',' + data[i].no_struk + '" class="cencel_transaksi badge ' + invs_level + ' badge-danger">Cencel</a></td>' +
                                                 '<td class="order">' + data[i].no_struk + '</td>' +
                                                 '<td>' + data[i].nama_toko + '</td>' +
                                                 '<td>' + data[i].jumlah_item + '</td>' +
                                                 '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
-                                                '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].id + '" >Cetak</a></td>' +
+                                                '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                                 '</tr>');
                                         } else {
                                             swal({
