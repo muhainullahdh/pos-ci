@@ -115,7 +115,7 @@
         <?php
           $pelanggan = $transkasi['pelanggan'];
             $sum = $this->db->query("SELECT
-	*,sum(a.total_transaksi) - SUM( nominal_bayar ) as cek_piutang
+	*,a.total_transaksi - SUM( nominal_bayar ) as cek_piutang
 FROM
 	transaksi AS a
 	LEFT JOIN histori_transaksi AS b ON ( a.id = b.id_transaksi ) 
@@ -145,7 +145,14 @@ WHERE a.pelanggan='".$pelanggan."'")->row_array();
                 ?>
                 <div style="float:left;width:50%;text-align:center"><?= $bank ?></div>
             </td>
+            <?php if ($cek_piutang_customers == 0) { ?>
+                <td style="text-align:right">
+                    <?= number_format($sub_total, 0, ',', ',') ?> <!--- jika sudah lunas---->
+                </td>
+
+            <?php } else { ?>
             <td style="text-align:right"><?= number_format($transkasi['total_bayar'], 0, ',', ',') ?></td>
+            <?php } ?>
         </tr>
         <?php if ($transkasi['tunai'] == true) { ?>
             <tr>
@@ -189,12 +196,12 @@ WHERE a.pelanggan='".$pelanggan."'")->row_array();
 
         <?php
                     $sum2 = $this->db->query("SELECT
-	*,sum(a.total_transaksi) - SUM( nominal_bayar ) as cek_piutang
+	*,a.total_transaksi - SUM( b.nominal_bayar ) as cek_piutang
 FROM
 	transaksi AS a
 	LEFT JOIN histori_transaksi AS b ON ( a.id = b.id_transaksi ) 
 WHERE a.pelanggan='".$pelanggan."' AND a.id='".$this->input->get('id')."'")->row_array();
-        if ($transkasi['piutang'] == 1) {
+        if ($transkasi['piutang'] == 1 && $cek_piutang_customers != 0) {
             // $pelanggan = $transkasi['pelanggan'];
             // $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar');
             // $this->db->where('pelanggan', $pelanggan);
