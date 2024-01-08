@@ -339,13 +339,12 @@
                     <?php
                     $no = 1;
                     foreach ($tampil as $t) {
-                        $saldo_stock = $t->qty_kecil + $t->hargajualk_retail;
-                    ?>
+                        $saldo_stock = $t->stok * $t->hpp_kecil; ?>
                         <tr>
                             <td class="bor-lf"><?= $no++ ?></td>
                             <td class="bor-lf"><?= $t->kode_barang ?></td>
                             <td class="bor-lf"><?= $t->nama ?></td>
-                            <td class="bor-lf text-end"><?= $t->qty_kecil . ' '  . $t->id_satuan_kecil ?></td>
+                            <td class="bor-lf text-end"><?= $t->id_satuan_kecil ?></td>
                             <td class="bor-lf text-end"><?= $t->stok ?></td>
                             <td class="bor-lf text-end"><?= number_format($saldo_stock) ?></td>
                         </tr>

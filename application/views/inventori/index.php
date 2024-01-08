@@ -36,10 +36,13 @@
                                 ?>
                                     <div class="btn-group">
                                         <a href="<?= base_url('inventori') ?>" class="btn btn-warning btn-sm" type="button">Reset</a>
-                                        <!-- <form action="<?= base_url('inventori/unduh_stock') ?>" method="post"> -->
-                                        <button type="button" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak Excel" value="cetak_excel" type="button" style="margin-left: 5px; margin-right: 5px;" onclick="cetak_excel()">Cetak excel</button>
-                                        <button type="button" id="btnCetakPDF" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak PDF" value="cetak" onclick="cetak_pdf()">Cetak PDF</button>
-                                        <!-- </form> -->
+                                        <form action="<?= base_url('inventori/unduh_stock') ?>" method="post">
+                                            <button type="submit" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak Excel" value="cetak_excel" style="margin-left: 5px; margin-right: 5px;" onclick="cetak_excel()">Cetak excel</button>
+                                            <button type="submit" id="btnCetakPDF" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak PDF" value="cetak" onclick="cetak_pdf()">Cetak PDF</button>
+                                            <input type="hidden" class="form-control" name="kelompok_barang" value="<?= $this->input->post('kelompok_barang') ?>">
+                                            <input type="hidden" class="form-control" name="barang" value="<?= $this->input->post('barang') ?>">
+                                            <input type="hidden" class="form-control" name="barang2" value="<?= $this->input->post('barang2') ?>">
+                                        </form>
 
                                     </div>
                                 <?php
@@ -140,6 +143,7 @@
                                     ?>
                                         <option value="<?= $id_barang ?>" selected><?= $nama_barang['nama'] ?></option>
                                     <?php
+                                    } else {
                                     }
                                     ?>
                                 </select>
@@ -239,8 +243,20 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
+<!-- <script>
     $('.select2').select2();
+    
+</script> -->
+<script>
+    $('#kelompok_barang').select2({
+        dropdownParent: $('#filterStok')
+    });
+    $('#barang').select2({
+        dropdownParent: $('#filterStok')
+    });
+    $('#barang2').select2({
+        dropdownParent: $('#filterStok')
+    });
 </script>
 <script>
     function getBarang() {
@@ -265,8 +281,8 @@
 
                 // Tambahkan opsi-opsi barang baru
                 $.each(barangOptions, function(index, value) {
-                    $('#barang').append('<option value="' + value.id + '">(' + value.kode_barang + ') ' + value.nama + '</option>');
-                    $('#barang2').append('<option value="' + value.id + '">(' + value.kode_barang + ') ' + value.nama + '</option>');
+                    $('#barang').append('<option value="' + value.id + '">' + value.nama + '</option>');
+                    $('#barang2').append('<option value="' + value.id + '">' + value.nama + '</option>');
                 });
 
                 // Tampilkan hasil

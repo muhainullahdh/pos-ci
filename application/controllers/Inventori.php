@@ -118,14 +118,6 @@ class Inventori extends CI_Controller
         redirect('inventori/koreksi_barang');
     }
 
-    public function mutasi_barang()
-    {
-        $data = [];
-        $this->load->view('body/header');
-        $this->load->view('inventori/mutasi_barang', $data);
-        $this->load->view('body/footer');
-    }
-
     public function histori_koreksi()
     {
         $data = [
@@ -139,6 +131,14 @@ class Inventori extends CI_Controller
 
         $this->load->view('body/header');
         $this->load->view('inventori/histori_koreksi', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function mutasi_barang()
+    {
+        $data = [];
+        $this->load->view('body/header');
+        $this->load->view('inventori/mutasi_barang', $data);
         $this->load->view('body/footer');
     }
 
@@ -192,61 +192,123 @@ class Inventori extends CI_Controller
         //     'gudang1' => $gudang1,
         //     'gudang2' => $gudang2,
         // ];
+        // $nama_barang1 = $this->db->where('id', $barang)->get('barang')->row_array();
+        // $nama_barang2 = $this->db->where('id', $barang2)->get('barang')->row_array();
 
-        if ($_POST['submit'] == "proses") {
+        // if ($opsi_stok == "all") {
+        //     $opsi = "";
+        // } else if ($opsi_stok == "sisa_stok") {
+        //     $opsi = "'stok !=', '0'";
+        // } else if ($opsi_stok == "stok_0") {
+        //     $opsi = "'stok =', '0'";
+        // } else if ($opsi_stok == "stok_minus") {
+        //     $opsi = "'stok <', '0'";
+        // } else if ($opsi_stok == "stok_0_dan_minus") {
+        //     $opsi = "'stok <=', '0'";
+        // }
 
-            // if ($kelompok_barang && $barang && $barang2 && $gudang1 && $gudang2 && $opsi_stok && $input_nama_barang) {
+        // if (!empty($kelompok_barang) && !empty($barang) && !empty($barang2) && !empty($gudang1) && !empty($gudang2) && !empty($opsi_stok) && !empty($input_nama_barang)) {
+        //     // Semua form diisi
+        // } elseif (!empty($kelompok_barang) && !empty($barang) && !empty($barang2) && !empty($gudang1) && !empty($gudang2) && !empty($opsi_stok)) {
+        //     // Form dengan $input_nama_barang tidak diisi
+        //     $data = [
+        //         "tampil" => $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->where('id_gudang >=', $gudang1)->where('id_gudang <=', $gudang2)->where($opsi)->order_by('nama', 'ASC')->get()->result(),
+        //         "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
+        //         "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+        //     ];
+        // } elseif (!empty($kelompok_barang) && !empty($barang) && !empty($barang2) && !empty($gudang1) && !empty($gudang2)) {
+        //     // Form dengan $opsi_stok dan $input_nama_barang tidak diisi
+        //     $data = [
+        //         "tampil" => $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->where('id_gudang >=', $gudang1)->where('id_gudang <=', $gudang2)->order_by('nama', 'ASC')->get()->result(),
+        //         "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
+        //         "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+        //     ];
+        // } elseif (!empty($kelompok_barang) && !empty($barang) && !empty($barang2) && !empty($gudang1)) {
+        //     // Form dengan $gudang2, $opsi_stok, dan $input_nama_barang tidak diisi
+        //     $data = [
+        //         "tampil" => $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->where('id_gudang', $gudang1)->order_by('nama', 'ASC')->get()->result(),
+        //         "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
+        //         "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+        //     ];
+        // } elseif (!empty($kelompok_barang) && !empty($barang) && !empty($barang2)) {
+        //     // Form dengan $gudang1, $gudang2, $opsi_stok, dan $input_nama_barang tidak diisi
+        //     $data = [
+        //         "tampil" => $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->order_by('nama', 'ASC')->get()->result(),
+        //         "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
+        //         "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+        //     ];
+        // } elseif (!empty($kelompok_barang) && !empty($barang)) {
+        //     // Form dengan $barang2, $gudang1, $gudang2, $opsi_stok, dan $input_nama_barang tidak diisi
+        //     $data = [
+        //         "tampil" => $this->db->where('kategori_id', $kelompok_barang)->where('id', $barang)->order_by('nama', 'ASC')->get('barang')->result(),
+        //         "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
+        //         "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+        //     ];
+        // } elseif (!empty($kelompok_barang)) {
+        //     // Form dengan $barang, $barang2, $gudang1, $gudang2, $opsi_stok, dan $input_nama_barang tidak diisi
+        //     $data = [
+        //         "tampil" => $this->db->where('kategori_id', $kelompok_barang)->order_by('nama', 'ASC')->get('barang')->result(),
+        //         "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
+        //         "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+        //     ];
+        // }
 
-            // } else if ($kelompok_barang && $barang && $barang2 && $gudang1 && $gudang2 && $opsi_stok ) {
+        if ($kelompok_barang) {
+            if ($barang) {
+                $nama_barang1 = $this->db->where('id', $barang)->get('barang')->row_array();
 
-            // } else if ($kelompok_barang && $barang && $barang2 && $gudang1 && $gudang2) {
-
-            // } else if ($kelompok_barang && $barang && $barang2 && $gudang1) {
-
-            // } else if ($kelompok_barang && $barang && $barang2) {
-
-            // } else if ($kelompok_barang && $barang) {
-
-            // } else if ($kelompok_barang) {
-
-            // }
-            if ($kelompok_barang) {
-                if ($barang) {
-                    $nama_barang1 = $this->db->where('id', $barang)->get('barang')->row_array();
-
-                    if (!$barang2) {
-                        $data = [
-                            "tampil" => $this->db->where('kategori_id', $kelompok_barang)->where('id', $barang)->order_by('nama', 'ASC')->get('barang')->result(),
-                            "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
-                            "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
-                        ];
-                    } else {
-                        $nama_barang2 = $this->db->where('id', $barang2)->get('barang')->row_array();
-                        $data = [
-                            "tampil" => $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->order_by('nama', 'ASC')->get()->result(),
-                            "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
-                            "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
-                        ];
-                    }
-                } else {
+                if (!$barang2) {
                     $data = [
-                        "tampil" => $this->db->where('kategori_id', $kelompok_barang)->order_by('nama', 'ASC')->get('barang')->result(),
+                        "tampil" => $this->db->where('kategori_id', $kelompok_barang)->where('id', $barang)->order_by('nama', 'ASC')->get('barang')->result(),
+                        "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
+                        "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+                    ];
+                } else {
+                    $nama_barang2 = $this->db->where('id', $barang2)->get('barang')->row_array();
+                    $data = [
+                        "tampil" => $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->order_by('nama', 'ASC')->get()->result(),
                         "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
                         "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
                     ];
                 }
             } else {
                 $data = [
-                    "tampil" => $this->db->order_by('nama', 'ASC')->get('barang')->result(),
+                    "tampil" => $this->db->where('kategori_id', $kelompok_barang)->order_by('nama', 'ASC')->get('barang')->result(),
                     "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
                     "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
                 ];
             }
+        } else {
+            $data = [
+                "tampil" => $this->db->order_by('nama', 'ASC')->get('barang')->result(),
+                "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
+                "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
+            ];
+        }
 
-            $this->load->view('body/header');
-            $this->load->view('inventori/index', $data);
-            $this->load->view('body/footer');
-        } else if ($_POST['submit'] == "cetak") {
+        $this->load->view('body/header');
+        $this->load->view('inventori/index', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function unduh_stock()
+    {
+        $kelompok_barang = $this->input->post('kelompok_barang');
+        $barang = $this->input->post('barang');
+        $barang2 = $this->input->post('barang2');
+        $gudang1 = $this->input->post('gudang1');
+        $gudang2 = $this->input->post('gudang2');
+        $opsi_stok = $this->input->post('opsi_stok');
+        $input_nama_barang = $this->input->post('input_nama_barang');
+
+        // $data = [
+        //     'kategori' => $kelompok_barang,
+        //     'barang' => $barang,
+        //     'barang2' => $barang2,
+        //     'gudang1' => $gudang1,
+        //     'gudang2' => $gudang2,
+        // ];
+        if ($_POST['submit'] == "cetak") {
 
             $mpdf = new \Mpdf\Mpdf([
                 'tempDir' => 'assets/pdf',
@@ -379,12 +441,12 @@ class Inventori extends CI_Controller
             $no = 1;
             $numrow = 2;
             foreach ($data['tampil'] as $t) {
-                $saldo_stock = $t->qty_kecil + $t->hargajualk_retail;
+                $saldo_stock = $t->stok * $t->hpp_kecil;
 
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $numrow, $no);
                 $excel->setActiveSheetIndex(0)->setCellValue('B' . $numrow, $t->kode_barang);
                 $excel->setActiveSheetIndex(0)->setCellValue('C' . $numrow, $t->nama);
-                $excel->setActiveSheetIndex(0)->setCellValue('D' . $numrow, $t->qty_kecil . ' '  . $t->id_satuan_kecil);
+                $excel->setActiveSheetIndex(0)->setCellValue('D' . $numrow, $t->id_satuan_kecil);
                 $excel->setActiveSheetIndex(0)->setCellValue('E' . $numrow, $t->stok);
                 $excel->setActiveSheetIndex(0)->setCellValue('f' . $numrow, $saldo_stock);
 
