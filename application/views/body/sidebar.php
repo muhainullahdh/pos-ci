@@ -89,7 +89,7 @@
           <span>Pembelian</span></a>
         <ul class="sidebar-submenu">
           <li><a href="<?= base_url('pembelian') ?>">Penerimaan Barang</a></li>
-          <li><a href="dashboard-04.html">Role</a></li>
+          <!-- <li><a href="dashboard-04.html">Role</a></li> -->
         </ul>
       </li>
       <!---- penjualan--->
@@ -99,7 +99,7 @@
           <span>Penjualan</span></a>
         <ul class="sidebar-submenu">
           <li><a href="<?= base_url('penjualan') ?>">List Penjualan</a></li>
-          <li><a href="dashboard-04.html">Role</a></li>
+          <!-- <li><a href="dashboard-04.html">Role</a></li> -->
         </ul>
       </li>
       <!-- <li class="sidebar-main-title">
@@ -175,7 +175,7 @@
           <span>Laporan</span></a>
         <ul class="sidebar-submenu">
           <li><a href="dashboard-03.html">Pengguna</a></li>
-          <li><a href="dashboard-04.html">Role</a></li>
+          <!-- <li><a href="dashboard-04.html">Role</a></li> -->
         </ul>
       </li>
       <li class="sidebar-list">
@@ -184,7 +184,7 @@
           <span>Setting</span></a>
         <ul class="sidebar-submenu">
           <li><a href="<?= base_url('setting/struk') ?>">Struk</a></li>
-          <li><a href="dashboard-04.html">Role</a></li>
+          <!-- <li><a href="dashboard-04.html">Role</a></li> -->
         </ul>
       </li>
       <!-- <li class="sidebar-list">
