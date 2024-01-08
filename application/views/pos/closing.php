@@ -350,7 +350,7 @@
                         $jumlah_row += $row->jumlah;
                         $total_bayar_row += $row->total_bayar;
                         $total_kembali_row += $row->kembali;
-                        $kurang_bayar = $row->total_transkasi - $row->total_bayar_piutang;
+                        $kurang_bayar = $row->total_transkasi - $row->bayar_piutang;
                         ?>
                         <tr>
                             <td class="bor-lf"><?= $no ?></td>
@@ -360,13 +360,25 @@
                             <td class="bor-lf"><?= $row->nama_toko ?></td>
                             <td class="bor-lf"><?= 'Rp.' .
                                 number_format($row->total_transaksi, 0, '.', '.') ?></td>
-                            <td class="bor-lf"><?= 'Rp.' .
-                                number_format(
-                                    $row->total_transaksi - $row->bayar_piutang,
-                                    0,
-                                    '.',
-                                    '.'
-                                ) ?></td>
+                            <?php if ($row->piutang == 1) { ?>
+                                <td class="bor-lf">
+                                    <?= 'Rp.' .
+                                        number_format(
+                                            $row->bayar_piutang,
+                                            0,
+                                            '.',
+                                            '.'
+                                        ) ?>
+                                </td>
+                            <?php } else { ?>
+                                <td class="bor-lf"><?= 'Rp.' .
+                                    number_format(
+                                        $row->total_transaksi - $row->bayar_piutang,
+                                        0,
+                                        '.',
+                                        '.'
+                                    ) ?></td>
+                            <?php } ?>
                             <td class="bor-lf"><?= 'Rp.' .
                                 number_format(0, 0, '.', '.') ?></td>
                             <td class="bor-lf"><?= 'Rp.' .
