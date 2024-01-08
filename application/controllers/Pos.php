@@ -413,7 +413,7 @@ class Pos extends CI_Controller
 
         $first_date = $this->session->userdata('reprint_date_penjualan');
         $second_date = date('Y-m-d', strtotime('+1 days', strtotime($this->session->userdata('reprint_date_penjualan2'))));
-        $this->db->select('*,sum(c.jumlah) as total_transaksi,sum(d.nominal_bayar) as bayar_piutang,a.id as i_transaksi');
+        $this->db->select('*,sum(d.nominal_bayar) as bayar_piutang,a.id as i_transaksi');
         $this->db->from('transaksi as a');
         $this->db->join('customers as b', 'a.pelanggan=b.id_customer','LEFT');
         $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi','LEFT');

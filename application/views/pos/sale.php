@@ -2282,7 +2282,11 @@
                                     <?php } else { ?>
                                         var invs_level = 'invisible'
                                     <?php } ?>
-                                    var total_fix = data[i].total_transaksi;
+                                    if (data[i].piutang == 1) {
+                                        var total_fix = data[i].total_transaksi - data[i].bayar_piutang; //cicilan piutang
+                                    }else{
+                                        var total_fix = data[i].total_transaksi; //cicilan piutang
+                                    }
                                     $('#load-transaksi tbody').append(
                                         '<tr style="background-color: white;">' +
                                         '<td><a type="button" id="' + data[i].i_transaksi + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
@@ -2704,13 +2708,18 @@
                                                         <?php } else { ?>
                                                             var invs_level = 'invisible'
                                                         <?php } ?>
+                                                        if (data[i].piutang == 1) {
+                                                            var total_fix = data[i].total_transaksi - data[i].bayar_piutang; //cicilan piutang
+                                                        }else{
+                                                            var total_fix = data[i].total_transaksi; //cicilan piutang
+                                                        }
                                                         $('#load-transaksi tbody').append(
                                                             '<tr style="background-color: white;">' +
                                                             '<td><a type="button" id="' + data[i].i_transaksi + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
                                                             '<td class="order">' + data[i].no_struk + '</td>' +
                                                             '<td>' + data[i].nama_toko + '</td>' +
                                                             '<td>' + data[i].jumlah_item + '</td>' +
-                                                            '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                                            '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
                                                             '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                                             '</tr>');
                                                     }
@@ -2820,13 +2829,18 @@
                                         <?php } else { ?>
                                             var invs_level = 'invisible'
                                         <?php } ?>
+                                        if (data[i].piutang == 1) {
+                                         var total_fix = data[i].total_transaksi - data[i].bayar_piutang; //cicilan piutang
+                                        }else{
+                                            var total_fix = data[i].total_transaksi; //cicilan piutang
+                                        }
                                         $('#load-transaksi tbody').append(
                                             '<tr style="background-color: white;">' +
                                             '<td><a type="button" id="' + data[i].i_transaksi + ',' + data[i].no_struk + '" class="cencel_transaksi ' + invs_level + ' badge badge-danger">Cencel</a></td>' +
                                             '<td class="order">' + data[i].no_struk + '</td>' +
                                             '<td>' + data[i].nama_toko + '</td>' +
                                             '<td>' + data[i].jumlah_item + '</td>' +
-                                            '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                            '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
                                             '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                             '</tr>');
                                     }
@@ -2868,6 +2882,11 @@
                                         <?php } else { ?>
                                             var invs_level = 'invisible'
                                         <?php } ?>
+                                        if (data[i].piutang == 1) {
+                                            var total_fix = data[i].total_transaksi - data[i].bayar_piutang; //cicilan piutang
+                                        }else{
+                                            var total_fix = data[i].total_transaksi; //cicilan piutang
+                                        }
                                         if (data.length == true) {
                                             $('#load-transaksi tbody').append(
                                                 '<tr style="background-color: white;">' +
@@ -2875,7 +2894,7 @@
                                                 '<td class="order">' + data[i].no_struk + '</td>' +
                                                 '<td>' + data[i].nama_toko + '</td>' +
                                                 '<td>' + data[i].jumlah_item + '</td>' +
-                                                '<td>' + data[i].total_transaksi.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                                '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
                                                 '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                                 '</tr>');
                                         } else {
