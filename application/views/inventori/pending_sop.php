@@ -29,9 +29,15 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
+
                     <div class="card-body">
 
                         <?= $this->session->flashdata('message_name') ?>
+                        <div class="row mb-3">
+                            <div class="col-12 text-end">
+                                <a href="<?= base_url('inventori/stock_opname') ?>" class="btn btn-primary btn-sm">Kembali</a>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class=" display" id="basic-1">
                                 <thead>

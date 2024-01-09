@@ -68,6 +68,59 @@ class Inventori extends CI_Controller
         $this->load->view('body/footer');
     }
 
+    public function approve()
+    {
+        $id = $this->uri->segment(3);
+        print_r($id);
+
+        $sop_detail = $this->db->where('Id', $id)->get('stock_opname_details')->row_array();
+
+        $data_sop_detail = ['status' => '1'];
+
+        $data_stok = ['stok' => $sop_detail['qty_fisik']];
+
+        $this->db->where('id', $sop_detail['id_barang'])->update('barang', $data_stok);
+        $update = $this->db->where('Id', $id)->update('stock_opname_details', $data_sop_detail);
+
+        if ($update) {
+            $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                Stok barang sudah diperbarui.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+        } else {
+            $this->session->set_flashdata('message_name', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Terjadi kesalahan. Silahkan dicoba lagi.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+        }
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function sop_approve_all($id)
+    {
+
+        $sop_details = $this->db->where('id_stock_opname', $id)->where('status', '0')->get('stock_opname_details')->result();
+
+        foreach ($sop_details as $s) {
+            echo '<pre>';
+            print_r($s->Id);
+            echo '</pre>';
+            $data_sop_detail = ['status' => '1'];
+
+            $data_stok = ['stok' => $s->qty_fisik];
+
+            $this->db->where('id', $s->id_barang)->update('barang', $data_stok);
+            $this->db->where('Id', $s->Id)->update('stock_opname_details', $data_sop_detail);
+        }
+
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        Stok barang sudah diperbarui.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function koreksi_barang()
     {
         $max_num = $this->db->select('max(no_urut) as max')->get('koreksi')->row_array();
@@ -392,6 +445,7 @@ class Inventori extends CI_Controller
         echo json_encode($dataArray);
         // Tidak perlu exit di sini, kecuali Anda memang ingin menghentikan eksekusi lebih lanjut.
     }
+
     public function add_stock_opname()
     {
         $tanggal = $this->input->post('tanggal');
@@ -697,35 +751,6 @@ class Inventori extends CI_Controller
         redirect("inventori/detail_sop/$no_koreksi");
     }
 
-    public function approve()
-    {
-        $id = $this->uri->segment(3);
-        print_r($id);
-
-        $sop_detail = $this->db->where('Id', $id)->get('stock_opname_details')->row_array();
-
-        $data_sop_detail = ['status' => 1];
-
-        $data_stok = ['stok' => $sop_detail['qty_fisik']];
-
-        $this->db->where('id', $sop_detail['id_barang'])->update('barang', $data_stok);
-        $update = $this->db->where('Id', $id)->update('stock_opname_details', $data_sop_detail);
-
-        if ($update) {
-            $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                Stok barang sudah diperbarui.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>');
-        } else {
-            $this->session->set_flashdata('message_name', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Terjadi kesalahan. Silahkan dicoba lagi.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>');
-        }
-
-        redirect($_SERVER['HTTP_REFERER']);
-    }
-
     public function getData()
     {
         $results = $this->M_Barang->getDataBarang();
@@ -798,6 +823,36 @@ class Inventori extends CI_Controller
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>');
         }
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function koreksi_approve_all($id)
+    {
+        $koreksi_details = $this->db->where('id_koreksi', $id)->where('status_koreksi', '0')->get('koreksi_details')->result();
+
+        foreach ($koreksi_details as $k) {
+            echo '<pre>';
+            print_r($k->Id);
+            echo '</pre>';
+
+            if ($k->debit_kredit == "debit") {
+                $stok_baru = $k->stok_awal + $k->jumlah_koreksi;
+            } else if ($k->debit_kredit == "kredit") {
+                $stok_baru = $k->stok_awal - $k->jumlah_koreksi;
+            }
+
+            $data_koreksi_detail = ['status_koreksi' => 1];
+
+            $data_stok = ['stok' => $stok_baru];
+
+            $this->db->where('id', $k->id_barang)->update('barang', $data_stok);
+            $this->db->where('Id', $k->Id)->update('koreksi_details', $data_koreksi_detail);
+        }
+
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        Stok barang sudah diperbarui.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
 
         redirect($_SERVER['HTTP_REFERER']);
     }

@@ -43,6 +43,7 @@
                         <div class="row">
                             <div class="col-12 text-end">
                                 <a href="<?= base_url('inventori/koreksi_barang') ?>" class="btn btn-primary btn-sm">Kembali</a>
+                                <a href="<?= base_url('inventori/koreksi_approve_all/' . $koreksi['id']) ?>" class="btn btn-primary btn-sm btn-process">Setujui semua</a>
                             </div>
                         </div>
                         <div class="row">
@@ -98,7 +99,7 @@
                                         <td><?= $l->jumlah_koreksi ?></td>
                                         <td><?= $ket ?></td>
                                         <td>
-                                            <a href='<?= base_url("inventori/delete_detail_koreksi/$no_koreksi/$l->id") ?>' class="btn btn-sm btn-delete <?= ($status == '1') ? 'btn-success disabled' : 'btn-danger' ?>" data-bs-toggle="tooltip" title="Hapus <?= $barang_detail['nama'] ?>">
+                                            <a href='<?= base_url("inventori/delete_detail_koreksi/$no_koreksi/$l->Id") ?>' class="btn btn-sm btn-delete <?= ($status == '1') ? 'btn-success disabled' : 'btn-danger' ?>" data-bs-toggle="tooltip" title="Hapus <?= $barang_detail['nama'] ?>">
                                                 <i class="fa fa-<?= ($status == '1') ? 'thumbs-up' : 'times' ?>"></i>
                                             </a>
                                         </td>
@@ -211,6 +212,26 @@
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Ya, Hapus!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.location.href = href;
+            }
+        });
+    });
+
+    $(".btn-process").on("click", function(e) {
+        e.preventDefault();
+        const href = $(this).attr("href");
+
+        console.log(href);
+        Swal.fire({
+            title: "Anda yakin?",
+            // text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Setujui!",
         }).then((result) => {
             if (result.isConfirmed) {
                 document.location.href = href;

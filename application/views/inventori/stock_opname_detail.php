@@ -43,6 +43,7 @@
                         <div class="row">
                             <div class="col-12 text-end">
                                 <a href="<?= base_url('inventori/stock_opname') ?>" class="btn btn-primary btn-sm">Kembali</a>
+                                <a href="<?= base_url('inventori/sop_approve_all/' . $sop['id']) ?>" class="btn btn-primary btn-sm btn-process">Setujui semua</a>
                             </div>
                         </div>
                         <div class="row">
@@ -208,6 +209,25 @@
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Ya, Hapus!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.location.href = href;
+            }
+        });
+    });
+    $(".btn-process").on("click", function(e) {
+        e.preventDefault();
+        const href = $(this).attr("href");
+
+        console.log(href);
+        Swal.fire({
+            title: "Anda yakin?",
+            // text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Setujui!",
         }).then((result) => {
             if (result.isConfirmed) {
                 document.location.href = href;

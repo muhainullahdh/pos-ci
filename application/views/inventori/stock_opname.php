@@ -150,7 +150,7 @@
         e.preventDefault();
         const href = $(this).attr("href");
 
-        console.log(href);
+        // console.log(href);
         Swal.fire({
             title: "Anda yakin?",
             // text: "You won't be able to revert this!",

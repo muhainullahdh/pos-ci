@@ -223,6 +223,22 @@
             }
         }
     }
+    $(document).on('click', '.delete_item', function(e) {
+        e.preventDefault();
+
+        var rowId = $(this).attr('id');
+
+        // Hapus baris dengan id yang sesuai
+        $('#r' + rowId).remove();
+
+        // Perbarui counter jika diperlukan
+        if (counter > 1) {
+            counter--;
+        }
+
+        // Lakukan penanganan lainnya jika diperlukan
+        check_pos();
+    });
 
     $(".btn-delete").on("click", function(e) {
         e.preventDefault();
