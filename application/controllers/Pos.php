@@ -422,7 +422,7 @@ class Pos extends CI_Controller
         // $this->db->where('a.tahan',0);
         $this->db->where('a.cencel', 0);
         $this->db->where('a.kasir', $this->session->userdata('id_user'));
-        $this->db->group_by('a.no_struk');
+        // $this->db->group_by('a.no_struk');
         if ($first_date == true && $second_date == true) {
             $this->db->where('a.tgl_transaksi >=', $first_date);
             $this->db->where('a.tgl_transaksi <=', $second_date);
@@ -573,7 +573,7 @@ class Pos extends CI_Controller
         left join users d on (a.kasir=d.id)
         left join barang as e on(b.kd_barang=e.id)
         left join kategori as f on(e.kategori_id=f.id)
-        left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' and a.pembayaran='" . $pembayaran . "' and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " ")->result();
+        left join ekspedisi as g on(a.pengiriman = g.id) WHERE a.tahan=0 and a.trash=0 and a.kasir='" . $this->session->userdata('id_user') . "' and a.pembayaran='" . $pembayaran . "' and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " ")->result();
 
         $no = 1; // Untuk penomoran tabel, di awal set dengan 1
         $numrow = 2; // Set baris pertama untuk isi tabel adalah baris ke 4
@@ -709,7 +709,7 @@ class Pos extends CI_Controller
          left join piutang as h on(a.id=h.id_transaksi)
          left join transaksi_item as i on(a.id=i.id_transaksi)
          left join histori_transaksi as j on(a.id=j.id_transaksi) 
-          WHERE a.tahan=0 and a.kasir='" . $this->session->userdata('id_user') . "' " . $pembayaranx . " and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
+          WHERE a.tahan=0  and a.trash=0 and a.kasir='" . $this->session->userdata('id_user') . "' " . $pembayaranx . " and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
 
         // echo '<pre>';
         // print_r($penjualan);
