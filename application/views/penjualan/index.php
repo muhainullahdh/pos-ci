@@ -76,7 +76,7 @@
                                                 </td>
                                                 <td>
                                                     <a href="<?= base_url('pos/index/'). $x->id_transaksi .'/edit_transaksi' ?>" class="btn btn-primary btn-square"><i class="fa fa-edit"></i></a>
-                                                    <!-- <button type="button" id="<?= $x->id ?>" class="btn btn-danger btn-square delete_penjualan"><i class="fa fa-trash-o"></i></button> -->
+                                                    <a type="button" id="<?= $x->id_transaksi ?>" class="btn btn-square btn-danger delete_penjualan"><i class="fa fa-trash-o"></i></a>
                                                 </td>
                                             </tr>
                                     <?php } ?>
@@ -91,3 +91,38 @@
           <!-- Container-fluid Ends-->
         </div>
         <!-- footer start-->
+
+        <script>
+           $(document).on('click', '.delete_penjualan', function (e) {
+                        e.preventDefault();
+                        var pid = this.id;
+                        swal({
+                            title: "Delete",
+                            text: "Apakah anda yakin ingin delete penjualan?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax({
+                                url : "<?= site_url('penjualan/delete_penjualan');?>",
+                                method : "POST",
+                                data : {id: pid},
+                                async : true,
+                                dataType : 'json',
+                                    success: function(data){
+                                        swal({
+                                                                title: "Berhasil..!",
+                                                                text: "penjualan berhasil didelete",
+                                                                icon: "success",
+                                                                }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    location.reload();
+                                                                }
+                                                            });
+                                    }
+                                })
+                            }
+                        });
+                    })
+        </script>

@@ -31,6 +31,7 @@ class Penjualan extends CI_Controller {
         $this->db->join('users as d','d.id=a.kasir');
         $this->db->join('histori_transaksi as e','e.id=a.id');
         $this->db->where('a.cencel !=',1);
+        $this->db->where('a.trash !=',1);
         if ($first_date == true && $second_date == true) {
             $this->db->where('a.tgl_transaksi >=',$first_date);
             $this->db->where('a.tgl_transaksi <=',$second_date);
@@ -43,6 +44,15 @@ class Penjualan extends CI_Controller {
 		$this->load->view('body/header');
 		$this->load->view('penjualan/index',$data);
 		$this->load->view('body/footer');
+    }
+    function delete_penjualan()
+    {
+        $id = $this->input->post('id');//id transaksi
+        $this->db->where('id',$id);
+         $this->db->set('trash',1);
+         $this->db->set('trash_by',$this->session->userdata('id_user'));
+         $this->db->update('transaksi');
+         echo json_encode('berhasil');
     }
     function excel()
     {
