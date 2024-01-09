@@ -145,13 +145,13 @@ WHERE a.pelanggan='".$pelanggan."'")->row_array();
                 ?>
                 <div style="float:left;width:50%;text-align:center"><?= $bank ?></div>
             </td>
-            <?php if ($cek_piutang_customers == 0) { ?>
+            <?php if ($cek_piutang_customers == '0') { ?>
                 <td style="text-align:right">
-                    <?= number_format($sub_total, 0, ',', ',') ?> <!--- jika sudah lunas---->
+                    <?=  number_format($sub_total, 0, ',', ',') ?> <!--- jika sudah lunas---->
                 </td>
 
             <?php } else { ?>
-            <td style="text-align:right"><?= number_format($transkasi['total_bayar'], 0, ',', ',') ?></td>
+                <td style="text-align:right"><?= number_format($transkasi['total_bayar'], 0, ',', ',') ?></td>
             <?php } ?>
         </tr>
         <?php if ($transkasi['tunai'] == true) { ?>

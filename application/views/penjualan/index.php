@@ -69,7 +69,7 @@
                                                     <?= $x->jumlah_item ?>
                                                 </td>
                                                 <td>
-                                                    <?="Rp.". number_format($x->total_transaksi,0,'.','.') ?>
+                                                    <?="Rp.". number_format($x->total_transaksi - $x->bayar_piutang,0,'.','.') ?>
                                                 </td>
                                                 <td>
                                                     <?= $x->nama_kasir ?>
