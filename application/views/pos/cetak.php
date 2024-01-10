@@ -44,7 +44,7 @@
         <td style="text-align:right">JL.RAYA TENGAH NO.1</td>
     </tr> -->
         <tr>
-            <td width="180">
+            <td>
                 No. <?= $transkasi['no_struk'] ?>
             </td>
             <td style="text-align:right"><?= date('d/m/Y', strtotime($transkasi['tgl_transaksi'])) ?></td>
@@ -73,7 +73,7 @@
             $sub_total += $x->harga_satuan * $x->qty;
         ?>
             <tr>
-                <td width="240"><?= $x->barang ?></td>
+                <td><?= $x->barang ?></td>
             </tr>
             <tr>
                 <td><?= $x->qty ?> &nbsp;&nbsp;&nbsp; <?= $x->satuan ?> &nbsp;&nbsp;&nbsp; <?= number_format($x->harga_satuan, 0, ',', ',') ?> </td>
@@ -222,11 +222,11 @@ WHERE a.pelanggan='".$pelanggan."' AND a.id='".$this->input->get('id')."'")->row
         }
         ?>
 
-        <tr>
+        <!-- <tr>
             <th colspan="2">
                 <hr>
             </th>
-        </tr>
+        </tr> -->
         <tr>
             <td colspan="3" width="290" style="padding:10px;text-align: center; vertical-align: middle;font-size:15px;">
                 <?php 
