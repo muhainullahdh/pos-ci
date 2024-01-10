@@ -14,10 +14,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
     body {
-        font-size: 18px;
+        font-size: 12px;
         font-family: Arial;
     }
-
+    table {
+        font-size: 14px;
+    }
     /* Create two equal columns that floats next to each other */
     .col {
         float: left;
@@ -228,7 +230,7 @@ WHERE a.pelanggan='".$pelanggan."' AND a.id='".$this->input->get('id')."'")->row
             </th>
         </tr> -->
         <tr>
-            <td colspan="3" width="290" style="padding:10px;text-align: center; vertical-align: middle;font-size:15px;">
+            <td colspan="3" width="290" style="padding:10px;text-align: center; vertical-align: middle;font-size:14px;">
                 <?php 
                 echo $setting['struk'];
                 ?>
