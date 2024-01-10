@@ -120,14 +120,25 @@
         <?php
           $pelanggan = $transkasi['pelanggan'];
             $sum = $this->db->query("SELECT
-	*,count('c.*') as piutang_jika_dua ,a.total_transaksi - SUM( b.nominal_bayar ) as cek_piutang
+	a.total_transaksi,
+CASE
+		WHEN sum( a.total_transaksi - (SELECT sum(nominal_bayar) FROM histori_transaksi where id_transaksi=a.id)) != 0 THEN
+		sum( a.total_transaksi - (SELECT sum(nominal_bayar) FROM histori_transaksi where id_transaksi=a.id))
+		ELSE 'lunas'
+	END AS cek_piutang,
+	CASE WHEN (SELECT count(*) from histori_transaksi where id_transaksi=a.id) > 1 THEN
+		'2'
+	ELSE
+		'1'
+END AS piutang_dua
+
 FROM
 	transaksi AS a
-	LEFT JOIN histori_transaksi AS b ON ( a.id = b.id_transaksi ) 
-    LEFT JOIN piutang as c ON (a.id=c.id_transaksi)
-WHERE a.pelanggan='".$pelanggan."'")->row_array();
-            $cek_piutang_customers = $sum['cek_piutang'];
-        if ($sum['piutang_jika_dua'] > 2) {
+WHERE
+	a.pelanggan ='".$pelanggan."' ")->row_array();
+        $total_transaksii = 0;
+        $total_nominal_bayar = 0;
+        if ($sum['cek_piutang'] != 'lunas' && $sum['piutang_dua'] > 1) {
         ?>
             <tr>
                 <td></td>
@@ -150,7 +161,7 @@ WHERE a.pelanggan='".$pelanggan."'")->row_array();
                 ?>
                 <div style="float:left;width:50%;text-align:center"><?= $bank ?></div>
             </td>
-            <?php if ($cek_piutang_customers == '0') { ?>
+            <?php if ($total_nominal_bayar == '0') { ?>
                 <td style="text-align:right">
                     <?=  number_format($sub_total, 0, ',', ',') ?> <!--- jika sudah lunas---->
                 </td>
@@ -206,7 +217,7 @@ FROM
 	transaksi AS a
 	LEFT JOIN histori_transaksi AS b ON ( a.id = b.id_transaksi ) 
 WHERE a.pelanggan='".$pelanggan."' AND a.id='".$this->input->get('id')."'")->row_array();
-        if ($transkasi['piutang'] == 1 && $cek_piutang_customers != 0) {
+        if ($transkasi['piutang'] == 1) {
             // $pelanggan = $transkasi['pelanggan'];
             // $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar');
             // $this->db->where('pelanggan', $pelanggan);
