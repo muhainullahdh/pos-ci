@@ -161,7 +161,7 @@ WHERE
                 ?>
                 <div style="float:left;width:50%;text-align:center"><?= $bank ?></div>
             </td>
-            <?php if ($total_nominal_bayar == '0') { ?>
+            <?php if ($sum['cek_piutang'] != 'lunas') { ?>
                 <td style="text-align:right">
                     <?=  number_format($sub_total, 0, ',', ',') ?> <!--- jika sudah lunas---->
                 </td>
