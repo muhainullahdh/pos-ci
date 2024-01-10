@@ -1,5 +1,8 @@
 <script>
-    window.print()
+    setTimeout(() => {
+        window.print()
+        
+    }, 2000);
 </script>
 <!DOCTYPE html>
 <html lang="en">

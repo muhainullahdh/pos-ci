@@ -405,7 +405,7 @@
                     <td class="bor-lf" colspan="1"><?= 'Rp.' .
                         number_format($jumlah_row, 0, '.', '.') ?></td>
                     <td class="bor-lf" colspan="1"><?= 'Rp.' .
-                        number_format($total_bayar_row, 0, '.', '.') ?></td>
+                        number_format($total_bayar_row - $total_kembali_row , 0, '.', '.') ?></td>
                     <td class="bor-lf" colspan="1"><?= 'Rp.' .
                         number_format(0, 0, '.', '.') ?></td>
                     <td class="bor-lf" colspan="1"><?= 'Rp.' .
@@ -417,7 +417,7 @@
                     <td class="bor-lf" colspan="9" style="text-align:right;"><br><strong>Total penerimaan kasir</strong></td>
                     <td class="bor-lf" colspan="1"><br>
                     <?= 'Rp.' .
-                        number_format($jumlah_row - $total_kembali_row  - $total_kurang_bayar, 0, '.', '.') ?></td>
+                        number_format($jumlah_row  - $total_kurang_bayar, 0, '.', '.') ?></td>
                 </tr>
             </table>
             <br>
