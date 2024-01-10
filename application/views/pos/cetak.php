@@ -1,7 +1,7 @@
 <script>
     setTimeout(() => {
         window.print()
-        
+
     }, 2000);
 </script>
 <!DOCTYPE html>
@@ -120,14 +120,14 @@
         <?php
           $pelanggan = $transkasi['pelanggan'];
             $sum = $this->db->query("SELECT
-	*,a.total_transaksi - SUM( nominal_bayar ) as cek_piutang
+	*,count('c.*') as piutang_jika_dua ,a.total_transaksi - SUM( b.nominal_bayar ) as cek_piutang
 FROM
 	transaksi AS a
 	LEFT JOIN histori_transaksi AS b ON ( a.id = b.id_transaksi ) 
+    LEFT JOIN piutang as c ON (a.id=c.id_transaksi)
 WHERE a.pelanggan='".$pelanggan."'")->row_array();
             $cek_piutang_customers = $sum['cek_piutang'];
-        if ($cek_piutang_customers != 0) {
-          
+        if ($sum['piutang_jika_dua'] > 2) {
         ?>
             <tr>
                 <td></td>
