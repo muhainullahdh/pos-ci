@@ -75,7 +75,7 @@
             $sub_total += $x->harga_satuan * $x->qty;
         ?>
             <tr>
-                <td style="float:left;width:150px;"><?= $x->barang ?></td>
+                <td style="float:left;width:250px;"><?= $x->barang ?></td>
             </tr>
             <tr>
                 <td><?= $x->qty ?> &nbsp;&nbsp;&nbsp; <?= $x->satuan ?> &nbsp;&nbsp;&nbsp; <?= number_format($x->harga_satuan, 0, ',', ',') ?> </td>
