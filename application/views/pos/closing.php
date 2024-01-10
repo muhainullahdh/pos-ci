@@ -348,7 +348,7 @@
                     foreach ($penjualan as $row) {
 
                         $jumlah_row += $row->jumlah;
-                        $total_bayar_row += $row->total_bayar;
+                        $total_bayar_row += $row->total_bayar + $row->nominal_bayar;
                         $total_kembali_row += $row->kembali;
                         $kurang_bayar = $row->total_transkasi - $row->bayar_piutang;
                         ?>
