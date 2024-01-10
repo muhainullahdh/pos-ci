@@ -345,12 +345,16 @@
                     $total_bayar_row = 0;
                     $total_kurang_bayar = 0;
                     $total_kembali_row = 0;
+                    $total_nominal_bayar = 0;
+                    $x_bayar_piutang = 0;
                     foreach ($penjualan as $row) {
 
                         $jumlah_row += $row->jumlah;
-                        $total_bayar_row += $row->total_bayar + $row->nominal_bayar;
+                        $total_bayar_row += $row->total_bayar;
                         $total_kembali_row += $row->kembali;
                         $kurang_bayar = $row->total_transkasi - $row->bayar_piutang;
+                        $total_nominal_bayar += $row->nominal_bayar;
+                        $x_bayar_piutang = $row->bayar_piutang;
                         ?>
                         <tr>
                             <td class="bor-lf"><?= $no ?></td>
@@ -405,7 +409,7 @@
                     <td class="bor-lf" colspan="1"><?= 'Rp.' .
                         number_format($jumlah_row, 0, '.', '.') ?></td>
                     <td class="bor-lf" colspan="1"><?= 'Rp.' .
-                        number_format($total_bayar_row - $total_kembali_row , 0, '.', '.') ?></td>
+                        number_format($total_bayar_row - $total_kembali_row + ($total_nominal_bayar - $x_bayar_piutang) , 0, '.', '.') ?></td>
                     <td class="bor-lf" colspan="1"><?= 'Rp.' .
                         number_format(0, 0, '.', '.') ?></td>
                     <td class="bor-lf" colspan="1"><?= 'Rp.' .
