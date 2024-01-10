@@ -1035,22 +1035,25 @@
                                 async: true,
                                 dataType: 'json',
                                 success: function(data) {
+                                    
                                     var satuann = ''
-                                    if (!data.id_satuan_besar == "") {
-                                        satuann += '<option value=' + data.qty_besar + "," + data.id_satuan_besar + '>' + data.id_satuan_besar + ' </option>';
-                                        // cek_satuan = data.id_satuan_besar;
-                                        // cek_isi_satuan = data.qty_besar;
+                                    if (!data.id_satuan_kecil_konv == "") {
+                                        satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + '>' + data.id_satuan_kecil_konv + ' </option>';
+                                        // cek_satuan = data.id_satuan_kecil_konv;
+                                        // cek_isi_satuan = data.qty_konv;
                                     }
                                     if (!data.id_satuan_kecil == "") {
                                         satuann += '<option value=' + data.qty_kecil + "," + data.id_satuan_kecil + '>' + data.id_satuan_kecil + ' </option>';
                                         // cek_satuan = data.id_satuan_kecil;
                                         // cek_isi_satuan = data.qty_kecil;
                                     }
-                                    if (!data.id_satuan_kecil_konv == "") {
-                                        satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + '>' + data.id_satuan_kecil_konv + ' </option>';
-                                        // cek_satuan = data.id_satuan_kecil_konv;
-                                        // cek_isi_satuan = data.qty_konv;
+                                    if (!data.id_satuan_besar == "") {
+                                        satuann += '<option value=' + data.qty_besar + "," + data.id_satuan_besar + '>' + data.id_satuan_besar + ' </option>';
+                                        // cek_satuan = data.id_satuan_besar;
+                                        // cek_isi_satuan = data.qty_besar;
                                     }
+                                 
+
                                     <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
                                         if (!data.hargajualb_retail == "") {
                                             var satuan_pp = data.hargajualb_retail;
@@ -1477,15 +1480,17 @@
                                             dataType: 'json',
                                             success: function(data) {
                                                 var satuann = ''
-                                                if (data.id_satuan_besar != "") {
-                                                    satuann += '<option value=' + data.qty_besar + "," + data.id_satuan_besar + '>' + data.id_satuan_besar + ' </option>';
+                                                if (data.id_satuan_kecil_konv != "") {
+                                                    satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + '>' + data.id_satuan_kecil_konv + ' </option>';
                                                 }
                                                 if (data.id_satuan_kecil != "") {
                                                     satuann += '<option value=' + data.qty_kecil + "," + data.id_satuan_kecil + '>' + data.id_satuan_kecil + ' </option>';
                                                 }
-                                                if (data.id_satuan_kecil_konv != "") {
-                                                    satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + '>' + data.id_satuan_kecil_konv + ' </option>';
+                                                if (data.id_satuan_besar != "") {
+                                                    satuann += '<option value=' + data.qty_besar + "," + data.id_satuan_besar + '>' + data.id_satuan_besar + ' </option>';
                                                 }
+                                                
+                                                
                                                 <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
                                                     var harga1 = formatRupiah(data.hargajualb_retail)
                                                     if (data.id_satuan_besar != "") {
