@@ -1150,6 +1150,7 @@
                                             $('.stock' + counter + '').val(data.stok);
                                             $('.stock-c' + counter + '').val(data.stok - qty * data.qty_kecil);
                                         }
+                                        console.log(data.id_satuan_besar )
                                         // }
                                         // console.log(data.nama)
                                         $('.total_item').val(counter)
