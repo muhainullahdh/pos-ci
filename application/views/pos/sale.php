@@ -196,11 +196,11 @@
                                     <div class="row">
                                         <div class="col">
                                             <label>Start Date</label>
-                                            <input type="date" class="form-control date_print" value="<?= $this->session->userdata('reprint_date_penjualan') ?>" name="date">
+                                            <input type="date" class="form-control date_print" value="<?= $this->session->userdata('reprint_date_penjualan') == "" ? date('Y-m-d') :  $this->session->userdata('reprint_date_penjualan')?>" name="date">
                                         </div>
                                         <div class="col">
                                             <label>End Date</label>
-                                            <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') ?>" name="date2">
+                                            <input type="date" class="form-control date_print2" value="<?= $this->session->userdata('reprint_date_penjualan2') == "" ? date('Y-m-d') : $this->session->userdata('reprint_date_penjualan2')?>" name="date2">
                                         </div>
                                         <div class="col">
                                             <label>Pelanggan</label>
@@ -221,6 +221,7 @@
                                                 <table id="load-transaksi" class="display table">
                                                     <thead>
                                                         <tr>
+                                                            <th width="70"></th>
                                                             <th width="70"></th>
                                                             <th width="400" scope="col">No Struk</th>
                                                             <th width="80" scope="col">Pelanggan</th>
@@ -2324,7 +2325,7 @@
                                         '<td class="order">' + data[i].no_struk + '</td>' +
                                         '<td>' + data[i].nama_toko + '</td>' +
                                         '<td>' + data[i].jumlah_item + '</td>' +
-                                        '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                        '<td>' + data[i].total_transaksi.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
                                         '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                         '</tr>');
                                     // check_pos()
@@ -2749,7 +2750,7 @@
                                                             '<td class="order">' + data[i].no_struk + '</td>' +
                                                             '<td>' + data[i].nama_toko + '</td>' +
                                                             '<td>' + data[i].jumlah_item + '</td>' +
-                                                            '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                                            '<td>' + data[i].total_transaksi.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
                                                             '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                                             '</tr>');
                                                     }
@@ -2870,7 +2871,7 @@
                                             '<td class="order">' + data[i].no_struk + '</td>' +
                                             '<td>' + data[i].nama_toko + '</td>' +
                                             '<td>' + data[i].jumlah_item + '</td>' +
-                                            '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                            '<td>' + data[i].total_transaksi.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
                                             '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                             '</tr>');
                                     }
@@ -2924,7 +2925,7 @@
                                                 '<td class="order">' + data[i].no_struk + '</td>' +
                                                 '<td>' + data[i].nama_toko + '</td>' +
                                                 '<td>' + data[i].jumlah_item + '</td>' +
-                                                '<td>' + total_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
+                                                '<td>' + data[i].total_transaksi.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + '</td>' +
                                                 '<td><a target="_blank" class="badge badge-primary" href="<?= base_url('pos/cetak?id=') ?>' + data[i].i_transaksi + '" >Cetak</a></td>' +
                                                 '</tr>');
                                         } else {
