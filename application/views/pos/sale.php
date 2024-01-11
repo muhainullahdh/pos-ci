@@ -1055,44 +1055,44 @@
                                  
 
                                     <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
-                                        if (!data.hargajualb_retail == "") {
-                                            var satuan_pp = data.hargajualb_retail;
+                                        if (!data.hargajual_konv_retail == "") {
+                                            var satuan_pp = data.hargajual_konv_retail;
                                         } else if (!data.hargajualk_retail == "") {
                                             var satuan_pp = data.hargajualb_retail;
-                                        } else if (!data.hargajual_konv_retail == "") {
-                                            var satuan_pp = data.hargajual_konv_retail;
+                                        } else if (!data.hargajualb_retail == "") {
+                                            var satuan_pp = data.hargajualb_retail;
                                         }
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
-                                        if (!data.hargajualb_grosir == "") {
-                                            var satuan_pp = data.hargajualb_retail;
-                                        } else if (!data.hargajualk_retail == "") {
-                                            var satuan_pp = data.hargajualb_retail;
-                                        } else if (!data.hargajual_konv_retail == "") {
+                                        if (!data.hargajual_konv_retail == "") {
                                             var satuan_pp = data.hargajual_konv_retail;
+                                        }else if (!data.hargajualk_retail == "") {
+                                            var satuan_pp = data.hargajualb_retail;
+                                        }else if (!data.hargajualb_grosir == "") {
+                                            var satuan_pp = data.hargajualb_retail;
                                         }
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'grosir') { ?>
-                                        if (!data.hargajualb_grosir == "") {
-                                            var satuan_pp = data.hargajualb_grosir;
-                                        } else if (!data.hargajualk_grosir == "") {
-                                            var satuan_pp = data.hargajualb_grosir;
-                                        } else if (!data.hargajual_konv_grosir == "") {
+                                        if (!data.hargajual_konv_grosir == "") {
                                             var satuan_pp = data.hargajual_konv_grosir;
-                                        }
+                                        }else if (!data.hargajualk_grosir == "") {
+                                            var satuan_pp = data.hargajualb_grosir;
+                                        }else if (!data.hargajualb_grosir == "") {
+                                            var satuan_pp = data.hargajualb_grosir;
+                                        } 
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'partai') { ?>
-                                        if (!data.hargajualb_partai == "") {
-                                            var satuan_pp = data.hargajualb_partai;
+                                        if (!data.hargajual_konv_partai == "") {
+                                            var satuan_pp = data.hargajual_konv_partai;
                                         } else if (!data.hargajualk_partai == "") {
                                             var satuan_pp = data.hargajualb_partai;
-                                        } else if (!data.hargajual_konv_partai == "") {
-                                            var satuan_pp = data.hargajual_konv_partai;
+                                        }else if (!data.hargajualb_partai == "") {
+                                            var satuan_pp = data.hargajualb_partai;
                                         }
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'promo') { ?>
-                                        if (!data.hargajualb_promo == "") {
-                                            var satuan_pp = data.hargajualb_promo;
+                                        if (!data.hargajual_konv_promo == "") {
+                                            var satuan_pp = data.hargajual_konv_promo;
                                         } else if (!data.hargajualk_promo == "") {
                                             var satuan_pp = data.hargajualb_promo;
-                                        } else if (!data.hargajual_konv_promo == "") {
-                                            var satuan_pp = data.hargajual_konv_promo;
+                                        } else if (!data.hargajualb_promo == "") {
+                                            var satuan_pp = data.hargajualb_promo;
                                         }
 
                                     <?php } ?>
