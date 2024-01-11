@@ -138,7 +138,7 @@
 // 	a.pelanggan ='".$pelanggan."' ")->row_array();
         $sum2 = $this->db->query("SELECT id, pelanggan, MONTH(tgl_transaksi), YEAR(tgl_transaksi), 
 	total_transaksi, total_bayar, kembali, diskon, 
-	( total_bayar - ( (total_transaksi - diskon) + kembali )  ) as nilai_transaksi,
+	( total_bayar - ( (total_transaksi - diskon) + kembali )  ) as nilai_transaksi, 
 	IFNULL( (select ( SUM(total_bayar) - ( ( SUM(total_transaksi) - SUM(diskon)) + SUM(kembali) )  ) FROM transaksi ax WHERE pelanggan = a.pelanggan 
 		AND id < a.id
 	 ),0) as sisa_bon_sebelumnya
@@ -219,14 +219,14 @@
         ?>
 
         <?php
-                    $sum2 = $this->db->query("SELECT id, pelanggan, MONTH(tgl_transaksi), YEAR(tgl_transaksi), 
-	total_transaksi, total_bayar, kembali, diskon, 
-	( total_bayar - ( (total_transaksi - diskon) + kembali )  ) as nilai_transaksi,
-	IFNULL( (select ( SUM(total_bayar) - ( ( SUM(total_transaksi) - SUM(diskon)) + SUM(kembali) )  ) FROM transaksi ax WHERE pelanggan = a.pelanggan 
-		AND id < a.id
-	 ),0) as sisa_bon_sebelumnya
-	FROM transaksi a WHERE a.id = '". $this->input->get('id')."'
-	ORDER BY id ASC ")->row_array();
+    //                 $sum2 = $this->db->query("SELECT id, pelanggan, MONTH(tgl_transaksi), YEAR(tgl_transaksi), 
+	// total_transaksi, total_bayar, kembali, diskon, 
+	// ( total_bayar - ( (total_transaksi - diskon) + kembali )  ) as nilai_transaksi, 
+	// IFNULL( (select ( SUM(total_bayar) - ( ( SUM(total_transaksi) - SUM(diskon)) + SUM(kembali) )  ) FROM transaksi ax WHERE pelanggan = a.pelanggan 
+	// 	AND id < a.id
+	//  ),0) as sisa_bon_sebelumnya
+	// FROM transaksi a WHERE a.id = '". $this->input->get('id')."'
+	// ORDER BY id ASC ")->row_array();
         if ($transkasi['piutang'] == 1) {
             // $pelanggan = $transkasi['pelanggan'];
             // $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar');
@@ -242,7 +242,7 @@
             </tr>
             <tr>
                 <td>Saldo Bon</td>
-                <td style="text-align:right"><?= number_format($sum2['nilai_transaksi'], 0, ',', ',') ?></td>
+                <td style="text-align:right"><?= number_format( ( ( ( $sum2['nilai_transaksi'] * -1) - $sum2['sisa_bon_sebelumnya'] ) +  $transkasi['tunai'] ) , 0, ',', ',') ?></td>
             </tr>
         <?php
         }
