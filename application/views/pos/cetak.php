@@ -119,26 +119,34 @@
         ?> -->
         <?php
           $pelanggan = $transkasi['pelanggan'];
-            $sum = $this->db->query("SELECT
-	a.total_transaksi,
-CASE
-		WHEN sum( a.total_transaksi - (SELECT sum(nominal_bayar) FROM histori_transaksi where id_transaksi=a.id)) != 0 THEN
-		sum( a.total_transaksi - (SELECT sum(nominal_bayar) FROM histori_transaksi where id_transaksi=a.id))
-		ELSE 'lunas'
-	END AS cek_piutang,
-	CASE WHEN (SELECT count(*) from histori_transaksi where id_transaksi=a.id) > 1 THEN
-		'2'
-	ELSE
-		'1'
-END AS piutang_dua
+//             $sum = $this->db->query("SELECT
+// 	a.total_transaksi,
+// CASE
+// 		WHEN sum( a.total_transaksi - (SELECT sum(nominal_bayar) FROM histori_transaksi where id_transaksi=a.id)) != 0 THEN
+// 		sum( a.total_transaksi - (SELECT sum(nominal_bayar) FROM histori_transaksi where id_transaksi=a.id))
+// 		ELSE 'lunas'
+// 	END AS cek_piutang,
+// 	CASE WHEN (SELECT count(*) from histori_transaksi where id_transaksi=a.id) > 1 THEN
+// 		'2'
+// 	ELSE
+// 		'1'
+// END AS piutang_dua
 
-FROM
-	transaksi AS a
-WHERE
-	a.pelanggan ='".$pelanggan."' ")->row_array();
+// FROM
+// 	transaksi AS a
+// WHERE
+// 	a.pelanggan ='".$pelanggan."' ")->row_array();
+        $sum2 = $this->db->query("SELECT id, pelanggan, MONTH(tgl_transaksi), YEAR(tgl_transaksi), 
+	total_transaksi, total_bayar, kembali, diskon, 
+	( total_bayar - ( (total_transaksi - diskon) + kembali )  ) as nilai_transaksi,
+	IFNULL( (select ( SUM(total_bayar) - ( ( SUM(total_transaksi) - SUM(diskon)) + SUM(kembali) )  ) FROM transaksi ax WHERE pelanggan = a.pelanggan 
+		AND id < a.id
+	 ),0) as sisa_bon_sebelumnya
+	FROM transaksi a WHERE a.id = '" . $this->input->get('id') . "'
+	ORDER BY id ASC ")->row_array();
         $total_transaksii = 0;
         $total_nominal_bayar = 0;
-        if ($sum['cek_piutang'] != 'lunas' && $sum['piutang_dua'] > 1) {
+        //if ($sum['cek_piutang'] != 'lunas' && $sum['piutang_dua'] > 1) {
         ?>
             <tr>
                 <td></td>
@@ -148,10 +156,10 @@ WHERE
             </tr>
             <tr>
                 <td>Sisa Bon Yang lalu</td>
-                <td style="text-align:right"><?= number_format($sum['cek_piutang'], 0, ',', ',') ?></td>
+                <td style="text-align:right"><?= number_format($sum2['sisa_bon_sebelumnya'], 0, ',', ',') ?></td>
             </tr>
         <?php
-        }
+       // }
         ?>
         <tr>
             <td>
@@ -161,14 +169,14 @@ WHERE
                 ?>
                 <div style="float:left;width:50%;text-align:center"><?= $bank ?></div>
             </td>
-            <?php if ($sum['cek_piutang'] == 'lunas') { ?>
-                <td style="text-align:right">
-                    <?=  number_format($sub_total, 0, ',', ',') ?> <!--- jika sudah lunas---->
-                </td>
+            <?php //if ($sum2['cek_piutang'] == 'lunas') { ?>
+                <!-- <td style="text-align:right">
+                    <?=  number_format($sub_total, 0, ',', ',') ?> - jika sudah lunas--
+                </td> -->
 
-            <?php } else { ?>
+            <?php //} else { ?>
                 <td style="text-align:right"><?= number_format($transkasi['total_bayar'], 0, ',', ',') ?></td>
-            <?php } ?>
+            <?php //} ?>
         </tr>
         <?php if ($transkasi['tunai'] == true) { ?>
             <tr>
@@ -211,12 +219,14 @@ WHERE
         ?>
 
         <?php
-                    $sum2 = $this->db->query("SELECT
-	*,a.total_transaksi - SUM( b.nominal_bayar ) as cek_piutang
-FROM
-	transaksi AS a
-	LEFT JOIN histori_transaksi AS b ON ( a.id = b.id_transaksi ) 
-WHERE a.pelanggan='".$pelanggan."' AND a.id='".$this->input->get('id')."'")->row_array();
+                    $sum2 = $this->db->query("SELECT id, pelanggan, MONTH(tgl_transaksi), YEAR(tgl_transaksi), 
+	total_transaksi, total_bayar, kembali, diskon, 
+	( total_bayar - ( (total_transaksi - diskon) + kembali )  ) as nilai_transaksi,
+	IFNULL( (select ( SUM(total_bayar) - ( ( SUM(total_transaksi) - SUM(diskon)) + SUM(kembali) )  ) FROM transaksi ax WHERE pelanggan = a.pelanggan 
+		AND id < a.id
+	 ),0) as sisa_bon_sebelumnya
+	FROM transaksi a WHERE a.id = '". $this->input->get('id')."'
+	ORDER BY id ASC ")->row_array();
         if ($transkasi['piutang'] == 1) {
             // $pelanggan = $transkasi['pelanggan'];
             // $this->db->select('sum(total_transaksi) as transaksi, sum(total_bayar) as bayar');
@@ -231,8 +241,8 @@ WHERE a.pelanggan='".$pelanggan."' AND a.id='".$this->input->get('id')."'")->row
                 </td>
             </tr>
             <tr>
-                <td>Sisa Bon</td>
-                <td style="text-align:right"><?= number_format($sum2['cek_piutang'], 0, ',', ',') ?></td>
+                <td>Saldo Bon</td>
+                <td style="text-align:right"><?= number_format($sum2['nilai_transaksi'], 0, ',', ',') ?></td>
             </tr>
         <?php
         }
