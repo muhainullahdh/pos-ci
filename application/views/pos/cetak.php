@@ -156,7 +156,7 @@
             </tr>
             <tr>
                 <td>Sisa Bon Yang lalu</td>
-                <td style="text-align:right"><?= number_format($sum2['sisa_bon_sebelumnya'], 0, ',', ',') ?></td>
+                <td style="text-align:right"><?= number_format(abs($sum2['sisa_bon_sebelumnya']), 0, ',', ',') ?></td>
             </tr>
         <?php
        // }
