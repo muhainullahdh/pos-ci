@@ -1137,19 +1137,19 @@
                                         // $('.stock' + counter + '').val(stok);
                                         // $('.stock-c' + counter + '').val(stok - (qty));
                                         
-                                        if (data.id_satuan_besar == 'BAL') {
-                                            $('.stock' + counter + '').val(data.stok / data.qty_konv);
-                                            $('.stock-c' + counter + '').val(Math.ceil(data.stok / data.qty_konv - qty));
-                                        }else if (data.id_satuan_besar == 'SLOP') {
-                                            $('.stock' + counter + '').val(data.stok / data.qty_besar);
-                                            $('.stock-c' + counter + '').val(data.stok / data.qty_besar - qty);
-                                        }else if(data.id_satuan_besar == 'KARUNG'){
-                                            $('.stock' + counter + '').val(Math.floor(data.stok / data.qty_kecil));
-                                            $('.stock-c' + counter + '').val(Math.floor(data.stok / data.qty_kecil - qty));
-                                        }else{
+                                        // if (data.id_satuan_besar == 'BAL') {
+                                        //     $('.stock' + counter + '').val(data.stok / data.qty_konv);
+                                        //     $('.stock-c' + counter + '').val(Math.ceil(data.stok / data.qty_konv - qty));
+                                        // }else if (data.id_satuan_besar == 'SLOP') {
+                                        //     $('.stock' + counter + '').val(data.stok / data.qty_besar);
+                                        //     $('.stock-c' + counter + '').val(data.stok / data.qty_besar - qty);
+                                        // // }else if(data.id_satuan_besar == 'KARUNG'){
+                                        //     $('.stock' + counter + '').val(Math.floor(data.stok / data.qty_kecil));
+                                        //     $('.stock-c' + counter + '').val(Math.floor(data.stok / data.qty_kecil - qty));
+                                        // }else{
                                             $('.stock' + counter + '').val(data.stok);
                                             $('.stock-c' + counter + '').val(data.stok - qty * data.qty_kecil);
-                                        }
+                                        // }
                                         console.log(data.id_satuan_besar )
                                         // }
                                         // console.log(data.nama)
