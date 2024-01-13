@@ -1056,13 +1056,19 @@
                                  
 
                                     <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
-                                         if (!data.hargajual_konv_retail == "") {
-                                            var satuan_pp = data.hargajual_konv_retail;
-                                        }else if (!data.hargajualk_retail == "") {
-                                            var satuan_pp = data.hargajualk_retail;
-                                        } else if (!data.hargajualb_retail == "") {
-                                            var satuan_pp = data.hargajualb_retail;
-                                        }
+                                        //  if (data.hargajual_konv_retail != "" || !data.hargajual_konv_retail != null) {
+                                            if((data.hargajual_konv_retail == null || data.hargajual_konv_retail == 0) && data.hargajualk_retail != ""){
+                                                var satuan_pp = data.hargajualk_retail;
+                                            }else{
+                                                var satuan_pp = data.hargajualk_retail;
+                                            }                                        
+                                            
+                                        // }
+                                        // else if (data.hargajualk_retail != "" || !data.hargajualk_retail != null) {
+                                        //     var satuan_pp = data.hargajualk_retail;
+                                        // } else if (!data.hargajualb_retail == "") {
+                                        //     var satuan_pp = data.hargajualb_retail;
+                                        // }
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
                                         if (!data.hargajual_konv_retail == "") {
                                             var satuan_pp = data.hargajual_konv_retail;
@@ -1371,7 +1377,11 @@
                                 if (tipe_satuan == 'kecil') {
                                     kalkulasi_satuan(tipe_satuan,data2.stok,data2.qty_kecil,qty,counter)
                                 }else if(tipe_satuan == 'besar'){
-                                    kalkulasi_satuan(tipe_satuan,data2.stok,data2.qty_konv,qty,counter)
+                                    // var cek_satuan_x = data2.qty_konv == null ? 0 : data2.qty_kecil
+                                    if((data2.hargajual_konv_retail == null || data2.hargajual_konv_retail == 0) && data2.hargajualk_retail != ""){
+                                                var cek_satuan_x = data2.hargajualk_retail;
+                                    }      
+                                    kalkulasi_satuan(tipe_satuan,data2.stok,cek_satuan_x,qty,counter)
                                 }else if(tipe_satuan == 'konv'){
                                     kalkulasi_satuan(tipe_satuan,data2.stok,1,qty,counter)//dibagi 1
                                 }
