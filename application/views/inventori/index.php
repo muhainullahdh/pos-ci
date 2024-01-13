@@ -66,6 +66,7 @@
                                             <th>No.</th>
                                             <th>Kode barang</th>
                                             <th>Nama barang</th>
+                                            <th>Kode gudang</th>
                                             <th>Sat. Besar</th>
                                             <th>Sat. Kecil</th>
                                             <th>Sat. Konv.</th>
@@ -78,11 +79,13 @@
                                         $no = 1;
                                         foreach ($tampil as $t) {
                                             $saldo_stock = $t->stok * $t->hpp_kecil;
+                                            $kd_gudang = $this->db->select('kode')->where('id', $t->id_gudang)->get('gudang')->row_array();
                                         ?>
                                             <tr>
                                                 <td class="text-end"><?= $no++ ?>.</td>
                                                 <td><?= $t->kode_barang ?></td>
                                                 <td><?= $t->nama ?></td>
+                                                <td><?= $kd_gudang['kode'] ?></td>
                                                 <td class=""><?= ($t->id_satuan_besar) ?></td>
                                                 <td class=""><?= $t->id_satuan_kecil ?></td>
                                                 <td class=""><?= ($t->id_satuan_kecil_konv) ? $t->id_satuan_kecil_konv : "-" ?></td>
@@ -228,7 +231,7 @@
                             <div class="mb-3">
                                 <label for="option" class="form-label">Option</label>
                                 <select name="opsi_stok" id="opsi_stok" class="form-select input-air-primary digits">
-                                    <option value="">All</option>
+                                    <option value="all">All</option>
                                     <option <?= ($this->input->post('opsi_stok') == "sisa_stok") ? "selected" : "" ?> value="sisa_stok">Sisa stok</option>
                                     <option <?= ($this->input->post('opsi_stok') == "stok_0") ? "selected" : "" ?> value="stok_0">Stok 0</option>
                                     <option <?= ($this->input->post('opsi_stok') == "stok_minus") ? "selected" : "" ?> value="stok_minus">Stok minus</option>

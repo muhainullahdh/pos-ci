@@ -19,6 +19,36 @@ class Inventori extends CI_Controller
         }
     }
 
+    public function getBarang()
+    {
+        $kategoriId = $this->input->post('kategori_id');
+
+        $barang =  $this->db->where('kategori_id', $kategoriId)->order_by('nama', 'ASC')->get('barang')->result();
+
+        // Mengembalikan data dalam format JSON
+        echo json_encode($barang);
+    }
+
+    public function getBarangGudang()
+    {
+        $gudang_id = $this->input->post('gudang_id');
+
+        $barang =  $this->db->where('id_gudang', $gudang_id)->order_by('nama', 'ASC')->get('barang')->result();
+
+        // Mengembalikan data dalam format JSON
+        echo json_encode($barang);
+    }
+
+    public function getBarangDetail()
+    {
+        $id_barang = $this->input->post('barang_id');
+
+        $barang =  $this->db->where('id', $id_barang)->get('barang')->row_array();
+
+        // Mengembalikan data dalam format JSON
+        echo json_encode($barang);
+    }
+
     public function index()
     {
         $data = [
@@ -185,41 +215,217 @@ class Inventori extends CI_Controller
 
     public function mutasi_barang()
     {
-        $data = [];
+        $max_num = $this->db->select('max(no_urut) as max')->get('mutasi')->row_array();
+
+        if (!$max_num) {
+            $bilangan = 1; // Nilai Proses
+        } else {
+            $bilangan = $max_num['max'] + 1;
+        }
+
+        $no_urut = sprintf("%06d", $bilangan);
+
+        $no_mutasi = 'MTG-' . date('ym') . '-' . $no_urut;
+        $data = [
+            "gudang2" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
+            "lists" => $this->db->order_by('no_mutasi', 'DESC')->get('mutasi')->result(),
+            "no_mutasi" => $no_mutasi,
+            "no_urut" => $no_urut,
+        ];
+
         $this->load->view('body/header');
         $this->load->view('inventori/mutasi_barang', $data);
         $this->load->view('body/footer');
     }
 
-    public function getBarang()
+    public function add_mutasi()
     {
-        $kategoriId = $this->input->post('kategori_id');
+        $tanggal = $this->input->post('tanggal');
+        $lokasi_asal = $this->input->post('lokasi_asal');
+        $lokasi_tujuan = $this->input->post('lokasi_tujuan');
+        $keterangan = $this->input->post('keterangan');
+        $no_urut = $this->input->post('no_urut');
+        $no_mutasi = $this->input->post('no_mutasi');
 
-        $barang =  $this->db->where('kategori_id', $kategoriId)->order_by('nama', 'ASC')->get('barang')->result();
+        $data = [
+            'no_urut' => $no_urut,
+            'no_mutasi' => $no_mutasi,
+            'tanggal_mutasi' => $tanggal,
+            'id_gudang_asal' => $lokasi_asal,
+            'id_gudang_tujuan' => $lokasi_tujuan,
+            'keterangan' => $keterangan,
+            "gudang" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
+            "barang" =>  $this->db->where('id_gudang', $lokasi_asal)->order_by('nama', 'ASC')->get('barang')->result(),
+        ];
 
-        // Mengembalikan data dalam format JSON
-        echo json_encode($barang);
+        $this->load->view('body/header');
+        $this->load->view('inventori/add_detail_mutasi', $data);
+        $this->load->view('body/footer');
     }
 
-    public function getBarangGudang()
+    public function add_detail_mutasi()
     {
-        $gudang_id = $this->input->post('gudang_id');
+        // Assuming you have received the form data through POST
+        $no_mutasi = $this->input->post('no_mutasi');
+        $tanggal_mutasi = $this->input->post('tanggal_mutasi');
 
-        $barang =  $this->db->where('id_gudang', $gudang_id)->order_by('nama', 'ASC')->get('barang')->result();
+        // Create a new mutasi record
+        $mutasi_data = array(
+            'no_urut' => $this->input->post('no_urut'),
+            'keterangan' => $this->input->post('keterangan'),
+            'no_mutasi' => $no_mutasi,
+            'tanggal_mutasi' => $tanggal_mutasi,
+            'id_gudang_asal' => $this->input->post('lokasi_asal'),
+            'id_gudang_tujuan' => $this->input->post('lokasi_tujuan'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id_user'),
+        );
 
-        // Mengembalikan data dalam format JSON
-        echo json_encode($barang);
+        // echo '<pre>';
+        // print_r($mutasi_data);
+        // echo '</pre>';
+        // exit;
+
+        // Insert into mutasi table
+        $this->db->insert('mutasi', $mutasi_data);
+
+        // Get the inserted mutasi ID
+        $mutasi_id = $this->db->insert_id();
+
+        // Get data from the dynamic rows
+        $barang_ids = $this->input->post('id_barang');
+        $stok_values = $this->input->post('stok');
+        $jumlah_values = $this->input->post('jumlah');
+        $satuan_values = $this->input->post('satuan');
+        $sisa_values = $this->input->post('sisa');
+        $now = date('Y-m-d H:i:s');
+
+        // Loop through the rows and insert into mutasi_details
+        if (is_array($barang_ids)) {
+
+            for ($i = 0; $i < count($barang_ids); $i++) {
+                $barang_id = $barang_ids[$i];
+                $jumlah = $jumlah_values[$i];
+                $stok = $stok_values[$i];
+                $satuan = $satuan_values[$i];
+                $sisa = $sisa_values[$i];
+
+                $mutasi_detail_data = [
+                    'id_mutasi' => $mutasi_id,
+                    'id_barang' => $barang_id,
+                    'satuan' => $satuan,
+                    'stok' => $stok,
+                    'jumlah' => $jumlah,
+                    'sisa' => $sisa,
+                    'created_at' => $now,
+                    'created_by' => $this->session->userdata('id_user'),
+                ];
+
+                // Insert into mutasi_details table
+                $this->db->insert('mutasi_details', $mutasi_detail_data);
+            }
+
+            $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Mutasi berhasil ditambahkan.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+            // Redirect or show a success message
+            redirect('inventori/mutasi_barang');
+        } else {
+            // Redirect or show a success message
+            redirect('inventori/mutasi_barang');
+        }
     }
 
-    public function getBarangDetail()
+    public function detail_mutasi()
     {
-        $id_barang = $this->input->post('barang_id');
+        $id = $this->uri->segment(3);
 
-        $barang =  $this->db->where('id', $id_barang)->get('barang')->row_array();
+        $mutasi = $this->db->where('no_mutasi', $id)->get('mutasi')->row_array();
 
-        // Mengembalikan data dalam format JSON
-        echo json_encode($barang);
+        $data = [
+            "mutasi" => $mutasi,
+            "list" => $this->db->where('id_mutasi', $mutasi['id'])->get('mutasi_details')->result(),
+            "barang" =>  $this->db->where('id_gudang', $mutasi['id_gudang_asal'])->order_by('nama', 'ASC')->get('barang')->result(),
+        ];
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/mutasi_detail', $data);
+        $this->load->view('body/footer');
     }
+
+    public function mutasi_approve_all($id)
+    {
+        $mutasi = $this->db->get_where('mutasi', ['id' => $id])->row_array();
+        $mutasi_details = $this->db->where('id_mutasi', $id)->where('status_mutasi', '0')->get('mutasi_details')->result();
+
+        $gudang_asal = $mutasi['id_gudang_asal'];
+        $gudang_tujuan = $mutasi['id_gudang_tujuan'];
+
+        foreach ($mutasi_details as $k) {
+            $data_mutasi_detail = ['status_mutasi' => 1];
+            $id_barang = $k->id_barang;
+            $jumlah_mutasi_stok = $k->jumlah;
+
+            if ($k->sisa == 0) {
+                $this->db->where('id', $k->id_barang)->update('barang', ['id_gudang' => $gudang_tujuan]);
+            } else {
+                $cek = $this->db->where(['id' => $id_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->num_rows();
+
+                if ($cek == 0) {
+                    $get_data = $this->db->get_where('barang', ['id' => $id_barang])->row_array();
+                    $data_insert = [
+                        "kode_barang" => $get_data['kode_barang'],
+                        "nama" => $get_data['nama'],
+                        "id_satuan_besar" => $get_data['id_satuan_besar'],
+                        "id_satuan_kecil" => $get_data['id_satuan_kecil'],
+                        "id_satuan_kecil_konv" => $get_data['id_satuan_kecil_konv'],
+                        "qty_besar" => $get_data['qty_besar'],
+                        "qty_kecil" => $get_data['qty_kecil'],
+                        "qty_konv" => $get_data['qty_konv'],
+                        "hpp_besar" => $get_data['hpp_besar'],
+                        "hpp_kecil" => $get_data['hpp_kecil'],
+                        "hpp_konv" => $get_data['hpp_konv'],
+                        "hargajualb_retail" => $get_data['hargajualb_retail'],
+                        "hargajualk_retail" => $get_data['hargajualk_retail'],
+                        "hargajual_konv_retail" => $get_data['hargajual_konv_retail'],
+                        "hargajualb_grosir" => $get_data['hargajualb_grosir'],
+                        "hargajualk_grosir" => $get_data['hargajualk_grosir'],
+                        "hargajual_konv_grosir" => $get_data['hargajual_konv_grosir'],
+                        "hargajualb_partai" => $get_data['hargajualb_partai'],
+                        "hargajualk_partai" => $get_data['hargajualk_partai'],
+                        "hargajual_konv_partai" => $get_data['hargajual_konv_partai'],
+                        "hargajualb_promo" => $get_data['hargajualb_promo'],
+                        "hargajualk_promo" => $get_data['hargajualk_promo'],
+                        "hargajual_konv_promo" => $get_data['hargajual_konv_promo'],
+                        "brand" => $get_data['brand'],
+                        "stok" => $jumlah_mutasi_stok,
+                        "tgl_input" => date('Y-m-d H:i:s'),
+                        "kategori_id" => $get_data['kategori_id'],
+                        "user_id" => $this->session->userdata('id_user'),
+                        "id_gudang" => $gudang_tujuan
+                    ];
+
+                    $this->db->insert('barang', $data_insert);
+                } else {
+                    $row = $this->db->where(['id' => $id_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->row_array();
+                    $stok_baru = $row['stok'] + $k->jumlah;
+                    $this->db->where(['id' => $id_barang, 'id_gudang' => $gudang_tujuan])->update('barang', ['stok' => $stok_baru]);
+                }
+
+                $this->db->where(['id' => $id_barang, 'id_gudang' => $gudang_asal])->update('barang', ['stok' => $k->sisa]);
+            }
+
+            $this->db->where('Id', $k->Id)->update('mutasi_details', $data_mutasi_detail);
+        }
+
+        $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Mutasi gudang sudah disetujui.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
 
     public function process()
     {
@@ -237,18 +443,64 @@ class Inventori extends CI_Controller
             "barang" => $this->db->order_by('nama', 'ASC')->get('barang')->result(),
         ];
 
-        if (!empty($kelompok_barang) && (empty($barang) || empty($barang2) || empty($gudang1) || empty($gudang2) || empty($opsi_stok) || empty($input_nama_barang))) {
-            $data["tampil"] = $this->db->where('kategori_id', $kelompok_barang)->order_by('nama', 'ASC')->get('barang')->result();
-        } else if (!empty($barang) && !empty($barang2) && (empty($kelompok_barang) || empty($gudang1) || empty($gudang2) || empty($opsi_stok) || empty($input_nama_barang))) {
+        if (!empty($kelompok_barang) && (empty($barang) || empty($barang2) || empty($gudang1) || empty($gudang2) || empty($input_nama_barang))) {
+            if ($opsi_stok == "all") {
+                $data["tampil"] = $this->db->where('kategori_id', $kelompok_barang)->order_by('nama', 'ASC')->get('barang')->result();
+            } else if ($opsi_stok == "sisa_stok") {
+                $data["tampil"] = $this->db->where('kategori_id', $kelompok_barang)->where('stok !=', 0)->order_by('nama', 'ASC')->get('barang')->result();
+            } else if ($opsi_stok == "stok_0") {
+                $data["tampil"] = $this->db->where('kategori_id', $kelompok_barang)->where('stok =', 0)->order_by('nama', 'ASC')->get('barang')->result();
+            } else if ($opsi_stok == "stok_minus") {
+                $data["tampil"] = $this->db->where('kategori_id', $kelompok_barang)->where('stok <', 0)->order_by('nama', 'ASC')->get('barang')->result();
+            } else if ($opsi_stok == "stok_0_dan_minus") {
+                $data["tampil"] = $this->db->where('kategori_id', $kelompok_barang)->where('stok <=', 0)->order_by('nama', 'ASC')->get('barang')->result();
+            }
+        } else if (!empty($barang) && !empty($barang2) && (empty($kelompok_barang) || empty($gudang1) || empty($gudang2) || empty($input_nama_barang))) {
             $nama_barang1 = $this->db->where('id', $barang)->get('barang')->row_array();
             $nama_barang2 = $this->db->where('id', $barang2)->get('barang')->row_array();
 
-            $data["tampil"] = $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->order_by('nama', 'ASC')->get()->result();
-        } else if (!empty($gudang1) && !empty($gudang2) && (empty($kelompok_barang) || empty($barang) || empty($barang2) || empty($opsi_stok) || empty($input_nama_barang))) {
-            $data["tampil"] = $this->db->select('*')->from('barang')->where('id_gudang >=', $gudang1)->where('id_gudang >=', $gudang2)->order_by('nama', 'ASC')->get()->result();
-        } else if (!empty($opsi_stok) && (empty($kelompok_barang) || empty($barang) || empty($barang2) || empty($gudang1) || empty($gudang2) || empty($input_nama_barang))) {
+            if ($opsi_stok == "all") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->order_by('nama', 'ASC')->get()->result();
+            } else if ($opsi_stok == "sisa_stok") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->where('stok !=', 0)->order_by('nama', 'ASC')->get()->result();
+            } else if ($opsi_stok == "stok_0") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->where('stok =', 0)->order_by('nama', 'ASC')->get()->result();
+            } else if ($opsi_stok == "stok_minus") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->where('stok <', 0)->order_by('nama', 'ASC')->get()->result();
+            } else if ($opsi_stok == "stok_0_dan_minus") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('nama >=', $nama_barang1['nama'])->where('nama <=', $nama_barang2['nama'])->where('stok <=', 0)->order_by('nama', 'ASC')->get()->result();
+            }
+        } else if (!empty($gudang1) && !empty($gudang2) && (empty($kelompok_barang) || empty($barang) || empty($barang2) || empty($input_nama_barang))) {
 
             if ($opsi_stok == "all") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('id_gudang >=', $gudang1)->where('id_gudang >=', $gudang2)->order_by('nama', 'ASC')->get()->result();
+            } else if ($opsi_stok == "sisa_stok") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('id_gudang >=', $gudang1)->where('id_gudang >=', $gudang2)->where('stok !=', 0)->order_by('nama', 'ASC')->get()->result();
+            } else if ($opsi_stok == "stok_0") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('id_gudang >=', $gudang1)->where('id_gudang >=', $gudang2)->where('stok =', 0)->order_by('nama', 'ASC')->get()->result();
+            } else if ($opsi_stok == "stok_minus") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('id_gudang >=', $gudang1)->where('id_gudang >=', $gudang2)->where('stok <', 0)->order_by('nama', 'ASC')->get()->result();
+            } else if ($opsi_stok == "stok_0_dan_minus") {
+                $data["tampil"] = $this->db->select('*')->from('barang')->where('id_gudang >=', $gudang1)->where('id_gudang >=', $gudang2)->where('stok <=', 0)->order_by('nama', 'ASC')->get()->result();
+            }
+        } else if (!empty($input_nama_barang) && (empty($kelompok_barang) || empty($barang) || empty($barang2) || empty($gudang1) || empty($gudang2))) {
+            print_r($input_nama_barang);
+            exit;
+
+            if ($opsi_stok == "all") {
+                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->order_by('nama', 'ASC')->get('barang')->result();
+            } else if ($opsi_stok == "sisa_stok") {
+                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok !=', 0)->order_by('nama', 'ASC')->get('barang')->result();
+            } else if ($opsi_stok == "stok_0") {
+                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok =', 0)->order_by('nama', 'ASC')->get('barang')->result();
+            } else if ($opsi_stok == "stok_minus") {
+                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok <', 0)->order_by('nama', 'ASC')->get('barang')->result();
+            } else if ($opsi_stok == "stok_0_dan_minus") {
+                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok <=', 0)->order_by('nama', 'ASC')->get('barang')->result();
+            }
+        } else {
+            if ($opsi_stok == "all") {
+                $data["tampil"] = $this->db->order_by('nama', 'ASC')->get('barang')->result();
             } else if ($opsi_stok == "sisa_stok") {
                 $data["tampil"] = $this->db->where('stok !=', 0)->order_by('nama', 'ASC')->get('barang')->result();
             } else if ($opsi_stok == "stok_0") {
@@ -258,11 +510,10 @@ class Inventori extends CI_Controller
             } else if ($opsi_stok == "stok_0_dan_minus") {
                 $data["tampil"] = $this->db->where('stok <=', 0)->order_by('nama', 'ASC')->get('barang')->result();
             }
-        } else if (!empty($input_nama_barang) && (empty($kelompok_barang) || empty($barang) || empty($barang2) || empty($gudang1) || empty($gudang2) || empty($opsi_stok))) {
-
-            $data["tampil"] = $this->db->like('nama', $input_nama_barang)->order_by('nama', 'ASC')->get('barang')->result();
         }
 
+        // print_r($data['tampil']);
+        // exit;
         $this->load->view('body/header');
         $this->load->view('inventori/index', $data);
         $this->load->view('body/footer');
@@ -696,11 +947,6 @@ class Inventori extends CI_Controller
         $data = [
             "barang" => $this->db->where('a.status_koreksi', 0)->from('koreksi_details a')->join('koreksi b', 'a.id_koreksi = b.id', 'left')->join('barang c', 'a.id_barang = c.id', 'left')->order_by('no_koreksi', 'ASC')->order_by('nama', 'ASC')->get()->result(),
         ];
-
-        // echo '<pre>';
-        // print_r($data['barang']);
-        // echo '</pre>';
-        // exit;
 
         $this->load->view('body/header');
         $this->load->view('inventori/pending_koreksi', $data);

@@ -136,15 +136,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // $('#stock-opname').DataTable({
-    //     "paging": true,
-    //     "ordering": false,
-    //     "info": false,
-    //     "order": [
-    //         [2, "asc"]
-    //     ]
-    // });
-
     // jquery tolong carikan btn-delete yang ketika diklik jalankan fungsi berikut ini
     $(".btn-delete").on("click", function(e) {
         e.preventDefault();

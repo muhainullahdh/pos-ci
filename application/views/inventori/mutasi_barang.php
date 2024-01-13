@@ -36,14 +36,41 @@
                             <table class=" display" id="basic-1">
                                 <thead>
                                     <tr>
-                                        <th>Nama barang</th>
-                                        <th>Sisa stok</th>
-                                        <th>Total stok</th>
-                                        <th>Saldo stok</th>
+                                        <th>No.</th>
+                                        <th>No. Mutasi</th>
+                                        <th>Gudang asal</th>
+                                        <th>Gudang tujuan</th>
+                                        <th>Tanggal</th>
+                                        <th>User</th>
+                                        <th>Act.</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php
+                                    $no = 1;
+                                    foreach ($lists as $l) {
+                                        $gudang_asal = $this->db->get_where('gudang', ['id' => $l->id_gudang_asal])->row_array();
+                                        $gudang_tujuan = $this->db->get_where('gudang', ['id' => $l->id_gudang_tujuan])->row_array();
 
+                                        $user = $this->db->where('id', $l->created_by)->get('users')->row_array();
+                                    ?>
+                                        <tr>
+                                            <td><?= $no++; ?></td>
+                                            <td><?= $l->no_mutasi ?></td>
+                                            <td><?= $gudang_asal['nama'] ?></td>
+                                            <td><?= $gudang_tujuan['nama'] ?></td>
+                                            <td><?= format_indo($l->tanggal_mutasi) ?></td>
+                                            <td><?= $user['nama'] ?></td>
+                                            <td>
+                                                <a href='<?= base_url("inventori/detail_mutasi/$l->no_mutasi") ?>' class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a href='<?= base_url("inventori/delete_mutasi/$l->id") ?>' class="btn btn-danger btn-sm btn-delete" data-bs-toggle="tooltip" title="Hapus <?= $l->no_mutasi ?>">&times;</a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -60,13 +87,14 @@
                 <h5 class="modal-title" id="entri_barangLongTitle">Entri barang </h5>
                 <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="<?= base_url('keuangan/input_barang') ?>" method="post" class="form theme-form dark-input" id="myForm">
+            <form action="<?= base_url('inventori/add_mutasi') ?>" method="post" class="form theme-form dark-input" id="myForm">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
+                            <input type="hidden" name="no_urut" id="no_urut" class="form-control" value="<?= $no_urut ?>">
                             <label for="category" class="form-label">No. Mutasi barang</label>
                             <div class="input-group">
-                                <input type="text" class="form-control form-control-sm nominal" name="nominal_bayar" id="nominal_bayar" autofocus>
+                                <input type="text" class="form-control form-control-sm nominal" name="no_mutasi" id="no_mutasi" value="<?= $no_mutasi ?>" readonly autofocus>
                             </div>
                         </div>
                     </div>
@@ -74,7 +102,7 @@
                         <div class="col">
                             <label for="category" class="form-label">Tanggal</label>
                             <div class="input-group">
-                                <input class="form-control digits" type="date">
+                                <input class="form-control" id="tanggal" name="tanggal" type="date" value="<?= date('Y-m-d') ?>" required>
                             </div>
                         </div>
                     </div>
@@ -84,6 +112,13 @@
                             <div class="input-group">
                                 <select name="lokasi_asal" id="lokasi_asal" class="form-select">
                                     <option value="">--Pilih lokasi barang</option>
+                                    <?php
+                                    foreach ($gudang2 as $g) {
+                                    ?>
+                                        <option value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                    <?php
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -94,6 +129,13 @@
                             <div class="input-group">
                                 <select name="lokasi_tujuan" id="lokasi_tujuan" class="form-select">
                                     <option value="">--Pilih lokasi barang</option>
+                                    <?php
+                                    foreach ($gudang2 as $g) {
+                                    ?>
+                                        <option value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                    <?php
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -102,7 +144,7 @@
                         <div class="col">
                             <label for="category" class="form-label">Keterangan</label>
                             <div class="input-group">
-                                <textarea name="ketarangan" id="keterangan" cols="30" rows="5" class="form-control"></textarea>
+                                <textarea name="keterangan" id="keterangan" cols="30" rows="5" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>

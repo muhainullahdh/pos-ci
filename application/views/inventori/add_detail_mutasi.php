@@ -1,17 +1,11 @@
 <link href="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
-<style>
-    .table th,
-    .table td {
-        padding: 0rem;
-    }
-</style>
 <div class="page-body">
 
     <div class="container-fluid">
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h4>Stock opname <?= $no_stock_opname ?></h4>
+                    <h4>Mutasi gudang <?= $no_mutasi ?></h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
@@ -22,7 +16,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Stok opname</li>
+                        <li class="breadcrumb-item">Mutasi gudang</li>
                     </ol>
                 </div>
             </div>
@@ -33,66 +27,80 @@
             <div class="col-sm-12">
                 <div class="card">
 
-                    <form action="<?= base_url('inventori/add_detail_sop') ?>" method="post">
+                    <form action="<?= base_url('inventori/add_detail_mutasi') ?>" method="post">
                         <input type="hidden" name="no_urut" value="<?= $no_urut ?>">
                         <div class="card-body">
                             <?= $this->session->flashdata('message_name') ?>
-                            <!-- <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#buatStockOpname">Buat baru</button> -->
+                            <!-- <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#buatStockmutasi">Buat baru</button> -->
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-3">
-                                        <label class="form-label" for="no_sop">No. Stock Opname</label>
-                                        <input class="form-control" id="no_sop" name="no_sop" type="text" value="<?= $no_stock_opname ?>" required>
+                                        <label class="form-label" for="no_mutasi">No. Mutasi</label>
+                                        <input class="form-control" id="no_mutasi" name="no_mutasi" type="text" value="<?= $no_mutasi ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3">
-                                        <label class="form-label" for="no_sop">Gudang</label>
+                                        <label class="form-label" for="no_mutasi">Lokasi asal</label>
 
-                                        <select name="gudang" id="gudang" class="form-select input-air-primary digits" onchange="getBarang()" required>
+                                        <select name="lokasi_asal" id="lokasi_asal" class="form-select input-air-primary digits" onchange="getBarang()" required>
                                             <option value="">--</option>
                                             <?php
-                                            foreach ($gudang2 as $g) {
+                                            foreach ($gudang as $g) {
                                             ?>
-                                                <option <?= ($g->id == $id_gudang) ? 'selected' : '' ?> value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                                <option <?= ($g->id == $id_gudang_asal) ? 'selected' : '' ?> value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
                                             <?php
                                             }
                                             ?>
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-4">
                                     <div class="mb-3">
-                                        <label class="form-label" for="Tanggal">Tanggal</label>
-                                        <input type="date" name="tanggal_sop" id="tanggal_sop" class="form-control" value="<?= $tanggal_opname ?>">
+                                        <label class="form-label" for="no_mutasi">Lokasi tujuan</label>
+
+                                        <select name="lokasi_tujuan" id="lokasi_tujuan" class="form-select input-air-primary digits" onchange="getBarang()" required>
+                                            <option value="">--</option>
+                                            <?php
+                                            foreach ($gudang as $g) {
+                                            ?>
+                                                <option <?= ($g->id == $id_gudang_tujuan) ? 'selected' : '' ?> value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
+
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="Tanggal">Tanggal</label>
+                                        <input type="date" name="tanggal_mutasi" id="tanggal_mutasi" class="form-control" value="<?= $tanggal_mutasi ?>">
+                                    </div>
+                                </div>
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="keterangan" class="form-label">Keterangan</label>
                                         <textarea name="keterangan" id="keterangan" cols="30" rows="2" class="form-control"><?= $keterangan ?></textarea>
                                     </div>
                                 </div>
-                                <div class="col-6 text-end">
+                                <div class="col-2 text-end">
                                     <div class="mb-3">
                                         <button type="submit" class="btn btn-primary btn-sm mt-5">Simpan</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table" id="stock-opname" style="padding: 0 !important">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Nama barang</th>
-                                            <th>Sat. Besar</th>
-                                            <th>Sat. Kecil</th>
-                                            <th>Sat. Konv.</th>
-                                            <th>Stok Sistem</th>
-                                            <th>Stok Aktual</th>
-                                            <th>Selisih</th>
+                                            <th>Satuan</th>
+                                            <th>Stok </th>
+                                            <th>Jumlah mutasi</th>
+                                            <th>Sisa</th>
                                             <th>Act.</th>
                                         </tr>
                                     </thead>
@@ -120,8 +128,6 @@
             'id' => $b->id,
             'label' => $b->nama,
             'satuan' => $b->id_satuan_kecil,
-            'satuan_besar' => $b->id_satuan_besar,
-            'satuan_konv' => $b->id_satuan_kecil_konv,
             'stok' => $b->stok,
         ];
     }
@@ -145,29 +151,23 @@
                     // console.log(barangDetail.id_satuan_kecil);
                     var row = $(element).closest('tr');
                     row.find('[name="satuan' + counter + '"]').val(barangDetail.id_satuan_kecil);
-                    row.find('[name="satuan_besar' + counter + '"]').val(barangDetail.id_satuan_besar);
-                    row.find('[name="satuan_konv' + counter + '"]').val(barangDetail.id_satuan_konv);
-                    row.find('[name="qty_sistem' + counter + '"]').val(barangDetail.stok);
+                    row.find('[name="stok' + counter + '"]').val(barangDetail.stok);
                 }
             });
         } else {
             var row = $(element).closest('tr');
             row.find('[name="satuan' + counter + '"]').val('');
-            row.find('[name="satuan_besar' + counter + '"]').val('');
-            row.find('[name="satuan_konv' + counter + '"]').val('');
-            row.find('[name="qty_sistem' + counter + '"]').val('');
+            row.find('[name="stok' + counter + '"]').val('');
         }
     }
 
     function hitung(element) {
         var row = $(element).closest('tr');
-        var qty_sistem = row.find('[name="qty_sistem[]"]').val();
-        var qty_fisik = row.find('[name="qty_fisik[]"]').val();
-        var selisih = Number(qty_fisik) - Number(qty_sistem);
-        row.find('[name="selisih[]"]').val(selisih);
+        var stok = row.find('[name="stok[]"]').val();
+        var jumlah = row.find('[name="jumlah[]"]').val();
+        var sisa = Number(stok) - Number(jumlah);
+        row.find('[name="sisa[]"]').val(sisa);
     }
-
-    // });
 
     function check_pos() {
         $(".barang" + counter + "").focus();
@@ -180,13 +180,11 @@
                 response(matchingItems);
             },
             select: function(event, ui) {
-                // console.log(ui);
+                console.log(ui);
                 $('.barang' + counter + '').val(ui.item.nama);
                 $('.id_barang' + counter + '').val(ui.item.id);
                 $('.satuan' + counter + '').val(ui.item.satuan);
-                $('.satuan_besar' + counter + '').val(ui.item.satuan_besar);
-                $('.satuan_konv' + counter + '').val(ui.item.satuan_konv);
-                $('.qty_sistem' + counter + '').val(ui.item.stok);
+                $('.stok' + counter + '').val(ui.item.stok);
                 // Additional logic if needed
                 // showBarangDetail('.barang' + counter);
             }
@@ -218,22 +216,16 @@
                         '<input type="hidden" class="form-control id_barang' + counter + '" name="id_barang[]">' +
                         '</td>' +
                         '<td>' +
-                        '<input type="text" class="form-control satuan_besar' + counter + '" name="satuan_besar[]" id="satuan_besar[]" readonly>' +
-                        '</td>' +
-                        '<td>' +
                         '<input type="text" class="form-control satuan' + counter + '" name="satuan[]" id="satuan[]" readonly>' +
                         '</td>' +
                         '<td>' +
-                        '<input type="text" class="form-control satuan_kecil' + counter + '" name="satuan_kecil[]" id="satuan_kecil[]" readonly>' +
+                        '<input type="text" class="form-control stok' + counter + '" name="stok[]" id="stok[]" readonly>' +
                         '</td>' +
                         '<td>' +
-                        '<input type="text" class="form-control qty_sistem' + counter + '" name="qty_sistem[]" id="qty_sistem[]" readonly>' +
+                        '<input type="number" class="form-control" name="jumlah[]" id="jumlah[" oninput="hitung(this)">' +
                         '</td>' +
                         '<td>' +
-                        '<input type="number" class="form-control" name="qty_fisik[]" id="qty_fisik[" oninput="hitung(this)">' +
-                        '</td>' +
-                        '<td>' +
-                        '<input type="number" class="form-control" name="selisih[]" id="selisih[]" readonly>' +
+                        '<input type="number" class="form-control" name="sisa[]" id="sisa[]" readonly>' +
                         '</td>' +
                         '<td>' +
                         '<button id=' + counter + ' type="button" class="btn btn-danger btn-square delete_item"><i class="icon-trash"></i></button>' +

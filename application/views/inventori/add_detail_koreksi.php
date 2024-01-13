@@ -1,4 +1,10 @@
 <link href="https://repo.rachmat.id/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
+<style>
+    .table th,
+    .table td {
+        padding: 0rem;
+    }
+</style>
 <div class="page-body">
 
     <div class="container-fluid">
@@ -81,7 +87,9 @@
                                     <thead>
                                         <tr>
                                             <th>Nama barang</th>
-                                            <th>Satuan</th>
+                                            <th>Sat. Besar</th>
+                                            <th>Sat. Kecil</th>
+                                            <th>Sat. Konv.</th>
                                             <th>Stok Sistem</th>
                                             <th>Debit/Kredit</th>
                                             <th>Jumlah</th>
@@ -112,6 +120,8 @@
             'id' => $b->id,
             'label' => $b->nama,
             'satuan' => $b->id_satuan_kecil,
+            'satuan_besar' => $b->id_satuan_besar,
+            'satuan_konv' => $b->id_satuan_kecil_konv,
             'stok' => $b->stok,
         ];
     }
@@ -135,12 +145,16 @@
                     // console.log(barangDetail.id_satuan_kecil);
                     var row = $(element).closest('tr');
                     row.find('[name="satuan' + counter + '"]').val(barangDetail.id_satuan_kecil);
+                    row.find('[name="satuan_besar' + counter + '"]').val(barangDetail.id_satuan_besar);
+                    row.find('[name="satuan_konv' + counter + '"]').val(barangDetail.id_satuan_konv);
                     row.find('[name="qty_sistem' + counter + '"]').val(barangDetail.stok);
                 }
             });
         } else {
             var row = $(element).closest('tr');
             row.find('[name="satuan' + counter + '"]').val('');
+            row.find('[name="satuan_besar' + counter + '"]').val('');
+            row.find('[name="satuan_konv' + counter + '"]').val('');
             row.find('[name="qty_sistem' + counter + '"]').val('');
         }
     }
@@ -170,6 +184,8 @@
                 $('.barang' + counter + '').val(ui.item.nama);
                 $('.id_barang' + counter + '').val(ui.item.id);
                 $('.satuan' + counter + '').val(ui.item.satuan);
+                $('.satuan_besar' + counter + '').val(ui.item.satuan_besar);
+                $('.satuan_konv' + counter + '').val(ui.item.satuan_konv);
                 $('.qty_sistem' + counter + '').val(ui.item.stok);
                 // Additional logic if needed
                 // showBarangDetail('.barang' + counter);
@@ -202,7 +218,13 @@
                         '<input type="hidden" class="form-control id_barang' + counter + '" name="id_barang[]">' +
                         '</td>' +
                         '<td>' +
+                        '<input type="text" class="form-control satuan_besar' + counter + '" name="satuan_besar[]" id="satuan_besar[]" readonly>' +
+                        '</td>' +
+                        '<td>' +
                         '<input type="text" class="form-control satuan' + counter + '" name="satuan[]" id="satuan[]" readonly>' +
+                        '</td>' +
+                        '<td>' +
+                        '<input type="text" class="form-control satuan_kecil' + counter + '" name="satuan_kecil[]" id="satuan_kecil[]" readonly>' +
                         '</td>' +
                         '<td>' +
                         '<input type="text" class="form-control qty_sistem' + counter + '" name="qty_sistem[]" id="qty_sistem[]" readonly>' +
