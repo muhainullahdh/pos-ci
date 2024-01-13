@@ -89,6 +89,7 @@
           <span>Pembelian</span></a>
         <ul class="sidebar-submenu">
           <li><a href="<?= base_url('pembelian') ?>">Penerimaan Barang</a></li>
+          <li><a href="<?= base_url('pembelian/return') ?>">Return Barang</a></li>
           <!-- <li><a href="dashboard-04.html">Role</a></li> -->
         </ul>
       </li>
@@ -99,6 +100,8 @@
           <span>Penjualan</span></a>
         <ul class="sidebar-submenu">
           <li><a href="<?= base_url('penjualan') ?>">List Penjualan</a></li>
+          <li><a href="<?= base_url('penjualan/return') ?>">Return Barang</a></li>
+
           <!-- <li><a href="dashboard-04.html">Role</a></li> -->
         </ul>
       </li>
