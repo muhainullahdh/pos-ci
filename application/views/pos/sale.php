@@ -1077,21 +1077,39 @@
                                         //     var satuan_pp = data.hargajualb_retail;
                                         // }
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'retail') { ?>
-                                        if (!data.hargajual_konv_retail == "") {
-                                            var satuan_pp = data.hargajual_konv_retail;
-                                        }else if (!data.hargajualk_retail == "") {
-                                            var satuan_pp = data.hargajualk_retail;
-                                        }else if (!data.hargajualb_retail == "") {
-                                            var satuan_pp = data.hargajualb_retail;
+                                        if (data.qty_besar != 0 && data.qty_kecil == 0 && data.qty_konv == 0) { //kondisi besar ok,kecil null,konv null
+                                                var satuan_pp = data.hargajualb_retail;
+                                        }else{
+                                            if((data.hargajual_konv_retail == null || data.hargajual_konv_retail == 0) && data.hargajualk_retail != ""){
+                                                var satuan_pp = data.hargajualk_retail;
+                                            }else{
+                                                var satuan_pp = data.hargajualk_retail;
+                                            }                                        
                                         }
+                                        // if (!data.hargajual_konv_retail == "") {
+                                        //     var satuan_pp = data.hargajual_konv_retail;
+                                        // }else if (!data.hargajualk_retail == "") {
+                                        //     var satuan_pp = data.hargajualk_retail;
+                                        // }else if (!data.hargajualb_retail == "") {
+                                        //     var satuan_pp = data.hargajualb_retail;
+                                        // }
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'grosir') { ?>
-                                        if (!data.hargajual_konv_grosir == "") {
-                                            var satuan_pp = data.hargajual_konv_grosir;
-                                        }else if (!data.hargajualk_grosir == "") {
-                                            var satuan_pp = data.hargajualk_grosir;
-                                        }else if (!data.hargajualb_grosir == "") {
-                                            var satuan_pp = data.hargajualb_grosir;
-                                        } 
+                                        if (data.qty_besar != 0 && data.qty_kecil == 0 && data.qty_konv == 0) { //kondisi besar ok,kecil null,konv null
+                                                var satuan_pp = data.hargajualb_grosir;
+                                        }else{
+                                            if((data.hargajual_konv_grosir == null || data.hargajual_konv_grosir == 0) && data.hargajualk_grosir != ""){
+                                                var satuan_pp = data.hargajualk_grosir;
+                                            }else{
+                                                var satuan_pp = data.hargajualk_grosir;
+                                            }                                        
+                                        }
+                                        // if (!data.hargajual_konv_grosir == "") {
+                                        //     var satuan_pp = data.hargajual_konv_grosir;
+                                        // }else if (!data.hargajualk_grosir == "") {
+                                        //     var satuan_pp = data.hargajualk_grosir;
+                                        // }else if (!data.hargajualb_grosir == "") {
+                                        //     var satuan_pp = data.hargajualb_grosir;
+                                        // } 
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'partai') { ?>
                                         if (!data.hargajual_konv_partai == "") {
                                             var satuan_pp = data.hargajual_konv_partai;
