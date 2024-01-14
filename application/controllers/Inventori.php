@@ -394,56 +394,25 @@ class Inventori extends CI_Controller
 
         foreach ($mutasi_details as $k) {
             $data_mutasi_detail = ['status_mutasi' => 1];
-            $id_barang = $k->id_barang;
+            $kode_barang = $k->kode_barang;
             $jumlah_mutasi_stok = $k->jumlah;
 
+            $cek = $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->num_rows();
+
             if ($k->sisa == 0) {
-                $this->db->where('id', $k->id_barang)->update('barang', ['id_gudang' => $gudang_tujuan]);
-            } else {
-                $cek = $this->db->where(['id' => $id_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->num_rows();
-
                 if ($cek == 0) {
-                    $get_data = $this->db->get_where('barang', ['id' => $id_barang])->row_array();
-                    $data_insert = [
-                        "kode_barang" => $get_data['kode_barang'],
-                        "nama" => $get_data['nama'],
-                        "id_satuan_besar" => $get_data['id_satuan_besar'],
-                        "id_satuan_kecil" => $get_data['id_satuan_kecil'],
-                        "id_satuan_kecil_konv" => $get_data['id_satuan_kecil_konv'],
-                        "qty_besar" => $get_data['qty_besar'],
-                        "qty_kecil" => $get_data['qty_kecil'],
-                        "qty_konv" => $get_data['qty_konv'],
-                        "hpp_besar" => $get_data['hpp_besar'],
-                        "hpp_kecil" => $get_data['hpp_kecil'],
-                        "hpp_konv" => $get_data['hpp_konv'],
-                        "hargajualb_retail" => $get_data['hargajualb_retail'],
-                        "hargajualk_retail" => $get_data['hargajualk_retail'],
-                        "hargajual_konv_retail" => $get_data['hargajual_konv_retail'],
-                        "hargajualb_grosir" => $get_data['hargajualb_grosir'],
-                        "hargajualk_grosir" => $get_data['hargajualk_grosir'],
-                        "hargajual_konv_grosir" => $get_data['hargajual_konv_grosir'],
-                        "hargajualb_partai" => $get_data['hargajualb_partai'],
-                        "hargajualk_partai" => $get_data['hargajualk_partai'],
-                        "hargajual_konv_partai" => $get_data['hargajual_konv_partai'],
-                        "hargajualb_promo" => $get_data['hargajualb_promo'],
-                        "hargajualk_promo" => $get_data['hargajualk_promo'],
-                        "hargajual_konv_promo" => $get_data['hargajual_konv_promo'],
-                        "brand" => $get_data['brand'],
-                        "stok" => $jumlah_mutasi_stok,
-                        "tgl_input" => date('Y-m-d H:i:s'),
-                        "kategori_id" => $get_data['kategori_id'],
-                        "user_id" => $this->session->userdata('id_user'),
-                        "id_gudang" => $gudang_tujuan
-                    ];
-
-                    $this->db->insert('barang', $data_insert);
+                    $this->db->where('kode_barang', $kode_barang)->update('barang', ['id_gudang' => $gudang_tujuan]);
                 } else {
-                    $row = $this->db->where(['id' => $id_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->row_array();
-                    $stok_baru = $row['stok'] + $k->jumlah;
-                    $this->db->where(['id' => $id_barang, 'id_gudang' => $gudang_tujuan])->update('barang', ['stok' => $stok_baru]);
+                    $this->updateStokBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok);
+                }
+            } else {
+                if ($cek == 0) {
+                    $this->insertNewBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok);
+                } else {
+                    $this->updateStokBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok);
                 }
 
-                $this->db->where(['id' => $id_barang, 'id_gudang' => $gudang_asal])->update('barang', ['stok' => $k->sisa]);
+                $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_asal])->update('barang', ['stok' => $k->sisa]);
             }
 
             $this->db->where('Id', $k->Id)->update('mutasi_details', $data_mutasi_detail);
@@ -454,6 +423,50 @@ class Inventori extends CI_Controller
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
 
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    private function updateStokBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok)
+    {
+        $row = $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->row_array();
+        $stok_baru = $row['stok'] + $jumlah_mutasi_stok;
+        $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_tujuan])->update('barang', ['stok' => $stok_baru]);
+    }
+
+    private function insertNewBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok)
+    {
+        $get_data = $this->db->get_where('barang', ['kode_barang' => $kode_barang])->row_array();
+        $data_insert = [
+            "kode_barang" => $get_data['kode_barang'],
+            "nama" => $get_data['nama'],
+            "id_satuan_besar" => $get_data['id_satuan_besar'],
+            "id_satuan_kecil" => $get_data['id_satuan_kecil'],
+            "id_satuan_kecil_konv" => $get_data['id_satuan_kecil_konv'],
+            "qty_besar" => $get_data['qty_besar'],
+            "qty_kecil" => $get_data['qty_kecil'],
+            "qty_konv" => $get_data['qty_konv'],
+            "hpp_besar" => $get_data['hpp_besar'],
+            "hpp_kecil" => $get_data['hpp_kecil'],
+            "hpp_konv" => $get_data['hpp_konv'],
+            "hargajualb_retail" => $get_data['hargajualb_retail'],
+            "hargajualk_retail" => $get_data['hargajualk_retail'],
+            "hargajual_konv_retail" => $get_data['hargajual_konv_retail'],
+            "hargajualb_grosir" => $get_data['hargajualb_grosir'],
+            "hargajualk_grosir" => $get_data['hargajualk_grosir'],
+            "hargajual_konv_grosir" => $get_data['hargajual_konv_grosir'],
+            "hargajualb_partai" => $get_data['hargajualb_partai'],
+            "hargajualk_partai" => $get_data['hargajualk_partai'],
+            "hargajual_konv_partai" => $get_data['hargajual_konv_partai'],
+            "hargajualb_promo" => $get_data['hargajualb_promo'],
+            "hargajualk_promo" => $get_data['hargajualk_promo'],
+            "hargajual_konv_promo" => $get_data['hargajual_konv_promo'],
+            "brand" => $get_data['brand'],
+            "stok" => $jumlah_mutasi_stok,
+            "tgl_input" => date('Y-m-d H:i:s'),
+            "user_id" => $this->session->userdata('id_user'),
+            "id_gudang" => $gudang_tujuan
+        ];
+
+        $this->db->insert('barang', $data_insert);
     }
 
 
