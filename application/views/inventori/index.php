@@ -280,15 +280,20 @@
 
     $(document).ready(function() {
         $('.satuan-select').change(function() {
+
+            var selectedOption = $(this).find(':selected').val();
             var harga = $(this).find(':selected').data('harga');
             var stok = $(this).find(':selected').data('stok');
             var qty = $(this).find(':selected').data('qty');
 
-            var jumlah = Math.floor(stok / qty);
+            var jumlah;
+            if (selectedOption == "kecil") {
+                jumlah = stok;
+            } else {
+                jumlah = Math.floor(stok / qty);
+            }
 
-            console.log(stok);
-            console.log(qty);
-            console.log(jumlah);
+            console.log(selectedOption);
 
             var saldo = harga * jumlah;
             $(this).closest('tr').find('.harga').text(saldo.toLocaleString());
