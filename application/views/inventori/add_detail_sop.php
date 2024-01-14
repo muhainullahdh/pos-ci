@@ -42,23 +42,14 @@
                                 <div class="col-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="no_sop">No. Stock Opname</label>
-                                        <input class="form-control" id="no_sop" name="no_sop" type="text" value="<?= $no_stock_opname ?>" required>
+                                        <input class="form-control" id="no_sop" name="no_sop" type="text" value="<?= $no_stock_opname ?>" readonly required>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="no_sop">Gudang</label>
-
-                                        <select name="gudang" id="gudang" class="form-select input-air-primary digits" onchange="getBarang()" required>
-                                            <option value="">--</option>
-                                            <?php
-                                            foreach ($gudang2 as $g) {
-                                            ?>
-                                                <option <?= ($g->id == $id_gudang) ? 'selected' : '' ?> value="<?= $g->id ?>">(<?= $g->kode ?>) <?= $g->nama ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
+                                        <input type="hidden" name="gudang" id="gudang" class="form-control" value="<?= $id_gudang ?>" readonly>
+                                        <input type="text" class="form-control" value="(<?= $nama_gudang['kode'] ?>) - <?= $nama_gudang['nama'] ?>" readonly>
                                     </div>
                                 </div>
 
@@ -73,11 +64,12 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="keterangan" class="form-label">Keterangan</label>
-                                        <textarea name="keterangan" id="keterangan" cols="30" rows="2" class="form-control"><?= $keterangan ?></textarea>
+                                        <textarea name="keterangan" id="keterangan" cols="30" rows="2" class="form-control" readonly><?= $keterangan ?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-6 text-end">
                                     <div class="mb-3">
+                                        <a href="<?= base_url('inventori/stock_opname') ?>" class="btn btn-warning btn-sm mt-5">Kembali</a>
                                         <button type="submit" class="btn btn-primary btn-sm mt-5">Simpan</button>
                                     </div>
                                 </div>

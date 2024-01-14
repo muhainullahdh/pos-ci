@@ -42,7 +42,7 @@
                         <!-- <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#buatStockOpname">Buat baru</button> -->
                         <div class="row">
                             <div class="col-12 text-end">
-                                <a href="<?= base_url('inventori/mutasi') ?>" class="btn btn-primary btn-sm">Kembali</a>
+                                <a href="<?= base_url('inventori/mutasi_barang') ?>" class="btn btn-primary btn-sm">Kembali</a>
                                 <a href="<?= base_url('inventori/mutasi_approve_all/' . $mutasi['id']) ?>" class="btn btn-primary btn-sm btn-process">Setujui semua</a>
                             </div>
                         </div>

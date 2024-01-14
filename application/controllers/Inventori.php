@@ -56,6 +56,7 @@ class Inventori extends CI_Controller
             "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
             "barang" => $this->db->order_by('nama', 'ASC')->get('barang')->result(),
         ];
+
         $this->load->view('body/header');
         $this->load->view('inventori/index', $data);
         $this->load->view('body/footer');
@@ -76,13 +77,32 @@ class Inventori extends CI_Controller
         $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
         $data = [
             "gudang2" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
-            "lists" => $this->db->order_by('no_stock_opname', 'DESC')->get('stock_opname')->result(),
             "no_sop" => $no_stock_opname,
             "no_urut" => $no_urut,
         ];
 
         $this->load->view('body/header');
         $this->load->view('inventori/stock_opname', $data);
+        $this->load->view('body/footer');
+    }
+
+    public function histori_sop()
+    {
+        $now = date("Y-m-d");
+        if (!$_POST) {
+            $data = [
+                "lists" => $this->db->where('tanggal_opname', $now)->order_by('no_stock_opname', 'DESC')->get('stock_opname')->result(),
+            ];
+        } else {
+            $dari = $this->input->post('dari');
+            $sampai = $this->input->post('sampai');
+            $data = [
+                "lists" => $this->db->where('tanggal_opname >=', $dari)->where('tanggal_opname <=', $sampai)->order_by('no_stock_opname', 'DESC')->get('stock_opname')->result(),
+            ];
+        }
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/histori_sop', $data);
         $this->load->view('body/footer');
     }
 
@@ -204,9 +224,19 @@ class Inventori extends CI_Controller
 
     public function histori_koreksi()
     {
-        $data = [
-            'koreksi' => $this->db->select('a.id as id_koreksi, b.nama as nama_barang, tanggal_koreksi, stok_awal, jumlah_koreksi, debit_kredit, alasan_koreksi, c.nama as nama_user, status_koreksi')->from('koreksi a')->join('barang b', 'a.id_barang = b.id', 'left')->join('users c', 'a.created_by = c.id', 'left')->order_by('created_at', 'DESC')->limit(500, 0)->get()->result(),
-        ];
+        $now = date("Y-m-d");
+
+        if (!$_POST) {
+            $data = [
+                "lists" => $this->db->where('tanggal_koreksi', $now)->order_by('no_koreksi', 'DESC')->get('koreksi')->result(),
+            ];
+        } else {
+            $dari = $this->input->post('dari');
+            $sampai = $this->input->post('sampai');
+            $data = [
+                "lists" => $this->db->where('tanggal_koreksi >=', $dari)->where('tanggal_koreksi <=', $sampai)->order_by('no_koreksi', 'DESC')->get('koreksi')->result(),
+            ];
+        }
 
         $this->load->view('body/header');
         $this->load->view('inventori/histori_koreksi', $data);
@@ -484,11 +514,13 @@ class Inventori extends CI_Controller
                 $data["tampil"] = $this->db->select('*')->from('barang')->where('id_gudang >=', $gudang1)->where('id_gudang >=', $gudang2)->where('stok <=', 0)->order_by('nama', 'ASC')->get()->result();
             }
         } else if (!empty($input_nama_barang) && (empty($kelompok_barang) || empty($barang) || empty($barang2) || empty($gudang1) || empty($gudang2))) {
-            print_r($input_nama_barang);
-            exit;
+            // print_r($opsi_stok);
+            // exit;
 
             if ($opsi_stok == "all") {
-                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->order_by('nama', 'ASC')->get('barang')->result();
+                $data["tampil"] = $this->db->like('nama', trim($input_nama_barang))->order_by('nama', 'ASC')->get('barang')->result();
+                // echo $this->db->last_query();
+                // exit;
             } else if ($opsi_stok == "sisa_stok") {
                 $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok !=', 0)->order_by('nama', 'ASC')->get('barang')->result();
             } else if ($opsi_stok == "stok_0") {
@@ -715,12 +747,15 @@ class Inventori extends CI_Controller
 
         $no_stock_opname = 'STP-' . date('ym') . '-' . $no_urut;
 
+        $nama_gudang = $this->db->get_where('gudang', ['id' => $gudang])->row_array();
+
         $data = [
             'no_urut' => $no_urut,
             'no_stock_opname' => $no_stock_opname,
             'tanggal_opname' => $tanggal,
             'id_gudang' => $gudang,
             'keterangan' => $keterangan,
+            'nama_gudang' => $nama_gudang,
             "gudang2" => $this->db->order_by('id', 'ASC')->get('gudang')->result(),
             "barang" =>  $this->db->where('id_gudang', $gudang)->order_by('nama', 'ASC')->get('barang')->result(),
         ];
@@ -953,6 +988,17 @@ class Inventori extends CI_Controller
         $this->load->view('body/footer');
     }
 
+    public function pending_mutasi()
+    {
+        $data = [
+            "barang" => $this->db->where('a.status', 0)->from('mutasi_details a')->join('mutasi b', 'a.id_mutasi = b.id', 'left')->join('barang c', 'a.id_barang = c.id', 'left')->order_by('no_mutasi', 'ASC')->order_by('nama', 'ASC')->get()->result(),
+        ];
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/pending_mutasi', $data);
+        $this->load->view('body/footer');
+    }
+
     public function delete_sop()
     {
         $id = $this->uri->segment(3);
@@ -1101,5 +1147,26 @@ class Inventori extends CI_Controller
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
 
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function histori_mutasi()
+    {
+        $now = date("Y-m-d");
+
+        if (!$_POST) {
+            $data = [
+                "lists" => $this->db->where('tanggal_mutasi', $now)->order_by('no_mutasi', 'DESC')->get('mutasi')->result(),
+            ];
+        } else {
+            $dari = $this->input->post('dari');
+            $sampai = $this->input->post('sampai');
+            $data = [
+                "lists" => $this->db->where('tanggal_mutasi >=', $dari)->where('tanggal_mutasi <=', $sampai)->order_by('no_mutasi', 'DESC')->get('mutasi')->result(),
+            ];
+        }
+
+        $this->load->view('body/header');
+        $this->load->view('inventori/histori_mutasi', $data);
+        $this->load->view('body/footer');
     }
 }

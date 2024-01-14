@@ -27,46 +27,8 @@
                     <div class="card-body">
                         <?= $this->session->flashdata('message_name') ?>
                         <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#buatStockOpname">Buat baru</button>
-                        <a href="<?= base_url('inventori/pending_sop') ?>" class="btn btn-danger btn-sm">Butuh persetujuan</a>
-
-                        <div class="table-responsive mt-3">
-                            <table class="table" id="basic-1">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>No. Stock Opname</th>
-                                        <th>Gudang</th>
-                                        <th>Tanggal</th>
-                                        <th>User</th>
-                                        <th>Act.</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($lists as $l) :
-                                        $gudang = $this->db->where('id', $l->id_gudang)->get('gudang')->row_array();
-                                        $user = $this->db->where('id', $l->created_by)->get('users')->row_array();
-                                    ?>
-                                        <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $l->no_stock_opname ?></td>
-                                            <td><?= $gudang['nama'] ?></td>
-                                            <td><?= format_indo($l->tanggal_opname) ?></td>
-                                            <td><?= $user['nama'] ?></td>
-                                            <td>
-                                                <a href='<?= base_url("inventori/detail_sop/$l->no_stock_opname") ?>' class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                                <a href='<?= base_url("inventori/delete_sop/$l->id") ?>' class="btn btn-danger btn-sm btn-delete" data-bs-toggle="tooltip" title="Hapus <?= $l->no_stock_opname ?>">&times;</a>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    endforeach;
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
+                        <!-- <a href="<?= base_url('inventori/pending_sop') ?>" class="btn btn-danger btn-sm">Butuh persetujuan</a> -->
+                        <a href="<?= base_url('inventori/histori_sop') ?>" class="btn btn-primary btn-sm">Riwayat stock opname</a>
                     </div>
                 </div>
             </div>
@@ -114,7 +76,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="Keterangan" class="form-label">Keterangan</label>
-                            <textarea name="keterangan" id="keterangan" cols="30" rows="3" class="form-control"></textarea>
+                            <textarea name="keterangan" id="keterangan" cols="30" rows="3" class="form-control" required></textarea>
                         </div>
                     </div>
                 </div>
@@ -133,27 +95,3 @@
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    // jquery tolong carikan btn-delete yang ketika diklik jalankan fungsi berikut ini
-    $(".btn-delete").on("click", function(e) {
-        e.preventDefault();
-        const href = $(this).attr("href");
-
-        // console.log(href);
-        Swal.fire({
-            title: "Anda yakin?",
-            // text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Hapus!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.location.href = href;
-            }
-        });
-    });
-</script>

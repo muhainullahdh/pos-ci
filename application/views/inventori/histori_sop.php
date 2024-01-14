@@ -3,7 +3,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h4>Koreksi barang</h4>
+                    <h4>Stock opname</h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
@@ -14,7 +14,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Koreksi barang</li>
+                        <li class="breadcrumb-item">Stok opname</li>
                     </ol>
                 </div>
             </div>
@@ -27,14 +27,14 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-4">
-                                <a href="<?= base_url('inventori/koreksi_barang') ?>" class="btn btn-warning btn-sm">Kembali</a>
-                                <a href="<?= base_url('inventori/pending_koreksi') ?>" class="btn btn-danger btn-sm">Butuh persetujuan</a>
+                                <a href="<?= base_url('inventori/stock_opname') ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                <!-- <a href="<?= base_url('inventori/pending_sop') ?>" class="btn btn-danger btn-sm">Butuh persetujuan</a> -->
                             </div>
                             <div class="col-8 text-end">
                                 <?= format_indo(date('Y-m-d')) ?>
                             </div>
                         </div>
-                        <form action="<?= base_url('inventori/histori_koreksi') ?>" method="post" class="row g-3 custom-input mt-2">
+                        <form action="<?= base_url('inventori/histori_sop') ?>" method="post" class="row g-3 custom-input mt-2">
                             <div class="col-3">
                                 <input class="form-control" id="no_sop" name="dari" type="date" value="<?= $this->input->post('dari') ?>" required>
                             </div>
@@ -48,19 +48,19 @@
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fa fa-search"></i>
                                     </button>
-                                    <a href="<?= base_url('inventori/histori_koreksi') ?>" class="btn btn-warning">Tampilkan hari ini</a>
+                                    <a href="<?= base_url('inventori/histori_sop') ?>" class="btn btn-warning">Tampilkan hari ini</a>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="card-body">
                         <?= $this->session->flashdata('message_name') ?>
-                        <div class="table-responsive mt-3">
+                        <div class="table-responsive">
                             <table class="table" id="basic-1">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>No. Koreksi</th>
+                                        <th>No. Stock Opname</th>
                                         <th>Gudang</th>
                                         <th>Tanggal</th>
                                         <th>User</th>
@@ -76,15 +76,15 @@
                                     ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
-                                            <td><?= $l->no_koreksi ?></td>
+                                            <td><?= $l->no_stock_opname ?></td>
                                             <td><?= $gudang['nama'] ?></td>
-                                            <td><?= format_indo($l->tanggal_koreksi) ?></td>
+                                            <td><?= format_indo($l->tanggal_opname) ?></td>
                                             <td><?= $user['nama'] ?></td>
                                             <td>
-                                                <a href='<?= base_url("inventori/detail_koreksi/$l->no_koreksi") ?>' class="btn btn-primary btn-sm">
+                                                <a href='<?= base_url("inventori/detail_sop/$l->no_stock_opname") ?>' class="btn btn-primary btn-sm">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a href='<?= base_url("inventori/delete_koreksi/$l->id") ?>' class="btn btn-danger btn-sm btn-delete" data-bs-toggle="tooltip" title="Hapus <?= $l->no_koreksi ?>">&times;</a>
+                                                <a href='<?= base_url("inventori/delete_sop/$l->id") ?>' class="btn btn-danger btn-sm btn-delete" data-bs-toggle="tooltip" title="Hapus <?= $l->no_stock_opname ?>">&times;</a>
                                             </td>
                                         </tr>
                                     <?php
@@ -99,20 +99,20 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="buatStockkoreksi" tabindex="-1" role="dialog" aria-labelledby="buatStockkoreksi" aria-hidden="true">
+<div class="modal fade" id="buatStockOpname" tabindex="-1" role="dialog" aria-labelledby="buatStockOpname" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="buatStockkoreksiLongTitle">Buat Koreksi</h5>
+                <h5 class="modal-title" id="buatStockOpnameLongTitle">Buat stock opname</h5>
                 <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="<?= base_url('inventori/add_koreksi') ?>" method="post" class="form theme-form dark-inputs" id="barangForm">
+            <form action="<?= base_url('inventori/add_stock_opname') ?>" method="post" class="form theme-form dark-inputs" id="barangForm">
                 <div class="modal-body">
                     <div class="row">
                         <div class="mb-3">
                             <input type="hidden" name="no_urut" id="no_urut" class="form-control" value="<?= $no_urut ?>">
-                            <label for="No. Koreksi" class="form-label">No. Koreksi</label>
-                            <input type="text" class="form-control" name="no_koreksi" id="no_koreksi" value="<?= $no_koreksi ?>" readonly>
+                            <label for="No. Stock Opname" class="form-label">No. Stock Opname</label>
+                            <input type="text" class="form-control" name="no_sop" id="no_sop" value="<?= $no_sop ?>" readonly>
                         </div>
                     </div>
                     <div class="row">
@@ -167,7 +167,7 @@
         e.preventDefault();
         const href = $(this).attr("href");
 
-        console.log(href);
+        // console.log(href);
         Swal.fire({
             title: "Anda yakin?",
             // text: "You won't be able to revert this!",

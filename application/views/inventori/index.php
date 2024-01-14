@@ -67,9 +67,7 @@
                                             <th>Kode barang</th>
                                             <th>Nama barang</th>
                                             <th>Kode gudang</th>
-                                            <th>Sat. Besar</th>
-                                            <th>Sat. Kecil</th>
-                                            <th>Sat. Konv.</th>
+                                            <th>Satuan</th>
                                             <th>Sisa stok</th>
                                             <th>Saldo stok</th>
                                         </tr>
@@ -79,18 +77,21 @@
                                         $no = 1;
                                         foreach ($tampil as $t) {
                                             $saldo_stock = $t->stok * $t->hpp_kecil;
-                                            $kd_gudang = $this->db->select('kode')->where('id', $t->id_gudang)->get('gudang')->row_array();
-                                        ?>
+                                            $kd_gudang = $this->db->select('kode')->where('id', $t->id_gudang)->get('gudang')->row_array(); ?>
                                             <tr>
                                                 <td class="text-end"><?= $no++ ?>.</td>
                                                 <td><?= $t->kode_barang ?></td>
                                                 <td><?= $t->nama ?></td>
                                                 <td><?= $kd_gudang['kode'] ?></td>
-                                                <td class=""><?= ($t->id_satuan_besar) ?></td>
-                                                <td class=""><?= $t->id_satuan_kecil ?></td>
-                                                <td class=""><?= ($t->id_satuan_kecil_konv) ? $t->id_satuan_kecil_konv : "-" ?></td>
-                                                <td class="text-end"><?= number_format($t->stok) ?></td>
-                                                <td class="text-end"><?= number_format($saldo_stock) ?></td>
+                                                <td>
+                                                    <select class="satuan-select">
+                                                        <option value="kecil" data-harga="<?= $t->hpp_kecil; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_kecil ?>"><?= $t->id_satuan_kecil ?></option>
+                                                        <option value="besar" data-harga="<?= $t->hpp_besar; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_kecil ?>"><?= $t->id_satuan_besar ?></option>
+                                                        <option value="konv" data-harga="<?= $t->hpp_konv; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_besar ?>"><?= $t->id_satuan_kecil_konv ?></option>
+                                                    </select>
+                                                </td>
+                                                <td class="text-end stok" id="stok"><?= number_format($t->stok) ?></td>
+                                                <td class="text-end harga" id="saldo_stok-<?= $t->id ?>"><?= number_format($saldo_stock) ?></td>
                                             </tr>
                                         <?php
                                         }
@@ -263,11 +264,9 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<!-- <script>
-    $('.select2').select2();
-    
-</script> -->
+
 <script>
     $('#kelompok_barang').select2({
         dropdownParent: $('#filterStok')
@@ -278,40 +277,59 @@
     $('#barang2').select2({
         dropdownParent: $('#filterStok')
     });
+
+    $(document).ready(function() {
+        $('.satuan-select').change(function() {
+            var harga = $(this).find(':selected').data('harga');
+            var stok = $(this).find(':selected').data('stok');
+            var qty = $(this).find(':selected').data('qty');
+
+            var jumlah = Math.floor(stok / qty);
+
+            console.log(stok);
+            console.log(qty);
+            console.log(jumlah);
+
+            var saldo = harga * jumlah;
+            $(this).closest('tr').find('.harga').text(saldo.toLocaleString());
+            $(this).closest('tr').find('.stok').text(jumlah);
+        });
+    });
 </script>
 <script>
-    // function getBarang() {
-    //     var kategoriId = document.getElementById('kelompok_barang').value;
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '<?= base_url('inventori/getbarang') ?>',
-    //         data: {
-    //             kategori_id: kategoriId
-    //         },
-    //         success: function(data) {
-    //             // Parse data JSON dari server
-    //             var barangOptions = JSON.parse(data);
+    <?php
 
-    //             // Hapus opsi yang ada sebelumnya
-    //             $('#barang').empty();
-    //             $('#barang2').empty();
+    $barangOptions = [];
+    foreach ($barang as $b) {
+        $barangOptions[] = [
+            'id' => $b->id,
+            'label' => $b->nama,
+            'satuan' => $b->id_satuan_kecil,
+            'satuan_besar' => $b->id_satuan_besar,
+            'satuan_konv' => $b->id_satuan_kecil_konv,
+            'stok' => $b->stok,
+            'hpp_kecil' => $b->hpp_kecil,
+            'hpp_besar' => $b->hpp_besar,
+            'hpp_konv' => $b->hpp_konv,
+        ];
+    }
+    ?>
 
-    //             // Tambahkan opsi default
-    //             $('#barang').append('<option value="">--Pilih--</option>');
-    //             $('#barang2').append('<option value="">--Pilih--</option>');
+    function check_saldo(id) {
+        // Dapatkan nilai stok dan hpp dari elemen <select>
+        var selectedBarang = document.getElementById('satuan-' + id);
+        var selectedOption = selectedBarang.options[selectedBarang.selectedIndex];
+        var stok = selectedOption.getAttribute('data-stok');
+        var hpp_kecil = selectedOption.getAttribute('data-hpp-kecil');
+        var hpp_besar = selectedOption.getAttribute('data-hpp-besar');
+        var hpp_konv = selectedOption.getAttribute('data-hpp-konv');
 
-    //             // Tambahkan opsi-opsi barang baru
-    //             $.each(barangOptions, function(index, value) {
-    //                 $('#barang').append('<option value="' + value.id + '">' + value.nama + '</option>');
-    //                 $('#barang2').append('<option value="' + value.id + '">' + value.nama + '</option>');
-    //             });
+        // Hitung saldo stok
+        var saldoStok = stok * hpp;
 
-    //             // Tampilkan hasil
-    //             // $('#hasilBarang').html('Hasil: ' + $('#barang option:selected').text());
-    //             // $('#hasilBarang2').html('Hasil: ' + $('#barang2 option:selected').text());
-    //         }
-    //     });
-    // }
+        // Update elemen dengan ID 'saldo_stok' sesuai dengan ID barang
+        document.getElementById('saldo_stok-' + id).innerHTML = saldoStok.toFixed(2);
+    }
 </script>
 <script>
     $('#sisa-stok').DataTable({
