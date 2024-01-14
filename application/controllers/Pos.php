@@ -704,16 +704,62 @@ class Pos extends CI_Controller
             $pembayaranx = "";
         }
         $today = date('Y-m-d');
-        $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim,sum(i.jumlah) as t_transaksi,sum(j.nominal_bayar) as bayar_piutang from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
-         left join customers as c on(a.pelanggan=c.id_customer)
-         left join users d on (a.kasir=d.id)
-         left join barang as e on(b.kd_barang=e.id)
-         left join kategori as f on(e.kategori_id=f.id)
-         left join ekspedisi as g on(a.pengiriman = g.id)
-         left join piutang as h on(a.id=h.id_transaksi)
-         left join transaksi_item as i on(a.id=i.id_transaksi)
-         left join histori_transaksi as j on(a.id=j.id_transaksi) 
-          WHERE a.tahan=0  and a.trash=0 and a.kasir='" . $this->session->userdata('id_user') . "' " . $pembayaranx . " and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
+        $SQL = "SELECT a.no_struk, c.nama_toko,  d.nama as nama_kasir, a.tgl_transaksi as tgl_transaksi, g.nama as nama_pengirim, pembayaran,
+                total_transaksi  AS total_transaksi,
+                    j.nominal_bayar AS bayar_bon,
+                    total_bayar AS total_bayar,
+                CASE
+                        
+                        WHEN (
+                            ( total_bayar - total_transaksi  - diskon ) 
+                            ) < 0 THEN
+                            (
+                                ( total_bayar- total_transaksi  - diskon ) 
+                            ) ELSE 0 
+                        END AS kurang_bayar
+                FROM transaksi a 
+                left join customers as c on(a.pelanggan=c.id_customer)
+                left join users d on (a.kasir=d.id)
+                left join ekspedisi as g on(a.pengiriman = g.id)
+                left join transaksi_item as i on(a.id=i.id_transaksi)
+                left join histori_transaksi as j on(a.id=j.id_transaksi) 
+                WHERE a.tahan= 0  and a.trash= 0 and a.kasir='" . $this->session->userdata('id_user') . "' " . $pembayaranx . " and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "'  
+                GROUP BY a.no_struk, a.pembayaran, a.tgl_transaksi, c.nama_toko, d.nama, g.nama
+
+                UNION
+
+                SELECT 'GrandTotal' as GrandTotal, '' as nama_toko, '' as nama_kasir, '' as tgl_bukti, '' as nama_pengirim, '' as pembayaran,
+                SUM(total_transaksi) as total_belanja, SUM(j.nominal_bayar) as bayar_bon,  SUM(total_bayar) as total_bayar,  
+
+                 (	( SUM( ( CASE WHEN (total_bayar ) < total_transaksi THEN total_transaksi ELSE 0 END ) 	) 
+                        - SUM( ( CASE WHEN (total_bayar ) < total_transaksi THEN total_bayar ELSE 0 END ) ) 
+                        - SUM( diskon ) 
+                            ) 
+                        ) 
+                AS kurang_bayar 
+
+                FROM transaksi a 
+                left join customers as c on(a.pelanggan=c.id_customer)
+                left join users d on (a.kasir=d.id)
+                left join ekspedisi as g on(a.pengiriman = g.id)
+                left join transaksi_item as i on(a.id=i.id_transaksi)
+                LEFT JOIN (SELECT id_transaksi, sum(nominal_bayar) as nominal_bayar FROM histori_transaksi GROUP BY id_transaksi ) j ON ( a.id = j.id_transaksi ) 
+                WHERE a.tahan= 0  and a.trash= 0 and a.kasir='" . $this->session->userdata('id_user') . "' " . $pembayaranx . " and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "'";
+
+        // echo $SQL;
+        // die();
+
+$penjualan = $this->db->query($SQL)->result();
+        // $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim,sum(i.jumlah) as t_transaksi,sum(j.nominal_bayar) as bayar_piutang from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
+        //  left join customers as c on(a.pelanggan=c.id_customer)
+        //  left join users d on (a.kasir=d.id)
+        //  left join barang as e on(b.kd_barang=e.id)
+        //  left join kategori as f on(e.kategori_id=f.id)
+        //  left join ekspedisi as g on(a.pengiriman = g.id)
+        //  left join piutang as h on(a.id=h.id_transaksi)
+        //  left join transaksi_item as i on(a.id=i.id_transaksi)
+        //  left join histori_transaksi as j on(a.id=j.id_transaksi) 
+        //   WHERE a.tahan=0  and a.trash=0 and a.kasir='" . $this->session->userdata('id_user') . "' " . $pembayaranx . " and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "' " . $pelangganx . " GROUP BY a.no_struk ")->result();
 
         // echo '<pre>';
         // print_r($penjualan);

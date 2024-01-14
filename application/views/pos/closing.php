@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Closing</title>
     <style>
-        #container {
+       #container {
             margin-top: 0;
         }
 
@@ -20,7 +20,7 @@
         }
 
         #body {
-            margin-top: 1em;
+            /* margin-top: 1em; */
             font-family: Arial, Helvetica, sans-serif;
             font-size: 10pt;
         }
@@ -45,10 +45,9 @@
         table {
             width: 100%;
             font-size: 10pt;
-            float: left;
         }
 
-        .no-bor {
+      .no-bor {
             border: none;
         }
 
@@ -114,7 +113,9 @@
             border-bottom: 1px solid #666;
             border-top: 1px solid #666;
             padding: 2px 5px;
-            vertical-align: top;
+            vertical-align: top !important;
+            white-space:nowrap;
+
         }
 
         .tb-border td h4 {
@@ -150,7 +151,7 @@
             border-left: 1px solid #FFF;
             border-right: 1px solid #FFF;
             padding: 4px 7px;
-        }
+        } 
 
         .tb-bor {
             border-collapse: collapse;
@@ -285,7 +286,7 @@
         #tbor {
             border-collapse: collapse;
             border: 1px solid #666;
-            ;
+
         }
 
         #tbor .no-btm {
@@ -325,106 +326,129 @@
         <div id="body">
             <h4>Closing</h4>
             <p>Tanggal : <?= $tgl_closing ?></p>
-            <table class="tb-bor mt10 ft9">
+
+             <table class="mt10 ft9" style="border-collapse: collapse; border-spacing:0;">
                 <tr>
                     <th class="bor-lf">No</th>
                     <th class="bor-lf">No Struk</th>
                     <th class="bor-lf">Tgl Bukti</th>
-                    <th class="bor-lf">Pembayaran</th>
+
+                   <th class="bor-lf">Pembayaran</th>
                     <th class="bor-lf">Nama Pelanggan</th>
                     <th class="bor-lf">Total Belanja</th>
                     <th class="bor-lf">Total Bayar</th>
                     <th class="bor-lf">Retur Jual</th>
                     <th class="bor-lf">Kurang Bayar</th>
-                    <th class="bor-lf">Bayar BON</th>
+                    <th class="bor-lf">Bayar BON</th> 
                 </tr>
+
                 <?php
                 $no = 1;
+                $bayar_piutang = 0;
+                $jumlah = 0;
+                $jumlah_row = 0;
+                $total_bayar_row = 0;
+                $total_kurang_bayar = 0;
+                $total_kembali_row = 0;
+                $total_nominal_bayar = 0;
+                
+                $x_bayar_piutang = 0;
                 if (isset($penjualan)) {
-                    $jumlah_row = 0;
-                    $total_bayar_row = 0;
-                    $total_kurang_bayar = 0;
-                    $total_kembali_row = 0;
-                    $total_nominal_bayar = 0;
-                    $x_bayar_piutang = 0;
-                    foreach ($penjualan as $row) {
 
-                        $jumlah_row += $row->jumlah;
+                    foreach ($penjualan as $row) {
+                        $bayar_piutang = ($row->kurang_bayar < 0 ? number_format($row->kurang_bayar * -1,0) : number_format($row->kurang_bayar,0));
+                        // $jumlah = ($row->jumlah ? $row->jumlah : 0);
+                        // $jumlah_row += $row->pembayaran;
                         $total_bayar_row += $row->total_bayar;
-                        $total_kembali_row += $row->kembali;
-                        $kurang_bayar = $row->total_transkasi - $row->bayar_piutang;
-                        $total_nominal_bayar += $row->nominal_bayar;
-                        $x_bayar_piutang = $row->bayar_piutang;
-                        ?>
-                        <tr>
-                            <td class="bor-lf"><?= $no ?></td>
-                            <td class="bor-lf"><?= $row->no_struk ?></td>
-                            <td class="bor-lf"><?= $row->tgl_transaksi ?></td>
-                            <td class="bor-lf"><?= $row->pembayaran ?></td>
-                            <td class="bor-lf"><?= $row->nama_toko ?></td>
-                            <td class="bor-lf"><?= 'Rp.' .
-                                number_format($row->total_transaksi, 0, '.', '.') ?></td>
-                            <?php if ($row->piutang == 1) { ?>
-                                <td class="bor-lf">
-                                    <?= 'Rp.' .
-                                        number_format(
-                                            $row->bayar_piutang,
-                                            0,
-                                            '.',
-                                            '.'
-                                        ) ?>
-                                </td>
-                            <?php } else { ?>
+                        $total_transaksi = ($row->total_transaksi ? $row->total_transaksi : 0);
+                        // $nominal_bayar = ($row->pembayaran ? $row->pembayaran : 0);
+                        // $total_kembali_row += $row->kembali;
+                        $kurang_bayar = ($row->kurang_bayar < 0 ? number_format($row->kurang_bayar * -1, 0) : 0);
+                        // $total_nominal_bayar += $nominal_bayar;
+
+                        // $x_bayar_piutang = $row->bayar_piutang;
+                        if ($row->no_struk != 'GrandTotal') {
+                            ?>
+                        
+                            <tr>
+                                <td class="bor-lf"><?= $no ?></td>
+                                <td class="bor-lf"><?= $row->no_struk ?></td>
+                                <td class="bor-lf"><?= $row->tgl_transaksi ?></td>
+                                <td class="bor-lf"><?= $row->pembayaran ?></td>
+                                <td class="bor-lf"><?= $row->nama_toko ?></td>
                                 <td class="bor-lf"><?= 'Rp.' .
-                                    number_format(
-                                        $row->total_transaksi - $row->bayar_piutang,
-                                        0,
-                                        '.',
-                                        '.'
-                                    ) ?></td>
-                            <?php } ?>
-                            <td class="bor-lf"><?= 'Rp.' .
-                                number_format(0, 0, '.', '.') ?></td>
-                            <td class="bor-lf"><?= 'Rp.' .
-                                number_format(
-                                    $kurang_bayar,
-                                    0,
-                                    '.',
-                                    '.'
-                                ) ?></td>
-                            <!-- <td class="bor-lf"><?= 'Rp.' .
-                                number_format(0, 0, '.', '.') ?></td> -->
-                            <td class="bor-lf"><?= 'Rp.' .
-                                number_format(0, 0, '.', '.') ?></td>
-                        </tr>
+                                    number_format($row->total_transaksi, 0, '.', '.') ?></td>
+                                    <td class="bor-lf"> <!-- Kolom ini buat apa ya ?? -->
+                                        <?= 'Rp.' .number_format($row->total_bayar, 0) ?>
+                                    </td>
+                                   
+                                <td class="bor-lf"><?= 'Rp.' .
+                                    number_format(0, 0, '.', '.') ?></td>
+                                <td class="bor-lf"><?= 'Rp.' . $kurang_bayar ?></td>
+                            
+                                <td class="bor-lf"><?= 'Rp.' .
+                                    number_format(0, 0, '.', '.') ?></td>
+                                    
+                            </tr>
+                   
+                        <?php
+                        }
+                        $grand_total_html = '';
+                        $grand_total = 0;
+                        if ($row->no_struk == 'GrandTotal') { 
+                            
+
+                            $grand_total_html .= '<tr>';
+                            $grand_total_html .= '<td class="bor-lf" colspan="5">Grand Total</td>';
+                            $grand_total_html .= '<td class="bor-lf">Rp.' .number_format($row->total_transaksi, 0, '.', '.').'</td>';
+                            $grand_total_html .= '<td class="bor-lf">Rp.' .number_format($row->total_bayar , 0, '.', '.').'</td>';
+                            $grand_total_html .= '<td class="bor-lf">Rp.'.number_format(0,0,'.','.').'</td>';
+                            $grand_total_html .= '<td class="bor-lf">Rp.' .number_format($row->kurang_bayar, 0).'</td>';
+                            // $grand_total_html .= '<td class="bor-lf">Rp.' .number_format(0, 0).'</td>';
+                            
+                            $grand_total_html .= '<td class="bor-lf">Rp.' .number_format(0, 0, '.', '.').'</td>';
+                            $grand_total_html .= '</tr>';
+                            $grand_total = (int) $row->total_transaksi - (int) $row->kurang_bayar;
+                        } 
+                         echo $grand_total_html;
+                        
+                        ?>
+                        
+                              
+
+
                 <?php
                 $no++;
-                $total_kurang_bayar += $kurang_bayar;
+                $total_kurang_bayar += $row->kurang_bayar;
 
                     }
                 }
                 ?>
-                <tr>
-                    <td class="bor-lf" colspan="5">Grand Total</td>
-                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
-                        number_format($jumlah_row, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
-                        number_format($total_bayar_row - $total_kembali_row + ($total_nominal_bayar - $x_bayar_piutang) , 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
-                        number_format(0, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
-                        number_format($total_kurang_bayar, 0, '.', '.') ?></td>
-                    <td class="bor-lf" colspan="1"><?= 'Rp.' .
-                        number_format(0, 0, '.', '.') ?></td>
+                 <!-- <tr>
+                            <td class="bor-lf" colspan="5">Grand Total</td>
+                            <td class="bor-lf">Rp.<?= number_format($row->total_transaksi, 0, '.', '.') ?> </td>
+                    <td class="bor-lf">Rp. <?= number_format($total_bayar_row, 0) ?>
+                       
+                    </td>
+                    <td class="bor-lf">Rp.
+                        <?= number_format(0, 0, '.', '.') ?>
+                    </td>
+                    <td class="bor-lf">Rp.
+                        <?= number_format($total_kurang_bayar, 0, '.', '.') ?>
+                    </td>
+                    <td class="bor-lf">Rp.
+                        <?= number_format($row->bayar_bon, 0, '.', '.') ?>
+                    </td>
                 </tr>
+                 -->
                 <tr>
                     <td class="bor-lf" colspan="9" style="text-align:right;"><br><strong>Total penerimaan kasir</strong></td>
                     <td class="bor-lf" colspan="1"><br>
                     <?= 'Rp.' .
-                        number_format($jumlah_row  - $total_kurang_bayar, 0, '.', '.') ?></td>
+                        number_format($grand_total , 0, '.', '.') ?></td>
                 </tr>
             </table>
-            <br>
+        
 
         </div>
 </body>

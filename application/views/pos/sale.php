@@ -1288,15 +1288,6 @@
                             $('.stock' + counter + '').val(stok );
                             $('.stock-c' + counter + '').val(Math.ceil(stok - qty));
                        } 
-                        
-                        // else if (satuan == 'konv'){
-                        //     $('.stock' + counter + '').val(stok / qty_konv);
-                        //     $('.stock-c' + counter + '').val(stok / qty_konv - qty);
-                        // } else if(satuan == 'kecil') {
-                        //     $('.stock' + counter + '').val(stok / qty_konv);
-                        //     $('.stock-c' + counter + '').val(stok / qty_konv - qty);
-                        // }
-                        console.log(stok / qty_konv)
                     }
                     satuan_x.change(function() {
                         var id = $(this).val();
