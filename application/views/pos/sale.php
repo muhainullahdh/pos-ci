@@ -1111,21 +1111,33 @@
                                         //     var satuan_pp = data.hargajualb_grosir;
                                         // } 
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'partai') { ?>
-                                        if (!data.hargajual_konv_partai == "") {
-                                            var satuan_pp = data.hargajual_konv_partai;
-                                        }else if (!data.hargajualk_partai == "") {
-                                            var satuan_pp = data.hargajualk_partai;
-                                        }else if (!data.hargajualb_partai == "") {
-                                            var satuan_pp = data.hargajualb_partai;
+                                         if (data.qty_besar != 0 && data.qty_kecil == 0 && data.qty_konv == 0) { //kondisi besar ok,kecil null,konv null
+                                                var satuan_pp = data.hargajualb_partai;
+                                        }else{
+                                            if((data.hargajual_konv_partai == null || data.hargajual_konv_partai == 0) && data.hargajualk_partai != ""){
+                                                var satuan_pp = data.hargajualk_partai;
+                                            }else{
+                                                var satuan_pp = data.hargajualk_partai;
+                                            }                                        
                                         }
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'promo') { ?>
-                                         if (!data.hargajual_konv_promo == "") {
-                                            var satuan_pp = data.hargajual_konv_promo;
-                                        }else if (!data.hargajualk_promo == "") {
-                                            var satuan_pp = data.hargajualk_promo;
-                                        } else if (!data.hargajualb_promo == "") {
-                                            var satuan_pp = data.hargajualb_promo;
+                                       
+                                        if (data.qty_besar != 0 && data.qty_kecil == 0 && data.qty_konv == 0) { //kondisi besar ok,kecil null,konv null
+                                                var satuan_pp = data.hargajualb_promo;
+                                        }else{
+                                            if((data.hargajual_konv_promo == null || data.hargajual_konv_promo == 0) && data.hargajualk_promo != ""){
+                                                var satuan_pp = data.hargajualk_promo;
+                                            }else{
+                                                var satuan_pp = data.hargajualk_promo;
+                                            }                                        
                                         }
+                                        //  if (!data.hargajual_konv_promo == "") {
+                                        //     var satuan_pp = data.hargajual_konv_promo;
+                                        // }else if (!data.hargajualk_promo == "") {
+                                        //     var satuan_pp = data.hargajualk_promo;
+                                        // } else if (!data.hargajualb_promo == "") {
+                                        //     var satuan_pp = data.hargajualb_promo;
+                                        // }
 
                                     <?php } ?>
                                     var stok = data.stok
