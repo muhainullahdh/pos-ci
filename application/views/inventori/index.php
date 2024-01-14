@@ -85,9 +85,25 @@
                                                 <td><?= $kd_gudang['kode'] ?></td>
                                                 <td>
                                                     <select class="satuan-select">
-                                                        <option value="kecil" data-harga="<?= $t->hpp_kecil; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_kecil ?>"><?= $t->id_satuan_kecil ?></option>
-                                                        <option value="besar" data-harga="<?= $t->hpp_besar; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_kecil ?>"><?= $t->id_satuan_besar ?></option>
-                                                        <option value="konv" data-harga="<?= $t->hpp_konv; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_besar ?>"><?= $t->id_satuan_kecil_konv ?></option>
+                                                        <?php
+                                                        if ($t->id_satuan_kecil) {
+                                                        ?>
+                                                            <option value="kecil" data-harga="<?= $t->hpp_kecil; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_kecil ?>"><?= $t->id_satuan_kecil ?></option>
+                                                        <?php
+                                                        }
+
+                                                        if ($t->id_satuan_besar) {
+                                                        ?>
+                                                            <option value="besar" data-harga="<?= $t->hpp_besar; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_kecil ?>"><?= $t->id_satuan_besar ?></option>
+                                                        <?php
+                                                        }
+
+                                                        if ($t->id_satuan_kecil_konv) {
+                                                        ?>
+                                                            <option value="konv" data-harga="<?= $t->hpp_konv; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_besar ?>"><?= $t->id_satuan_kecil_konv ?></option>
+                                                        <?php
+                                                        }
+                                                        ?>
                                                     </select>
                                                 </td>
                                                 <td class="text-end stok" id="stok"><?= number_format($t->stok) ?></td>
