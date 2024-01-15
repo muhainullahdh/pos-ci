@@ -704,7 +704,7 @@ class Pos extends CI_Controller
             $pembayaranx = "";
         }
         $today = date('Y-m-d');
-        $SQL = "SELECT a.no_struk, c.nama_toko,  d.nama as nama_kasir, a.tgl_transaksi as tgl_transaksi, g.nama as nama_pengirim, pembayaran,
+        $SQL = "SELECT a.no_struk,a.kembali,a.piutang, c.nama_toko,  d.nama as nama_kasir, a.tgl_transaksi as tgl_transaksi, g.nama as nama_pengirim, pembayaran,
                 total_transaksi  AS total_transaksi,
                     j.nominal_bayar AS bayar_bon,
                     total_bayar AS total_bayar,
@@ -728,7 +728,7 @@ class Pos extends CI_Controller
 
                 UNION
 
-                SELECT 'GrandTotal' as GrandTotal, '' as nama_toko, '' as nama_kasir, '' as tgl_bukti, '' as nama_pengirim, '' as pembayaran,
+                SELECT 'GrandTotal' as GrandTotal, '' as nama_toko, '' as nama_kasir, '' as tgl_bukti, '' as nama_pengirim, '' as pembayaran, '' as kembali, '' as piutang,
                 SUM(total_transaksi) as total_belanja, SUM(j.nominal_bayar) as bayar_bon,  SUM(total_bayar) as total_bayar,  
 
                  (	( SUM( ( CASE WHEN (total_bayar ) < total_transaksi THEN total_transaksi ELSE 0 END ) 	) 
