@@ -51,13 +51,61 @@
                $this->db->update('penerimaan', $datax);
                redirect('barang/penerimaan');
            }
-           $this->db->select('*,count(*) as total_penerima');
+           $this->db->select('*,count(*) as total_barang');
            $this->db->from('penerimaan as a');
            $this->db->join('penerimaan_list as b', 'a.id_penerimaan=b.id_pb');
+           $this->db->join('supplier as c', 'a.supplier=c.kode_supplier');
            $this->db->group_by('b.id_pb');
            $penerimaan = $this->db->get()->result();
            $data = [
                'penerimaan' => $penerimaan,
+           ];
+           // $this->session->set_flashdata('msg','Data tidak boleh kosong');
+           // redirect('barang/satuan');
+           $this->load->view('body/header');
+           $this->load->view('barang/penerimaan', $data);
+           $this->load->view('body/footer');
+       }
+       function approve()
+       {
+           $brand = $this->input->post('brand');
+           $action = $this->input->post('action');
+           $id = $this->input->post('id_brand');
+           if ($brand == true) {
+               $cek = $this->db
+                   ->query("SELECT * FROM brand where nama_brand='$brand' ")
+                   ->num_rows();
+               if ($cek == true) {
+                   $this->session->set_flashdata('msg', 'double_satuan');
+                   $this->session->set_flashdata('msg_val', $brand);
+                   redirect('barang/penerimaan');
+               } else {
+                   $datax = [
+                       'nama_brand' => $brand,
+                   ];
+                   $this->db->insert('penerimaan', $datax);
+                   redirect('barang/brand');
+               }
+           }
+           if ($action == 'edit') {
+               $datax = [
+                   'penerimaan' => $brand,
+               ];
+               $this->db->where('id', $id);
+               $this->db->update('penerimaan', $datax);
+               redirect('barang/penerimaan');
+           }
+           $this->db->select('*,count(*) as total_barang');
+           $this->db->from('penerimaan as a');
+           $this->db->join('penerimaan_list as b', 'a.id_penerimaan=b.id_pb');
+           $this->db->join('supplier as c', 'a.supplier=c.kode_supplier');
+           $this->db->where('a.id_penerimaan',$this->uri->segment(3));
+           $penerimaan = $this->db->get()->row_array();
+
+           $penerimaan2 = $this->db->get_where('penerimaan_list',['id_pb' => $this->uri->segment(3)])->result();
+           $data = [
+               'approve_p' => $penerimaan,
+               'penerimaan2' => $penerimaan2
            ];
            // $this->session->set_flashdata('msg','Data tidak boleh kosong');
            // redirect('barang/satuan');

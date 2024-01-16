@@ -235,11 +235,14 @@
               <div class="col-sm-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>List penerimaan</h4><br>
+                    <h4><?= $this->uri->segment(2) == 'approve' ? 'Approve ' . $approve_p['no_pb'] . ' - ' . $approve_p['total_barang'] . ' Barang' : 'List Pembelian ' ?></h4><br>
+                    <?php if ($this->uri->segment(2) != 'approve') { ?>
                     <a href="<?= base_url(
                         'pembelian/add_pb'
                     ) ?>" class="btn btn-secondary">Add</a>
+                    <?php } ?>
                   </div>
+                    <?php if ($this->uri->segment(2) != 'approve') { ?>
                     <div class="card-body">
                         <div class="table-responsive" style="height: 450px;">
                             <table class="display" id="t_barang">
@@ -264,13 +267,13 @@
                                                     <?= $x->tgl_pb ?>
                                                 </td>
                                                 <td>
-                                                    <?= $x->supplier ?>
+                                                    <?= $x->nama_supplier ?>
                                                 </td>
                                                 <td>
-                                                    <?= $x->total_penerima ?>
+                                                    <?= $x->total_barang ?>
                                                 </td>
                                                 <td>
-                                                    <?= $x->total_penerima ?>
+                                                    <?= $x->total_barang ?>
                                                 </td>
                                                 <td>
                                                     <?= $x->keterangan ?>
@@ -279,7 +282,7 @@
                                                 <td>
                                                     <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#penerimaan_edit<?= $x->id_penerimaan ?>"><i class="fa fa-edit"></i></button>
                                                     <button type="button" id="<?= $x->id_penerimaan ?>" class="btn btn-danger btn-square delete_penerimaan"><i class="fa fa-trash-o"></i></button>
-                                                    <button type="button" id="<?= $x->id_penerimaan ?>" class="btn btn-success btn-square approve"><i class="fa fa-check-square-o"></i></button>
+                                                    <button type="button" class="btn btn-warning btn-square" onclick="location.href='<?= base_url('pembelian/approve/'.$x->id_penerimaan) ?>'"><i class="fa fa-check-square-o"></i></butt>
 
                                                 </td>
 
@@ -329,6 +332,89 @@
                                 </table>
                         </div>
                      </div>
+                     <?php } else { ?>
+                        <div class="card-body">
+                            <form action="<?= base_url(
+                                                                'pembelian'
+                                                            ) ?>" method="post">
+                                                                        <div class="row">
+                                                                            <div class="col-xl-6 col-sm-6 col-md-8">
+                                                                                <label>Gudang</label>
+                                                                                <input type="hidden" value="approve" name="action">
+                                                                                <input type="hidden" value="<?= $approve_p['id_penerimaan'] ?>" name="id_penerimaan">
+                                                                                    <select class="form-control">
+                                                                                        <option value="">Pilih Gudang</option>
+                                                                                        <?php $gudang = $this->db->get('gudang')->result();
+                                                                                    foreach ($gudang as $xx) {
+                                                                                        echo "<option value='" . $xx->kode . "'>" . $xx->nama . "</option>";
+                                                                                    } ?>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-xl-6 col-sm-6 col-md-8">
+                                                                                <label>Supplier</label>
+                                                                                <input value="<?= $approve_p['nama_supplier']?>" class="form-control" readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row mt-2">
+                                                                            <div class="col-xl-3">
+                                                                                    <button type="submit" class="btn btn-primary btn-square">Approve</button>
+                                                                                        <a href="<?= base_url('pembelian') ?>" class="btn bg-secondary btn-square">Back</a>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row mt-4">
+                                                                            <div class="table-responsive">
+                                                                                                        <table class="display" id="t_barang">
+                                                                                                            <thead>
+                                                                                                                        <tr>
+                                                                                                                        <th width="400" scope="col">Nama Barang</th>
+                                                                                                                        <th width="80" scope="col">Satuan</th>
+                                                                                                                        <th width="80" scope="col">qty</th>
+                                                                                                                        <th width="80" scope="col">Harga</th>
+                                                                                                                        <th width="80" scope="col">dis1</th>
+                                                                                                                        <th width="80" scope="col">dis2</th>
+                                                                                                                        <th width="80" scope="col">harga netto</th>
+                                                                                                                        <!-- <th width="80" scope="col">gudang</th> -->
+                                                                                                                        </tr>
+                                                                                                            </thead>
+                                                                                                            <tbody>
+                                                                                        <?php foreach ($penerimaan2 as $x) { ?>
+                                                                                                    <tr>
+                                                                                                        <td>
+                                                                                                            <?= $x->nama_barang ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <?= $x->satuan ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <?= $x->qty_pb ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <?= number_format($x->harga_satuan,0,'.','.') ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <?= $x->dis1 ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <?= $x->dis2 ?>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <?= number_format($x->harga_netto,0,'.','.') ?>
+                                                                                                        </td>
+                                                                                                        <!-- <td>
+                                                                                                            <?= $x->gudang?>
+                                                                                                        </td> -->
+                                                                                                    </tr>
+                                                                                                <?php } ?>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+                                    
+                                                                        </div>
+                                                                    </form>
+                                </div>
+                        <?php } ?>
                 </div>
               </div>
             </div>
