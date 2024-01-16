@@ -82,8 +82,22 @@
                                 $no = 1;
                                 $no_sop = $sop['no_stock_opname'];
                                 foreach ($list as $l) :
-                                    $barang_detail = $this->db->select('nama')->where('id', $l->id_barang)->get('barang')->row_array();
+                                    $barang_detail = $this->db->select('nama, id_satuan_kecil_konv, id_satuan_kecil, id_satuan_besar, qty_konv, qty_kecil, qty_besar')->where('id', $l->id_barang)->get('barang')->row_array();
                                     $status = $l->status;
+
+                                    $satuan = $l->satuan;
+                                    $jumlah = $l->qty_fisik;
+
+                                    if ($satuan == "konv") {
+                                        $keterangan = $barang_detail['id_satuan_kecil_konv'];
+                                        $stok = $jumlah * $barang_detail['qty_konv'];
+                                    } else if ($satuan == "kecil") {
+                                        $keterangan = $barang_detail['id_satuan_kecil'];
+                                        $stok = $jumlah * $barang_detail['qty_kecil'];
+                                    } else if ($satuan == "besar") {
+                                        $keterangan = $barang_detail['id_satuan_besar'];
+                                        $stok = $jumlah * $barang_detail['qty_besar'];
+                                    }
 
                                     if ($status == 0) {
                                         $ket = "Belum disetujui";
@@ -93,7 +107,7 @@
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td><?= $barang_detail['nama'] ?></td>
-                                        <td><?= $l->satuan ?></td>
+                                        <td><?= $keterangan ?></td>
                                         <td><?= $l->qty_sistem ?></td>
                                         <td><?= $l->qty_fisik ?></td>
                                         <td><?= $l->selisih ?></td>

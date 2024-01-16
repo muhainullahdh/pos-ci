@@ -98,7 +98,7 @@
                         <div class="col">
                             <label for="category" class="form-label">Keterangan</label>
                             <div class="input-group">
-                                <textarea name="keterangan" id="keterangan" cols="30" rows="5" class="form-control"></textarea>
+                                <textarea name="keterangan" id="keterangan" cols="30" rows="5" class="form-control" required></textarea>
                             </div>
                         </div>
                     </div>

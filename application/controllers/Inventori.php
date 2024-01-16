@@ -149,20 +149,59 @@ class Inventori extends CI_Controller
 
     public function sop_approve_all($id)
     {
-
         $sop_details = $this->db->where('id_stock_opname', $id)->where('status', '0')->get('stock_opname_details')->result();
 
         foreach ($sop_details as $s) {
-            echo '<pre>';
-            print_r($s->Id);
-            echo '</pre>';
+            $id_barang = $s->id_barang;
+
+            $query = $this->db->where('id', $id_barang)->get('barang');
+            $detail = $query->row_array();
+
+            $kode_barang = $detail['kode_barang'];
+            $stok = $detail['stok'];
+            $qty_konv = $detail['qty_konv'];
+            $qty_kecil = $detail['qty_kecil'];
+            $qty_besar = $detail['qty_besar'];
+
+            $jumlah_stok = $s->selisih;
+
+            $satuan = $s->satuan;
+
+            if ($satuan == "konv") {
+                $jumlah = $jumlah_stok;
+            } else if ($satuan == "kecil" && $qty_konv) {
+                $jumlah = $jumlah_stok * $qty_kecil;
+            } else if ($satuan == "kecil" && !$qty_konv) {
+                $jumlah = $jumlah_stok;
+            } else if ($satuan == "besar" && $qty_konv) {
+                $jumlah = $jumlah_stok * $qty_konv * $qty_kecil * $qty_besar;
+            } else if ($satuan == "besar" && !$qty_konv) {
+                $jumlah = $jumlah_stok * $qty_kecil;
+            }
+
+            $stok_baru = $stok + $jumlah;
+            $data = [
+                'nama' => $detail['nama'],
+                'satuan' => $satuan,
+                'konv' => $qty_konv,
+                'kecil' => $qty_kecil,
+                'besar' => $qty_besar,
+                'stok' => $stok,
+                'jumlah' => $jumlah,
+                'sop' => $jumlah_stok,
+            ];
             $data_sop_detail = ['status' => '1'];
 
-            $data_stok = ['stok' => $s->qty_fisik];
+            $data_stok = ['stok' => $stok_baru];
+            // echo '<pre>';
+            // print_r($data);
+            // print_r($data_stok);
+            // echo '</pre>';
 
             $this->db->where('id', $s->id_barang)->update('barang', $data_stok);
             $this->db->where('Id', $s->Id)->update('stock_opname_details', $data_sop_detail);
         }
+        // exit;
 
         $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
         Stok barang sudah diperbarui.
@@ -311,11 +350,6 @@ class Inventori extends CI_Controller
             'created_by' => $this->session->userdata('id_user'),
         );
 
-        // echo '<pre>';
-        // print_r($mutasi_data);
-        // echo '</pre>';
-        // exit;
-
         // Insert into mutasi table
         $this->db->insert('mutasi', $mutasi_data);
 
@@ -327,8 +361,15 @@ class Inventori extends CI_Controller
         $stok_values = $this->input->post('stok');
         $jumlah_values = $this->input->post('jumlah');
         $satuan_values = $this->input->post('satuan');
-        $sisa_values = $this->input->post('sisa');
         $now = date('Y-m-d H:i:s');
+
+        // echo '<pre>';
+        // print_r($barang_ids);
+        // print_r($stok_values);
+        // print_r($jumlah_values);
+        // print_r($satuan_values);
+        // echo '</pre>';
+        // exit;
 
         // Loop through the rows and insert into mutasi_details
         if (is_array($barang_ids)) {
@@ -338,7 +379,6 @@ class Inventori extends CI_Controller
                 $jumlah = $jumlah_values[$i];
                 $stok = $stok_values[$i];
                 $satuan = $satuan_values[$i];
-                $sisa = $sisa_values[$i];
 
                 $mutasi_detail_data = [
                     'id_mutasi' => $mutasi_id,
@@ -346,7 +386,6 @@ class Inventori extends CI_Controller
                     'satuan' => $satuan,
                     'stok' => $stok,
                     'jumlah' => $jumlah,
-                    'sisa' => $sisa,
                     'created_at' => $now,
                     'created_by' => $this->session->userdata('id_user'),
                 ];
@@ -394,29 +433,63 @@ class Inventori extends CI_Controller
 
         foreach ($mutasi_details as $k) {
             $data_mutasi_detail = ['status_mutasi' => 1];
-            $kode_barang = $k->kode_barang;
+            $id_barang = $k->id_barang;
+
+            $query = $this->db->where('id', $id_barang)->get('barang');
+            $detail = $query->row_array();
+
+            $kode_barang = $detail['kode_barang'];
+            $stok = $detail['stok'];
+            $qty_konv = $detail['qty_konv'];
+            $qty_kecil = $detail['qty_kecil'];
+            $qty_besar = $detail['qty_besar'];
+
             $jumlah_mutasi_stok = $k->jumlah;
 
-            $cek = $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->num_rows();
+            $satuan = $k->satuan;
 
-            if ($k->sisa == 0) {
-                if ($cek == 0) {
-                    $this->db->where('kode_barang', $kode_barang)->update('barang', ['id_gudang' => $gudang_tujuan]);
-                } else {
-                    $this->updateStokBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok);
-                }
-            } else {
-                if ($cek == 0) {
-                    $this->insertNewBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok);
-                } else {
-                    $this->updateStokBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok);
-                }
-
-                $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_asal])->update('barang', ['stok' => $k->sisa]);
+            if ($satuan == "konv") {
+                $jumlah = $jumlah_mutasi_stok;
+            } else if ($satuan == "kecil" && $qty_konv) {
+                $jumlah = $jumlah_mutasi_stok * $qty_kecil;
+            } else if ($satuan == "kecil" && !$qty_konv) {
+                $jumlah = $jumlah_mutasi_stok;
+            } else if ($satuan == "besar" && $qty_konv) {
+                $jumlah = $jumlah_mutasi_stok * $qty_kecil * $qty_besar;
+            } else if ($satuan == "besar" && !$qty_konv) {
+                $jumlah = $jumlah_mutasi_stok * $qty_kecil;
             }
+
+            $sisa_stok = $stok - $jumlah;
+
+            // $data = [
+            //     'nama' => $detail['nama'],
+            //     'satuan' => $satuan,
+            //     'konv' => $qty_konv,
+            //     'kecil' => $qty_kecil,
+            //     'besar' => $qty_besar,
+            //     'stok' => $stok,
+            //     'jumlah' => $jumlah,
+            //     'mutasi' => $jumlah_mutasi_stok,
+            //     'sisa' => $sisa_stok,
+            // ];
+
+            $cek = $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->num_rows();
+            // echo '<pre>';
+            // print_r($data) . '<br>';
+            // echo '</pre>';
+
+            if ($cek == 0) {
+                $this->insertNewBarang($kode_barang, $gudang_tujuan, $jumlah);
+            } else {
+                $this->updateStokBarang($kode_barang, $gudang_tujuan, $jumlah);
+            }
+
+            $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_asal])->update('barang', ['stok' => $sisa_stok]);
 
             $this->db->where('Id', $k->Id)->update('mutasi_details', $data_mutasi_detail);
         }
+        // exit;
 
         $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
             Mutasi gudang sudah disetujui.
@@ -425,14 +498,14 @@ class Inventori extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    private function updateStokBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok)
+    private function updateStokBarang($kode_barang, $gudang_tujuan, $jumlah)
     {
         $row = $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_tujuan])->get('barang')->row_array();
-        $stok_baru = $row['stok'] + $jumlah_mutasi_stok;
+        $stok_baru = $row['stok'] + $jumlah;
         $this->db->where(['kode_barang' => $kode_barang, 'id_gudang' => $gudang_tujuan])->update('barang', ['stok' => $stok_baru]);
     }
 
-    private function insertNewBarang($kode_barang, $gudang_tujuan, $jumlah_mutasi_stok)
+    private function insertNewBarang($kode_barang, $gudang_tujuan, $jumlah)
     {
         $get_data = $this->db->get_where('barang', ['kode_barang' => $kode_barang])->row_array();
         $data_insert = [
@@ -460,7 +533,7 @@ class Inventori extends CI_Controller
             "hargajualk_promo" => $get_data['hargajualk_promo'],
             "hargajual_konv_promo" => $get_data['hargajual_konv_promo'],
             "brand" => $get_data['brand'],
-            "stok" => $jumlah_mutasi_stok,
+            "stok" => $jumlah,
             "tgl_input" => date('Y-m-d H:i:s'),
             "user_id" => $this->session->userdata('id_user'),
             "id_gudang" => $gudang_tujuan
@@ -1137,23 +1210,64 @@ class Inventori extends CI_Controller
         $koreksi_details = $this->db->where('id_koreksi', $id)->where('status_koreksi', '0')->get('koreksi_details')->result();
 
         foreach ($koreksi_details as $k) {
-            echo '<pre>';
-            print_r($k->Id);
-            echo '</pre>';
+            $id_barang = $k->id_barang;
+
+            $query = $this->db->where('id', $id_barang)->get('barang');
+            $detail = $query->row_array();
+
+            $kode_barang = $detail['kode_barang'];
+            $stok = $detail['stok'];
+            $qty_konv = $detail['qty_konv'];
+            $qty_kecil = $detail['qty_kecil'];
+            $qty_besar = $detail['qty_besar'];
+
+            $jumlah_koreksi_stok = $k->jumlah_koreksi;
+
+            $satuan = $k->satuan;
+
+            if ($satuan == "konv") {
+                $jumlah = $jumlah_koreksi_stok;
+            } else if ($satuan == "kecil" && $qty_konv) {
+                $jumlah = $jumlah_koreksi_stok * $qty_kecil;
+            } else if ($satuan == "kecil" && !$qty_konv) {
+                $jumlah = $jumlah_koreksi_stok;
+            } else if ($satuan == "besar" && $qty_konv) {
+                $jumlah = $jumlah_koreksi_stok * $qty_kecil * $qty_besar;
+            } else if ($satuan == "besar" && !$qty_konv) {
+                $jumlah = $jumlah_koreksi_stok * $qty_kecil;
+            }
+
+            $data = [
+                'nama' => $detail['nama'],
+                'satuan' => $satuan,
+                'konv' => $qty_konv,
+                'kecil' => $qty_kecil,
+                'besar' => $qty_besar,
+                'stok' => $stok,
+                'jumlah' => $jumlah,
+                'koreksi' => $jumlah_koreksi_stok,
+                'dk' => $k->debit_kredit,
+            ];
+
 
             if ($k->debit_kredit == "debit") {
-                $stok_baru = $k->stok_awal + $k->jumlah_koreksi;
+                $stok_baru = $stok + $jumlah;
             } else if ($k->debit_kredit == "kredit") {
-                $stok_baru = $k->stok_awal - $k->jumlah_koreksi;
+                $stok_baru = $stok - $jumlah;
             }
 
             $data_koreksi_detail = ['status_koreksi' => 1];
 
             $data_stok = ['stok' => $stok_baru];
+            // echo '<pre>';
+            // print_r($data);
+            // print_r($data_stok);
+            // echo '</pre>';
 
             $this->db->where('id', $k->id_barang)->update('barang', $data_stok);
             $this->db->where('Id', $k->Id)->update('koreksi_details', $data_koreksi_detail);
         }
+        // exit;
 
         $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
         Stok barang sudah diperbarui.

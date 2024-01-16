@@ -76,7 +76,12 @@
                                         <?php
                                         $no = 1;
                                         foreach ($tampil as $t) {
-                                            $saldo_stock = $t->stok * $t->hpp_kecil;
+                                            if (!$t->hpp_konv) {
+                                                $harga = $t->hpp_kecil;
+                                            } else {
+                                                $harga = $t->hpp_konv;
+                                            }
+                                            $saldo_stock = $t->stok * $harga;
                                             $kd_gudang = $this->db->select('kode')->where('id', $t->id_gudang)->get('gudang')->row_array(); ?>
                                             <tr>
                                                 <td class="text-end"><?= $no++ ?>.</td>
@@ -86,21 +91,21 @@
                                                 <td>
                                                     <select class="satuan-select">
                                                         <?php
+
+                                                        if ($t->id_satuan_kecil_konv) {
+                                                        ?>
+                                                            <option value="konv" data-harga-konv="<?= $t->hpp_konv; ?>" data-harga-kecil="<?= $t->hpp_kecil; ?>" data-harga-besar="<?= $t->hpp_besar; ?>" data-stok='<?= $t->stok ?>' data-qty-konv='<?= $t->qty_konv ?>' data-qty-kecil='<?= $t->qty_kecil ?>' data-qty-besar='<?= $t->qty_besar ?>'><?= $t->id_satuan_kecil_konv ?> - <?= $t->hpp_konv ?></option>
+                                                        <?php
+                                                        }
                                                         if ($t->id_satuan_kecil) {
                                                         ?>
-                                                            <option value="kecil" data-harga="<?= $t->hpp_kecil; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_kecil ?>"><?= $t->id_satuan_kecil ?></option>
+                                                            <option value="kecil" data-harga-konv="<?= $t->hpp_konv; ?>" data-harga-kecil="<?= $t->hpp_kecil; ?>" data-harga-besar="<?= $t->hpp_besar; ?>" data-stok='<?= $t->stok ?>' data-qty-konv='<?= $t->qty_konv ?>' data-qty-kecil='<?= $t->qty_kecil ?>' data-qty-besar='<?= $t->qty_besar ?>'><?= $t->id_satuan_kecil ?></option>
                                                         <?php
                                                         }
 
                                                         if ($t->id_satuan_besar) {
                                                         ?>
-                                                            <option value="besar" data-harga="<?= $t->hpp_besar; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_kecil ?>"><?= $t->id_satuan_besar ?></option>
-                                                        <?php
-                                                        }
-
-                                                        if ($t->id_satuan_kecil_konv) {
-                                                        ?>
-                                                            <option value="konv" data-harga="<?= $t->hpp_konv; ?>" data-stok="<?= $t->stok ?>" data-qty="<?= $t->qty_besar ?>"><?= $t->id_satuan_kecil_konv ?></option>
+                                                            <option value="besar" data-harga-konv="<?= $t->hpp_konv; ?>" data-harga-kecil="<?= $t->hpp_kecil; ?>" data-harga-besar="<?= $t->hpp_besar; ?>" data-stok='<?= $t->stok ?>' data-qty-konv='<?= $t->qty_konv ?>' data-qty-kecil='<?= $t->qty_kecil ?>' data-qty-besar='<?= $t->qty_besar ?>'><?= $t->id_satuan_besar ?></option>
                                                         <?php
                                                         }
                                                         ?>
@@ -298,20 +303,36 @@
         $('.satuan-select').change(function() {
 
             var selectedOption = $(this).find(':selected').val();
-            var harga = $(this).find(':selected').data('harga');
+            var harga_konv = $(this).find(':selected').data('harga-konv');
+            var harga_kecil = $(this).find(':selected').data('harga-kecil');
+            var harga_besar = $(this).find(':selected').data('harga-besar');
             var stok = $(this).find(':selected').data('stok');
-            var qty = $(this).find(':selected').data('qty');
+            var qtyKonv = $(this).find(':selected').data('qty-konv');
+            var qtyKecil = $(this).find(':selected').data('qty-kecil');
+            var qtyBesar = $(this).find(':selected').data('qty-besar');
 
             var jumlah;
-            if (selectedOption == "kecil") {
+            var harga;
+
+            if (selectedOption == "konv") {
                 jumlah = stok;
-            } else {
-                jumlah = Math.floor(stok / qty);
+                harga = harga_konv;
+            } else if (selectedOption == "kecil" && qtyKonv) {
+                jumlah = Math.floor(stok / qtyKonv);
+                harga = harga_kecil;
+            } else if (selectedOption == "kecil" && !qtyKonv) {
+                jumlah = stok;
+                harga = harga_kecil;
+            } else if (selectedOption == "besar" && qtyKonv) {
+                jumlah = Math.floor(stok / qtyKonv / qtyKecil / qtyBesar);
+                harga = harga_besar;
+            } else if (selectedOption == "besar" && !qtyKonv) {
+                jumlah = Math.floor(stok / qtyKecil / qtyBesar);
+                harga = harga_besar;
             }
 
-            console.log(selectedOption);
-
             var saldo = harga * jumlah;
+            console.log(harga_konv, harga_kecil, harga_besar, jumlah, harga, saldo);
             $(this).closest('tr').find('.harga').text(saldo.toLocaleString());
             $(this).closest('tr').find('.stok').text(jumlah);
         });
@@ -336,21 +357,21 @@
     }
     ?>
 
-    function check_saldo(id) {
-        // Dapatkan nilai stok dan hpp dari elemen <select>
-        var selectedBarang = document.getElementById('satuan-' + id);
-        var selectedOption = selectedBarang.options[selectedBarang.selectedIndex];
-        var stok = selectedOption.getAttribute('data-stok');
-        var hpp_kecil = selectedOption.getAttribute('data-hpp-kecil');
-        var hpp_besar = selectedOption.getAttribute('data-hpp-besar');
-        var hpp_konv = selectedOption.getAttribute('data-hpp-konv');
+    // function check_saldo(id) {
+    //     // Dapatkan nilai stok dan hpp dari elemen <select>
+    //     var selectedBarang = document.getElementById('satuan-' + id);
+    //     var selectedOption = selectedBarang.options[selectedBarang.selectedIndex];
+    //     var stok = selectedOption.getAttribute('data-stok');
+    //     var hpp_kecil = selectedOption.getAttribute('data-hpp-kecil');
+    //     var hpp_besar = selectedOption.getAttribute('data-hpp-besar');
+    //     var hpp_konv = selectedOption.getAttribute('data-hpp-konv');
 
-        // Hitung saldo stok
-        var saldoStok = stok * hpp;
+    //     // Hitung saldo stok
+    //     var saldoStok = stok * hpp;
 
-        // Update elemen dengan ID 'saldo_stok' sesuai dengan ID barang
-        document.getElementById('saldo_stok-' + id).innerHTML = saldoStok.toFixed(2);
-    }
+    //     // Update elemen dengan ID 'saldo_stok' sesuai dengan ID barang
+    //     document.getElementById('saldo_stok-' + id).innerHTML = saldoStok.toFixed(2);
+    // }
 </script>
 <script>
     $('#sisa-stok').DataTable({

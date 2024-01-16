@@ -83,7 +83,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="Keterangan" class="form-label">Keterangan</label>
-                            <textarea name="keterangan" id="keterangan" cols="30" rows="3" class="form-control"></textarea>
+                            <textarea name="keterangan" id="keterangan" cols="30" rows="3" class="form-control" required></textarea>
                         </div>
                     </div>
                 </div>

@@ -82,8 +82,22 @@
                                 $no = 1;
                                 $no_koreksi = $koreksi['no_koreksi'];
                                 foreach ($list as $l) :
-                                    $barang_detail = $this->db->select('nama')->where('id', $l->id_barang)->get('barang')->row_array();
+                                    $barang_detail = $this->db->select('nama, id_satuan_kecil_konv, id_satuan_kecil, id_satuan_besar, qty_konv, qty_kecil, qty_besar')->where('id', $l->id_barang)->get('barang')->row_array();
                                     $status = $l->status_koreksi;
+
+                                    $satuan = $l->satuan;
+                                    $jumlah = $l->jumlah_koreksi;
+
+                                    if ($satuan == "konv") {
+                                        $ket_satuan = $barang_detail['id_satuan_kecil_konv'];
+                                        $stok = $jumlah * $barang_detail['qty_konv'];
+                                    } else if ($satuan == "kecil") {
+                                        $ket_satuan = $barang_detail['id_satuan_kecil'];
+                                        $stok = $jumlah * $barang_detail['qty_kecil'];
+                                    } else if ($satuan == "besar") {
+                                        $ket_satuan = $barang_detail['id_satuan_besar'];
+                                        $stok = $jumlah * $barang_detail['qty_besar'];
+                                    }
 
                                     if ($status == 0) {
                                         $ket = "Belum disetujui";
@@ -93,9 +107,9 @@
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td><?= $barang_detail['nama'] ?></td>
-                                        <td><?= $l->satuan ?></td>
-                                        <td><?= $l->stok_awal ?></td>
-                                        <td><?= $l->debit_kredit ?></td>
+                                        <td><?= $ket_satuan ?></td>
+                                        <td><?= $l->stok_awal ?> <?= $ket_satuan ?></td>
+                                        <td><?= strtoupper($l->debit_kredit) ?></td>
                                         <td><?= $l->jumlah_koreksi ?></td>
                                         <td><?= $ket ?></td>
                                         <td>

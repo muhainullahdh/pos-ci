@@ -68,10 +68,9 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama barang</th>
-                                    <th>Satuan</th>
-                                    <th>Stok Sistem</th>
-                                    <th>Stok Aktual</th>
-                                    <th>Selisih</th>
+                                    <th>Stok Awal</th>
+                                    <th>Jumlah mutasi</th>
+                                    <th>Stok ditambahkan</th>
                                     <th>Status</th>
                                     <th>Act.</th>
                                 </tr>
@@ -82,8 +81,22 @@
                                 $no = 1;
                                 $no_mutasi = $mutasi['no_mutasi'];
                                 foreach ($list as $l) :
-                                    $barang_detail = $this->db->select('nama')->where('id', $l->id_barang)->get('barang')->row_array();
+                                    $barang_detail = $this->db->select('nama, id_satuan_kecil_konv, id_satuan_kecil, id_satuan_besar, qty_konv, qty_kecil, qty_besar')->where('id', $l->id_barang)->get('barang')->row_array();
                                     $status = $l->status_mutasi;
+
+                                    $satuan = $l->satuan;
+                                    $jumlah = $l->jumlah;
+
+                                    if ($satuan == "konv") {
+                                        $ket_satuan = $barang_detail['id_satuan_kecil_konv'];
+                                        $stok = $jumlah * $barang_detail['qty_konv'];
+                                    } else if ($satuan == "kecil") {
+                                        $ket_satuan = $barang_detail['id_satuan_kecil'];
+                                        $stok = $jumlah * $barang_detail['qty_kecil'];
+                                    } else if ($satuan == "besar") {
+                                        $ket_satuan = $barang_detail['id_satuan_besar'];
+                                        $stok = $jumlah * $barang_detail['qty_besar'];
+                                    }
 
                                     if ($status == 0) {
                                         $ket = "Belum disetujui";
@@ -93,10 +106,9 @@
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td><?= $barang_detail['nama'] ?></td>
-                                        <td><?= $l->satuan ?></td>
-                                        <td><?= $l->stok ?></td>
-                                        <td><?= $l->jumlah ?></td>
-                                        <td><?= $l->sisa ?></td>
+                                        <td><?= $l->stok ?> <?= $ket_satuan ?></td>
+                                        <td><?= $jumlah ?> <?= $ket_satuan ?></td>
+                                        <td><?= $stok ?></td>
                                         <td><?= $ket ?></td>
                                         <td>
                                             <!-- <a href='<?= base_url("inventori/delete_detail_mutasi/$no_mutasi/$l->Id") ?>' class="btn btn-danger btn-sm btn-delete" data-bs-toggle="tooltip" title="Hapus <?= $barang_detail['nama'] ?>">&times;</a> -->

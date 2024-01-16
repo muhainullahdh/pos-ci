@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-4">
                                 <a href="<?= base_url('inventori/koreksi_barang') ?>" class="btn btn-warning btn-sm">Kembali</a>
-                                <a href="<?= base_url('inventori/pending_koreksi') ?>" class="btn btn-danger btn-sm">Butuh persetujuan</a>
+                                <!-- <a href="<?= base_url('inventori/pending_koreksi') ?>" class="btn btn-danger btn-sm">Butuh persetujuan</a> -->
                             </div>
                             <div class="col-8 text-end">
                                 <?= format_indo(date('Y-m-d')) ?>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="card-body">
                         <?= $this->session->flashdata('message_name') ?>
-                        <div class="table-responsive mt-3">
+                        <div class="table-responsive">
                             <table class="table" id="basic-1">
                                 <thead>
                                     <tr>

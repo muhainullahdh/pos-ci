@@ -79,9 +79,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nama barang</th>
-                                            <th>Sat. Besar</th>
-                                            <th>Sat. Kecil</th>
-                                            <th>Sat. Konv.</th>
+                                            <th>Satuan</th>
                                             <th>Stok Sistem</th>
                                             <th>Stok Aktual</th>
                                             <th>Selisih</th>
@@ -111,10 +109,13 @@
         $barangOptions[] = [
             'id' => $b->id,
             'label' => $b->nama,
-            'satuan' => $b->id_satuan_kecil,
-            'satuan_besar' => $b->id_satuan_besar,
-            'satuan_konv' => $b->id_satuan_kecil_konv,
+            'id_satuan_kecil' => $b->id_satuan_kecil,
+            'id_satuan_besar' => $b->id_satuan_besar,
+            'id_satuan_kecil_konv' => $b->id_satuan_kecil_konv,
             'stok' => $b->stok,
+            'qty_kecil' => $b->qty_kecil,
+            'qty_besar' => $b->qty_besar,
+            'qty_konv' => $b->qty_konv,
         ];
     }
     ?>
@@ -159,7 +160,31 @@
         row.find('[name="selisih[]"]').val(selisih);
     }
 
-    // });
+    function updateStok(counter) {
+        var row = $('#r' + counter);
+        var selectedOption = row.find('.satuan' + counter).find(':selected').val();
+        var stok = row.find('.satuan' + counter).find(':selected').data('stok');
+        var qtyKonv = row.find('.satuan' + counter).find(':selected').data('qty-konv');
+        var qtyKecil = row.find('.satuan' + counter).find(':selected').data('qty-kecil');
+        var qtyBesar = row.find('.satuan' + counter).find(':selected').data('qty-besar');
+
+        var jumlah;
+
+        if (selectedOption == "konv") {
+            jumlah = stok;
+        } else if (selectedOption == "kecil" && qtyKonv) {
+            jumlah = Math.floor(stok / qtyKonv);
+        } else if (selectedOption == "kecil" && !qtyKonv) {
+            jumlah = stok;
+        } else if (selectedOption == "besar" && qtyKonv) {
+            jumlah = Math.floor(stok / qtyKonv / qtyKecil / qtyBesar);
+        } else if (selectedOption == "besar" && !qtyKonv) {
+            jumlah = Math.floor(stok / qtyKecil / qtyBesar);
+        }
+
+        row.find('[name="qty_sistem[]"]').val(jumlah);
+        hitung(row.find('[name="jumlah[]"]')[0]);
+    }
 
     function check_pos() {
         $(".barang" + counter + "").focus();
@@ -173,12 +198,23 @@
             },
             select: function(event, ui) {
                 // console.log(ui);
-                $('.barang' + counter + '').val(ui.item.nama);
-                $('.id_barang' + counter + '').val(ui.item.id);
-                $('.satuan' + counter + '').val(ui.item.satuan);
-                $('.satuan_besar' + counter + '').val(ui.item.satuan_besar);
-                $('.satuan_konv' + counter + '').val(ui.item.satuan_konv);
-                $('.qty_sistem' + counter + '').val(ui.item.stok);
+                var satuann = '';
+                var sisa_stok;
+                var data = ui.item;
+                if (!data.id_satuan_kecil_konv == "") {
+                    satuann += '<option value="konv" data-stok=' + data.stok + ' data-qty-konv=' + data.qty_konv + '  data-qty-kecil=' + data.qty_kecil + '  data-qty-besar=' + data.qty_besar + '>' + data.id_satuan_kecil_konv + '</option>';
+                }
+                if (!data.id_satuan_kecil == "") {
+                    satuann += '<option value="kecil" data-stok=' + data.stok + ' data-qty-konv=' + data.qty_konv + '  data-qty-kecil=' + data.qty_kecil + '  data-qty-besar=' + data.qty_besar + '>' + data.id_satuan_kecil + '</option>';
+                }
+                if (!data.id_satuan_besar == "") {
+                    satuann += '<option value="besar" data-stok=' + data.stok + ' data-qty-konv=' + data.qty_konv + '  data-qty-kecil=' + data.qty_kecil + '  data-qty-besar=' + data.qty_besar + '>' + data.id_satuan_besar + '</option>';
+                }
+
+                $('.barang' + counter + '').val(data.nama);
+                $('.id_barang' + counter + '').val(data.id);
+                $('.satuan' + counter + '').html(satuann);
+                $('.qty_sistem' + counter + '').val(data.stok);
                 // Additional logic if needed
                 // showBarangDetail('.barang' + counter);
             }
@@ -210,13 +246,7 @@
                         '<input type="hidden" class="form-control id_barang' + counter + '" name="id_barang[]">' +
                         '</td>' +
                         '<td>' +
-                        '<input type="text" class="form-control satuan_besar' + counter + '" name="satuan_besar[]" id="satuan_besar[]" readonly>' +
-                        '</td>' +
-                        '<td>' +
-                        '<input type="text" class="form-control satuan' + counter + '" name="satuan[]" id="satuan[]" readonly>' +
-                        '</td>' +
-                        '<td>' +
-                        '<input type="text" class="form-control satuan_kecil' + counter + '" name="satuan_kecil[]" id="satuan_kecil[]" readonly>' +
+                        '<select id="ids' + counter + '" class="form-control satuan-select satuan' + counter + '" name="satuan[]" id="satuan[]" onchange="updateStok(' + counter + ')" style="cursor: text;">' +
                         '</td>' +
                         '<td>' +
                         '<input type="text" class="form-control qty_sistem' + counter + '" name="qty_sistem[]" id="qty_sistem[]" readonly>' +
