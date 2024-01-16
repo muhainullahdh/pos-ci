@@ -175,7 +175,7 @@ class Pos extends CI_Controller
                 "info_pembayaran" => $this->input->post('info_pembayaran'),
                 "piutang" => $this->input->post('piutang')
             ];
-        } else {
+        } else {//submit
             $data = [
                 "no_struk" => $this->input->post('no_struk'),
                 "tgl_transaksi" => $this->input->post('tgl_transaksi'),
@@ -186,7 +186,7 @@ class Pos extends CI_Controller
                 "total_bayar" => $this->clean($this->input->post('total_bayar')),
                 "total_transaksi" => $this->clean($this->input->post('total_transaksi')),
                 "tunai" => $this->clean($this->input->post('tunai')),
-                "kembali" => $this->clean($this->input->post('kembali')),
+                "kembali" => $this->input->post('piutang') == '1' ? 0 : $this->clean($this->input->post('kembali')),
                 "jumlah_item" => $this->input->post('jumlah_item'),
                 "keterangan" => $this->input->post('keterangan'),
                 "kasir" => $this->session->userdata('id_user'),

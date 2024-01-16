@@ -138,7 +138,7 @@
 // 	a.pelanggan ='".$pelanggan."' ")->row_array();
         $sum2 = $this->db->query("SELECT id, pelanggan, MONTH(tgl_transaksi), YEAR(tgl_transaksi), 
 	total_transaksi, total_bayar, kembali, diskon, 
-	( total_bayar - ( (total_transaksi - diskon) + kembali )  ) as nilai_transaksi, 
+	( total_bayar - ( (total_transaksi - diskon) + case when piutang = 1 then 0 else kembali end )  ) as nilai_transaksi, 
 	IFNULL( (select ( SUM(total_bayar) - ( ( SUM(total_transaksi) - SUM(diskon)) + SUM(kembali) )  ) FROM transaksi ax WHERE pelanggan = a.pelanggan 
 		AND id < a.id
 	 ),0) as sisa_bon_sebelumnya
