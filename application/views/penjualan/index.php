@@ -69,7 +69,9 @@
                                                     <?= $x->jumlah_item ?>
                                                 </td>
                                                 <td>
-                                                    <?="Rp.". number_format($x->total_transaksi - $x->bayar_piutang,0,'.','.') ?>
+                                                  <?php //if ($x->piutang == 1) {
+                                                    echo "Rp." . number_format($x->total_transaksi, 0, '.', '.');
+                                                  //} ?>
                                                 </td>
                                                 <td>
                                                     <?= $x->nama_kasir ?>

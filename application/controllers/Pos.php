@@ -204,7 +204,10 @@ class Pos extends CI_Controller
             $this->db->where('id', $id_transaksi); //update data transaksi
             $this->db->update('transaksi', $data);
         } else {
-            $this->db->insert('transaksi', $data); //submit
+            $cek_transaksi = $this->db->get_where('transaksi',['no_struk' => $urutan])->num_rows();
+            if ($cek_transaksi == false) {
+                $this->db->insert('transaksi', $data); //submit
+            }
         }
         $get_transkasi = $this->db->query("SELECT MAX(id) as id_transaksi from transaksi")->row_array();
         $total_transaksii = 0;
