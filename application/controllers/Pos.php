@@ -710,7 +710,7 @@ class Pos extends CI_Controller
         $SQL = "SELECT a.no_struk,a.kembali,a.piutang, c.nama_toko,  d.nama as nama_kasir, a.tgl_transaksi as tgl_transaksi, g.nama as nama_pengirim, pembayaran,
                 total_transaksi  AS total_transaksi,
                     j.nominal_bayar AS bayar_bon,
-                    total_bayar AS total_bayar,
+                    CASE WHEN total_bayar > total_transaksi THEN total_transaksi ELSE total_bayar END AS total_bayar,
                 CASE
                         
                         WHEN (
@@ -731,22 +731,23 @@ class Pos extends CI_Controller
 
                 UNION
 
-                SELECT 'GrandTotal' as GrandTotal, '' as nama_toko, '' as nama_kasir, '' as tgl_bukti, '' as nama_pengirim, '' as pembayaran, '' as kembali, '' as piutang,
-                SUM(total_transaksi) as total_belanja, SUM(j.nominal_bayar) as bayar_bon,  SUM(total_bayar) as total_bayar,  
+                SELECT 
+								
+								'GrandTotal' as GrandTotal, '' as nama_toko, '' as nama_kasir, '' as tgl_bukti, '' as nama_pengirim, '' as pembayaran, '' as kembali, 
+								'' as piutang, SUM(total_transaksi) as total_belanja, SUM(j.nominal_bayar) as bayar_bon,  
+								SUM( CASE WHEN total_bayar > total_transaksi THEN total_transaksi ELSE total_bayar END ) as total_bayar,  
 
-                 (	( SUM( ( CASE WHEN (total_bayar ) < total_transaksi THEN total_transaksi ELSE 0 END ) 	) 
-                        - SUM( ( CASE WHEN (total_bayar ) < total_transaksi THEN total_bayar ELSE 0 END ) ) 
-                        - SUM( diskon ) 
-                            ) 
+                 (	SUM(  CASE WHEN total_bayar < total_transaksi THEN total_bayar - total_transaksi - diskon ELSE 0 END  ) 
+--                         - SUM(  CASE WHEN total_bayar < total_transaksi THEN total_bayar ELSE 0 END  ) 
+--                         - SUM( diskon ) 
+
                         ) 
                 AS kurang_bayar 
-
+		
                 FROM transaksi a 
                 left join customers as c on(a.pelanggan=c.id_customer)
                 left join users d on (a.kasir=d.id)
-                left join ekspedisi as g on(a.pengiriman = g.id)
-                left join transaksi_item as i on(a.id=i.id_transaksi)
-                LEFT JOIN (SELECT id_transaksi, sum(nominal_bayar) as nominal_bayar FROM histori_transaksi GROUP BY id_transaksi ) j ON ( a.id = j.id_transaksi ) 
+                 LEFT JOIN (SELECT id_transaksi, sum(nominal_bayar) as nominal_bayar FROM histori_transaksi GROUP BY id_transaksi ) j ON ( a.id = j.id_transaksi ) 
                 WHERE a.tahan= 0  and a.trash= 0 and a.kasir='" . $this->session->userdata('id_user') . "' " . $pembayaranx . " and a.tgl_transaksi BETWEEN '" . $start_date . "' and '" . $end_date . "'";
 
         // echo $SQL;
