@@ -335,7 +335,7 @@
                      <?php } else { ?>
                         <div class="card-body">
                             <form action="<?= base_url(
-                                                                'pembelian'
+                                                                'pembelian/approve'
                                                             ) ?>" method="post">
                                                                         <div class="row">
                                                                             <div class="col-xl-6 col-sm-6 col-md-8">
