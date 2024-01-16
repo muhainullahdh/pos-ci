@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-check radio radio-secondary">
-                                                <input class="form-check-input ppn" id="radio22" type="radio" name="ppn" value="2">
+                                                <input class="form-check-input ppn" checked id="radio22" type="radio" name="ppn" value="2">
                                                 <label class="form-check-label" for="radio22">Include PPN </label>
                                             </div>
                                         </div>
@@ -147,7 +147,7 @@
                             <div class="col-xl-3">
                                 <div class="row">
                                         <div class="col">
-                                           <input type="date" class="form-control tgl_fp">
+                                           <input type="date" value="<?= date('Y-m-d') ?>" class="form-control tgl_fp">
                                         </div>
                                 </div>
                             </div>
@@ -251,6 +251,7 @@
                                             <th width="80" scope="col">Jumlah</th>
                                             <th width="80" scope="col">Jumlah(FC)</th>
                                             <th width="80" scope="col">Keterangan</th>
+                                            <th width="80" scope="col">Action</th>
                                             </tr>
                                 </thead>
                                 <tbody>
@@ -271,10 +272,14 @@
                                                 <td>
                                                     <?= $x->total_penerima ?>
                                                 </td>
+                                                <td>
+                                                    <?= $x->keterangan ?>
+                                                </td>
 
                                                 <td>
                                                     <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#penerimaan_edit<?= $x->id_penerimaan ?>"><i class="fa fa-edit"></i></button>
                                                     <button type="button" id="<?= $x->id_penerimaan ?>" class="btn btn-danger btn-square delete_penerimaan"><i class="fa fa-trash-o"></i></button>
+                                                    <button type="button" id="<?= $x->id_penerimaan ?>" class="btn btn-success btn-square approve"><i class="fa fa-check-square-o"></i></button>
 
                                                 </td>
 
@@ -701,7 +706,7 @@
                                                         if (data == 'berhasil') {
                                                             swal({
                                                                     title: "Berhasil..!",
-                                                                    text: "Penerimaan barang "+no_pb+" berhasil",
+                                                                    text: "Penerimaan barang "+$('.no_pb').val()+" berhasil",
                                                                     icon: "success",
                                                                     })
                                                                     .then((willDelete) => {

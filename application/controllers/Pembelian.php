@@ -126,9 +126,12 @@
            $kode_pb = $huruf . sprintf('%03d', $urutan);
 
            $satuan = $this->db->get('satuan')->result();
+           $this->db->from('penerimaan as a');
+           $this->db->join('supplier as b','a.supplier=b.kode_supplier','LEFT');
+           $penerimaan = $this->db->get()->result();
            $data = [
                'kode_pb' => $kode_pb,
-               'penerimaan' => $this->db->get('penerimaan')->result(),
+               'penerimaan' => $penerimaan,
                'satuan' => $satuan,
                'gudang' => $this->db->get('gudang')->result(),
            ];
