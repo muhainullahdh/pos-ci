@@ -169,13 +169,13 @@
         }
     }
 
-    // function hitung(element) {
-    //     var row = $(element).closest('tr');
-    //     var stok = row.find('[name="stok[]"]').val();
-    //     var jumlah = row.find('[name="jumlah[]"]').val();
-    //     var sisa = Number(stok) - Number(jumlah);
-    //     row.find('[name="sisa[]"]').val(sisa);
-    // }
+    function hitung(element) {
+        var row = $(element).closest('tr');
+        var stok = row.find('[name="stok[]"]').val();
+        var jumlah = row.find('[name="jumlah[]"]').val();
+        var sisa = Number(stok) - Number(jumlah);
+        row.find('[name="sisa[]"]').val(sisa);
+    }
 
     function updateStok(counter) {
         var row = $('#r' + counter);
@@ -188,19 +188,20 @@
         var jumlah;
 
         if (selectedOption == "konv") {
-            jumlah = stok;
+            jumlah = stok; //OK
         } else if (selectedOption == "kecil" && qtyKonv) {
-            jumlah = Math.floor(stok / qtyKonv);
+            jumlah = Math.floor(stok / qtyKonv); // OK
         } else if (selectedOption == "kecil" && !qtyKonv) {
             jumlah = stok;
         } else if (selectedOption == "besar" && qtyKonv) {
-            jumlah = Math.floor(stok / qtyKonv / qtyKecil / qtyBesar);
+            jumlah = Math.floor(stok / qtyKecil / qtyKonv); // OK
         } else if (selectedOption == "besar" && !qtyKonv) {
-            jumlah = Math.floor(stok / qtyKecil / qtyBesar);
+            jumlah = Math.floor(stok / qtyKecil);
         }
 
+        console.log(stok, qtyKecil)
         row.find('[name="stok[]"]').val(jumlah);
-        hitung(row.find('[name="jumlah[]"]')[0]);
+        // hitung(row.find('[name="jumlah[]"]')[0]);
     }
 
     function check_pos() {
@@ -237,7 +238,7 @@
 
     document.onkeyup = function(e) {
         if (e.which == 16) {
-            var max_fields = 5;
+            var max_fields = 100;
             var wrapper = $("#sample-wrapper");
 
             if ($(".barang" + counter + "").val() == "") {

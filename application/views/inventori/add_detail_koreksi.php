@@ -180,20 +180,17 @@
         var qtyBesar = row.find('.satuan' + counter).find(':selected').data('qty-besar');
 
         var jumlah;
-        console.log(stok)
-        console.log(selectedOption)
-        console.log(qtyKonv)
 
         if (selectedOption == "konv") {
-            jumlah = stok;
+            jumlah = stok; //OK
         } else if (selectedOption == "kecil" && qtyKonv) {
-            jumlah = Math.floor(stok / qtyKonv);
+            jumlah = Math.floor(stok / qtyKonv); // OK
         } else if (selectedOption == "kecil" && !qtyKonv) {
             jumlah = stok;
         } else if (selectedOption == "besar" && qtyKonv) {
-            jumlah = Math.floor(stok / qtyKonv / qtyKecil / qtyBesar);
+            jumlah = Math.floor(stok / qtyKecil / qtyKonv); // OK
         } else if (selectedOption == "besar" && !qtyKonv) {
-            jumlah = Math.floor(stok / qtyKecil / qtyBesar);
+            jumlah = Math.floor(stok / qtyKecil);
         }
 
         row.find('[name="qty_sistem[]"]').val(jumlah);
@@ -235,7 +232,7 @@
     }
     document.onkeyup = function(e) {
         if (e.which == 16) {
-            var max_fields = 5;
+            var max_fields = 100;
             var wrapper = $("#sample-wrapper");
 
             if ($(".barang" + counter + "").val() == "") {
