@@ -237,9 +237,32 @@
                   <div class="card-header">
                     <h4><?= $this->uri->segment(2) == 'approve' ? 'Approve ' . $approve_p['no_pb'] . ' - ' . $approve_p['total_barang'] . ' Barang' : 'List Pembelian ' ?></h4><br>
                     <?php if ($this->uri->segment(2) != 'approve') { ?>
-                    <a href="<?= base_url(
-                        'pembelian/add_pb'
-                    ) ?>" class="btn btn-secondary">Add</a>
+                            <form action="<?= base_url('pembelian/change_date') ?>" method="POST">
+                                <div class="row">
+                                            <div class="col-xl-1">
+                                             <a href="<?= base_url(
+                                                        'pembelian/add_pb'
+                                                    ) ?>" class="btn btn-secondary">Add</a>
+                                            </div>
+                                           
+                                            <div class="col-xl-2">
+                                                <!-- <label>Start Date</label> -->
+                                                <input type="date" class="form-control" value="<?= $this->session->userdata('date_pembelian') == null ? date('Y-m-d') : $this->session->userdata('date_pembelian')?>"
+                                            name="date" onchange="this.form.submit()">
+                                            </div>
+                                            -
+                                            <div class="col-xl-2">
+                                                <!-- <label>End Date</label> -->
+                                                <input type="date" class="form-control" value="<?= $this->session->userdata('date_pembelian2') == null ? date('Y-m-d') : $this->session->userdata('date_pembelian2')?>"
+                                                    name="date2" onchange="this.form.submit()">
+                                            </div>
+                                </div>
+                                <!-- <div class="row mt-2">
+                                    <div class="col-xl-2">
+                                        <a href="<?= base_url('penjualan/excel') ?>" class="btn btn-primary btn-square">Export</a>
+                                    </div>
+                                </div> -->
+                            </form>
                     <?php } ?>
                   </div>
                     <?php if ($this->uri->segment(2) != 'approve') { ?>

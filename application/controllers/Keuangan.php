@@ -89,8 +89,8 @@ class Keuangan extends CI_Controller
             $this->db->from('transaksi as a');
             $this->db->join('customers as b', 'a.pelanggan=b.id_customer','LEFT');
             $this->db->join('histori_transaksi as c', 'a.id=c.id_transaksi','LEFT');
-            $this->db->join('piutang as d', 'a.id=d.id_transaksi','LEFT');
-            $this->db->join('faktur as e', 'a.pelanggan=e.pelanggan', 'LEFT');
+            // $this->db->join('piutang as d', 'a.id=d.id_transaksi','LEFT');
+            // $this->db->join('faktur as e', 'a.pelanggan=e.pelanggan', 'LEFT');
             $this->db->join('faktur_detail as f', 'a.id=f.id_transaksi', 'LEFT');
             $this->db->group_by('a.no_struk');
             $db = $this->db->get()->result();

@@ -55,6 +55,10 @@
            $this->db->from('penerimaan as a');
            $this->db->join('penerimaan_list as b', 'a.id_penerimaan=b.id_pb');
            $this->db->join('supplier as c', 'a.supplier=c.kode_supplier');
+           $first_date = $this->session->userdata('date_pembelian') == null ? date('Y-m-d') : $this->session->userdata('date_pembelian');
+           $second_date = $this->session->userdata('date_pembelian2') == null ? date('Y-m-d') : $this->session->userdata('date_pembelian2');
+           $this->db->where('a.tgl_pb >=', $first_date);
+           $this->db->where('a.tgl_pb <=', $second_date);
            $this->db->group_by('b.id_pb');
            $penerimaan = $this->db->get()->result();
            $data = [
@@ -186,6 +190,14 @@
            $this->load->view('body/header');
            $this->load->view('barang/penerimaan', $data);
            $this->load->view('body/footer');
+       }
+       function change_date()
+       {
+           $date = $this->input->post('date');
+           $date2 = $this->input->post('date2');
+           $this->session->set_userdata('date_pembelian', $date);
+           $this->session->set_userdata('date_pembelian2', $date2);
+           redirect('pembelian');
        }
    }
 
