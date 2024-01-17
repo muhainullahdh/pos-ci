@@ -2166,6 +2166,7 @@
                                     $('#payment').modal('show');
                                     $('#payment').on('shown.bs.modal', function() {
                                         $('.total_bayar').focus();
+                                        $('.total_bayar').select();
                                         //  $("#BAYAR").focus();
                                     })
                                     // }

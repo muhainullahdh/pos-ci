@@ -364,7 +364,7 @@
                         // $nominal_bayar = ($row->pembayaran ? $row->pembayaran : 0);
                         $total_kembali_row = $row->kembali;
                         // echo $row->kembali;
-                        $kurang_bayar = ($row->kurang_bayar < 0 ? number_format($row->kurang_bayar * -1, 0) : 0);
+                        $kurang_bayar = ($row->kurang_bayar < 0 ? $row->kurang_bayar * -1 : 0);
                         // $total_nominal_bayar += $nominal_bayar;
 
                         // $x_bayar_piutang = $row->bayar_piutang;
@@ -390,13 +390,13 @@
                                     <?php if ($row->piutang == 1) {
                                         echo 'Rp.' . number_format($row->total_bayar, 0);
                                     }else{
-                                        echo 'Rp.' . number_format($row->total_bayar - $row->kembali, 0);
+                                        echo 'Rp.' . number_format($row->total_bayar, 0);
                                     } ?>
                                 </td>
                                    
                                 <td class="bor-lf"><?= 'Rp.' .
                                     number_format(0, 0, '.', '.') ?></td>
-                                <td class="bor-lf"><?= 'Rp.' . $kurang_bayar ?></td>
+                                <td class="bor-lf"><?= 'Rp.' . number_format($kurang_bayar,0,'.','.') ?></td>
                             
                                 <td class="bor-lf"><?= 'Rp.' .
                                     number_format(0, 0, '.', '.') ?></td>
@@ -416,7 +416,7 @@
                             $grand_total_html .= '<td class="bor-lf">Rp.' .number_format($row->total_transaksi, 0, '.', '.').'</td>';
                             $grand_total_html .= '<td class="bor-lf">Rp.' .number_format($row->total_bayar , 0, '.', '.').'</td>';
                             $grand_total_html .= '<td class="bor-lf">Rp.'.number_format(0,0,'.','.').'</td>';
-                            $grand_total_html .= '<td class="bor-lf">Rp.' .number_format($row->kurang_bayar, 0).'</td>';
+                            $grand_total_html .= '<td class="bor-lf">Rp.' .number_format(abs($row->kurang_bayar), 0).'</td>';
                             // $grand_total_html .= '<td class="bor-lf">Rp.' .number_format(0, 0).'</td>';
                             
                             $grand_total_html .= '<td class="bor-lf">Rp.' .number_format(0, 0, '.', '.').'</td>';
