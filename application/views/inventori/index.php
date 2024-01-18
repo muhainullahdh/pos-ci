@@ -178,7 +178,7 @@
                                     <?php
                                     foreach ($barang as $b) {
                                     ?>
-                                        <option <?= ($id_barang == $b->id) ? "selected" : '' ?> value="<?= $b->id ?>"><?= $b->nama ?></option>
+                                        <option <?= ($id_barang == $b->nama) ? "selected" : '' ?> value="<?= $b->nama ?>"><?= $b->nama ?></option>
                                     <?php
                                     }
                                     ?>
@@ -202,7 +202,7 @@
                                     <?php
                                     foreach ($barang as $b) {
                                     ?>
-                                        <option <?= ($id_barang2 == $b->id) ? "selected" : '' ?> value="<?= $b->id ?>"><?= $b->nama ?></option>
+                                        <option <?= ($id_barang2 == $b->nama) ? "selected" : '' ?> value="<?= $b->nama ?>"><?= $b->nama ?></option>
                                     <?php
                                     }
                                     ?>
