@@ -54,7 +54,7 @@ class Inventori extends CI_Controller
         $data = [
             "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
             "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
-            "barang" => $this->db->order_by('nama', 'ASC')->get('barang')->result(),
+            "barang" => $this->db->group_by('nama')->order_by('nama', 'ASC')->get('barang')->result(),
         ];
 
         $this->load->view('body/header');
@@ -604,17 +604,15 @@ class Inventori extends CI_Controller
             // exit;
 
             if ($opsi_stok == "all") {
-                $data["tampil"] = $this->db->like('nama', trim($input_nama_barang))->order_by('nama', 'ASC')->get('barang')->result();
-                // echo $this->db->last_query();
-                // exit;
+                $data["tampil"] = $this->db->like('nama', trim($input_nama_barang), 'after')->order_by('nama', 'ASC')->get('barang')->result();
             } else if ($opsi_stok == "sisa_stok") {
-                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok !=', 0)->order_by('nama', 'ASC')->get('barang')->result();
+                $data["tampil"] = $this->db->like('nama', trim($input_nama_barang), 'after')->where('stok !=', 0)->order_by('nama', 'ASC')->get('barang')->result();
             } else if ($opsi_stok == "stok_0") {
-                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok =', 0)->order_by('nama', 'ASC')->get('barang')->result();
+                $data["tampil"] = $this->db->like('nama', trim($input_nama_barang), 'after')->where('stok =', 0)->order_by('nama', 'ASC')->get('barang')->result();
             } else if ($opsi_stok == "stok_minus") {
-                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok <', 0)->order_by('nama', 'ASC')->get('barang')->result();
+                $data["tampil"] = $this->db->like('nama', trim($input_nama_barang), 'after')->where('stok <', 0)->order_by('nama', 'ASC')->get('barang')->result();
             } else if ($opsi_stok == "stok_0_dan_minus") {
-                $data["tampil"] = $this->db->like('nama', $input_nama_barang)->where('stok <=', 0)->order_by('nama', 'ASC')->get('barang')->result();
+                $data["tampil"] = $this->db->like('nama', trim($input_nama_barang), 'after')->where('stok <=', 0)->order_by('nama', 'ASC')->get('barang')->result();
             }
         } else {
             if ($opsi_stok == "all") {

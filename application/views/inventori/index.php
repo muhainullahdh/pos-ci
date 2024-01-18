@@ -94,7 +94,7 @@
 
                                                         if ($t->id_satuan_kecil_konv) {
                                                         ?>
-                                                            <option value="konv" data-harga-konv="<?= $t->hpp_konv; ?>" data-harga-kecil="<?= $t->hpp_kecil; ?>" data-harga-besar="<?= $t->hpp_besar; ?>" data-stok='<?= $t->stok ?>' data-qty-konv='<?= $t->qty_konv ?>' data-qty-kecil='<?= $t->qty_kecil ?>' data-qty-besar='<?= $t->qty_besar ?>'><?= $t->id_satuan_kecil_konv ?> - <?= $t->hpp_konv ?></option>
+                                                            <option value="konv" data-harga-konv="<?= $t->hpp_konv; ?>" data-harga-kecil="<?= $t->hpp_kecil; ?>" data-harga-besar="<?= $t->hpp_besar; ?>" data-stok='<?= $t->stok ?>' data-qty-konv='<?= $t->qty_konv ?>' data-qty-kecil='<?= $t->qty_kecil ?>' data-qty-besar='<?= $t->qty_besar ?>'><?= $t->id_satuan_kecil_konv ?></option>
                                                         <?php
                                                         }
                                                         if ($t->id_satuan_kecil) {

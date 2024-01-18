@@ -133,7 +133,7 @@ class Pos extends CI_Controller
         $this->db->join('histori_transaksi as c', 'a.id=c.id_transaksi', 'LEFT');
         $this->db->join('transaksi_item as d', 'a.id=d.id_transaksi', 'LEFT');
         $get_transaksi = $this->db->get("transaksi as a")->row_array();
-        
+
         $this->db->where('id_transaksi', $id_transaksi);
         $get_transaksi_item = $this->db->get("transaksi_item")->result();
         $data = [
@@ -175,7 +175,7 @@ class Pos extends CI_Controller
                 "info_pembayaran" => $this->input->post('info_pembayaran'),
                 "piutang" => $this->input->post('piutang')
             ];
-        } else {//submit
+        } else { //submit
             $data = [
                 "no_struk" => $this->input->post('no_struk'),
                 "tgl_transaksi" => $this->input->post('tgl_transaksi'),
@@ -204,7 +204,7 @@ class Pos extends CI_Controller
             $this->db->where('id', $id_transaksi); //update data transaksi
             $this->db->update('transaksi', $data);
         } else {
-            $cek_transaksi = $this->db->get_where('transaksi',['no_struk' => $urutan])->num_rows();
+            $cek_transaksi = $this->db->get_where('transaksi', ['no_struk' => $urutan])->num_rows();
             if ($cek_transaksi == false) {
                 $this->db->insert('transaksi', $data); //submit
             }
@@ -299,7 +299,7 @@ class Pos extends CI_Controller
         }
         if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
             $this->db->insert_batch('transaksi_item', $output); //submit
-            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii - intval($this->clean($this->input->post('diskon_all'))) ) {
+            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii - intval($this->clean($this->input->post('diskon_all')))) {
                 $this->db->where('id', $get_transkasi['id_transaksi']); //update data transaksi
                 $this->db->set('piutang', 1);
                 $this->db->update('transaksi');
@@ -419,9 +419,9 @@ class Pos extends CI_Controller
         $second_date = $this->session->userdata('reprint_date_penjualan2');
         $this->db->select('*,sum(d.nominal_bayar) as bayar_piutang,a.id as i_transaksi');
         $this->db->from('transaksi as a');
-        $this->db->join('customers as b', 'a.pelanggan=b.id_customer','LEFT');
-        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi','LEFT');
-        $this->db->join('histori_transaksi as d', 'a.id=d.id_transaksi','LEFT');
+        $this->db->join('customers as b', 'a.pelanggan=b.id_customer', 'LEFT');
+        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi', 'LEFT');
+        $this->db->join('histori_transaksi as d', 'a.id=d.id_transaksi', 'LEFT');
         $this->db->where('a.trash', 0);
         // $this->db->where('a.tahan',0);
         $this->db->where('a.cencel', 0);
@@ -430,7 +430,7 @@ class Pos extends CI_Controller
         if ($first_date == true && $second_date == true) {
             $this->db->where('a.tgl_transaksi >=', $first_date);
             $this->db->where('a.tgl_transaksi <=', $second_date);
-        }else{
+        } else {
             $this->db->where('a.tgl_transaksi >=', date('Y-m-d'));
             $this->db->where('a.tgl_transaksi <=', date('Y-m-d'));
         }
@@ -753,7 +753,7 @@ class Pos extends CI_Controller
         // echo $SQL;
         // die();
 
-$penjualan = $this->db->query($SQL)->result();
+        $penjualan = $this->db->query($SQL)->result();
         // $penjualan = $this->db->query("SELECT *,a.tgl_transaksi as tgl_transaksi,d.nama as nama_kasir,g.nama as nama_pengirim,sum(i.jumlah) as t_transaksi,sum(j.nominal_bayar) as bayar_piutang from transaksi as a left join transaksi_item as b on(a.id=b.id_transaksi)
         //  left join customers as c on(a.pelanggan=c.id_customer)
         //  left join users d on (a.kasir=d.id)
