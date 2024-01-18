@@ -72,6 +72,7 @@
                                     <?php
                                     $no = 1;
                                     foreach ($lists as $l) {
+                                        $cek = $this->db->where('id_mutasi', $l->id)->where('status_mutasi', '0')->get('mutasi_details')->num_rows();
                                         $gudang_asal = $this->db->get_where('gudang', ['id' => $l->id_gudang_asal])->row_array();
                                         $gudang_tujuan = $this->db->get_where('gudang', ['id' => $l->id_gudang_tujuan])->row_array();
 
@@ -79,7 +80,11 @@
                                     ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
-                                            <td><?= $l->no_mutasi ?></td>
+                                            <td>
+                                                <span class="badge <?= ($cek == 0) ? "badge-success" : "badge-warning text-dark" ?>" style="margin-right: 5px;"><?= $cek ?>
+                                                </span>
+                                                <?= $l->no_mutasi ?>
+                                            </td>
                                             <td><?= $gudang_asal['nama'] ?></td>
                                             <td><?= $gudang_tujuan['nama'] ?></td>
                                             <td><?= format_indo($l->tanggal_mutasi) ?></td>

@@ -71,12 +71,18 @@
                                     <?php
                                     $no = 1;
                                     foreach ($lists as $l) :
+
+                                        $cek = $this->db->where('id_koreksi', $l->id)->where('status_koreksi', '0')->get('koreksi_details')->num_rows();
                                         $gudang = $this->db->where('id', $l->id_gudang)->get('gudang')->row_array();
                                         $user = $this->db->where('id', $l->created_by)->get('users')->row_array();
                                     ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
-                                            <td><?= $l->no_koreksi ?></td>
+                                            <td>
+                                                <span class="badge <?= ($cek == 0) ? "badge-success" : "badge-warning text-dark" ?>" style="margin-right: 5px;"><?= $cek ?>
+                                                </span>
+                                                <?= $l->no_koreksi ?>
+                                            </td>
                                             <td><?= $gudang['nama'] ?></td>
                                             <td><?= format_indo($l->tanggal_koreksi) ?></td>
                                             <td><?= $user['nama'] ?></td>

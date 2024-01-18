@@ -165,16 +165,7 @@
                             <div class="mb-3">
                                 <label for="article_category" class="form-label">Barang</label>
                                 <select name="barang" id="barang" class="form-select input-air-primary digits select2">
-                                    <option value="">--Pilih</option>
-                                    <!-- <?php
-                                            $id_barang = $this->input->post('barang');
-                                            $nama_barang = $this->db->where('id', $id_barang)->get('barang')->row_array();
-                                            if ($id_barang) {
-                                            ?>
-                                        <option value="<?= $id_barang ?>" selected><?= $nama_barang['nama'] ?></option>
-                                    <?php
-                                            }
-                                    ?> -->
+                                    <option value="">--Pilih</option>>
                                     <?php
                                     foreach ($barang as $b) {
                                     ?>
@@ -190,15 +181,6 @@
                                 <label for="article_category" class="form-label">s/d</label>
                                 <select name="barang2" id="barang2" class="form-select input-air-primary digits select2">
                                     <option value="">--Pilih</option>
-                                    <!-- <?php
-                                            $id_barang2 = $this->input->post('barang2');
-                                            $nama_barang2 = $this->db->where('id', $id_barang2)->get('barang')->row_array();
-                                            if ($id_barang2) {
-                                            ?>
-                                        <option value="<?= $id_barang2 ?>" selected><?= $nama_barang2['nama'] ?></option>
-                                    <?php
-                                            }
-                                    ?> -->
                                     <?php
                                     foreach ($barang as $b) {
                                     ?>
