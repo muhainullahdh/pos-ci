@@ -76,6 +76,13 @@ class Pos extends CI_Controller
 
         echo json_encode($data->row_array());
     }
+    function get_customers()
+    {
+        // $this->db->where('tipe_penjualan !=',null);
+        $id = $this->input->post('id');
+        $db = $this->db->query('select id_customer,nama_toko,tipe_penjualan, case when id_customer = '.$id.' then "1" else "0" end as cek from customers where tipe_penjualan is not null')->result();
+        echo json_encode($db);
+    }
     function get_barang()
     {
         $title = $_GET['term'];

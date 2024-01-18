@@ -1067,7 +1067,7 @@
                                             if((data.hargajual_konv_retail == null || data.hargajual_konv_retail == 0) && data.hargajualk_retail != ""){
                                                 var satuan_pp = data.hargajualk_retail;
                                             }else{
-                                                var satuan_pp = data.hargajualk_retail;
+                                                var satuan_pp = data.hargajual_konv_retail;
                                             }                                        
                                         }
                                         // }
@@ -1083,7 +1083,7 @@
                                             if((data.hargajual_konv_retail == null || data.hargajual_konv_retail == 0) && data.hargajualk_retail != ""){
                                                 var satuan_pp = data.hargajualk_retail;
                                             }else{
-                                                var satuan_pp = data.hargajualk_retail;
+                                                var satuan_pp = data.hargajual_konv_retail;
                                             }                                        
                                         }
                                         // if (!data.hargajual_konv_retail == "") {
@@ -1100,7 +1100,7 @@
                                             if((data.hargajual_konv_grosir == null || data.hargajual_konv_grosir == 0) && data.hargajualk_grosir != ""){
                                                 var satuan_pp = data.hargajualk_grosir;
                                             }else{
-                                                var satuan_pp = data.hargajualk_grosir;
+                                                var satuan_pp = data.hargajual_konv_grosir;
                                             }                                        
                                         }
                                         // if (!data.hargajual_konv_grosir == "") {
@@ -1117,7 +1117,7 @@
                                             if((data.hargajual_konv_partai == null || data.hargajual_konv_partai == 0) && data.hargajualk_partai != ""){
                                                 var satuan_pp = data.hargajualk_partai;
                                             }else{
-                                                var satuan_pp = data.hargajualk_partai;
+                                                var satuan_pp = data.hargajual_konv_partai;
                                             }                                        
                                         }
                                     <?php } else if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'promo') { ?>
@@ -1128,7 +1128,7 @@
                                             if((data.hargajual_konv_promo == null || data.hargajual_konv_promo == 0) && data.hargajualk_promo != ""){
                                                 var satuan_pp = data.hargajualk_promo;
                                             }else{
-                                                var satuan_pp = data.hargajualk_promo;
+                                                var satuan_pp = data.hargajual_konv_promo;
                                             }                                        
                                         }
                                         //  if (!data.hargajual_konv_promo == "") {
@@ -1523,7 +1523,27 @@
                                 // if (tipe_cust == data[i].tipe_penjualan.toLowerCase() && data[i].id_customer) {
                                 //     var action_tipe = 'selected'
                                 // }
-                                $('select[name="tipe"]').html('<option selected value=' + data[i].tipe_penjualan.toLowerCase() + "," + data[i].id_customer + "," + data[i].nama_toko + '>' + data[i].nama_toko + '</option');
+                                $.ajax({
+                                    url: "<?= site_url('pos/get_customers'); ?>",
+                                    method: "POST",
+                                    data: {
+                                        id: data[i].pelanggan
+                                    },
+                                    async: true,
+                                    dataType: 'json',
+                                    success: function(data3) {
+                                        var cust = ''
+                                        for (let k = 0; k < data3.length; k++) {
+                                            if (data3[k].cek == '1') {
+                                                cust += '<option selected value=' + data[i].tipe_penjualan.toLowerCase() + "," + data[i].id_customer + "," + data[i].nama_toko + '>' + data[i].nama_toko + '</option'
+                                            }else{
+                                                cust += '<option value=' + data3[k].tipe_penjualan.toLowerCase() + "," + data3[k].id_customer + "," + data3[k].nama_toko + '>' + data3[k].nama_toko + '</option'
+                                            }
+                                        }
+                                        $('select[name="tipe"]').html(cust);
+                                        //cust += '<option selected value=' + data[i].tipe_penjualan.toLowerCase() + "," + data[i].id_customer + "," + data[i].nama_toko + '>' + data[i].nama_toko + '</option';
+                                    }
+                                })
                                 $('.no_struk').val(data[i].no_struk);
                                 $('.tgl_transaksi').val(data[i].tgl_transaksi);
                                 $('.pengiriman').html('<option value=' + data[i].pengiriman + ' selected>' + data[i].nama + '</option>');
