@@ -546,7 +546,7 @@ class Inventori extends CI_Controller
     public function process()
     {
         $kelompok_barang = $this->input->post('kelompok_barang');
-        $barang = $this->input->post('barang');
+        $barang = $this->input->post('barang1');
         $barang2 = $this->input->post('barang2');
         $gudang1 = $this->input->post('gudang1');
         $gudang2 = $this->input->post('gudang2');

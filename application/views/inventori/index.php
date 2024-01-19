@@ -37,10 +37,10 @@
                                     <div class="btn-group">
                                         <a href="<?= base_url('inventori') ?>" class="btn btn-warning btn-sm" type="button">Reset</a>
                                         <form action="<?= base_url('inventori/unduh_stock') ?>" method="post">
-                                            <button type="submit" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak Excel" value="cetak_excel" style="margin-left: 5px; margin-right: 5px;" onclick="cetak_excel()">Cetak excel</button>
+                                            <button type="submit" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak Excel" value="cetak_excel" style="margin-left: 5px;" onclick="cetak_excel()">Cetak excel</button>
                                             <button type="submit" id="btnCetakPDF" class="btn btn-primary btn-sm" name="submit" data-toggle="tooltip" title="Cetak PDF" value="cetak" target="_blank">Cetak PDF</button>
                                             <input type="hidden" class="form-control" name="kelompok_barang" value="<?= $this->input->post('kelompok_barang') ?>">
-                                            <input type="hidden" class="form-control" name="barang" value="<?= $this->input->post('barang') ?>">
+                                            <input type="hidden" class="form-control" name="barang1" value="<?= $this->input->post('barang1') ?>">
                                             <input type="hidden" class="form-control" name="barang2" value="<?= $this->input->post('barang2') ?>">
                                             <input type="hidden" class="form-control" name="gudang1" value="<?= $this->input->post('gudang1') ?>">
                                             <input type="hidden" class="form-control" name="gudang2" value="<?= $this->input->post('gudang2') ?>">
@@ -142,6 +142,7 @@
 
 
                     <?= $this->session->flashdata('message_name') ?>
+
                     <div class="row">
                         <div class="col-4">
                             <div class="mb-3">
@@ -164,12 +165,13 @@
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="article_category" class="form-label">Barang</label>
-                                <select name="barang" id="barang" class="form-select input-air-primary digits select2">
+                                <select name="barang1" id="barang1" class="form-select input-air-primary digits select2">
                                     <option value="">--Pilih</option>>
                                     <?php
+
                                     foreach ($barang as $b) {
                                     ?>
-                                        <option <?= ($id_barang == $b->nama) ? "selected" : '' ?> value="<?= $b->nama ?>"><?= $b->nama ?></option>
+                                        <option <?= ($this->input->post('barang1') == $b->nama) ? "selected" : '' ?> value="<?= $b->nama ?>"><?= $b->nama ?></option>
                                     <?php
                                     }
                                     ?>
@@ -184,7 +186,7 @@
                                     <?php
                                     foreach ($barang as $b) {
                                     ?>
-                                        <option <?= ($id_barang2 == $b->nama) ? "selected" : '' ?> value="<?= $b->nama ?>"><?= $b->nama ?></option>
+                                        <option <?= ($this->input->post('barang2') == $b->nama) ? "selected" : '' ?> value="<?= $b->nama ?>"><?= $b->nama ?></option>
                                     <?php
                                     }
                                     ?>
@@ -274,7 +276,7 @@
     $('#kelompok_barang').select2({
         dropdownParent: $('#filterStok')
     });
-    $('#barang').select2({
+    $('#barang1').select2({
         dropdownParent: $('#filterStok')
     });
     $('#barang2').select2({
