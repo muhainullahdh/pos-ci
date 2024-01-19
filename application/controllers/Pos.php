@@ -91,6 +91,7 @@ class Pos extends CI_Controller
         $this->db->order_by('a.nama', 'asc');
         $this->db->limit(10);
         $this->db->from('barang as a');
+        $this->db->group_by('a.nama');
         // $this->db->join('satuan as b','a.id_satuan=b.id_satuan','LEFT');
         $result = $this->db->get();
         if (count($result->result()) > 0) {
