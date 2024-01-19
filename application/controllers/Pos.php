@@ -701,7 +701,8 @@ class Pos extends CI_Controller
         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
         $pembayaran = $this->input->get('pembayaran_closing');
         $start_date = $this->input->get('date_print_closing');
-        $end_date = date('Y-m-d', strtotime('+1 days', strtotime($this->input->get('date_print_closing2'))));
+        // $end_date = date('Y-m-d', strtotime('+1 days', strtotime($this->input->get('date_print_closing2'))));
+        $end_date = $this->input->get('date_print_closing2');
         $pelanggan = $this->input->get('closing_customers');
 
         if ($pelanggan == true) {
