@@ -83,6 +83,13 @@ class Pos extends CI_Controller
         $db = $this->db->query('select id_customer,nama_toko,tipe_penjualan, case when id_customer = '.$id.' then "1" else "0" end as cek from customers where tipe_penjualan is not null')->result();
         echo json_encode($db);
     }
+    function get_pengiriman()
+    {
+        // $this->db->where('tipe_penjualan !=',null);
+        $id = $this->input->post('id');
+        $db = $this->db->query('select *, case when id = '.$id.' then "1" else "0" end as cek from ekspedisi')->result();
+        echo json_encode($db);
+    }
     function get_barang()
     {
         $title = $_GET['term'];
@@ -372,7 +379,7 @@ class Pos extends CI_Controller
         echo json_encode($date);
         // redirect('pos/index/');
     }
-    function load()
+    function load()//load edit transaksi
     {
         $id = $this->input->post('id');
         // $draw=intval($this->input->get("draw"));

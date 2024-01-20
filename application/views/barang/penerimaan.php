@@ -463,15 +463,13 @@
                                     $('.barang'+counter+'').val(ui.item.label);
                                     $('.id_pb_list'+counter+'').val(ui.item.description);
                                     var i,j;
-                                                // $.ajax({
-                                                //     url : "<?= site_url(
-                                                    'pos/search_barang'
-                                                ) ?>",
-                                                //     method : "POST",
-                                                //     data : {id: ui.item.description},
-                                                //     async : true,
-                                                //     dataType : 'json',
-                                                //     success: function(data){
+                                                $.ajax({
+                                                    url : "<?= site_url('pos/search_barang') ?>",
+                                                    method : "POST",
+                                                    data : {id: ui.item.description},
+                                                    async : true,
+                                                    dataType : 'json',
+                                                    success: function(data){
                                                 //         var satuann = ''
                                                 //         if (data.id_satuan_besar != "") {
                                                 //             satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
@@ -588,10 +586,10 @@
 
                                                 //         }
 
-                                                //     }
+                                                    }
                                                 // });
                                                 // return false;
-                                            // });
+                                            });
                                 }
                             });
                 }
