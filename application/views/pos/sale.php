@@ -541,7 +541,7 @@
                                 <div class="col-md-12 col-sm-6">
                                     <div class="card">
                                         <div class="card-header card-no-border pb-2">
-                                            <h5>Informasi</h5>
+                                            <h5>Informasi <?= $this->uri->segment(4) == 'edit_transaksi' ? 'Edit Transaksi' : ''?></h5>
                                             <span>Toko Ling Ling</span>
                                             <b><?= $this->session->userdata('nama') ?></b>
                                         </div>
@@ -1468,7 +1468,7 @@
                     var rupiah = document.getElementById('idd' + counter + '');
                 }
                 // var counter = <?= $this->uri->segment(3) == true ? 1 : 0 ?>;
-                <?php if ($this->uri->segment(3) == true) { ?> //submit hold atau edit transaksi
+                <?php if ($this->uri->segment(4) == 'edit_transaksi') { ?> //submit hold atau edit transaksi
                     $.ajax({
                         url: "<?= site_url('pos/load'); ?>",
                         method: "POST",
@@ -1480,6 +1480,7 @@
                         success: function(data) {
                             var row_data = '';
                             var total_pos = 0;
+                            console.log(data[0].pelanggan)
                                 $.ajax({
                                     url: "<?= site_url('pos/get_customers'); ?>",
                                     method: "POST",

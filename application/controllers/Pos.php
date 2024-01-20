@@ -172,15 +172,14 @@ class Pos extends CI_Controller
         $urutan = substr($this->input->post('no_struk'), 8);
         if ($edit_transaksi == 'edit_transaksi') {
             $data = [
-                "tgl_transaksi" => $this->input->post('tgl_transaksi'),
-                "urutan" => $urutan,
+                "no_struk" => $this->input->post('no_struk'),
                 "pelanggan" => explode(',', $this->input->post('tipe'))[1],
                 "diskon" => $this->clean($this->input->post('diskon_all')),
                 "total_netto" => $this->clean($this->input->post('total_netto')),
                 "total_bayar" => $this->clean($this->input->post('total_bayar')),
                 "total_transaksi" => $this->clean($this->input->post('total_transaksi')),
                 "tunai" => $this->clean($this->input->post('tunai')),
-                "kembali" => $this->clean($this->input->post('kembali')),
+                "kembali" => $this->input->post('piutang') == '1' ? 0 : $this->clean($this->input->post('kembali')),
                 "jumlah_item" => $this->input->post('jumlah_item'),
                 "keterangan" => $this->input->post('keterangan'),
                 "pengiriman" => $this->input->post('pengiriman'),
@@ -218,7 +217,7 @@ class Pos extends CI_Controller
             $this->db->where('id', $id_transaksi); //update data transaksi
             $this->db->update('transaksi', $data);
         } else {
-            $cek_transaksi = $this->db->get_where('transaksi', ['no_struk' => $urutan])->num_rows();
+            $cek_transaksi = $this->db->get_where('transaksi', ['no_struk' => $this->input->post('no_struk')])->num_rows();
             if ($cek_transaksi == false) {
                 $this->db->insert('transaksi', $data); //submit
             }
@@ -387,13 +386,12 @@ class Pos extends CI_Controller
         $this->db->where('id_transaksi', $id);
         $this->db->where('a.trash !=', 1);
         $this->db->from('transaksi_item as a');
-        $this->db->join('barang as b', 'a.kd_barang=b.id');
-        $this->db->join('transaksi as c', 'c.id=a.id_transaksi');
-        $this->db->join('customers as d', 'c.pelanggan=d.id_customer');
-        $this->db->join('ekspedisi as e', 'c.pengiriman=e.id');
+        $this->db->join('barang as b', 'a.kd_barang=b.id','LEFT');
+        $this->db->join('transaksi as c', 'c.id=a.id_transaksi','LEFT');
+        $this->db->join('customers as d', 'c.pelanggan=d.id_customer','LEFT');
+        $this->db->join('ekspedisi as e', 'c.pengiriman=e.id','LEFT');
         $query = $this->db->get()->result();
         echo json_encode($query);
-        exit();
     }
     function load_hold()
     {
