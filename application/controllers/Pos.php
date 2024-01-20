@@ -172,7 +172,6 @@ class Pos extends CI_Controller
         $urutan = substr($this->input->post('no_struk'), 8);
         if ($edit_transaksi == 'edit_transaksi') {
             $data = [
-                "no_struk" => $this->input->post('no_struk'),
                 "tgl_transaksi" => $this->input->post('tgl_transaksi'),
                 "urutan" => $urutan,
                 "pelanggan" => explode(',', $this->input->post('tipe'))[1],
