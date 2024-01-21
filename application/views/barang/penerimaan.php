@@ -203,7 +203,14 @@
                 </div>
                 <div class="card">
                   <div class="card-header">
-                    <h4>Penerimaan Barang</h4><br>
+                    <div class="row">
+                        <div class="col-xl-10">
+                            <h4>Penerimaan Barang</h4><br>
+                        </div>
+                        <div class="col-xl-2">
+                            <h4 class="total_pb">Rp.0</h4><br>
+                        </div>
+                    </div>
                   </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -485,6 +492,11 @@
                                                         }
                                                             $('.harga'+counter+'').val(data.hpp_besar.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             $('.satuan'+counter+'').html(satuann);
+                                                            var total_pos_fix = 0;
+                                                            for (let t = 1; t <= counter; t++) {
+                                                                total_pos_fix += parseInt($(".harga" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+                                                            }
+                                                            $('.total_pb').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                             // $('.qty'+counter+'').val(qtyy);
 
                                                 //         <?php if (
@@ -641,6 +653,7 @@
                         }else{
                             if (counter < max_fields) {
                                 counter++;
+                                
                                 // $('.harga'+counter).prop('disabled',true)
                                 $(wrapper).append(
                                     '<tr class="cb" id=r'+counter+'>'+
@@ -689,6 +702,7 @@
                                     '</td>'+
                                     '</tr>'
                               );
+                              
                             //   $('.select2x').select2();
                                    
                             }
@@ -789,6 +803,7 @@
                                             fp : $('.fp').val(),
                                             tgl_fp : $('.tgl_fp').val(),
                                             keterangan : $('.keterangan').val(),
+                                            total_penerimaan : $('.total_penerimaan').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
                                             // id_transaksi : <?= $this->uri->segment(
                                                 3
                                             ) == true

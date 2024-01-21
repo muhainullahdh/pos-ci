@@ -130,6 +130,7 @@
            $fp = $this->input->post('fp');
            $tgl_fp = $this->input->post('tgl_fp');
            $keterangan = $this->input->post('keterangan');
+           $total_penerimaan = $this->input->post('total_penerimaan');
 
            $pb = [
                'no_pb' => $no_pb,
@@ -143,6 +144,7 @@
                'tgl_faktur' => $tgl_fp,
                'type_ppn' => $ppn,
                'keterangan' => $keterangan,
+               'total_penerimaan' => $total_penerimaan,
            ];
            $this->db->insert('penerimaan', $pb);
            $pb_get = $this->db
