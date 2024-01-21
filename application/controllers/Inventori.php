@@ -1294,4 +1294,154 @@ class Inventori extends CI_Controller
         $this->load->view('inventori/histori_mutasi', $data);
         $this->load->view('body/footer');
     }
+
+    public function transaksi_item()
+    {
+        $id_barang = $this->input->post('item_barang');
+        $start_date = $this->input->post('tanggal_dari');
+        $end_date = $this->input->post('tanggal_sampai');
+
+        $this->db->select('pl.id_barang, pl.nama_barang, pl.satuan, pl.qty_pb as qty, pl.harga_satuan, pl.jumlah, pl.date_created, "Penerimaan" as source, s.satuan as satuan_nama, no_pb as nomor, nama as kasir');
+        $this->db->from('penerimaan_list pl');
+        $this->db->join('satuan s', 'pl.satuan = s.id_satuan', 'left'); // JOIN dengan tabel satuan
+        $this->db->join('penerimaan p', 'pl.id_pb = p.id_penerimaan', 'left'); // JOIN dengan tabel satuan
+        $this->db->join('users u', 'p.approve = u.id', 'left'); // JOIN dengan tabel satuan
+        $this->db->where('pl.id_barang', $id_barang);
+        $this->db->where('pl.date_created >=', $start_date);
+        $this->db->where('pl.date_created <=', $end_date);
+
+        $query1 = $this->db->get_compiled_select();
+
+        $this->db->select('ti.kd_barang, ti.barang as nama_barang, ti.satuan, (qty * qty_satuan) as qty, ti.harga_satuan, ti.jumlah, ti.date_created, "Transaksi" as source, ti.satuan as satuan_nama, no_struk as nomor, nama as kasir');
+        $this->db->from('transaksi_item ti');
+        $this->db->join('transaksi t', 'ti.id_transaksi = t.id', 'left'); // JOIN dengan tabel satuan
+        $this->db->join('users u', 't.kasir = u.id', 'left'); // JOIN dengan tabel satuan
+        $this->db->where('ti.kd_barang', $id_barang);
+        $this->db->where('ti.date_created >=', $start_date);
+        $this->db->where('ti.date_created <=', $end_date);
+
+        $query2 = $this->db->get_compiled_select();
+
+        $final_query = $this->db->query($query1 . ' UNION ' . $query2 . ' ORDER BY date_created ASC');
+        $result = $final_query->result();
+
+        if ($this->input->post('submit') == "cetak_excel") {
+
+            require_once(APPPATH . 'libraries/PHPExcel/IOFactory.php');
+
+            $excel = new PHPExcel();
+            // Settingan awal fil excel
+            $excel->getProperties()->setCreator('POS App')
+                ->setLastModifiedBy('POS App')
+                ->setTitle("Transaksi per Item")
+                ->setSubject("Stok")
+                ->setDescription("Laporan Transaksi per Item")
+                ->setKeywords("Transaksi per Item");
+
+            // Buat sebuah variabel untuk menampung pengaturan style dari header tabel
+            $style_col = array(
+                'font' => array('bold' => true), // Set font nya jadi bold
+                'alignment' => array(
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+                    'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+                ),
+                'borders' => array(
+                    'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
+                    'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
+                    'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
+                    'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
+                )
+            );
+
+            // Buat sebuah variabel untuk menampung pengaturan style dari isi tabel
+            $style_row = array(
+                'alignment' => array(
+                    'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+                ),
+                'borders' => array(
+                    'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
+                    'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
+                    'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
+                    'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
+                )
+            );
+
+            // bagian header
+            $excel->setActiveSheetIndex(0)->setCellValue('A1', "No.");
+            $excel->setActiveSheetIndex(0)->setCellValue('B1', "Asal");
+            $excel->setActiveSheetIndex(0)->setCellValue('C1', "No. Transaksi");
+            $excel->setActiveSheetIndex(0)->setCellValue('D1', "Qty");
+            $excel->setActiveSheetIndex(0)->setCellValue('E1', "Tanggal");
+            $excel->setActiveSheetIndex(0)->setCellValue('F1', "User");
+
+            // Apply style header yang telah kita buat tadi ke masing-masing kolom header
+            $excel->getActiveSheet()->getStyle('A1')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('B1')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('C1')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('D1')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('E1')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('F1')->applyFromArray($style_col);
+
+            $no = 1;
+            $numrow = 2;
+            foreach ($result as $t) {
+
+                $excel->setActiveSheetIndex(0)->setCellValue('A' . $numrow, $no);
+                $excel->setActiveSheetIndex(0)->setCellValue('B' . $numrow, strtoupper($t->source));
+                $excel->setActiveSheetIndex(0)->setCellValue('C' . $numrow, $t->nomor, PHPExcel_Cell_DataType::TYPE_STRING);
+                $excel->setActiveSheetIndex(0)->setCellValue('D' . $numrow, $t->qty . ' ' . $t->satuan_nama);
+                $excel->setActiveSheetIndex(0)->setCellValue('E' . $numrow, format_indo2($t->date_created));
+                $excel->setActiveSheetIndex(0)->setCellValue('f' . $numrow, $t->kasir);
+
+                // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
+                $excel->getActiveSheet()->getStyle('A' . $numrow)->applyFromArray($style_row);
+                $excel->getActiveSheet()->getStyle('B' . $numrow)->applyFromArray($style_row);
+                $excel->getActiveSheet()->getStyle('C' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+                $excel->getActiveSheet()->getStyle('D' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+                $excel->getActiveSheet()->getStyle('E' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+                $excel->getActiveSheet()->getStyle('F' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+                $no++; // Tambah 1 setiap kali looping
+                $numrow++; // Tambah 1 setiap kali looping
+            }
+
+            // Set height semua kolom menjadi auto (mengikuti height isi dari kolommnya, jadi otomatis)
+            $excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);
+
+            // Set orientasi kertas jadi LANDSCAPE
+            $excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+
+            // Rename worksheet
+            $excel->getActiveSheet()->setTitle($result[0]->nama_barang);
+
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $excel->setActiveSheetIndex(0);
+
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="Transaksi per item ' . $result[0]->nama_barang . '".xls"');
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+
+            // If you're serving to IE over SSL, then the following may be needed
+            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+            header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header('Pragma: public'); // HTTP/1.0
+
+            $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+            $objWriter->save('php://output');
+            exit;
+        } else {
+
+            $data = [
+                'lists' => $result
+            ];
+
+            $this->load->view('body/header');
+            $this->load->view('inventori/transaksi_item', $data);
+            $this->load->view('body/footer');
+        }
+    }
 }

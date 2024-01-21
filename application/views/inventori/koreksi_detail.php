@@ -43,7 +43,13 @@
                         <div class="row">
                             <div class="col-12 text-end">
                                 <a href="<?= base_url('inventori/koreksi_barang') ?>" class="btn btn-primary btn-sm">Kembali</a>
-                                <a href="<?= base_url('inventori/koreksi_approve_all/' . $koreksi['id']) ?>" class="btn btn-primary btn-sm btn-process">Setujui semua</a>
+                                <?php
+                                if ($this->session->userdata('username') == "admin" or $this->session->userdata('username') == "adin") {
+                                ?>
+                                    <a href="<?= base_url('inventori/koreksi_approve_all/' . $koreksi['id']) ?>" class="btn btn-primary btn-sm btn-process">Setujui semua</a>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                         <div class="row">
