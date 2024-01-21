@@ -1576,15 +1576,15 @@
                                    
                                     // $('.pengiriman').html('<option value=' + data[i].pengiriman + ' selected>' + data[i].nama + '</option>');
                                     total_pos += parseInt(data[i].jumlah)
-                                        var qty_isi = $(".satuan1")[0].value //qty isi satuan
-                                        var tipe_satuan = qty_isi.split(',')[2];
-                                        if (tipe_satuan == 'kecil') {
-                                            kalkulasi_satuan(tipe_satuan,data.stok,data.qty_kecil,qty,counter,satuan_x[0].value.split(',')[3])
-                                        }else if(tipe_satuan == 'besar'){
-                                            kalkulasi_satuan(tipe_satuan,data.stok,data.qty_konv,qty,counter,satuan_x[0].value.split(',')[3])
-                                        }else if(tipe_satuan == 'konv'){
-                                            kalkulasi_satuan(tipe_satuan,data.stok,1,qty,counter)
-                                        }
+                                        // var qty_isi = $(".satuan"+counter+"")[0].value //qty isi satuan
+                                        // var tipe_satuan = qty_isi.split(',')[2];
+                                        // if (tipe_satuan == 'kecil') {
+                                        //     kalkulasi_satuan(tipe_satuan,data.stok,data.qty_kecil,qty,counter,satuan_x[0].value.split(',')[3])
+                                        // }else if(tipe_satuan == 'besar'){
+                                        //     kalkulasi_satuan(tipe_satuan,data.stok,data.qty_konv,qty,counter,satuan_x[0].value.split(',')[3])
+                                        // }else if(tipe_satuan == 'konv'){
+                                        //     kalkulasi_satuan(tipe_satuan,data.stok,1,qty,counter)
+                                        // }
                                     $('#load-list tbody').append(
                                         '<tr class="cb" id=r' + counter + '>' +
                                         '<td>' +
