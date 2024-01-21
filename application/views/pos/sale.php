@@ -1576,20 +1576,15 @@
                                    
                                     // $('.pengiriman').html('<option value=' + data[i].pengiriman + ' selected>' + data[i].nama + '</option>');
                                     total_pos += parseInt(data[i].jumlah)
-                                    // var qty_isi = $(".satuan1")[0].value //qty isi satuan
-                                    // var tipe_satuan = qty_isi.split(',')[2];
-                                    // if (tipe_satuan == 'kecil') {
-                                    //     kalkulasi_satuan(tipe_satuan,data[i].stok,data[i].qty_kecil,qty,counter,j.split(',')[3])
-                                    // }else if(tipe_satuan == 'besar'){
-                                    //                     if( data[i].qty_konv != '0') {
-                                    //             var cek_satuan_x = data[i].qty_konv;
-                                    //         } else {
-                                    //              var cek_satuan_x = data[i].qty_kecil;
-                                    //         }
-                                    //     kalkulasi_satuan(tipe_satuan,data[i].stok,cek_satuan_x,qty,counter,j.split(',')[3])
-                                    // }else if(tipe_satuan == 'konv'){
-                                    //     kalkulasi_satuan(tipe_satuan,data[i].stok,1,qty,counter)
-                                    // }
+                                        var qty_isi = $(".satuan1")[0].value //qty isi satuan
+                                        var tipe_satuan = qty_isi.split(',')[2];
+                                        if (tipe_satuan == 'kecil') {
+                                            kalkulasi_satuan(tipe_satuan,data.stok,data.qty_kecil,qty,counter,satuan_x[0].value.split(',')[3])
+                                        }else if(tipe_satuan == 'besar'){
+                                            kalkulasi_satuan(tipe_satuan,data.stok,data.qty_konv,qty,counter,satuan_x[0].value.split(',')[3])
+                                        }else if(tipe_satuan == 'konv'){
+                                            kalkulasi_satuan(tipe_satuan,data.stok,1,qty,counter)
+                                        }
                                     $('#load-list tbody').append(
                                         '<tr class="cb" id=r' + counter + '>' +
                                         '<td>' +
@@ -1902,7 +1897,7 @@
 
 
                                                 <?php } ?>
-                                              if (tipe_satuan == 'kecil') {
+                                                if (tipe_satuan == 'kecil') {
                                                     kalkulasi_satuan(tipe_satuan,data2.stok,data2.qty_kecil,qty,counter,j.split(',')[3])
                                                 }else if(tipe_satuan == 'besar'){
                                                         if( data2.qty_konv != '0') {
@@ -1918,7 +1913,7 @@
                                             var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                             $('.harga' + i + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                             $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                            $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * j.split(',')[0]);
+                                            // $('.stock-c' + i + '').val($('.stock' + i + '').val() - qty * j.split(',')[0]);
                                             var total_pos_fix = 0;
                                             for (let t = 1; t <= counter; t++) {
                                                 total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
@@ -2161,9 +2156,9 @@
                                 );
                                 $('.select2x').select2();
                                 
-                                if((typeof(Storage) == "undefined" && $('#id_barang' + ( counter - 1) ).val() !== '' )) {
-                                    localStorage.setItem( 'id_barang' + ( counter - 1),  $('#idq' + (counter - 1)).val() );
-                                }
+                                // if((typeof(Storage) == "undefined" && $('#id_barang' + ( counter - 1) ).val() !== '' )) {
+                                //     localStorage.setItem( 'id_barang' + ( counter - 1),  $('#idq' + (counter - 1)).val() );
+                                // }
                             }
                             $('.delete_item').click(function() {
                                 e.preventDefault();
