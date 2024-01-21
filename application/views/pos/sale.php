@@ -2279,11 +2279,39 @@
                         }
                     } else if (e.which == 113 || e.which == 119) { // bayar dan tahan
                         if (e.which == 113) {
+                            var arrr = []
+                            var arrr_satuan = []
+                            for (let b = 1; b <= counter; b++) {
+                                 arrr.push($(".id_barang" + b + "").val())
+                                 arrr_satuan.push($(".satuan" + b + "").val().split(',')[1])
+                            }
+                            function hasDuplicates(array) {
+                                return new Set(array).size !== array.length;
+                            }
+                            function hasDuplicates2(array) {
+                                return new Set(array).size !== array.length;
+                            }
+                            var cekk_barang = hasDuplicates(arrr);
+                            var cekk_satuan = hasDuplicates2(arrr_satuan);
+                            // function inArray(aValue) {
+                            //     var value = parseInt(value),
+                            //         array = arrr;
+
+                            //     return array.indexOf(value) !== -1
+                            // }
+                            console.log(cekk_barang)
                             var value_ac = "BAYAR"
                             if (counter < 1) {
                                 swal({
                                     title: "Opss..!",
                                     text: "Data transaksi kosong",
+                                    icon: "warning",
+                                    dangerMode: true,
+                                })
+                            }else if(cekk_barang == true && cekk_satuan == true){
+                                swal({
+                                    title: "Opss..!",
+                                    text: "Data barang dan satuan tidak boleh sama",
                                     icon: "warning",
                                     dangerMode: true,
                                 })
