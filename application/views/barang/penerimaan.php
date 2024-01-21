@@ -317,7 +317,7 @@
                                                 </td>
 
                                             </tr>
-                                            <div class="modal fade bd-example-modal-lg" id="penerimaan_edit<?= $x->id_penerimaan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                                            <!-- <div class="modal fade bd-example-modal-lg" id="penerimaan_edit<?= $x->id_penerimaan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                                               <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
                                                   <div class="modal-header">
@@ -332,7 +332,6 @@
                                                             'pembelian'
                                                         ) ?>" method="post">
                                                             <div class="row">
-                                                                    <!-- <div class="modal-img"> <img src="../assets/images/gif/online-shopping.gif" alt="online-shopping"></div> -->
                                                                     <div class="col">
                                                                         <h6>Nama penerimaan</h6>
                                                                         <input type="hidden" value="edit" name="action">
@@ -350,13 +349,11 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                      <!-- <h4>Up to <strong class="txt-danger">85% OFF</strong>, Hurry Up Online Shopping</h4> -->
-                                                      <!-- <p class="text-sm-center">Our difficulty in finding regular clothes that was of great quality, comfortable, and didn't impact the environment given way to Creatures of Habit.</p> -->
-                                                    </div>
+                                                       </div>
                                                   </div>
                                                 </div>
                                               </div>
-                                            </div>
+                                            </div> -->
                                             <?php } ?>
                                 </tbody>
                                 </table>
