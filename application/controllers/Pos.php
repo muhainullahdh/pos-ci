@@ -240,7 +240,7 @@ class Pos extends CI_Controller
             );
             if ($cek == 'BAYAR') {
                 $barang = $this->db->get_where('barang', ['id' => $x['kd_barang']])->row_array();
-                $total_qty_pcs = $barang['stok'] - (intval($x['qty']) *  intval($ex_satuan[0]));
+                $total_qty_pcs = $barang['stok'] - $x['stock_c'];
                 $this->db->set('stok', $total_qty_pcs);
                 $this->db->where('id', $x['kd_barang']);
                 $this->db->update('barang');

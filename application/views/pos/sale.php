@@ -2595,6 +2595,8 @@
                                     harga_satuan: $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
                                     diskon_item: $('.diskon_item' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
                                     jumlah: $('.jumlah' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                                    stock: $('.stock' + i + '').val(),
+                                    stock_c: $('.stock-c' + i + '').val(),
                                 })
                             }
                             var datax = {
