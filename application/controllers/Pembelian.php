@@ -91,7 +91,7 @@
                    redirect('barang/brand');
                }
            }
-           if ($action == 'edit') {
+           if ($action == 'approve') {
                $datax = [
                    'penerimaan' => $brand,
                ];

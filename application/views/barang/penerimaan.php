@@ -365,7 +365,7 @@
                                                                                 <label>Gudang</label>
                                                                                 <input type="hidden" value="approve" name="action">
                                                                                 <input type="hidden" value="<?= $approve_p['id_penerimaan'] ?>" name="id_penerimaan">
-                                                                                    <select class="form-control">
+                                                                                    <select class="form-control" name="gudang">
                                                                                         <option value="">Pilih Gudang</option>
                                                                                         <?php $gudang = $this->db->get('gudang')->result();
                                                                                     foreach ($gudang as $xx) {
@@ -375,7 +375,7 @@
                                                                             </div>
                                                                             <div class="col-xl-6 col-sm-6 col-md-8">
                                                                                 <label>Supplier</label>
-                                                                                <input value="<?= $approve_p['nama_supplier']?>" class="form-control" readonly>
+                                                                                <input value="<?= $approve_p['nama_supplier']?>" name="supplier" class="form-control" readonly>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row mt-2">
@@ -470,16 +470,23 @@
                                                     async : true,
                                                     dataType : 'json',
                                                     success: function(data){
-                                                //         var satuann = ''
-                                                //         if (data.id_satuan_besar != "") {
-                                                //             satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+ '>'+ data.id_satuan_besar +' </option>';
-                                                //         }
-                                                //         if (data.id_satuan_kecil != "") {
-                                                //             satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+ '>'+ data.id_satuan_kecil +' </option>';
-                                                //         }
-                                                //         if (data.id_satuan_kecil_konv != "") {
-                                                //             satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+'>'+ data.id_satuan_kecil_konv +' </option>';
-                                                //         }
+                                                        var satuann = ''
+                                                        if (data.id_satuan_besar != "") {
+                                                            satuann += '<option value=' + data.qty_besar + ","+data.id_satuan_besar+",besar"+ '>'+ data.id_satuan_besar +' </option>';
+                                                            qtyy = data.qty_besar;
+                                                        }
+                                                        if (data.id_satuan_kecil != "") {
+                                                            satuann += '<option value=' + data.qty_kecil + ","+data.id_satuan_kecil+",kecil"+ '>'+ data.id_satuan_kecil +' </option>';
+                                                            qtyy = data.qty_kecil
+                                                        }
+                                                        if (data.id_satuan_kecil_konv != "") {
+                                                            satuann += '<option value=' + data.qty_konv + ","+data.id_satuan_kecil_konv+",konv"+'>'+ data.id_satuan_kecil_konv +' </option>';
+                                                            qtyy = data.qty_konv
+                                                        }
+                                                            $('.harga'+counter+'').val(data.hpp_besar.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                                            $('.satuan'+counter+'').html(satuann);
+                                                            // $('.qty'+counter+'').val(qtyy);
+
                                                 //         <?php if (
                                                     strtolower(
                                                         explode(
@@ -569,7 +576,6 @@
                                                 //         }else{
                                                 //             $("#diskon_item").prop('disabled', false);
                                                 //             $('.satuan'+counter+'').html(satuann);
-                                                //             $('.harga'+counter+'').val(harga1);
                                                 //             $('.qty_isi'+counter+'').val(qtyyy);
                                                 //             $('.jumlah'+counter+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                                 //             var total_pos_fix = 0;
@@ -635,6 +641,7 @@
                         }else{
                             if (counter < max_fields) {
                                 counter++;
+                                // $('.harga'+counter).prop('disabled',true)
                                 $(wrapper).append(
                                     '<tr class="cb" id=r'+counter+'>'+
                                     '<td>'+
@@ -646,20 +653,14 @@
                                     '<td>'+
                                     '<select id="ids'+counter+'" class="form-control satuan'+counter+'" style="cursor: text;">'+
                                         '<option value="">Pilih satuan</option>'+
-                                        <?php if (
-                                            $this->uri->segment(2) == 'add_pb'
-                                        ) {
-                                            foreach ($satuan as $x) { ?>
-                                        '<option value="<?= $x->id_satuan ?>"><?= $x->satuan ?></option>'+
-                                        <?php }
-                                        } ?>
+                                        
                                     '</select>'+
                                     '</td>'+
                                     '<td>'+
                                         '<input id="idq'+counter+'" type="text" style="text-align:center;" class="form-control qty'+counter+'">'+
                                     '</td>'+
                                     '<td>'+
-                                    '<input type="text" class="form-control uang'+counter+' harga'+counter+'">'+
+                                    '<input type="text" class="form-control uang'+counter+' disabled harga'+counter+'">'+
                                     '</td>'+
                                     '<td>'+
                                     '<input type="text" id="dis1'+counter+'" placeholder="0" style="text-align:center;" class="form-control dis1'+counter+'">'+
@@ -689,6 +690,7 @@
                                     '</tr>'
                               );
                             //   $('.select2x').select2();
+                                   
                             }
                             $('.delete_item').click(function(){
                                 e.preventDefault();
