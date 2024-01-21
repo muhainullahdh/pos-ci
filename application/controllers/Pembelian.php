@@ -157,15 +157,20 @@
                    'nama_barang' => $x['nama_barang'],
                    'satuan' => $x['satuan'],
                    'qty_pb' => $x['qty'],
-                   'harga_satuan' => $x['harga_satuan'],
-                   'harga_netto' => $x['netto'],
+                   'harga_satuan' => $this->clean($x['harga_satuan']),
+                   'harga_netto' => $this->clean($x['netto']),
                    'gudang' => $x['gudang'],
                ];
            }
            $this->db->insert_batch('penerimaan_list', $output); //submit
            echo json_encode('berhasil');
        }
-
+       function clean($string)
+       {
+           $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+   
+           return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+       }
        function add_pb()
        {
            $data_b = $this->db
