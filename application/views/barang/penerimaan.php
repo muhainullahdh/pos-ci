@@ -310,7 +310,7 @@
                                                 </td>
 
                                                 <td>
-                                                    <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#penerimaan_edit<?= $x->id_penerimaan ?>"><i class="fa fa-edit"></i></button>
+                                                    <!-- <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#penerimaan_edit<?= $x->id_penerimaan ?>"><i class="fa fa-edit"></i></button> -->
                                                     <button type="button" id="<?= $x->id_penerimaan ?>" class="btn btn-danger btn-square delete_penerimaan"><i class="fa fa-trash-o"></i></button>
                                                     <button type="button" class="btn btn-warning btn-square" onclick="location.href='<?= base_url('pembelian/approve/'.$x->id_penerimaan) ?>'"><i class="fa fa-check-square-o"></i></butt>
 
@@ -781,7 +781,7 @@
                                             id_barang : $('.id_pb_list'+i+'').val(),
                                             nama_barang : $('.barang'+i+'').val(),
                                             qty : $('.qty'+i+'').val(),
-                                            satuan : $('.satuan'+i+'').val(),
+                                            satuan : $('.satuan'+i+'').val().split(',')[1],
                                             harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
                                             // diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
                                             netto : $('.netto'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
