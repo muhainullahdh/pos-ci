@@ -1248,13 +1248,39 @@
                             // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                             var jumlah = $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                             $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            $('.stock-c' + i + '').val($('.stock' + i + '').val() - j * qty_isi.split(',')[0]);
+                            // $('.stock-c' + i + '').val($('.stock' + i + '').val() - j * qty_isi.split(',')[0]);
                             var total_pos_fix = 0;
                             for (let t = 1; t <= counter; t++) {
                                 total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
                             }
                             $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                             var qty_isi = $(".satuan" + i + "")[0].value //qty isi satuan
+                             var tipe_satuan = qty_isi.split(',')[2]; 
+                            var id_barangg = $('.id_barang' + i + '').val();
 
+                            $.ajax({
+                                url: "<?= site_url('pos/search_barang'); ?>",
+                                method: "POST",
+                                data: {
+                                    id: id_barangg
+                                },
+                                async: true,
+                                dataType: 'json',
+                                success: function (data2) {
+                                    if (tipe_satuan == 'kecil') {
+                                        kalkulasi_satuan(tipe_satuan, data2.stok, data2.qty_kecil, j, counter, qty_isi.split(',')[3])
+                                    } else if (tipe_satuan == 'besar') {
+                                        if (data2.qty_konv != '0') {
+                                            var cek_satuan_x = data2.qty_konv;
+                                        } else {
+                                            var cek_satuan_x = data2.qty_kecil;
+                                        }
+                                        kalkulasi_satuan(tipe_satuan, data2.stok, cek_satuan_x, j, counter, qty_isi.split(',')[3])
+                                    } else if (tipe_satuan == 'konv') {
+                                        kalkulasi_satuan(tipe_satuan, data2.stok, 1, j, counter)
+                                    }
+                                }
+                            })
 
                         }
 
@@ -1751,7 +1777,34 @@
                                         // var jumlah = $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, '') * j * qty_isi.split(',')[0] - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                         var jumlah = $('.harga' + i + '').val().replace(/[^a-zA-Z0-9 ]/g, '') * j - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
                                         $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                                        $('.stock-c' + i + '').val($('.stock' + i + '').val() - j * qty_isi.split(',')[0]);
+                                        // $('.stock-c' + i + '').val($('.stock' + i + '').val() - j * qty_isi.split(',')[0]);
+                                        var qty_isi = $(".satuan" + i + "")[0].value //qty isi satuan
+                                        var tipe_satuan = qty_isi.split(',')[2]; 
+                                         var id_barangg = $('.id_barang' + i + '').val();
+
+                                         $.ajax({
+                                            url: "<?= site_url('pos/search_barang'); ?>",
+                                            method: "POST",
+                                            data: {
+                                                id: id_barangg
+                                            },
+                                            async: true,
+                                            dataType: 'json',
+                                            success: function(data2) {
+                                                if (tipe_satuan == 'kecil') {
+                                                    kalkulasi_satuan(tipe_satuan,data2.stok,data2.qty_kecil,j,counter,qty_isi.split(',')[3])
+                                                }else if(tipe_satuan == 'besar'){
+                                                        if( data2.qty_konv != '0') {
+                                                            var cek_satuan_x = data2.qty_konv;
+                                                        } else {
+                                                            var cek_satuan_x = data2.qty_kecil;
+                                                        }
+                                                    kalkulasi_satuan(tipe_satuan,data2.stok,cek_satuan_x,j,counter,qty_isi.split(',')[3])
+                                                }else if(tipe_satuan == 'konv'){
+                                                    kalkulasi_satuan(tipe_satuan,data2.stok,1,j,counter)
+                                                }
+                                            }
+                                        })
                                         var total_pos_fix = 0;
                                         for (let t = 1; t <= counter; t++) {
                                             total_pos_fix += parseInt($(".jumlah" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
