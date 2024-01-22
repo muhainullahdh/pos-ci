@@ -28,9 +28,7 @@
             $action = $this->input->post('action');
             $id = $this->input->post('id_brand');
             if ($brand == true) {
-                $cek = $this->db
-                    ->query("SELECT * FROM brand where nama_brand='$brand' ")
-                    ->num_rows();
+                $cek = $this->db->query("SELECT * FROM brand where nama_brand='$brand'")->num_rows();
                 if ($cek == true) {
                     $this->session->set_flashdata('msg', 'double_satuan');
                     $this->session->set_flashdata('msg_val', $brand);
@@ -59,6 +57,7 @@
             $second_date = $this->session->userdata('date_pembelian2') == null ? date('Y-m-d') : $this->session->userdata('date_pembelian2');
             $this->db->where('a.tgl_pb >=', $first_date);
             $this->db->where('a.tgl_pb <=', $second_date);
+            $this->db->where('approve', '0');
             $this->db->group_by('b.id_pb');
             $penerimaan = $this->db->get()->result();
             $data = [
@@ -72,11 +71,6 @@
         }
         function approve()
         {
-            // echo '<pre>';
-            // print_r($this->input->post());
-            // echo '</pre>';
-            // exit;
-
             $brand = $this->input->post('brand');
             $action = $this->input->post('action');
             $id = $this->input->post('id_penerimaan');
@@ -100,28 +94,53 @@
                 // ambil item dari tabel penerimaan_list
                 $tampil = $this->db->where('id_pb', $id)->get('penerimaan_list')->result();
 
-
                 foreach ($tampil as $t) {
                     $satuan = $t->satuan;
                     $qty_pb = $t->qty_pb;
                     $barang = $this->db->where('id', $t->id_barang)->get('barang')->row_array();
 
-                    if ($satuan == "besar") {
-                        $stok_tambah = $qty_pb * $barang['satuan_kecil'];
+                    if ($satuan == "besar" && !$barang['qty_kecil'] && !$barang['qty_konv']) {
+                        $stok_tambah = $qty_pb * 1;
+                    } else if ($satuan == "besar" && $barang['qty_kecil'] && !$barang['qty_konv']) {
+                        $stok_tambah = $qty_pb * $barang['qty_kecil'];
+                    } else if ($satuan == "besar" && $barang['qty_kecil'] && $barang['qty_konv']) {
+                        $stok_tambah = $qty_pb * $barang['qty_kecil'] * $barang['qty_konv'];
+                    } else if ($satuan == "kecil" && !$barang['qty_konv']) {
+                        $stok_tambah = $qty_pb;
+                    } else if ($satuan == "kecil" && $barang['qty_konv']) {
+                        $stok_tambah = $qty_pb * $barang['qty_konv'];
+                    } else if ($satuan == "konv") {
+                        $stok_tambah = $qty_pb * 1;
                     }
-                    echo '<pre>';
-                    print_r($barang);
-                    print_r($t->satuan);
-                    echo '</pre>';
+
+                    $stok_baru = $stok_tambah + $barang['stok'];
+                    // echo '<pre>';
+                    // print_r($barang);
+                    // var_dump($satuan, $barang['qty_kecil'], $barang['qty_konv'], $qty_pb, $stok_tambah, $barang['stok'], $stok_baru);
+                    // echo '</pre>';
+
+                    $data_update = [
+                        'stok' => $stok_baru,
+                        'tgl_last_update' => date('Y-m-d H:i:s')
+                    ];
+
+                    $this->db->where('id', $t->id_barang)->update('barang', $data_update);
                 }
-                exit;
+
                 $datax = [
                     'approve' => '1',
                     'approve_by' => $this->session->userdata('id_user')
                 ];
-                $this->db->where('id', $id);
+
+                $this->db->where('id_penerimaan', $id);
                 $this->db->update('penerimaan', $datax);
-                redirect('barang/penerimaan');
+
+
+                $this->session->set_flashdata('message_name', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                Penerimaan berhasil disetujui.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+                redirect('pembelian');
             }
             $this->db->select('*,count(*) as total_barang');
             $this->db->from('penerimaan as a');
@@ -220,6 +239,11 @@
                 'satuan' => $satuan,
                 'gudang' => $this->db->get('gudang')->result(),
             ];
+
+            // echo '<pre>';
+            // print_r($data);
+            // echo '</pre>';
+            // exit;
             $this->load->view('body/header');
             $this->load->view('barang/penerimaan', $data);
             $this->load->view('body/footer');

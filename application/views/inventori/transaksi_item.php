@@ -54,6 +54,8 @@
                                         <th>No.</th>
                                         <th>Asal</th>
                                         <th>No. Transaksi</th>
+                                        <th>Customer</th>
+                                        <th>Satuan</th>
                                         <th>Qty</th>
                                         <th>Tanggal</th>
                                         <th>User</th>
@@ -67,7 +69,9 @@
                                             <td><?= $no++ ?></td>
                                             <td><?= strtoupper($l->source) ?></td>
                                             <td><?= $l->nomor ?></td>
-                                            <td><?= $l->qty . ' ' . $l->satuan_nama ?></td>
+                                            <td><?= $l->customer ?></td>
+                                            <td><?= $l->satuan_nama ?></td>
+                                            <td><?= $l->qty ?></td>
                                             <td><?= format_indo2($l->date_created) ?></td>
                                             <td><?= $l->kasir ?></td>
                                         </tr>

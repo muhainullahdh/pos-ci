@@ -26,6 +26,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
+                        <?= $this->session->flashdata('message_name') ?>
                         <div class="row">
                             <div class="col-6">
                                 <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#filterStok">Filter</button>
@@ -162,13 +163,13 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="article_category" class="form-label">Dari</label>
-                                <input type="date" name="tanggal_dari" id="tanggal_dari" class="form-control input-air-primary">
+                                <input type="date" name="tanggal_dari" id="tanggal_dari" class="form-control input-air-primary" value="<?= date('Y-m-d') ?>">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="article_category" class="form-label">Tanggal</label>
-                                <input type="date" name="tanggal_sampai" id="tanggal_sampai" class="form-control input-air-primary">
+                                <input type="date" name="tanggal_sampai" id="tanggal_sampai" class="form-control input-air-primary" value="<?= date('Y-m-d') ?>">
                             </div>
                         </div>
                     </div>

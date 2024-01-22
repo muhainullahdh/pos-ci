@@ -1297,35 +1297,43 @@ class Inventori extends CI_Controller
     public function transaksi_item()
     {
         $id_barang = $this->input->post('item_barang');
+
+        $barang = $this->db->select('nama')->where('id', $id_barang)->get('barang')->row_array();
+
         $start_date = $this->input->post('tanggal_dari');
         $end_date = $this->input->post('tanggal_sampai');
 
-        $this->db->select('pl.id_barang, pl.nama_barang, pl.satuan, pl.qty_pb as qty, pl.harga_satuan, pl.jumlah, pl.date_created, "Penerimaan" as source, s.satuan as satuan_nama, no_pb as nomor, nama as kasir');
+        $this->db->select('pl.id_barang, pl.nama_barang, pl.satuan, pl.qty_pb as qty, pl.harga_satuan, pl.jumlah, pl.date_created, "Penerimaan" as source, s.satuan as satuan_nama, no_pb as nomor, nama as kasir, nama_supplier as customer');
         $this->db->from('penerimaan_list pl');
         $this->db->join('satuan s', 'pl.satuan = s.id_satuan', 'left'); // JOIN dengan tabel satuan
         $this->db->join('penerimaan p', 'pl.id_pb = p.id_penerimaan', 'left'); // JOIN dengan tabel satuan
-        $this->db->join('users u', 'p.approve = u.id', 'left'); // JOIN dengan tabel satuan
+        $this->db->join('users u', 'p.user_input = u.id', 'left'); // JOIN dengan tabel satuan
+        $this->db->join('supplier sup', 'p.supplier = sup.kode_supplier', 'left'); // JOIN dengan tabel satuan
         $this->db->where('pl.id_barang', $id_barang);
         $this->db->where('pl.date_created >=', $start_date);
         $this->db->where('pl.date_created <=', $end_date);
 
         $query1 = $this->db->get_compiled_select();
 
-        $this->db->select('ti.kd_barang, ti.barang as nama_barang, ti.satuan, (qty * qty_satuan) as qty, ti.harga_satuan, ti.jumlah, ti.date_created, "Transaksi" as source, ti.satuan as satuan_nama, no_struk as nomor, nama as kasir');
+        $this->db->select('ti.kd_barang, ti.barang as nama_barang, ti.satuan, (qty * qty_satuan) as qty, ti.harga_satuan, ti.jumlah, ti.date_created, "Transaksi" as source, ti.satuan as satuan_nama, no_struk as nomor, nama as kasir, nama_toko as customer');
         $this->db->from('transaksi_item ti');
         $this->db->join('transaksi t', 'ti.id_transaksi = t.id', 'left'); // JOIN dengan tabel satuan
         $this->db->join('users u', 't.kasir = u.id', 'left'); // JOIN dengan tabel satuan
+        $this->db->join('customers cus', 't.pelanggan = cus.id_customer', 'left'); // JOIN dengan tabel satuan
         $this->db->where('ti.kd_barang', $id_barang);
         $this->db->where('ti.date_created >=', $start_date);
         $this->db->where('ti.date_created <=', $end_date);
 
         $query2 = $this->db->get_compiled_select();
 
-        $final_query = $this->db->query($query1 . ' UNION ' . $query2 . ' ORDER BY date_created ASC');
+        $final_query = $this->db->query($query1 . ' UNION ' . $query2 . ' ORDER BY date_created DESC');
         $result = $final_query->result();
 
         if ($this->input->post('submit') == "cetak_excel") {
 
+
+            $final_query = $this->db->query($query1 . ' UNION ' . $query2 . ' ORDER BY date_created ASC');
+            $result = $final_query->result();
             require_once(APPPATH . 'libraries/PHPExcel/IOFactory.php');
 
             $excel = new PHPExcel();
@@ -1366,20 +1374,13 @@ class Inventori extends CI_Controller
             );
 
             // bagian header
-            $excel->setActiveSheetIndex(0)->setCellValue('A1', "No.");
-            $excel->setActiveSheetIndex(0)->setCellValue('B1', "Asal");
-            $excel->setActiveSheetIndex(0)->setCellValue('C1', "No. Transaksi");
-            $excel->setActiveSheetIndex(0)->setCellValue('D1', "Qty");
-            $excel->setActiveSheetIndex(0)->setCellValue('E1', "Tanggal");
-            $excel->setActiveSheetIndex(0)->setCellValue('F1', "User");
+            $headerColumns = array("No.", "Asal", "No. Transaksi", "Customer", "Satuan", "Qty", "Tanggal", "User");
 
-            // Apply style header yang telah kita buat tadi ke masing-masing kolom header
-            $excel->getActiveSheet()->getStyle('A1')->applyFromArray($style_col);
-            $excel->getActiveSheet()->getStyle('B1')->applyFromArray($style_col);
-            $excel->getActiveSheet()->getStyle('C1')->applyFromArray($style_col);
-            $excel->getActiveSheet()->getStyle('D1')->applyFromArray($style_col);
-            $excel->getActiveSheet()->getStyle('E1')->applyFromArray($style_col);
-            $excel->getActiveSheet()->getStyle('F1')->applyFromArray($style_col);
+            foreach ($headerColumns as $colIndex => $columnName) {
+                $cellCoordinate = chr(65 + $colIndex) . '1'; // A, B, C, ...
+                $excel->setActiveSheetIndex(0)->setCellValue($cellCoordinate, $columnName);
+                $excel->getActiveSheet()->getStyle($cellCoordinate)->applyFromArray($style_col);
+            }
 
             $no = 1;
             $numrow = 2;
@@ -1388,17 +1389,21 @@ class Inventori extends CI_Controller
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $numrow, $no);
                 $excel->setActiveSheetIndex(0)->setCellValue('B' . $numrow, strtoupper($t->source));
                 $excel->setActiveSheetIndex(0)->setCellValue('C' . $numrow, $t->nomor, PHPExcel_Cell_DataType::TYPE_STRING);
-                $excel->setActiveSheetIndex(0)->setCellValue('D' . $numrow, $t->qty . ' ' . $t->satuan_nama);
-                $excel->setActiveSheetIndex(0)->setCellValue('E' . $numrow, format_indo2($t->date_created));
-                $excel->setActiveSheetIndex(0)->setCellValue('f' . $numrow, $t->kasir);
+                $excel->setActiveSheetIndex(0)->setCellValue('D' . $numrow, $t->customer);
+                $excel->setActiveSheetIndex(0)->setCellValue('E' . $numrow, $t->satuan_nama);
+                $excel->setActiveSheetIndex(0)->setCellValue('F' . $numrow, $t->qty);
+                $excel->setActiveSheetIndex(0)->setCellValue('G' . $numrow, format_indo2($t->date_created));
+                $excel->setActiveSheetIndex(0)->setCellValue('H' . $numrow, $t->kasir);
 
                 // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
                 $excel->getActiveSheet()->getStyle('A' . $numrow)->applyFromArray($style_row);
                 $excel->getActiveSheet()->getStyle('B' . $numrow)->applyFromArray($style_row);
                 $excel->getActiveSheet()->getStyle('C' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
-                $excel->getActiveSheet()->getStyle('D' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-                $excel->getActiveSheet()->getStyle('E' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+                $excel->getActiveSheet()->getStyle('D' . $numrow)->applyFromArray($style_row);
+                $excel->getActiveSheet()->getStyle('E' . $numrow)->applyFromArray($style_row);
                 $excel->getActiveSheet()->getStyle('F' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+                $excel->getActiveSheet()->getStyle('G' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+                $excel->getActiveSheet()->getStyle('H' . $numrow)->applyFromArray($style_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
                 $no++; // Tambah 1 setiap kali looping
                 $numrow++; // Tambah 1 setiap kali looping
@@ -1407,6 +1412,10 @@ class Inventori extends CI_Controller
             // Set height semua kolom menjadi auto (mengikuti height isi dari kolommnya, jadi otomatis)
             $excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);
 
+            // Auto size kolom
+            foreach (range('A', $excel->getActiveSheet()->getHighestDataColumn()) as $col) {
+                $excel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
+            }
             // Set orientasi kertas jadi LANDSCAPE
             $excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
 
@@ -1434,13 +1443,25 @@ class Inventori extends CI_Controller
             exit;
         } else {
 
-            $data = [
-                'lists' => $result
-            ];
+            $final_query = $this->db->query($query1 . ' UNION ' . $query2 . ' ORDER BY date_created DESC');
+            $result = $final_query->result();
 
-            $this->load->view('body/header');
-            $this->load->view('inventori/transaksi_item', $data);
-            $this->load->view('body/footer');
+            if (!$result) {
+
+                $this->session->set_flashdata('message_name', '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Tidak ada transaksi <strong>' . $barang['nama'] . '</strong> dari tanggal ' . format_indo2($start_date) . ' s/d ' . format_indo2($end_date) . '.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+
+                redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $data = [
+                    'lists' => $result
+                ];
+
+                $this->load->view('body/header');
+                $this->load->view('inventori/transaksi_item', $data);
+                $this->load->view('body/footer');
+            }
         }
     }
 }

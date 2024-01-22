@@ -25,9 +25,7 @@
             $(document).ready(function() {
                 swal({
                     title: "Opss",
-                    text: "Data <?= $this->session->flashdata(
-                                    'msg_val'
-                                ) ?> tidak boleh sama",
+                    text: "Data <?= $this->session->flashdata('msg_val') ?> tidak boleh sama",
                     icon: "warning",
                 })
             })
@@ -52,13 +50,13 @@
                                 <div class="col-xl-3">
                                     <?php
                                     $date = date('d') . date('m') . date('Y');
-                                    $urutan = $this->db->query('SELECT max(no_pb) as t FROM penerimaan where tgl_pb=' . date('Y-m-d') . ' ')->row_array(); ?>
-                                    <input type="text" readonly class="form-control no_pb" value="PB-<?= date('d') . date('m') . date('y') . sprintf('%04d', $urutan['t'] + 1) ?>">
+                                    $urutan = $this->db->where('tgl_pb', date('Y-m-d'))->get('penerimaan')->num_rows(); ?>
+                                    <input type="text" readonly class="form-control no_pb" value="PB-<?= date('d') . date('m') . date('y') . sprintf('%04d', $urutan + 1) ?>">
                                     <!-- <input type="text" class="form-control no_pb" value="PB-2311-000078"> -->
                                 </div>
                                 <div class="col-xl-1"></div>
                                 <div class="col-xl-2">
-                                    <label>Type PPN</label>
+                                    <label>Type PPN </label>
                                 </div>
                                 <div class="col-xl-5">
                                     <div class="row">
@@ -113,7 +111,7 @@
                                     <label>Supplier</label>
                                 </div>
                                 <div class="col-xl-3">
-                                    <select name="" id="" class="form-control supplier select2">
+                                    <select name="" id="" class="form-control supplier select2" required>
                                         <option value="">Pilih Supplier</option>
                                         <?php
                                         $this->db->where('nama_supplier !=', 'UMUM');
@@ -220,19 +218,19 @@
                     </div>
                 </div>
             </div>
-        <?php } else { ?>
+        <?php
+        } else { ?>
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
                             <h4><?= $this->uri->segment(2) == 'approve' ? 'Approve ' . $approve_p['no_pb'] . ' - ' . $approve_p['total_barang'] . ' Barang' : 'List Pembelian ' ?></h4><br>
-                            <?php if ($this->uri->segment(2) != 'approve') { ?>
+                            <?php
+                            if ($this->uri->segment(2) != 'approve') { ?>
                                 <form action="<?= base_url('pembelian/change_date') ?>" method="POST">
                                     <div class="row">
                                         <div class="col-xl-1">
-                                            <a href="<?= base_url(
-                                                            'pembelian/add_pb'
-                                                        ) ?>" class="btn btn-secondary">Add</a>
+                                            <a href="<?= base_url('pembelian/add_pb') ?>" class="btn btn-secondary">Add</a>
                                         </div>
 
                                         <div class="col-xl-2">
@@ -250,103 +248,14 @@
                                         <a href="<?= base_url('penjualan/excel') ?>" class="btn btn-primary btn-square">Export</a>
                                     </div>
                                 </div> -->
-<<<<<<< HEAD
-                            </form>
-                    <?php } ?>
-                  </div>
-                    <?php if ($this->uri->segment(2) != 'approve') { ?>
-                    <div class="card-body">
-                        <div class="table-responsive" style="height: 450px;">
-                            <table class="display" id="t_barang">
-                                <thead>
-                                            <tr>
-                                            <th width="400" scope="col">No.PB</th>
-                                            <th width="80" scope="col">Tanggal</th>
-                                            <th width="80" scope="col">Nama Supplier</th>
-                                            <th width="80" scope="col">Jumlah</th>
-                                            <th width="80" scope="col">Jumlah(FC)</th>
-                                            <th width="80" scope="col">Keterangan</th>
-                                            <th width="80" scope="col">Action</th>
-                                            </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($penerimaan as $x) { ?>
-                                            <tr>
-                                                <td>
-                                                    <?= $x->no_pb ?>
-                                                </td>
-                                                <td>
-                                                    <?= $x->tgl_pb ?>
-                                                </td>
-                                                <td>
-                                                    <?= $x->nama_supplier ?>
-                                                </td>
-                                                <td>
-                                                    <?= $x->total_barang ?>
-                                                </td>
-                                                <td>
-                                                    <?= $x->total_barang ?>
-                                                </td>
-                                                <td>
-                                                    <?= $x->keterangan ?>
-                                                </td>
-
-                                                <td>
-                                                    <!-- <button type="button" class="btn btn-primary btn-square" data-bs-toggle="modal" data-original-title="test" data-bs-target="#penerimaan_edit<?= $x->id_penerimaan ?>"><i class="fa fa-edit"></i></button> -->
-                                                    <button type="button" id="<?= $x->id_penerimaan ?>" class="btn btn-danger btn-square delete_penerimaan"><i class="fa fa-trash-o"></i></button>
-                                                    <button type="button" class="btn btn-warning btn-square" onclick="location.href='<?= base_url('pembelian/approve/'.$x->id_penerimaan) ?>'"><i class="fa fa-check-square-o"></i></butt>
-
-                                                </td>
-
-                                            </tr>
-                                            <!-- <div class="modal fade bd-example-modal-lg" id="penerimaan_edit<?= $x->id_penerimaan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-                                              <div class="modal-dialog modal-lg" role="document">
-                                                <div class="modal-content">
-                                                  <div class="modal-header">
-                                                    <h5>Edit penerimaan</h5>
-                                                  </div>
-                                                  <div class="modal-body">
-                                                    <div class="modal-toggle-wrapper">
-                                                        <?= $this->session->flashdata(
-                                                            'msg'
-                                                        ) ?>
-                                                        <form action="<?= base_url(
-                                                            'pembelian'
-                                                        ) ?>" method="post">
-                                                            <div class="row">
-                                                                    <div class="col">
-                                                                        <h6>Nama penerimaan</h6>
-                                                                        <input type="hidden" value="edit" name="action">
-                                                                        <input type="hidden" value="<?= $x->id_penerimaan ?>" name="id_penerimaan">
-                                                                        <input required type="text" placeholder="Bungkus" value="<?= $x->nama_penerimaan ?>" name="penerimaan" class="form-control">
-                                                                    </div>
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                <div class="col-xl-8"></div>
-                                                                <div class="col-xl-2">
-                                                                    <button class="btn bg-primary d-flex align-items-center gap-2 text-light ms-auto" type="submit">Submit</button>
-                                                                </div>
-                                                                <div class="col-xl-2">
-                                                                    <button class="btn bg-secondary d-flex align-items-center gap-2 text-light ms-auto" type="button" data-bs-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                       </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div> -->
-                                            <?php } ?>
-                                </tbody>
-                                </table>
-=======
                                 </form>
                             <?php } ?>
->>>>>>> c2455a7 (perbaikan perhitungan koreksi barang)
                         </div>
                         <?php
                         if ($this->uri->segment(2) != 'approve') { ?>
                             <div class="card-body">
+
+                                <?= $this->session->flashdata('message_name') ?>
                                 <div class="table-responsive" style="height: 450px;">
                                     <table class="display" id="t_barang">
                                         <thead>
@@ -540,7 +449,6 @@
                 select: function(event, ui) {
                     $('.barang' + counter + '').val(ui.item.label);
                     $('.id_pb_list' + counter + '').val(ui.item.description);
-                    var i, j;
                     $.ajax({
                         url: "<?= site_url('pos/search_barang') ?>",
                         method: "POST",
@@ -550,19 +458,7 @@
                         async: true,
                         dataType: 'json',
                         success: function(data) {
-                            var satuann = ''
-                            // if (data.id_satuan_besar != "") {
-                            //     satuann += '<option value=' + data.qty_besar + "," + data.id_satuan_besar + ",besar" + '>' + data.id_satuan_besar + ' </option>';
-                            //     qtyy = data.qty_besar;
-                            // }
-                            // if (data.id_satuan_kecil != "") {
-                            //     satuann += '<option value=' + data.qty_kecil + "," + data.id_satuan_kecil + ",kecil" + '>' + data.id_satuan_kecil + ' </option>';
-                            //     qtyy = data.qty_kecil
-                            // }
-                            // if (data.id_satuan_kecil_konv != "") {
-                            //     satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + ",konv" + '>' + data.id_satuan_kecil_konv + ' </option>';
-                            //     qtyy = data.qty_konv
-                            // }
+                            var satuann = '';
                             if (!data.id_satuan_besar == "") {
                                 satuann += '<option value="besar" data-stok=' + data.stok + ' data-hpp-konv=' + data.hpp_konv + '  data-hpp-kecil=' + data.hpp_kecil + '  data-hpp-besar=' + data.hpp_besar + '>' + data.id_satuan_besar + '</option>';
                             }
@@ -574,193 +470,8 @@
                             }
                             $('.harga' + counter + '').val(data.hpp_besar.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                             $('.satuan' + counter + '').html(satuann);
-                            var total_pos_fix = 0;
-                            for (let t = 1; t <= counter; t++) {
-                                total_pos_fix += parseInt($(".harga" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
-                            }
-                            $('.total_pb').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            // $('.qty'+counter+'').val(qtyy);
-
-                            //         <?php if (
-                                            strtolower(
-                                                explode(
-                                                    ',',
-                                                    $this->session->userdata(
-                                                        'tipe_penjualan'
-                                                    )
-                                                )[0]
-                                            ) == 'umum'
-                                        ) { ?>
-                            //             var harga1 = formatRupiah(data.hargajualb_retail)
-                            //             if (data.id_satuan_besar != "") {
-                            //                 var qtyyy = data.qty_besar
-                            //             }
-                            //             var jumlah = data.hargajualb_retail * qtyyy
-                            //         <?php } elseif (
-                                            strtolower(
-                                                explode(
-                                                    ',',
-                                                    $this->session->userdata(
-                                                        'tipe_penjualan'
-                                                    )
-                                                )[0]
-                                            ) == 'retail'
-                                        ) { ?>
-                            //             var harga1 = formatRupiah(data.hargajualb_retail)
-                            //                 if (data.id_satuan_besar != "") {
-                            //                     var qtyyy = data.qty_besar
-                            //                 }
-                            //             var jumlah = data.hargajualb_retail * qtyyy
-                            //         <?php } elseif (
-                                            strtolower(
-                                                explode(
-                                                    ',',
-                                                    $this->session->userdata(
-                                                        'tipe_penjualan'
-                                                    )
-                                                )[0]
-                                            ) == 'grosir'
-                                        ) { ?>
-                            //             var harga1 = formatRupiah(data.hargajualb_grosir)
-                            //             if (data.id_satuan_kecil != "") {
-                            //                     var qtyyy = data.qty_kecil
-                            //                 }
-                            //             var jumlah = data.hargajualk_grosir * qtyyy
-                            //         <?php } elseif (
-                                            strtolower(
-                                                explode(
-                                                    ',',
-                                                    $this->session->userdata(
-                                                        'tipe_penjualan'
-                                                    )
-                                                )[0]
-                                            ) == 'partai'
-                                        ) { ?>
-                            //             var harga1 = formatRupiah(data.hargajualb_partai)
-                            //         <?php } elseif (
-                                            strtolower(
-                                                explode(
-                                                    ',',
-                                                    $this->session->userdata(
-                                                        'tipe_penjualan'
-                                                    )
-                                                )[0]
-                                            ) == 'promo'
-                                        ) { ?>
-                            //             var harga1 = formatRupiah(data.hargajualb_promo)
-                            //         <?php } ?>
-                            //             var stok = data.stok
-                            //             var min_stok = data.min_stok
-                            //         if (stok < min_stok) {
-                            //                 swal({
-                            //                 title: "Opss..!",
-                            //                 text: "Barang "+ data.nama+" sisa "+data.stok,//sisa
-                            //                 icon: "warning",
-                            //                 dangerMode: true,
-                            //                 }).then((r) => {
-                            //                     if (r) {
-                            //                     // location.reload();
-                            //                     //   $('input[id="idq'+i+'"').val($('p.stock'+i+'').text() - $('p.stock-c'+i+'').text())
-                            //                     // swal({
-                            //                     //   text : "oke"
-                            //                     // })
-                            //                     $(".barang"+counter+"").focus();
-                            //                     }
-                            //                 });
-                            //         }else{
-                            //             $("#diskon_item").prop('disabled', false);
-                            //             $('.satuan'+counter+'').html(satuann);
-                            //             $('.qty_isi'+counter+'').val(qtyyy);
-                            //             $('.jumlah'+counter+'').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            //             var total_pos_fix = 0;
-                            //             for (let t = 1; t <=counter; t++) {
-                            //             total_pos_fix += parseInt($(".jumlah"+t+"")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
-                            //             }
-                            //             $('.total_pos').html("Rp."+total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-                            //             $('.stock'+counter+'').val(stok);
-                            //             var qty_isi = $(".satuan"+counter+"")[0].value //qty isi satuan
-                            //             var qty = $("input[id='idq"+counter+"']")[0].value * qty_isi.split(',')[0]
-                            //             $('.stock-c'+counter+'').val(stok - qty);
-                            //         // console.log(data.nama)
-                            //             $('.total_item').val(counter)
-
-                            //         }
-
+                            updateHarga(counter); // Menambah pemanggilan fungsi untuk meng-update harga
                         }
-<<<<<<< HEAD
-                    }else if(e.which == 113){ // submit f2
-                        
-                                    var barang = ''
-                                    var xx = []
-                                    for (let i = 1; i <= counter; i++) {
-                                        xx.push ({ // loop table
-                                            id_barang : $('.id_pb_list'+i+'').val(),
-                                            nama_barang : $('.barang'+i+'').val(),
-                                            qty : $('.qty'+i+'').val(),
-                                            satuan : $('.satuan'+i+'').val().split(',')[1],
-                                            harga_satuan : $('.harga'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            // diskon_item : $('.diskon_item'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            netto : $('.netto'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            gudang : $('.gudang'+i+'').val().replace(/[^a-zA-Z0-9 ]/g, ''),
-                                        })
-                                    }
-                                    
-                                    var datax = {
-                                            cek : 'submit',
-                                            no_pb : $('.no_pb').val(),
-                                            tgl_pb : $('.tgl_pb').val(),
-                                            // member : $('.member').val(),
-                                            supplier : $('.supplier').val(),
-                                            srt_jln : $('.srt_jln').val(),
-                                            tgl_srt_jln : $('.tgl_srt_jln').val(),
-                                            c_bayar : $('.c_bayar').val(),
-                                            tempo : $('.tempo').val(),
-                                            ppn : $('.ppn').val(),
-                                            fp : $('.fp').val(),
-                                            tgl_fp : $('.tgl_fp').val(),
-                                            keterangan : $('.keterangan').val(),
-                                            total_penerimaan : $('.total_penerimaan').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
-                                            // id_transaksi : <?= $this->uri->segment(
-                                                3
-                                            ) == true
-                                                ? $this->uri->segment(3)
-                                                : 0 ?>,
-                                            item : xx
-                                        }
-                                        if (xx.length == 0) {
-                                            swal({
-                                                title: "Opss..!",
-                                                text: "Barang tidak boleh kosong",
-                                                icon: "warning",
-                                            })
-                                        }else{
-                                            $.ajax({
-                                                    url : "<?= site_url(
-                                                        'pembelian/submit_pb'
-                                                    ) ?>",
-                                                    method : "POST",
-                                                    data : datax,
-                                                    async : true,
-                                                    dataType : 'json',
-                                                    success: function(data){
-                                                        if (data == 'berhasil') {
-                                                            swal({
-                                                                    title: "Berhasil..!",
-                                                                    text: "Penerimaan barang "+$('.no_pb').val()+" berhasil",
-                                                                    icon: "success",
-                                                                    })
-                                                                    .then((willDelete) => {
-                                                                        if (willDelete) {
-                                                                        window.location = '<?= base_url() ?>pembelian/add_pb';
-                                                                        }
-                                                                    });
-                                                        }
-                                                    }
-                                            })
-                                        }
-=======
-                        // });
-                        // return false;
                     });
                 }
             });
@@ -857,7 +568,8 @@
 
                         //   $('.select2x').select2();
 
->>>>>>> c2455a7 (perbaikan perhitungan koreksi barang)
+                        // >>>
+                        // >>> > c2455a7(perbaikan perhitungan koreksi barang)
                     }
 
 
@@ -964,19 +676,25 @@
                     tgl_fp: $('.tgl_fp').val(),
                     keterangan: $('.keterangan').val(),
                     total_penerimaan: $('.total_pb').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, ''),
-                    // id_transaksi : <?= $this->uri->segment(
-                                            3
-                                        ) == true
-                                            ? $this->uri->segment(3)
-                                            : 0 ?>,
+                    // id_transaksi : <?= $this->uri->segment(3) == true ? $this->uri->segment(3) : 0 ?>,
                     item: xx
+                }
+                var supplierVal = $('.supplier').val();
+                if (supplierVal === "") {
+                    swal({
+                        title: "Peringatan",
+                        text: "Supplier harus diisi",
+                        icon: "warning",
+                    });
+                    return; // Menghentikan proses submit jika supplier belum dipilih
                 }
                 if (xx.length == 0) {
                     swal({
                         title: "Opss..!",
                         text: "Barang tidak boleh kosong",
                         icon: "warning",
-                    })
+                    });
+                    return;
                 } else {
                     $.ajax({
                         url: "<?= site_url('pembelian/submit_pb') ?>",
@@ -987,15 +705,14 @@
                         success: function(data) {
                             if (data == 'berhasil') {
                                 swal({
-                                        title: "Berhasil..!",
-                                        text: "Penerimaan barang " + $('.no_pb').val() + " berhasil",
-                                        icon: "success",
-                                    })
-                                    .then((willDelete) => {
-                                        if (willDelete) {
-                                            window.location = '<?= base_url() ?>pembelian/add_pb';
-                                        }
-                                    });
+                                    title: "Berhasil..!",
+                                    text: "Penerimaan barang " + $('.no_pb').val() + " berhasil",
+                                    icon: "success",
+                                }).then((willDelete) => {
+                                    if (willDelete) {
+                                        window.location = '<?= base_url() ?>pembelian/add_pb';
+                                    }
+                                });
                             }
                         }
                     })
