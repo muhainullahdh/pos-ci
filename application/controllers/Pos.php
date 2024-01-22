@@ -311,8 +311,8 @@ class Pos extends CI_Controller
             }
         }
         if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
-            $this->db->insert_batch('transaksi_item', $output); //submit
-            if ($this->clean($this->input->post('total_bayar')) < $total_transaksii - intval($this->clean($this->input->post('diskon_all')))) {
+            $this->db->insert_batch('transaksi_item', $output); //submit pertama kali transaksi
+            if ($this->input->post('tahan') == 0 && $this->clean($this->input->post('total_bayar')) < $total_transaksii - intval($this->clean($this->input->post('diskon_all')))) {
                 $this->db->where('id', $get_transkasi['id_transaksi']); //update data transaksi
                 $this->db->set('piutang', 1);
                 $this->db->update('transaksi');
@@ -397,8 +397,8 @@ class Pos extends CI_Controller
     {
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
-        $this->db->join('customers as b', 'a.pelanggan=b.id_customer');
-        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi');
+        $this->db->join('customers as b', 'a.pelanggan=b.id_customer','LEFT');
+        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi','LEFT');
         $this->db->where('a.trash', 0);
         $this->db->where('a.tahan', 1);
         $this->db->where('a.kasir', $this->session->userdata('id_user'));
