@@ -1223,17 +1223,19 @@ class Inventori extends CI_Controller
 
             $satuan = $k->satuan;
 
+            $jumlah = 0;
+
             if ($satuan == "konv") {
                 $jumlah = $jumlah_koreksi_stok;
             } else if ($satuan == "kecil" && $qty_konv) {
                 $jumlah = $jumlah_koreksi_stok * $qty_kecil;
             } else if ($satuan == "kecil" && !$qty_konv) {
                 $jumlah = $jumlah_koreksi_stok;
-            } else if ($satuan == "besar" && $satuan == "kecil" && $qty_konv) {
+            } else if ($satuan == "besar" && $qty_kecil && $qty_konv) {
                 $jumlah = $jumlah_koreksi_stok * $qty_kecil * $qty_besar;
-            } else if ($satuan == "besar" && $satuan == "kecil" && !$qty_konv) {
+            } else if ($satuan == "besar" && $qty_kecil && !$qty_konv) {
                 $jumlah = $jumlah_koreksi_stok * $qty_kecil;
-            } else if ($satuan == "besar" && !$satuan == "kecil" && !$qty_konv) {
+            } else if ($satuan == "besar" && !$qty_kecil && !$qty_konv) {
                 $jumlah = $jumlah_koreksi_stok;
             }
 
