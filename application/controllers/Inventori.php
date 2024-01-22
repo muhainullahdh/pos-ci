@@ -1229,10 +1229,12 @@ class Inventori extends CI_Controller
                 $jumlah = $jumlah_koreksi_stok * $qty_kecil;
             } else if ($satuan == "kecil" && !$qty_konv) {
                 $jumlah = $jumlah_koreksi_stok;
-            } else if ($satuan == "besar" && $qty_konv) {
+            } else if ($satuan == "besar" && $satuan == "kecil" && $qty_konv) {
                 $jumlah = $jumlah_koreksi_stok * $qty_kecil * $qty_besar;
-            } else if ($satuan == "besar" && !$qty_konv) {
+            } else if ($satuan == "besar" && $satuan == "kecil" && !$qty_konv) {
                 $jumlah = $jumlah_koreksi_stok * $qty_kecil;
+            } else if ($satuan == "besar" && !$satuan == "kecil" && !$qty_konv) {
+                $jumlah = $jumlah_koreksi_stok;
             }
 
             $data = [
@@ -1247,7 +1249,6 @@ class Inventori extends CI_Controller
                 'dk' => $k->debit_kredit,
             ];
 
-
             if ($k->debit_kredit == "debit") {
                 $stok_baru = $stok + $jumlah;
             } else if ($k->debit_kredit == "kredit") {
@@ -1257,10 +1258,6 @@ class Inventori extends CI_Controller
             $data_koreksi_detail = ['status_koreksi' => 1];
 
             $data_stok = ['stok' => $stok_baru];
-            // echo '<pre>';
-            // print_r($data);
-            // print_r($data_stok);
-            // echo '</pre>';
 
             $this->db->where('id', $k->id_barang)->update('barang', $data_stok);
             $this->db->where('Id', $k->Id)->update('koreksi_details', $data_koreksi_detail);
