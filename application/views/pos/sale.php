@@ -2367,7 +2367,7 @@
                                     icon: "warning",
                                     dangerMode: true,
                                 })
-                            }else if(urii != 'edit_hold' || urii != 'edit_transaksi'){
+                            }else if(uri == null && (urii != 'edit_hold' || urii != 'edit_transaksi')){
                                 swal({
                                     title: "Opss..!",
                                     text: "Data transaksi tidak bisa di tahan",
