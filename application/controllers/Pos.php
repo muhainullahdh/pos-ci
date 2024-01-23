@@ -247,7 +247,7 @@ class Pos extends CI_Controller
 
                 //update transaksi item
                 if ($update == 'update') {
-                    $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
+                    $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0,'trash' => 0])->num_rows();
                     if ($cek_item == true) {
                         $this->db->set('kd_barang', $x['kd_barang']);
                         $this->db->set('barang', $x['barang']);
@@ -399,7 +399,7 @@ class Pos extends CI_Controller
         $this->db->from('transaksi as a');
         $this->db->join('customers as b', 'a.pelanggan=b.id_customer','LEFT');
         $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi','LEFT');
-        $this->db->where('a.trash', 0);
+        $this->db->where('c.trash', 0);
         $this->db->where('a.tahan', 1);
         $this->db->where('a.kasir', $this->session->userdata('id_user'));
         $this->db->group_by('a.no_struk');
