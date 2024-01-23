@@ -2421,7 +2421,7 @@
                                     tahan: value_ac == "TAHAN" ? 1 : 0,
                                     pembayaran: $('.pembayaran:checked').val(),
                                     piutang: $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" && value_ac != "TAHAN" ? 1 : 0,
-                                    update: <?= $this->uri->segment(3) == true  ? 1 : 0 ?> == 1 ? "update" : "",
+                                    update: <?= $this->uri->segment(4) == 'edit_hold'  ? 1 : 0 ?> == 1 ? "update_hold" : "",
                                     item: xx
                                 }
                                 $.ajax({
@@ -2725,7 +2725,7 @@
                                 piutang: $('.total_bayar').val() == 0 && $('.pembayaran:checked').val() == "CASH" ? 1 : 0,
                                 update: <?= $this->uri->segment(3) == true  ? 1 : 0 ?> == 1 ? "update" : "",
                                 id_transaksi: <?= $this->uri->segment(3) == true ?  $this->uri->segment(3) : 0 ?>,
-                                edit_transaksi: <?= $this->uri->segment(4) == true ? 1 : 0 ?> == 1 ? "edit_transaksi" : "",
+                                edit_transaksi: <?= $this->uri->segment(4) == 'edit_transaksi' ? 1 : 0 ?> == 1 ? "edit_transaksi" : "",
                                 item: xx
                             }
                             $.ajax({

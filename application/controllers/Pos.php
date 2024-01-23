@@ -238,12 +238,12 @@ class Pos extends CI_Controller
                 "diskon_item" => $x['diskon_item'],
                 "jumlah" => $x['jumlah'],
             );
-            if ($cek == 'BAYAR') {
-                $barang = $this->db->get_where('barang', ['id' => $x['kd_barang']])->row_array();
-                $total_qty_pcs = $barang['stok'] - $x['stock_c'];
-                $this->db->set('stok', $total_qty_pcs);
-                $this->db->where('id', $x['kd_barang']);
-                $this->db->update('barang');
+            // if ($cek == 'BAYAR') {
+                // $barang = $this->db->get_where('barang', ['id' => $x['kd_barang']])->row_array();
+                // $total_qty_pcs = $barang['stok'] - $x['stock_c'];
+                // $this->db->set('stok', $total_qty_pcs);
+                // $this->db->where('id', $x['kd_barang']);
+                // $this->db->update('barang');
 
                 //update transaksi item
                 if ($update == 'update') {
@@ -260,6 +260,7 @@ class Pos extends CI_Controller
                         $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
                         $this->db->update('transaksi_item');
                     }
+                
                     //jika ada penambahan row di transaksi hold
                     if ($cek_item == false) {
                         $insert_hold = [
@@ -275,8 +276,8 @@ class Pos extends CI_Controller
                         ];
                         $this->db->insert('transaksi_item', $insert_hold);
                     }
-                } else { //tahan
-                    if ($update == 'update') { //update hold dan update transaksi
+                } else if($update == 'update_hold'){ //tahan
+                    // if ($update == 'update') { //update hold dan update transaksi
                         $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
                         if ($cek_item == true) {
                             $this->db->set('kd_barang', $x['kd_barang']);
@@ -306,12 +307,11 @@ class Pos extends CI_Controller
                             ];
                             $this->db->insert('transaksi_item', $insert_hold);
                         }
-                    }
+                    //}
                 }
-            }
+            // }
         }
         if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
-            $this->db->insert_batch('transaksi_item', $output); //submit pertama kali transaksi
             if ($this->input->post('tahan') == 0 && $this->clean($this->input->post('total_bayar')) < $total_transaksii - intval($this->clean($this->input->post('diskon_all')))) {
                 $this->db->where('id', $get_transkasi['id_transaksi']); //update data transaksi
                 $this->db->set('piutang', 1);
@@ -330,6 +330,10 @@ class Pos extends CI_Controller
                 $this->db->insert('piutang', $piutang);
                 $this->db->insert('histori_transaksi', $piutang_history);
             }
+        }
+        $cek_insert_pertama = $this->db->get_where('transaksi',['id' => $id_transaksi])->num_rows();
+        if ($cek_insert_pertama == false) {
+            $this->db->insert_batch('transaksi_item', $output); //submit pertama kali transaksi
         }
         if ($edit_transaksi == 'edit_transaksi') {
             $cek_id = $id_transaksi;
