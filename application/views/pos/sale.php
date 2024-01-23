@@ -1827,18 +1827,45 @@
                                             async: true,
                                             dataType: 'json',
                                             success: function(data2) {
-                                                if (tipe_satuan == 'kecil') {
-                                                    kalkulasi_satuan(tipe_satuan, data2.stok, data2.qty_kecil, j, counter, qty_isi.split(',')[3])
-                                                } else if (tipe_satuan == 'besar') {
-                                                    if (data2.qty_konv != '0') {
-                                                        var cek_satuan_x = data2.qty_konv;
+                                                // if (tipe_satuan == 'kecil') {
+                                                //     kalkulasi_satuan(tipe_satuan, data2.stok, data2.qty_kecil, j, counter, qty_isi.split(',')[3])
+                                                // } else if (tipe_satuan == 'besar') {
+                                                //     if (data2.qty_konv != '0') {
+                                                //         var cek_satuan_x = data2.qty_konv;
+                                                //     } else {
+                                                //         var cek_satuan_x = data2.qty_kecil;
+                                                //     }
+                                                //     kalkulasi_satuan(tipe_satuan, data2.stok, cek_satuan_x, j, counter, qty_isi.split(',')[3])
+                                                // } else if (tipe_satuan == 'konv') {
+                                                //     kalkulasi_satuan(tipe_satuan, data2.stok, 1, j, counter)
+                                                // }
+
+                                                var stok = data2.stok;
+                                                if (tipe_satuan == "besar" && !data2.qty_kecil && !data2.qty_konv) {
+                                                    jumlah = stok;
+                                                } else if (tipe_satuan == "besar" && data2.qty_kecil && !data2.qty_konv) {
+                                                    jumlah = Math.floor(stok / data2.qty_kecil);
+                                                } else if (tipe_satuan == "besar" && data2.qty_kecil && data2.qty_konv) {
+                                                    if (data2.qty_konv == '0') {
+                                                        jumlah = Math.floor(stok / data2.qty_kecil);
                                                     } else {
-                                                        var cek_satuan_x = data2.qty_kecil;
+                                                        jumlah = Math.floor(stok / (data2.qty_kecil * data2.qty_konv));
+                                                        console.log("false")
                                                     }
-                                                    kalkulasi_satuan(tipe_satuan, data2.stok, cek_satuan_x, j, counter, qty_isi.split(',')[3])
-                                                } else if (tipe_satuan == 'konv') {
-                                                    kalkulasi_satuan(tipe_satuan, data2.stok, 1, j, counter)
+                                                } else if (tipe_satuan == "kecil" && !data2.qty_konv) {
+                                                    jumlah = stok;
+                                                } else if (tipe_satuan == "kecil" && data2.qty_konv) {
+                                                    if (data2.qty_konv == '0') {
+                                                        jumlah = Math.floor(stok / data2.qty_kecil);
+                                                    } else {
+                                                        jumlah = Math.floor(stok / data2.qty_konv);
+                                                    }
+                                                } else if (tipe_satuan == "konv") {
+                                                    jumlah = stok;
                                                 }
+
+                                                $('.stock' + counter + '').val(Math.ceil(jumlah));
+                                                $('.stock-c' + counter + '').val(Math.ceil(jumlah) - qty);
                                             }
                                         })
                                         var total_pos_fix = 0;
