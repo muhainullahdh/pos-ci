@@ -1298,10 +1298,13 @@ class Inventori extends CI_Controller
     {
         $id_barang = $this->input->post('item_barang');
 
+        // print_r($id_barang);
+        // exit;
+
         $barang = $this->db->select('nama')->where('id', $id_barang)->get('barang')->row_array();
 
-        $start_date = $this->input->post('tanggal_dari');
-        $end_date = $this->input->post('tanggal_sampai');
+        $start_date = $this->input->post('tanggal_dari') . " 00:00:00";
+        $end_date = $this->input->post('tanggal_sampai') . " 23:59:59";
 
         $this->db->select('pl.id_barang, pl.nama_barang, pl.satuan, pl.qty_pb as qty, pl.harga_satuan, pl.jumlah, pl.date_created, "Penerimaan" as source, s.satuan as satuan_nama, no_pb as nomor, nama as kasir, nama_supplier as customer');
         $this->db->from('penerimaan_list pl');
@@ -1330,8 +1333,6 @@ class Inventori extends CI_Controller
         $result = $final_query->result();
 
         if ($this->input->post('submit') == "cetak_excel") {
-
-
             $final_query = $this->db->query($query1 . ' UNION ' . $query2 . ' ORDER BY date_created ASC');
             $result = $final_query->result();
             require_once(APPPATH . 'libraries/PHPExcel/IOFactory.php');
