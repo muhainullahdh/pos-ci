@@ -77,7 +77,7 @@
                                                     <?= $x->nama_kasir ?>
                                                 </td>
                                                 <td>
-                                                    <a href="<?= base_url('pos/index/'). $x->id_transaksi .'/edit_transaksi' ?>" class="btn btn-primary btn-square"><i class="fa fa-edit"></i></a>
+                                                    <a href="<?= base_url('pos/index/'). $x->id_transaksi .'/edit_transaksi' ?>" target="_blank" class="btn btn-primary btn-square"><i class="fa fa-edit"></i></a>
                                                     <a type="button" id="<?= $x->id_transaksi ?>" class="btn btn-square btn-danger delete_penjualan"><i class="fa fa-trash-o"></i></a>
                                                 </td>
                                             </tr>

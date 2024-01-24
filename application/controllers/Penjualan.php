@@ -33,6 +33,7 @@ class Penjualan extends CI_Controller {
         $this->db->join('histori_transaksi as e','e.id=a.id','LEFT');
         $this->db->where('a.trash', 0);
         $this->db->where('c.trash', 0);
+        $this->db->where('a.tahan', 0);
         // $this->db->where('a.tahan',0);
         $this->db->where('a.cencel', 0);
         if ($first_date == true && $second_date == true) {
