@@ -1477,25 +1477,34 @@
                                     if (tipe_satuan == "besar" && !data2.qty_kecil && !data2.qty_konv) {
                                         jumlah = stok;
                                     } else if (tipe_satuan == "besar" && data2.qty_kecil && !data2.qty_konv) {
-                                        jumlah = Math.floor(stok / data2.qty_kecil);
-                                    } else if (tipe_satuan == "besar" && data2.qty_kecil && data2.qty_konv) {
-                                        if (data2.qty_konv == '0') {
-                                            jumlah = Math.floor(stok / data2.qty_kecil);
+                                        if (data2.qty_kecil == '0') {
+                                            jumlah = stok;
                                         } else {
-                                            jumlah = Math.floor(stok / (data2.qty_kecil * data2.qty_konv));
-                                            console.log("false")
+                                            jumlah = Math.floor(stok / data2.qty_kecil);
+                                        }
+                                    } else if (tipe_satuan == "besar" && data2.qty_kecil && data2.qty_konv) {
+                                        if (data2.qty_kecil == '0') {
+                                            jumlah = stok;
+                                        } else {
+                                            if (data2.qty_konv == '0') {
+                                                jumlah = Math.floor(stok / data2.qty_kecil);
+                                            } else {
+                                                jumlah = Math.floor(stok / (data2.qty_kecil * data2.qty_konv));
+                                            }
                                         }
                                     } else if (tipe_satuan == "kecil" && !data2.qty_konv) {
                                         jumlah = stok;
                                     } else if (tipe_satuan == "kecil" && data2.qty_konv) {
                                         if (data2.qty_konv == '0') {
-                                            jumlah = Math.floor(stok / data2.qty_kecil);
+                                            jumlah = stok;
                                         } else {
                                             jumlah = Math.floor(stok / data2.qty_konv);
                                         }
                                     } else if (tipe_satuan == "konv") {
                                         jumlah = stok;
                                     }
+
+                                    console.log(tipe_satuan, data2.qty_kecil, jumlah)
 
                                     $('.stock' + counter + '').val(Math.ceil(jumlah));
                                     $('.stock-c' + counter + '').val(Math.ceil(jumlah) - qty);
@@ -1844,19 +1853,26 @@
                                                 if (tipe_satuan == "besar" && !data2.qty_kecil && !data2.qty_konv) {
                                                     jumlah = stok;
                                                 } else if (tipe_satuan == "besar" && data2.qty_kecil && !data2.qty_konv) {
-                                                    jumlah = Math.floor(stok / data2.qty_kecil);
-                                                } else if (tipe_satuan == "besar" && data2.qty_kecil && data2.qty_konv) {
-                                                    if (data2.qty_konv == '0') {
-                                                        jumlah = Math.floor(stok / data2.qty_kecil);
+                                                    if (data2.qty_kecil == '0') {
+                                                        jumlah = stok;
                                                     } else {
-                                                        jumlah = Math.floor(stok / (data2.qty_kecil * data2.qty_konv));
-                                                        console.log("false")
+                                                        jumlah = Math.floor(stok / data2.qty_kecil);
+                                                    }
+                                                } else if (tipe_satuan == "besar" && data2.qty_kecil && data2.qty_konv) {
+                                                    if (data2.qty_kecil == '0') {
+                                                        jumlah = stok;
+                                                    } else {
+                                                        if (data2.qty_konv == '0') {
+                                                            jumlah = Math.floor(stok / data2.qty_kecil);
+                                                        } else {
+                                                            jumlah = Math.floor(stok / (data2.qty_kecil * data2.qty_konv));
+                                                        }
                                                     }
                                                 } else if (tipe_satuan == "kecil" && !data2.qty_konv) {
                                                     jumlah = stok;
                                                 } else if (tipe_satuan == "kecil" && data2.qty_konv) {
                                                     if (data2.qty_konv == '0') {
-                                                        jumlah = Math.floor(stok / data2.qty_kecil);
+                                                        jumlah = stok;
                                                     } else {
                                                         jumlah = Math.floor(stok / data2.qty_konv);
                                                     }
