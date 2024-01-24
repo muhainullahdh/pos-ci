@@ -55,9 +55,10 @@ class Inventori extends CI_Controller
             "categories" => $this->db->order_by('nama_kategori', 'ASC')->get('kategori')->result(),
             "gudang" => $this->db->order_by('nama', 'ASC')->get('gudang')->result(),
             "barang" => $this->db->group_by('nama')->order_by('nama', 'ASC')->get('barang')->result(),
+            'title' => 'inventori'
         ];
 
-        $this->load->view('body/header');
+        $this->load->view('body/header',$data);
         $this->load->view('inventori/index', $data);
         $this->load->view('body/footer');
     }
