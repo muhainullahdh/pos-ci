@@ -80,14 +80,14 @@ class Pos extends CI_Controller
     {
         // $this->db->where('tipe_penjualan !=',null);
         $id = $this->input->post('id');
-        $db = $this->db->query('select id_customer,nama_toko,tipe_penjualan, case when id_customer = '.$id.' then "1" else "0" end as cek from customers where tipe_penjualan is not null')->result();
+        $db = $this->db->query('select id_customer,nama_toko,tipe_penjualan, case when id_customer = ' . $id . ' then "1" else "0" end as cek from customers where tipe_penjualan is not null')->result();
         echo json_encode($db);
     }
     function get_pengiriman()
     {
         // $this->db->where('tipe_penjualan !=',null);
         $id = $this->input->post('id');
-        $db = $this->db->query('select *, case when id = '.$id.' then "1" else "0" end as cek from ekspedisi')->result();
+        $db = $this->db->query('select *, case when id = ' . $id . ' then "1" else "0" end as cek from ekspedisi')->result();
         echo json_encode($db);
     }
     function get_barang()
@@ -170,6 +170,7 @@ class Pos extends CI_Controller
         $id_transaksi = $this->input->post('id_transaksi');
         $edit_transaksi = $this->input->post('edit_transaksi');
         $urutan = substr($this->input->post('no_struk'), 8);
+
         if ($edit_transaksi == 'edit_transaksi') {
             $data = [
                 "no_struk" => $this->input->post('no_struk'),
@@ -238,16 +239,32 @@ class Pos extends CI_Controller
                 "diskon_item" => $x['diskon_item'],
                 "jumlah" => $x['jumlah'],
             );
-            // if ($cek == 'BAYAR') {
-                // $barang = $this->db->get_where('barang', ['id' => $x['kd_barang']])->row_array();
-                // $total_qty_pcs = $barang['stok'] - $x['stock_c'];
-                // $this->db->set('stok', $total_qty_pcs);
-                // $this->db->where('id', $x['kd_barang']);
-                // $this->db->update('barang');
+            if ($cek == 'BAYAR') {
+                $barang = $this->db->get_where('barang', ['id' => $x['kd_barang']])->row_array();
+
+                if ($ex_satuan[2] == "konv") {
+                    $jumlah = $x['qty'];
+                } else if ($ex_satuan[2] == "kecil" && $barang['qty_konv']) {
+                    $jumlah = $x['qty'] * $barang['qty_kecil'];
+                } else if ($ex_satuan[2] == "kecil" && !$barang['qty_konv']) {
+                    $jumlah = $x['qty'];
+                } else if ($ex_satuan[2] == "besar" && $barang['qty_kecil'] && $barang['qty_konv']) {
+                    $jumlah = $x['qty'] * $barang['qty_kecil'] * $barang['qty_besar'];
+                } else if ($ex_satuan[2] == "besar" && $barang['qty_kecil'] && !$barang['qty_konv']) {
+                    $jumlah = $x['qty'] * $barang['qty_kecil'];
+                } else if ($ex_satuan[2] == "besar" && !$barang['qty_kecil'] && !$barang['qty_konv']) {
+                    $jumlah = $x['qty'];
+                }
+
+                $total_qty_pcs = $barang['stok'] - $jumlah;
+
+                $this->db->set('stok', $total_qty_pcs);
+                $this->db->where('id', $x['kd_barang']);
+                $this->db->update('barang');
 
                 //update transaksi item
                 if ($update == 'update') {
-                    $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0,'trash' => 0])->num_rows();
+                    $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0, 'trash' => 0])->num_rows();
                     if ($cek_item == true) {
                         $this->db->set('kd_barang', $x['kd_barang']);
                         $this->db->set('barang', $x['barang']);
@@ -260,7 +277,7 @@ class Pos extends CI_Controller
                         $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
                         $this->db->update('transaksi_item');
                     }
-                
+
                     //jika ada penambahan row di transaksi hold
                     if ($cek_item == false) {
                         $insert_hold = [
@@ -276,40 +293,40 @@ class Pos extends CI_Controller
                         ];
                         $this->db->insert('transaksi_item', $insert_hold);
                     }
-                } else if($update == 'update_hold'){ //tahan
+                } else if ($update == 'update_hold') { //tahan
                     // if ($update == 'update') { //update hold dan update transaksi
-                        $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
-                        if ($cek_item == true) {
-                            $this->db->set('kd_barang', $x['kd_barang']);
-                            $this->db->set('barang', $x['barang']);
-                            $this->db->set('qty', $x['qty']);
-                            $this->db->set('qty_satuan', $ex_satuan[0]);
-                            $this->db->set('satuan', $ex_satuan[1]);
-                            $this->db->set('harga_satuan', $x['harga_satuan']);
-                            $this->db->set('diskon_item', $x['diskon_item']);
-                            $this->db->set('jumlah', $x['jumlah']);
-                            $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
-                            $this->db->update('transaksi_item');
-                        }
-                        //jika ada penambahan row di transaksi hold
-                        if ($cek_item == false) {
-                            $insert_hold = [
-                                "id_transaksi" => $id_transaksi,
-                                "kd_barang" => $x['kd_barang'],
-                                "barang" => $x['barang'],
-                                "qty" => $x['qty'],
-                                "qty_satuan" => $ex_satuan[0],
-                                "satuan" => $ex_satuan[1],
-                                "harga_satuan" => $x['harga_satuan'],
-                                "diskon_item" => $x['diskon_item'],
-                                "jumlah" => $x['jumlah'],
-                                "trash" => 0
-                            ];
-                            $this->db->insert('transaksi_item', $insert_hold);
-                        }
-                    //}
+                    $cek_item = $this->db->get_where('transaksi_item', ['id_transaksi_item' => isset($x['id_transaksi_item']) ? $x['id_transaksi_item'] : 0])->num_rows();
+                    if ($cek_item == true) {
+                        $this->db->set('kd_barang', $x['kd_barang']);
+                        $this->db->set('barang', $x['barang']);
+                        $this->db->set('qty', $x['qty']);
+                        $this->db->set('qty_satuan', $ex_satuan[0]);
+                        $this->db->set('satuan', $ex_satuan[1]);
+                        $this->db->set('harga_satuan', $x['harga_satuan']);
+                        $this->db->set('diskon_item', $x['diskon_item']);
+                        $this->db->set('jumlah', $x['jumlah']);
+                        $this->db->where('id_transaksi_item', $x['id_transaksi_item']);
+                        $this->db->update('transaksi_item');
+                    }
+                    //jika ada penambahan row di transaksi hold
+                    if ($cek_item == false) {
+                        $insert_hold = [
+                            "id_transaksi" => $id_transaksi,
+                            "kd_barang" => $x['kd_barang'],
+                            "barang" => $x['barang'],
+                            "qty" => $x['qty'],
+                            "qty_satuan" => $ex_satuan[0],
+                            "satuan" => $ex_satuan[1],
+                            "harga_satuan" => $x['harga_satuan'],
+                            "diskon_item" => $x['diskon_item'],
+                            "jumlah" => $x['jumlah'],
+                            "trash" => 0
+                        ];
+                        $this->db->insert('transaksi_item', $insert_hold);
+                    }
+                    // }
                 }
-            // }
+            }
         }
         if ($update != 'update' || $edit_transaksi != 'edit_transaksi') {
             if ($this->input->post('tahan') == 0 && $this->clean($this->input->post('total_bayar')) < $total_transaksii - intval($this->clean($this->input->post('diskon_all')))) {
@@ -331,7 +348,7 @@ class Pos extends CI_Controller
                 $this->db->insert('histori_transaksi', $piutang_history);
             }
         }
-        $cek_insert_pertama = $this->db->get_where('transaksi',['id' => $id_transaksi])->num_rows();
+        $cek_insert_pertama = $this->db->get_where('transaksi', ['id' => $id_transaksi])->num_rows();
         if ($cek_insert_pertama == false) {
             $this->db->insert_batch('transaksi_item', $output); //submit pertama kali transaksi
         }
@@ -381,7 +398,7 @@ class Pos extends CI_Controller
         echo json_encode($date);
         // redirect('pos/index/');
     }
-    function load()//load edit transaksi
+    function load() //load edit transaksi
     {
         $id = $this->input->post('id');
         // $draw=intval($this->input->get("draw"));
@@ -390,10 +407,10 @@ class Pos extends CI_Controller
         $this->db->where('id_transaksi', $id);
         $this->db->where('a.trash !=', 1);
         $this->db->from('transaksi_item as a');
-        $this->db->join('barang as b', 'a.kd_barang=b.id','LEFT');
-        $this->db->join('transaksi as c', 'c.id=a.id_transaksi','LEFT');
-        $this->db->join('customers as d', 'c.pelanggan=d.id_customer','LEFT');
-        $this->db->join('ekspedisi as e', 'c.pengiriman=e.id','LEFT');
+        $this->db->join('barang as b', 'a.kd_barang=b.id', 'LEFT');
+        $this->db->join('transaksi as c', 'c.id=a.id_transaksi', 'LEFT');
+        $this->db->join('customers as d', 'c.pelanggan=d.id_customer', 'LEFT');
+        $this->db->join('ekspedisi as e', 'c.pengiriman=e.id', 'LEFT');
         $query = $this->db->get()->result();
         echo json_encode($query);
     }
@@ -401,8 +418,8 @@ class Pos extends CI_Controller
     {
         $this->db->select('*,sum(c.jumlah) as total_transaksi');
         $this->db->from('transaksi as a');
-        $this->db->join('customers as b', 'a.pelanggan=b.id_customer','LEFT');
-        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi','LEFT');
+        $this->db->join('customers as b', 'a.pelanggan=b.id_customer', 'LEFT');
+        $this->db->join('transaksi_item as c', 'a.id=c.id_transaksi', 'LEFT');
         $this->db->where('c.trash', 0);
         $this->db->where('a.tahan', 1);
         $this->db->where('a.kasir', $this->session->userdata('id_user'));
