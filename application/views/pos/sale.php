@@ -1270,16 +1270,16 @@
                                 dataType: 'json',
                                 success: function(data2) {
                                     if (tipe_satuan == 'kecil') {
-                                        kalkulasi_satuan(tipe_satuan, data2.stok, data2.qty_kecil, j, counter, qty_isi.split(',')[3])
+                                        kalkulasi_satuan(tipe_satuan, data2.stok, data2.qty_kecil, j, i, qty_isi.split(',')[3])
                                     } else if (tipe_satuan == 'besar') {
                                         if (data2.qty_konv != '0') {
                                             var cek_satuan_x = data2.qty_konv;
                                         } else {
                                             var cek_satuan_x = data2.qty_kecil;
                                         }
-                                        kalkulasi_satuan(tipe_satuan, data2.stok, cek_satuan_x, j, counter, qty_isi.split(',')[3])
+                                        kalkulasi_satuan(tipe_satuan, data2.stok, cek_satuan_x, j, i, qty_isi.split(',')[3])
                                     } else if (tipe_satuan == 'konv') {
-                                        kalkulasi_satuan(tipe_satuan, data2.stok, 1, j, counter)
+                                        kalkulasi_satuan(tipe_satuan, data2.stok, 1, j, i)
                                     }
                                 }
                             })
@@ -1435,7 +1435,7 @@
 
                                     <?php } ?>
                                     var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
-                                    $('.harga' + counter + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+                                    $('.harga' + i + '').val(satuan_p.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                                     $('.jumlah' + i + '').val(jumlah.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
 
 
@@ -1506,8 +1506,8 @@
 
                                     console.log(tipe_satuan, data2.qty_kecil, jumlah)
 
-                                    $('.stock' + counter + '').val(Math.ceil(jumlah));
-                                    $('.stock-c' + counter + '').val(Math.ceil(jumlah) - qty);
+                                    $('.stock' + i + '').val(Math.ceil(jumlah));
+                                    $('.stock-c' + i + '').val(Math.ceil(jumlah) - qty);
 
                                     // if (j.split(',')[1] == 'BAL') {
                                     //     $('.stock' + counter + '').val(data2.stok / data2.qty_konv);
