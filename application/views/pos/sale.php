@@ -2031,16 +2031,16 @@
 
                                             <?php } ?>
                                             if (tipe_satuan == 'kecil') {
-                                                kalkulasi_satuan(tipe_satuan, data2.stok, data2.qty_kecil, qty, counter, j.split(',')[3])
+                                                kalkulasi_satuan(tipe_satuan, data2.stok, data2.qty_kecil, qty, i, j.split(',')[3])
                                             } else if (tipe_satuan == 'besar') {
                                                 if (data2.qty_konv != '0') {
                                                     var cek_satuan_x = data2.qty_konv;
                                                 } else {
                                                     var cek_satuan_x = data2.qty_kecil;
                                                 }
-                                                kalkulasi_satuan(tipe_satuan, data2.stok, cek_satuan_x, qty, counter, j.split(',')[3])
+                                                kalkulasi_satuan(tipe_satuan, data2.stok, cek_satuan_x, qty, i, j.split(',')[3])
                                             } else if (tipe_satuan == 'konv') {
-                                                kalkulasi_satuan(tipe_satuan, data2.stok, 1, qty, counter)
+                                                kalkulasi_satuan(tipe_satuan, data2.stok, 1, qty, i)
                                             }
 
                                             var jumlah = satuan_p * qty - diskon_item.replace(/[^a-zA-Z0-9 ]/g, '')
