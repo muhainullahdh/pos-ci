@@ -64,13 +64,23 @@
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($lists as $l) : ?>
+                                    foreach ($lists as $l) :
+
+                                        if ($l->source == "Penerimaan") {
+                                            $satuan = $this->db->select('id_satuan_' . $l->satuan_nama . ' as satuan_baru')->where('id', $l->id_barang)->get('barang')->row_array();
+
+                                            $satuan_nama = $satuan['satuan_baru'];
+                                        } else {
+                                            $satuan_nama = $l->satuan_nama;
+                                        }
+
+                                    ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= strtoupper($l->source) ?></td>
                                             <td><?= $l->nomor ?></td>
                                             <td><?= $l->customer ?></td>
-                                            <td><?= $l->satuan_nama ?></td>
+                                            <td><?= $satuan_nama ?></td>
                                             <td><?= $l->qty ?></td>
                                             <td><?= format_indo2($l->date_created) ?></td>
                                             <td><?= $l->kasir ?></td>

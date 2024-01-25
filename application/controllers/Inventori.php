@@ -58,7 +58,7 @@ class Inventori extends CI_Controller
             'title' => 'inventori'
         ];
 
-        $this->load->view('body/header',$data);
+        $this->load->view('body/header', $data);
         $this->load->view('inventori/index', $data);
         $this->load->view('body/footer');
     }
@@ -1307,9 +1307,8 @@ class Inventori extends CI_Controller
         $start_date = $this->input->post('tanggal_dari') . " 00:00:00";
         $end_date = $this->input->post('tanggal_sampai') . " 23:59:59";
 
-        $this->db->select('pl.id_barang, pl.nama_barang, pl.satuan, pl.qty_pb as qty, pl.harga_satuan, pl.jumlah, pl.date_created, "Penerimaan" as source, s.satuan as satuan_nama, no_pb as nomor, nama as kasir, nama_supplier as customer');
+        $this->db->select('pl.id_barang, pl.nama_barang, pl.satuan, pl.qty_pb as qty, pl.harga_satuan, pl.jumlah, pl.date_created, "Penerimaan" as source, satuan as satuan_nama, no_pb as nomor, nama as kasir, nama_supplier as customer');
         $this->db->from('penerimaan_list pl');
-        $this->db->join('satuan s', 'pl.satuan = s.id_satuan', 'left'); // JOIN dengan tabel satuan
         $this->db->join('penerimaan p', 'pl.id_pb = p.id_penerimaan', 'left'); // JOIN dengan tabel satuan
         $this->db->join('users u', 'p.user_input = u.id', 'left'); // JOIN dengan tabel satuan
         $this->db->join('supplier sup', 'p.supplier = sup.kode_supplier', 'left'); // JOIN dengan tabel satuan

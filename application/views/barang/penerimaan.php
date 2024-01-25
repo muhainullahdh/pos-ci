@@ -531,11 +531,10 @@
                             '<td>' +
                             '<select id="ids' + counter + '" class="form-control satuan-select satuan' + counter + '" onchange="updateHarga(' + counter + ')" style="cursor: text;">' +
                             '<option value="">Pilih satuan</option>' +
-
                             '</select>' +
                             '</td>' +
                             '<td>' +
-                            '<input id="idq' + counter + '" type="text" style="text-align:center;" class="form-control qty' + counter + '">' +
+                            '<input id="idq' + counter + '" type="text" name="qty[]" style="text-align:center;" class="form-control qty' + counter + '">' +
                             '</td>' +
                             '<td>' +
                             '<input type="text" class="form-control uang' + counter + ' harga' + counter + '" name="harga[]" readonly>' +
@@ -550,11 +549,11 @@
                             '<input type="text" placeholder="0" style="text-align:center;" class="form-control dis_rp' + counter + '">' +
                             '</td>' +
                             '<td>' +
-                            '<input type="text" class="form-control uang' + counter + ' netto' + counter + '">' +
+                            '<input type="text" name="netto[]" class="form-control uang' + counter + ' netto' + counter + '">' +
                             '</td>' +
                             '<td>' +
                             '<select id="idg' + counter + '" class="form-control gudang' + counter + '" style="cursor: text;">' +
-                            '<option value="">Pilih satuan</option>' +
+                            '<option value="">Pilih gudang</option>' +
                             <?php if (
                                 $this->uri->segment(2) == 'add_pb'
                             ) {
@@ -565,11 +564,6 @@
                             '</td>' +
                             '</tr>'
                         );
-
-                        //   $('.select2x').select2();
-
-                        // >>>
-                        // >>> > c2455a7(perbaikan perhitungan koreksi barang)
                     }
 
 
@@ -613,6 +607,7 @@
                         $(this).closest('tr').remove();
                         // Decreasing total number of rows by 1.
                         counter--;
+                        updateTotalPB(counter);
                         // });
                     });
                     $(".uang" + counter + "").keyup(function(e) {
@@ -729,8 +724,6 @@
         var hppBesar = row.find('.satuan' + counter).find(':selected').data('hpp-besar');
 
         var harga;
-        // $('.harga' + counter + '').val(data.hpp_besar.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-
 
         if (selectedOption == "konv") {
             harga = hppKonv; //OK
@@ -741,10 +734,11 @@
         }
 
         row.find('[name="harga[]"]').val(harga.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
-        // hitung(row.find('[name="jumlah[]"]')[0]);
+        row.find('[name="netto[]"]').val(harga.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+        row.find('.qty' + counter).on('input', function() {
+            hitung(this, counter);
+        });
 
-        // Hitung dan update total-pb
-        console.log('Nilai Harga:', harga);
         updateTotalPB(counter);
     }
 
@@ -752,8 +746,24 @@
 
         var total_pos_fix = 0;
         for (let t = 1; t <= counter; t++) {
-            total_pos_fix += parseInt($(".harga" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
+            total_pos_fix += parseInt($(".netto" + t + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
         }
         $('.total_pb').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+    }
+
+    function hitung(input, counter) {
+        var row = $(input).closest('tr');
+        var qty = parseInt(row.find('[name="qty[]"]').val()) || 0; // Mengambil nilai qty, default ke 0 jika input tidak valid
+        var harga = parseInt(row.find('[name="harga[]"]').val().replace(/[^a-zA-Z0-9 ]/g, '')) || 0; // Mengambil nilai harga, default ke 0 jika input tidak valid
+
+        // Memeriksa apakah nilai harga telah didefinisikan sebelum mencoba replace
+        if (!isNaN(harga)) {
+            // Menghitung jumlah dan memasukkan hasil ke input jumlah
+            var jumlah = qty * harga;
+            row.find('[name="netto[]"]').val(jumlah.toLocaleString());
+
+            updateTotalPB(counter);
+        }
+        console.log(qty, harga)
     }
 </script>
