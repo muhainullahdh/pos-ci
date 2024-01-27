@@ -285,6 +285,13 @@
         check_pos();
     });
 
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            // Hentikan aksi default tombol Enter
+            e.preventDefault();
+        }
+    });
+
     $(".btn-delete").on("click", function(e) {
         e.preventDefault();
         const href = $(this).attr("href");

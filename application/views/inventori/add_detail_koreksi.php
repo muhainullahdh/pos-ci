@@ -279,6 +279,15 @@
             }
         }
     }
+
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            // Hentikan aksi default tombol Enter
+            e.preventDefault();
+        }
+    });
+
     $(document).on('click', '.delete_item', function(e) {
         e.preventDefault();
 

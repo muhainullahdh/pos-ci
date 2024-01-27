@@ -312,4 +312,11 @@
             }
         });
     });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            // Hentikan aksi default tombol Enter
+            e.preventDefault();
+        }
+    });
 </script>

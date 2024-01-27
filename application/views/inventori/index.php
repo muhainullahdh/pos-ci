@@ -26,9 +26,11 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
+                        <?= $this->session->flashdata('message_name') ?>
                         <div class="row">
                             <div class="col-6">
                                 <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#filterStok">Filter</button>
+                                <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#stokByItem">Transaksi per item</button>
                             </div>
                             <div class="col-6 text-end">
                                 <?php
@@ -130,6 +132,61 @@
     </div>
 </div>
 
+<div class="modal fade" id="stokByItem" tabindex="-1" role="dialog" aria-labelledby="stokByItem" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="stokByItemLongTitle">Transaksi per item</h5>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="<?= base_url('inventori/transaksi_item') ?>" method="post" class="form theme-form dark-inputs" id="barangForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="article_category" class="form-label">Barang</label>
+                                <select name="item_barang" id="item_barang" class="form-select input-air-primary digits select2">
+                                    <option value="">--Pilih</option>>
+                                    <?php
+
+                                    foreach ($barang as $b) {
+                                    ?>
+                                        <option <?= ($this->input->post('item_barang') == $b->id) ? "selected" : '' ?> value="<?= $b->id ?>"><?= $b->nama ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="article_category" class="form-label">Dari</label>
+                                <input type="date" name="tanggal_dari" id="tanggal_dari" class="form-control input-air-primary" value="<?= date('Y-m-d') ?>">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="article_category" class="form-label">Tanggal</label>
+                                <input type="date" name="tanggal_sampai" id="tanggal_sampai" class="form-control input-air-primary" value="<?= date('Y-m-d') ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 text-end">
+                        <div class="mb-3">
+                            <label for="submit" class="form-label">&nbsp;</label>
+                            <button type="submit" class="btn btn-primary" name="submit" data-bs-toggle="tooltip" title="Hanya update nama" value="proses">Tampilkan</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="filterStok" tabindex="-1" role="dialog" aria-labelledby="filterStok" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -139,10 +196,6 @@
             </div>
             <form action="<?= base_url('inventori/process') ?>" method="post" class="form theme-form dark-inputs" id="barangForm">
                 <div class="modal-body">
-
-
-                    <?= $this->session->flashdata('message_name') ?>
-
                     <div class="row">
                         <div class="col-4">
                             <div class="mb-3">
@@ -281,6 +334,9 @@
     });
     $('#barang2').select2({
         dropdownParent: $('#filterStok')
+    });
+    $('#item_barang').select2({
+        dropdownParent: $('#stokByItem')
     });
 
     $(document).ready(function() {

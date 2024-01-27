@@ -10,7 +10,7 @@
   <meta name="author" content="pixelstrap">
   <link rel="icon" href="<?= base_url() ?>assets/images/favicon.png" type="image/x-icon">
   <link rel="shortcut icon" href="<?= base_url() ?>assets/images/favicon.png" type="image/x-icon">
-  <title>POS</title>
+  <title><?= isset($title) == 0 ? "Dashboard" : $title ;?></title>
   <!-- Google font-->
   <!-- Google font-->
   <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
