@@ -1040,7 +1040,13 @@
                                 async: true,
                                 dataType: 'json',
                                 success: function(data) {
-                                    
+
+                                    var stok = localStorage.getItem( data.nama );
+                                    if(stok >= 1 && stok < data.stok) {
+                                        stok = localStorage.getItem( data.nama );
+                                    }
+
+
                                     var satuann = ''
                                     if (!data.id_satuan_kecil_konv == "") {
                                         satuann += '<option value=' + data.qty_konv + "," + data.id_satuan_kecil_konv + ',konv,' + data.qty_konv + '>' + data.id_satuan_kecil_konv + ' </option>';
@@ -1275,13 +1281,16 @@
                         }
                         $('.total_pos').html("Rp." + total_pos_fix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
                     })
-                    function kalkulasi_satuan(satuan,stok,qty_konv,qty,counter,konv = 0){
 
-                        if (localStorage.getItem('stok') == true) {
-                            var stok = localStorage.getItem('stok')
+                    function kalkulasi_satuan(satuan,stok,qty_konv,qty,counter,konv = 0){
+                        var barang = $('.barang' + counter).val();
+
+                        if (localStorage.getItem(barang) >= 1) {
+                            var stok = localStorage.getItem(barang)
                         }else{
                             var stok = stok
                         }
+
                         if( satuan == 'besar' && konv == '0' && qty_konv != '0') {
                             konv = qty_konv;
                         }
@@ -1295,6 +1304,7 @@
                             $('.stock-c' + counter + '').val(Math.ceil(stok - qty));
                        } 
                     }
+
                     satuan_x.change(function() {
                         var id = $(this).val();
                         i = this.id.slice(3);
@@ -1312,6 +1322,8 @@
                             async: true,
                             dataType: 'json',
                             success: function(data2) {
+
+                                console.log(data2);
                             
                                 <?php if (strtolower(explode(',', $this->session->userdata('tipe_penjualan'))[0]) == 'umum') { ?>
                                     if (j.split(',')[1] == data2.id_satuan_kecil) {
@@ -2078,6 +2090,7 @@
                     return ("" + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
                 };
 
+
                 document.onkeyup = function(e) {
                     if (e.which == 18) {
                         window.location = '<?= base_url() ?>pos/';
@@ -2120,6 +2133,9 @@
                                 }
                             });
                         } else {
+                            // var barang = localStorage.getItem( $(".barang" + counter + "").val() );
+
+
                             if (counter < max_fields) {
                                 counter++;
                                 $(wrapper).append(
@@ -2159,12 +2175,16 @@
                                     '</td>' +
                                     '</tr>'
                                 );
-                                $('.select2x').select2();
-                                
-                                if((typeof(Storage) == "undefined" && $('#id_barang' + ( counter - 1) ).val() !== '' )) {
-                                    localStorage.setItem( 'id_barang' + ( counter - 1),  $('#idq' + (counter - 1)).val() );
-                                }
+                                $('.select2x').select2();                                
+                                // if((typeof(Storage) == "undefined" && $('#id_barang' + ( counter - 1) ).val() !== '' )) {
+                                //     localStorage.setItem( 'id_barang' + ( counter - 1),  $('#idq' + (counter - 1)).val() );
+                                // }
                             }
+
+                                if( $(".barang" +  ( counter - 1)  ).val() !== "" && counter > 1) {
+                                    localStorage.setItem( $(".barang" + ( counter - 1) ).val(), $(".stock-c" + ( counter - 1) ).val() );
+                                }
+
                             $('.delete_item').click(function() {
                                 e.preventDefault();
                                 var total_pos_fix = $('.total_pos').html().slice(2).replace(/[^a-zA-Z0-9 ]/g, '') - parseInt($(".jumlah" + this.id + "")[0].value.replace(/[^a-zA-Z0-9 ]/g, ''))
