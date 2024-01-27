@@ -1295,7 +1295,7 @@
                             konv = qty_konv;
                         }
 
-                        if (konv != '0') {
+                        if (konv != '0') { 
                             // if(satuan == 'besar' ) { qty_konv = 1}
                             $('.stock' + counter + '').val(Math.ceil(stok / qty_konv));
                             $('.stock-c' + counter + '').val(Math.ceil(stok / qty_konv) - qty);
